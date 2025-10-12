@@ -1,0 +1,44 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sahifa/core/caching/shared/shared_perf_helper.dart';
+import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
+import 'package:sahifa/core/routing/app_router.dart';
+import 'package:sahifa/core/utils/constant.dart';
+import 'package:sahifa/core/utils/theme_data_func.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupDependencies();
+  await SharedPrefHelper.instance.init();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: [
+        Locale(ConstantVariable.englishLangCode),
+        Locale(ConstantVariable.arabicLangCode),
+      ], // اللغات المدعومة
+      path: 'assets/translations', // مسار الملفات
+      fallbackLocale: const Locale(ConstantVariable.englishLangCode),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      child: MaterialApp.router(
+        locale: context.locale, // استخدم اللغة الحالية
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        debugShowCheckedModeBanner: false,
+        theme: themeDataFunc(),
+        routerConfig: AppRouter.router,
+      ),
+    );
+  }
+}
