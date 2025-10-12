@@ -2,12 +2,17 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
+import 'package:sahifa/features/home/ui/home_view.dart';
+import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
+import 'package:sahifa/features/pdf/ui/pdf_view.dart';
+import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
+import 'package:sahifa/features/tv/ui/tv_view.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
-    initialLocation: Routes.registerView,
+    initialLocation: Routes.layoutView,
     routes: [
       //Register view
       GoRoute(
@@ -26,6 +31,31 @@ abstract class AppRouter {
         path: Routes.forgotPasswordView,
         pageBuilder: (context, state) =>
             fadeTransitionPage(ForgetPasswordView()),
+      ),
+
+      GoRoute(
+        path: Routes.homeView,
+        pageBuilder: (context, state) => fadeTransitionPage(HomeView()),
+      ),
+
+      GoRoute(
+        path: Routes.layoutView,
+        pageBuilder: (context, state) => fadeTransitionPage(LayoutView()),
+      ),
+
+      GoRoute(
+        path: Routes.reelsView,
+        pageBuilder: (context, state) => fadeTransitionPage(ReelsView()),
+      ),
+
+      GoRoute(
+        path: Routes.tvView,
+        pageBuilder: (context, state) => fadeTransitionPage(TvView()),
+      ),
+
+      GoRoute(
+        path: Routes.pdfView,
+        pageBuilder: (context, state) => fadeTransitionPage(PdfView()),
       ),
       // GoRoute(
       //   path: Routes.classesView,
