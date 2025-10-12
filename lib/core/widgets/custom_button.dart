@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
-import 'package:sahifa/core/utils/colors.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.text, this.onPressed});
@@ -9,10 +8,6 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorsTheme().primaryDark,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-      ),
       onPressed: onPressed,
       child: Text(text, style: AppTextStyles.styleBold16sp(context)),
     );

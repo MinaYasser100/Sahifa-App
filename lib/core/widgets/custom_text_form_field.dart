@@ -24,7 +24,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.textFieldModel.controller,
-      cursorColor: ColorsTheme().primaryDark,
+      cursorColor: ColorsTheme().primaryColor,
       validator: widget.textFieldModel.validator,
       autovalidateMode: widget.textFieldModel.autovalidateMode,
       obscureText: isObscured,
@@ -33,22 +33,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: widget.textFieldModel.focusNode,
       onFieldSubmitted: widget.textFieldModel.onFieldSubmitted,
       onChanged: widget.textFieldModel.onChanged,
-      style: TextStyle(color: ColorsTheme().primaryDark),
+      style: TextStyle(color: ColorsTheme().primaryColor),
       decoration: InputDecoration(
         labelText: widget.textFieldModel.labelText,
         hintText: widget.textFieldModel.hintText,
         errorText: widget.textFieldModel.errorText,
         hintStyle: TextStyle(color: ColorsTheme().grayColor),
-        labelStyle: TextStyle(color: ColorsTheme().primaryDark),
-        prefixIcon: Icon(
-          widget.textFieldModel.icon,
-          size: 22,
-          color: ColorsTheme().primaryDark,
+        labelStyle: TextStyle(color: ColorsTheme().primaryColor),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
         ),
-        prefixIconConstraints: const BoxConstraints(
-          minHeight: 40, // علشان الأيقونة تبقى في النص
-          minWidth: 40,
-        ),
+
         suffixIcon: widget.textFieldModel.obscureText
             ? GestureDetector(
                 onTap: () {
@@ -58,7 +54,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 child: Icon(
                   isObscured ? Icons.visibility_off : Icons.visibility,
                   color: isObscured
-                      ? ColorsTheme().primaryDark
+                      ? ColorsTheme().primaryColor
                       : ColorsTheme().secondaryColor,
                 ),
               )
@@ -73,7 +69,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   OutlineInputBorder _customOutlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(color: ColorsTheme().primaryDark),
+      borderSide: BorderSide(color: ColorsTheme().primaryColor),
     );
   }
 }

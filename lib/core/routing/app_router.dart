@@ -1,15 +1,17 @@
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/features/register/ui/register_view.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
     initialLocation: Routes.registerView,
     routes: [
-      // Register view
-      // GoRoute(
-      //   path: Routes.registerView,
-      //   pageBuilder: (context, state) => fadeTransitionPage(RegisterView()),
-      // ),
+      //Register view
+      GoRoute(
+        path: Routes.registerView,
+        pageBuilder: (context, state) => fadeTransitionPage(RegisterView()),
+      ),
 
       // GoRoute(
       //   path: Routes.classesView,

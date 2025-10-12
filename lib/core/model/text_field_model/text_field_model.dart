@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class TextFieldModel {
   final TextEditingController controller;
-  final String labelText;
+  final String? labelText;
   final TextInputType keyboardType;
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
   final String? Function(String?)? validator;
   final bool obscureText;
   final AutovalidateMode? autovalidateMode;
@@ -16,10 +16,10 @@ class TextFieldModel {
   final String? errorText;
   TextFieldModel({
     required this.controller,
-    required this.labelText,
+    this.labelText,
     required this.keyboardType,
     required this.hintText,
-    required this.icon,
+    this.icon,
     required this.validator,
     this.obscureText = false,
     this.autovalidateMode,
