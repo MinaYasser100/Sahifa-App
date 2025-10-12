@@ -95,17 +95,86 @@ class BannerCarouselItem extends StatelessWidget {
       right: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Text(
-          banner.title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: [Shadow(color: Colors.black, blurRadius: 4)],
-          ),
-          textAlign: TextAlign.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // العنوان
+            Text(
+              banner.title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: [Shadow(color: Colors.black, blurRadius: 4)],
+              ),
+            ),
+            const SizedBox(height: 8),
+            // التاريخ و أيقونة المشاركة
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // التاريخ على اليمين
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.access_time,
+                      size: 16,
+                      color: Colors.white70,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      _formatDate(banner.dateTime),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                        shadows: [Shadow(color: Colors.black, blurRadius: 2)],
+                      ),
+                    ),
+                  ],
+                ),
+                // أيقونة المشاركة على الشمال
+                GestureDetector(
+                  onTap: () {
+                    // Handle share action
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.share,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    // Format: 12 Oct 2025
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 }

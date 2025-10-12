@@ -18,19 +18,22 @@ class _BannerCarouselSectionState extends State<BannerCarouselSection> {
 
   final List<BannerModel> banners = [
     BannerModel(
-      title: 'أخبار عاجلة',
+      title: 'Breaking News',
       imageUrl:
           'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800',
+      dateTime: DateTime(2025, 10, 12),
     ),
     BannerModel(
-      title: 'فيديوهات حصرية',
+      title: 'Exclusive Videos',
       imageUrl:
           'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800',
+      dateTime: DateTime(2025, 10, 12),
     ),
     BannerModel(
-      title: 'مقالات مميزة',
+      title: 'Featured Articles',
       imageUrl:
           'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=800',
+      dateTime: DateTime(2025, 10, 12),
     ),
   ];
 
