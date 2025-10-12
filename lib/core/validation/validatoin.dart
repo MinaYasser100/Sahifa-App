@@ -25,9 +25,21 @@ class Validatoin {
     if (value == null || value.isEmpty) {
       return 'Please enter your full name';
     }
-    if (value.length < 3) {
-      return 'Full name must be at least 3 characters';
+
+    // Remove extra spaces and split by spaces
+    final nameParts = value.trim().split(RegExp(r'\s+'));
+
+    if (nameParts.length < 3) {
+      return 'Please enter (First, Middle, Last)';
     }
+
+    // Check if each name part has at least 2 characters
+    for (var part in nameParts) {
+      if (part.length < 3) {
+        return 'Each name must be at least 2 characters';
+      }
+    }
+
     return null;
   }
 

@@ -2,33 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
-import 'package:sahifa/features/register/ui/widgets/register_footer_section.dart';
-import 'package:sahifa/features/register/ui/widgets/register_form_fields.dart';
-import 'package:sahifa/features/register/ui/widgets/register_header_section.dart';
+import 'package:sahifa/features/login/ui/widgets/login_footer_section.dart';
+import 'package:sahifa/features/login/ui/widgets/login_form_fields.dart';
+import 'package:sahifa/features/login/ui/widgets/login_header_section.dart';
 
-class RegisterBodyView extends StatelessWidget {
-  const RegisterBodyView({
+class LoginBodyView extends StatelessWidget {
+  const LoginBodyView({
     super.key,
     required this.formKey,
-    required this.fullNameController,
-    required this.fullNameFocusNode,
-    required this.emailFocusNode,
     required this.emailController,
-    required this.passwordFocusNode,
+    required this.emailFocusNode,
     required this.passwordController,
-    required this.confirmPasswordFocusNode,
-    required this.confirmPasswordController,
+    required this.passwordFocusNode,
   });
 
   final GlobalKey<FormState> formKey;
-  final TextEditingController fullNameController;
-  final FocusNode fullNameFocusNode;
-  final FocusNode emailFocusNode;
   final TextEditingController emailController;
-  final FocusNode passwordFocusNode;
+  final FocusNode emailFocusNode;
   final TextEditingController passwordController;
-  final FocusNode confirmPasswordFocusNode;
-  final TextEditingController confirmPasswordController;
+  final FocusNode passwordFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -45,28 +37,32 @@ class RegisterBodyView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header Section
-                const RegisterHeaderSection(),
+                const LoginHeaderSection(),
 
                 // Form Fields Section
-                RegisterFormFields(
-                  fullNameController: fullNameController,
-                  fullNameFocusNode: fullNameFocusNode,
-                  emailFocusNode: emailFocusNode,
+                LoginFormFields(
                   emailController: emailController,
-                  passwordFocusNode: passwordFocusNode,
+                  emailFocusNode: emailFocusNode,
                   passwordController: passwordController,
-                  confirmPasswordFocusNode: confirmPasswordFocusNode,
-                  confirmPasswordController: confirmPasswordController,
+                  passwordFocusNode: passwordFocusNode,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text('Forgot Password?'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
 
-                const SizedBox(height: 32),
-
-                // Register Button
+                // Login Button
                 CustomButton(
-                  text: 'Create Account',
+                  text: 'Login',
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      // Handle registration logic here
+                      // Handle login logic here
                     } else {
                       context
                           .read<AutovalidateModeCubit>()
@@ -78,7 +74,7 @@ class RegisterBodyView extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 // Footer Section
-                const RegisterFooterSection(),
+                const LoginFooterSection(),
               ],
             ),
           ),
