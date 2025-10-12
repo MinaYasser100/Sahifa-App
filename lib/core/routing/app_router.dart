@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 
@@ -19,6 +20,12 @@ abstract class AppRouter {
         pageBuilder: (context, state) {
           return fadeTransitionPage(LoginView());
         },
+      ),
+
+      GoRoute(
+        path: Routes.forgotPasswordView,
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(ForgetPasswordView()),
       ),
       // GoRoute(
       //   path: Routes.classesView,

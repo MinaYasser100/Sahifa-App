@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -17,7 +18,9 @@ class LoginFooterSection extends StatelessWidget {
           ).copyWith(color: ColorsTheme().primaryLight.withValues(alpha: 0.7)),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            context.pop();
+          },
           child: Text(
             'Register',
             style: AppTextStyles.styleBold18sp(

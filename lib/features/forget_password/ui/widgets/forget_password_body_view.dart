@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
-import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
-import 'package:sahifa/features/login/ui/widgets/login_footer_section.dart';
-import 'package:sahifa/features/login/ui/widgets/login_form_fields.dart';
-import 'package:sahifa/features/login/ui/widgets/login_header_section.dart';
+import 'package:sahifa/features/forget_password/ui/widgets/forget_password_form_field.dart';
+import 'package:sahifa/features/forget_password/ui/widgets/forget_password_header_section.dart';
 
-class LoginBodyView extends StatelessWidget {
-  const LoginBodyView({
+class ForgetPasswordBodyView extends StatelessWidget {
+  const ForgetPasswordBodyView({
     super.key,
     required this.formKey,
     required this.emailController,
     required this.emailFocusNode,
-    required this.passwordController,
-    required this.passwordFocusNode,
   });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final FocusNode emailFocusNode;
-  final TextEditingController passwordController;
-  final FocusNode passwordFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -39,34 +32,27 @@ class LoginBodyView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header Section
-                const LoginHeaderSection(),
+                const ForgetPasswordHeaderSection(),
 
-                // Form Fields Section
-                LoginFormFields(
+                // Form Field Section
+                ForgetPasswordFormField(
                   emailController: emailController,
                   emailFocusNode: emailFocusNode,
-                  passwordController: passwordController,
-                  passwordFocusNode: passwordFocusNode,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        context.push(Routes.forgotPasswordView);
-                      },
-                      child: Text('Forgot Password?'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
 
-                // Login Button
+                const SizedBox(height: 32),
+
+                // Send Reset Link Button
                 CustomButton(
-                  text: 'Login',
+                  text: 'Send Reset Link',
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      // Handle login logic here
+                      // Handle forget password logic here
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Reset link sent to your email!'),
+                        ),
+                      );
                     } else {
                       context
                           .read<AutovalidateModeCubit>()
@@ -77,8 +63,20 @@ class LoginBodyView extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                // Footer Section
-                const LoginFooterSection(),
+                // Back to Login
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Back to Login',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
