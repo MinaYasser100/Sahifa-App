@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
@@ -16,7 +18,7 @@ class CustomTrendingArticlesSection extends StatelessWidget {
       children: [
         // Section Title
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
           child: Row(
             children: [
               Icon(
@@ -42,9 +44,17 @@ class CustomTrendingArticlesSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           itemCount: trendingArticles.length,
           itemBuilder: (context, index) {
-            return TrendingArticleCard(
-              articleItem: trendingArticles[index],
-              index: index,
+            return GestureDetector(
+              onTap: () {
+                context.push(
+                  Routes.detailsArticalView,
+                  extra: trendingArticles[index],
+                );
+              },
+              child: TrendingArticleCard(
+                articleItem: trendingArticles[index],
+                index: index,
+              ),
             );
           },
         ),

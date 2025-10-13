@@ -32,11 +32,24 @@ class CustomArticleItemContent extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Icon(
-                    FontAwesomeIcons.share,
-                    color: ColorsTheme().primaryLight,
+                GestureDetector(
+                  onTap: () {
+                    // Handle share action
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Share functionality will be implemented',
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Icon(
+                      FontAwesomeIcons.share,
+                      color: ColorsTheme().primaryLight,
+                    ),
                   ),
                 ),
               ],

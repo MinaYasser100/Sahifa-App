@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 
-import 'widgets/details_article_content.dart';
-import 'widgets/related_articles_section.dart';
-import '../../../core/widgets/custom_trending/custom_trending_articles_section.dart';
+import 'widgets/details_article_body_view.dart';
 
 class DetailsArticleView extends StatelessWidget {
   const DetailsArticleView({super.key, required this.articalModel});
@@ -23,32 +21,11 @@ class DetailsArticleView extends StatelessWidget {
             onPressed: () {
               // Share functionality
             },
-            icon: const Icon(Icons.share),
+            icon: const Icon(FontAwesomeIcons.share),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Article Image
-            Hero(
-              tag: 'article_${articalModel.imageUrl}',
-              child: CustomArticleImage(
-                imageUrl: articalModel.imageUrl,
-                height: 300,
-              ),
-            ),
-
-            // Content Section
-            DetailsArticleContent(articalModel: articalModel),
-            RelatedArticlesSection(),
-
-            // Trending Articles Section
-            CustomTrendingArticlesSection(),
-          ],
-        ),
-      ),
+      body: DetailsArticleBodyView(articalModel: articalModel),
     );
   }
 }

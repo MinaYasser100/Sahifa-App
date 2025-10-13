@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_carousel_section.dart';
 
 import 'articals_group_section.dart';
@@ -17,7 +18,7 @@ class HomeBodyView extends StatelessWidget {
         SliverToBoxAdapter(child: ArticalsGroupSection()),
         SliverToBoxAdapter(child: ArticalsGroupSection()),
         SliverToBoxAdapter(child: ArticalsGroupSection()),
-
+        SliverToBoxAdapter(child: CustomTrendingArticlesSection()),
         SliverToBoxAdapter(child: SizedBox(height: 70)),
       ],
     );
