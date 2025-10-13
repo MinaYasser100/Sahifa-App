@@ -6,21 +6,26 @@ class CustomArticleImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     this.height = 140,
+    this.width = double.infinity,
+    this.changeBorderRadius = false,
   });
 
   final String imageUrl;
   final double height;
+  final double width;
+  final bool changeBorderRadius;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
+      borderRadius: BorderRadius.only(
         topLeft: Radius.circular(12),
-        topRight: Radius.circular(12),
+        topRight: changeBorderRadius ? Radius.zero : Radius.circular(12),
+        bottomLeft: changeBorderRadius ? Radius.circular(12) : Radius.zero,
       ),
       child: Image.network(
         imageUrl,
-        width: double.infinity,
+        width: width,
         height: height,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {

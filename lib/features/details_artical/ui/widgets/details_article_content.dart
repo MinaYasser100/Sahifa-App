@@ -21,7 +21,7 @@ class DetailsArticleContent extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: ColorsTheme().primaryDark,
+              color: ColorsTheme().primaryLight,
               height: 1.4,
             ),
           ),
