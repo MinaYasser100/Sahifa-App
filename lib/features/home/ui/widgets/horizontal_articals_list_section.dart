@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
-import 'package:sahifa/features/home/ui/widgets/news_item_card.dart';
+import 'package:sahifa/features/home/ui/widgets/artical_item_card.dart';
 
-class HorizontalNewsListSection extends StatelessWidget {
-  const HorizontalNewsListSection({super.key});
+class HorizontalArticalsListSection extends StatelessWidget {
+  const HorizontalArticalsListSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<NewsItemModel> newsItems = [
-      NewsItemModel(
+    final List<ArticalItemModel> newsItems = [
+      ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400',
         title: 'Breaking: Major Political Event',
@@ -16,7 +16,7 @@ class HorizontalNewsListSection extends StatelessWidget {
         date: DateTime(2025, 10, 12),
         viewerCount: 15420,
       ),
-      NewsItemModel(
+      ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400',
         title: 'Technology News Update',
@@ -24,7 +24,7 @@ class HorizontalNewsListSection extends StatelessWidget {
         date: DateTime(2025, 10, 11),
         viewerCount: 8750,
       ),
-      NewsItemModel(
+      ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400',
         title: 'Sports Championship Finals',
@@ -32,7 +32,7 @@ class HorizontalNewsListSection extends StatelessWidget {
         date: DateTime(2025, 10, 10),
         viewerCount: 23500,
       ),
-      NewsItemModel(
+      ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=400',
         title: 'Business Market Analysis',
@@ -43,13 +43,13 @@ class HorizontalNewsListSection extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 310,
+      height: 300,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: newsItems.length,
         itemBuilder: (context, index) {
-          return NewsItemCard(newsItem: newsItems[index]);
+          return ArticalItemCard(newsItem: newsItems[index]);
         },
       ),
     );

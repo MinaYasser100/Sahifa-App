@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
-class NewsItemImage extends StatelessWidget {
-  const NewsItemImage({super.key, required this.imageUrl, this.height = 150});
+class ArticalItemImage extends StatelessWidget {
+  const ArticalItemImage({
+    super.key,
+    required this.imageUrl,
+    this.height = 140,
+  });
 
   final String imageUrl;
   final double height;
@@ -23,8 +27,12 @@ class NewsItemImage extends StatelessWidget {
           return Container(
             height: height,
             color: ColorsTheme().primaryColor,
-            child: const Center(
-              child: Icon(Icons.image, size: 40, color: Colors.white),
+            child: Center(
+              child: Icon(
+                Icons.image,
+                size: 40,
+                color: ColorsTheme().whiteColor,
+              ),
             ),
           );
         },

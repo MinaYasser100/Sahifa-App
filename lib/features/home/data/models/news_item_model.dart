@@ -1,11 +1,11 @@
-class NewsItemModel {
+class ArticalItemModel {
   final String imageUrl;
   final String title;
   final String description;
   final DateTime date;
   final int viewerCount;
 
-  NewsItemModel({
+  ArticalItemModel({
     required this.imageUrl,
     required this.title,
     required this.description,

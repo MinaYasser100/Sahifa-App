@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_carousel_section.dart';
-import 'package:sahifa/features/home/ui/widgets/horizontal_news_list_section.dart';
+import 'package:sahifa/features/home/ui/widgets/horizontal_articals_list_section.dart';
 
 class HomeBodyView extends StatelessWidget {
   const HomeBodyView({super.key});
@@ -28,7 +28,7 @@ class HomeBodyView extends StatelessWidget {
         ),
 
         // Horizontal News List
-        const SliverToBoxAdapter(child: HorizontalNewsListSection()),
+        const SliverToBoxAdapter(child: HorizontalArticalsListSection()),
 
         // Add more sections here as needed
         const SliverToBoxAdapter(child: SizedBox(height: 20)),

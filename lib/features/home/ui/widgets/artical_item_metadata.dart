@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NewsItemMetadata extends StatelessWidget {
-  const NewsItemMetadata({
+class ArticalItemMetadata extends StatelessWidget {
+  const ArticalItemMetadata({
     super.key,
     required this.date,
     required this.viewerCount,
