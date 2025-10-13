@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BannerShareButton extends StatelessWidget {
   const BannerShareButton({super.key});
@@ -21,7 +22,11 @@ class BannerShareButton extends StatelessWidget {
           color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: const Icon(Icons.share, size: 18, color: Colors.white),
+        child: const Icon(
+          FontAwesomeIcons.share,
+          size: 16,
+          color: Colors.white,
+        ),
       ),
     );
   }

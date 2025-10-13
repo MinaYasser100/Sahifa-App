@@ -55,7 +55,7 @@ class _LayoutViewState extends State<LayoutView> {
         maxLine: 1,
         shadowElevation: 5,
         kBottomRadius: 28.0,
-        notchColor: Colors.transparent,
+        notchColor: ColorsTheme().grayColor.withValues(alpha: 0.5),
         removeMargins: false,
         bottomBarWidth: 500,
         showShadow: false,
@@ -69,10 +69,12 @@ class _LayoutViewState extends State<LayoutView> {
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.house,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.house,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
             itemLabel: 'Home',
@@ -80,10 +82,12 @@ class _LayoutViewState extends State<LayoutView> {
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.video,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.video,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
             itemLabel: 'Reels',
@@ -91,10 +95,12 @@ class _LayoutViewState extends State<LayoutView> {
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.filePdf,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.filePdf,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
             itemLabel: 'PDF',
@@ -102,10 +108,12 @@ class _LayoutViewState extends State<LayoutView> {
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.tv,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.tv,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
             itemLabel: 'TV',
@@ -127,4 +135,5 @@ class LayoutConst {
   static final Color notchColor = ColorsTheme().grayColor.withValues(
     alpha: 0.4,
   );
+  static final double iconSize = 18;
 }
