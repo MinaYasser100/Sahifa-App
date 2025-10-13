@@ -5,15 +5,21 @@ import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item_content.dart';
 
 class CustomArticleItemCard extends StatelessWidget {
-  const CustomArticleItemCard({super.key, required this.articleItem});
+  const CustomArticleItemCard({
+    super.key,
+    required this.articleItem,
+    this.cardWidth = 240,
+    this.isItemList = false,
+  });
 
   final ArticalItemModel articleItem;
-
+  final double cardWidth;
+  final bool isItemList;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      margin: const EdgeInsets.only(right: 12, bottom: 10),
+      width: cardWidth,
+      margin: EdgeInsets.only(right: isItemList ? 0 : 12, bottom: 10),
       decoration: BoxDecoration(
         color: ColorsTheme().whiteColor,
         borderRadius: BorderRadius.circular(12),

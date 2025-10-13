@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/search/data/category_model.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card.dart';
 
@@ -48,7 +50,7 @@ class CategoriesGrid extends StatelessWidget {
               return CategoryCard(
                 categoryName: category.name,
                 onTap: () {
-                  // Navigate to category
+                  context.push(Routes.searchCategoryView, extra: category.name);
                 },
               );
             },

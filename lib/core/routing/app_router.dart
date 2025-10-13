@@ -12,6 +12,7 @@ import 'package:sahifa/features/pdf/ui/pdf_view.dart';
 import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
+import 'package:sahifa/features/search_category/ui/search_category_view.dart';
 import 'package:sahifa/features/tv/ui/tv_view.dart';
 
 abstract class AppRouter {
@@ -87,6 +88,18 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.searchView,
         pageBuilder: (context, state) => fadeTransitionPage(SearchView()),
+      ),
+      GoRoute(
+        path: Routes.searchCategoryView,
+        pageBuilder: (context, state) {
+          final categoryName = state.extra as String?;
+          if (categoryName == null) {
+            throw Exception('Category name is not found');
+          }
+          return fadeTransitionPage(
+            SearchCategoryView(categoryName: categoryName),
+          );
+        },
       ),
     ],
   );
