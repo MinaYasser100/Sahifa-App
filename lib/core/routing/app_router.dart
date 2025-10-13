@@ -11,6 +11,7 @@ import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/pdf/ui/pdf_view.dart';
 import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
+import 'package:sahifa/features/search/ui/search_view.dart';
 import 'package:sahifa/features/tv/ui/tv_view.dart';
 
 abstract class AppRouter {
@@ -81,6 +82,11 @@ abstract class AppRouter {
             DetailsArticleView(articalModel: articalModel),
           );
         },
+      ),
+
+      GoRoute(
+        path: Routes.searchView,
+        pageBuilder: (context, state) => fadeTransitionPage(SearchView()),
       ),
     ],
   );

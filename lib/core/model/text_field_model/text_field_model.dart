@@ -14,6 +14,7 @@ class TextFieldModel {
   void Function(String)? onChanged;
   bool autofocus;
   final String? errorText;
+  final bool ischangeColor;
   TextFieldModel({
     required this.controller,
     this.labelText,
@@ -28,5 +29,6 @@ class TextFieldModel {
     this.onFieldSubmitted,
     this.errorText,
     this.onChanged,
+    this.ischangeColor = false,
   });
 }

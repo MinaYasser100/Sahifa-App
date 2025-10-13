@@ -24,7 +24,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.textFieldModel.controller,
-      cursorColor: ColorsTheme().primaryColor,
+      cursorColor: widget.textFieldModel.ischangeColor
+          ? ColorsTheme().whiteColor
+          : ColorsTheme().primaryColor,
       validator: widget.textFieldModel.validator,
       autovalidateMode: widget.textFieldModel.autovalidateMode,
       obscureText: isObscured,
@@ -33,7 +35,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: widget.textFieldModel.focusNode,
       onFieldSubmitted: widget.textFieldModel.onFieldSubmitted,
       onChanged: widget.textFieldModel.onChanged,
-      style: TextStyle(color: ColorsTheme().primaryColor),
+      style: TextStyle(
+        color: widget.textFieldModel.ischangeColor
+            ? ColorsTheme().whiteColor
+            : ColorsTheme().primaryColor,
+        fontSize: 18,
+      ),
       decoration: InputDecoration(
         labelText: widget.textFieldModel.labelText,
         hintText: widget.textFieldModel.hintText,
@@ -69,7 +76,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   OutlineInputBorder _customOutlineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(color: ColorsTheme().primaryColor),
+      borderSide: BorderSide(
+        color: widget.textFieldModel.ischangeColor
+            ? ColorsTheme().whiteColor
+            : ColorsTheme().primaryColor,
+      ),
     );
   }
 }
