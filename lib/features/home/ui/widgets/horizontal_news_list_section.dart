@@ -7,7 +7,7 @@ class HorizontalArticalsListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ArticalItemModel> articlesItems = [
+    final List<ArticalItemModel> newsItems = [
       ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400',
@@ -47,9 +47,9 @@ class HorizontalArticalsListSection extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: articlesItems.length,
+        itemCount: newsItems.length,
         itemBuilder: (context, index) {
-          return ArticalItemCard(articleItem: articlesItems[index]);
+          return ArticalItemCard(articleItem: newsItems[index]);
         },
       ),
     );

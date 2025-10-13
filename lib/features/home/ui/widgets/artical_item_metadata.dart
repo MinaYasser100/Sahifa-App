@@ -41,7 +41,7 @@ class ArticalItemMetadata extends StatelessWidget {
       'Nov',
       'Dec',
     ];
-    return '${date.day} ${months[date.month - 1]}';
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
   String _formatViewCount(int count) {

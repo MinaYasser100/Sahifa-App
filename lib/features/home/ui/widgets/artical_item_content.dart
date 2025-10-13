@@ -26,7 +26,7 @@ class ArticalItemContent extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: ColorsTheme().blackColor,
+                      color: ColorsTheme().primaryLight,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -36,7 +36,7 @@ class ArticalItemContent extends StatelessWidget {
                   padding: const EdgeInsets.all(3.0),
                   child: Icon(
                     FontAwesomeIcons.share,
-                    color: ColorsTheme().primaryColor,
+                    color: ColorsTheme().primaryLight,
                   ),
                 ),
               ],
@@ -55,7 +55,10 @@ class ArticalItemContent extends StatelessWidget {
             const Spacer(),
 
             // خط فاصل
-            Divider(color: Colors.grey[300], height: 1),
+            Divider(
+              color: ColorsTheme().grayColor.withValues(alpha: 0.2),
+              height: 1,
+            ),
             const SizedBox(height: 8),
 
             // التاريخ و عدد المشاهدين

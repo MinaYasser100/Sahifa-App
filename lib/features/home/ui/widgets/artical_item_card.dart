@@ -5,9 +5,9 @@ import 'package:sahifa/features/home/ui/widgets/artical_item_content.dart';
 import 'package:sahifa/features/home/ui/widgets/artical_item_image.dart';
 
 class ArticalItemCard extends StatelessWidget {
-  const ArticalItemCard({super.key, required this.newsItem});
+  const ArticalItemCard({super.key, required this.articleItem});
 
-  final ArticalItemModel newsItem;
+  final ArticalItemModel articleItem;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class ArticalItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image Section
-          ArticalItemImage(imageUrl: newsItem.imageUrl),
+          ArticalItemImage(imageUrl: articleItem.imageUrl),
 
           // Content Section
-          ArticalItemContent(articalItem: newsItem),
+          ArticalItemContent(articalItem: articleItem),
         ],
       ),
     );
