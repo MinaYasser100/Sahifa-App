@@ -37,7 +37,7 @@ class DetailsArticleContent extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: ColorsTheme().primaryColor.withOpacity(0.1),
+                  color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
