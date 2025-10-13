@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/features/home/ui/widgets/artical_item_card.dart';
 
@@ -49,7 +51,15 @@ class HorizontalArticalsListSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: articlesItems.length,
         itemBuilder: (context, index) {
-          return ArticalItemCard(articleItem: articlesItems[index]);
+          return GestureDetector(
+            onTap: () {
+              context.push(
+                Routes.detailsArticalView,
+                extra: articlesItems[index],
+              );
+            },
+            child: ArticalItemCard(articleItem: articlesItems[index]),
+          );
         },
       ),
     );

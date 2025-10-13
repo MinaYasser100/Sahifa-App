@@ -2,7 +2,9 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/articals_section/ui/articasl_section_view.dart';
+import 'package:sahifa/features/details_artical/ui/details_artical_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
+import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
@@ -65,6 +67,19 @@ abstract class AppRouter {
           final title = state.extra as String?;
           if (title == null) throw Exception('Level is not found');
           return fadeTransitionPage(ArticalsSectionView(title: title));
+        },
+      ),
+
+      GoRoute(
+        path: Routes.detailsArticalView,
+        pageBuilder: (context, state) {
+          final articalModel = state.extra as ArticalItemModel?;
+          if (articalModel == null) {
+            throw Exception('Artical model is not found');
+          }
+          return fadeTransitionPage(
+            DetailsArticalView(articalModel: articalModel),
+          );
         },
       ),
     ],
