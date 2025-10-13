@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class PdfView extends StatefulWidget {
-  const PdfView({super.key, this.pdfPath});
+class SearchPDFWidget extends StatefulWidget {
+  const SearchPDFWidget({super.key, this.pdfPath});
 
   final String? pdfPath;
 
   @override
-  State<PdfView> createState() => _PdfViewState();
+  State<SearchPDFWidget> createState() => _SearchPDFWidgetState();
 }
 
-class _PdfViewState extends State<PdfView> {
+class _SearchPDFWidgetState extends State<SearchPDFWidget> {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   int _currentPageNumber = 1;
   int _totalPages = 0;

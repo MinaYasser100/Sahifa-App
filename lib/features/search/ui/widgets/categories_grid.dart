@@ -29,7 +29,7 @@ class CategoriesGrid extends StatelessWidget {
             categoryName: 'Al-Thawra Archive',
             isLarge: true,
             onTap: () {
-              // Navigate to Al-Thawra Archive
+              context.push(Routes.alThawraArchiveView);
             },
           ),
           const SizedBox(height: 16),

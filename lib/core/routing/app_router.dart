@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
+import 'package:sahifa/features/altharwa_archive/ui/widgets/search_pdf_widget.dart';
 import 'package:sahifa/features/articals_section/ui/articasl_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
@@ -60,7 +62,10 @@ abstract class AppRouter {
 
       GoRoute(
         path: Routes.pdfView,
-        pageBuilder: (context, state) => fadeTransitionPage(PdfView()),
+        pageBuilder: (context, state) {
+          final pdfPath = state.extra as String?;
+          return fadeTransitionPage(PdfView(pdfPath: pdfPath));
+        },
       ),
 
       GoRoute(
@@ -99,6 +104,18 @@ abstract class AppRouter {
           return fadeTransitionPage(
             SearchCategoryView(categoryName: categoryName),
           );
+        },
+      ),
+      GoRoute(
+        path: Routes.alThawraArchiveView,
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(AltharwaArchiveView()),
+      ),
+      GoRoute(
+        path: Routes.searchPdfView,
+        pageBuilder: (context, state) {
+          final pdfPath = state.extra as String?;
+          return fadeTransitionPage(SearchPDFWidget(pdfPath: pdfPath));
         },
       ),
     ],

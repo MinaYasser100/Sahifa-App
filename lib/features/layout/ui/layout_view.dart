@@ -33,7 +33,7 @@ class _LayoutViewState extends State<LayoutView> {
     final List<Widget> bottomBarPages = [
       const HomeView(),
       const ReelsView(),
-      const PdfView(),
+      PdfView(),
       const TvView(),
     ];
 

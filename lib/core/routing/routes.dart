@@ -23,4 +23,6 @@ class Routes {
   static const String detailsArticalView = '/details-artical';
   static const String searchView = '/search';
   static const String searchCategoryView = '/search-category';
+  static const String alThawraArchiveView = '/al-thawra-archive';
+  static const String searchPdfView = '/search-pdf';
 }
