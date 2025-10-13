@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/features/articals_section/ui/articasl_section_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
@@ -57,14 +58,15 @@ abstract class AppRouter {
         path: Routes.pdfView,
         pageBuilder: (context, state) => fadeTransitionPage(PdfView()),
       ),
-      // GoRoute(
-      //   path: Routes.classesView,
-      //   pageBuilder: (context, state) {
-      //     final level = state.extra as LevelModel?;
-      //     if (level == null) throw Exception('Level is not found');
-      //     return fadeTransitionPage(ClassesView(level: level));
-      //   },
-      // ),
+
+      GoRoute(
+        path: Routes.articalsSectionView,
+        pageBuilder: (context, state) {
+          final title = state.extra as String?;
+          if (title == null) throw Exception('Level is not found');
+          return fadeTransitionPage(ArticalsSectionView(title: title));
+        },
+      ),
     ],
   );
 }
