@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
-import 'package:sahifa/features/home/ui/widgets/artical_item_content.dart';
-import 'package:sahifa/features/home/ui/widgets/artical_item_image.dart';
+import 'package:sahifa/core/widgets/custom_article_item_content.dart';
 
-class ArticalItemCard extends StatelessWidget {
-  const ArticalItemCard({super.key, required this.articleItem});
+class CustomArticleItemCard extends StatelessWidget {
+  const CustomArticleItemCard({super.key, required this.articleItem});
 
   final ArticalItemModel articleItem;
 
@@ -29,10 +29,9 @@ class ArticalItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image Section
-          ArticalItemImage(imageUrl: articleItem.imageUrl),
-
+          CustomArticleImage(imageUrl: articleItem.imageUrl, height: 140),
           // Content Section
-          ArticalItemContent(articalItem: articleItem),
+          CustomArticleItemContent(articleItem: articleItem),
         ],
       ),
     );

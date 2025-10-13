@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/func/format_date.dart';
 
-class ArticalItemMetadata extends StatelessWidget {
-  const ArticalItemMetadata({
+class CustomArticleItemMetadata extends StatelessWidget {
+  const CustomArticleItemMetadata({
     super.key,
     required this.date,
     required this.viewerCount,
@@ -16,7 +17,7 @@ class ArticalItemMetadata extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // التاريخ
-        _MetadataItem(icon: Icons.access_time, text: _formatDate(date)),
+        _MetadataItem(icon: Icons.access_time, text: formatDate(date)),
         // عدد المشاهدين
         _MetadataItem(
           icon: Icons.visibility,
@@ -24,24 +25,6 @@ class ArticalItemMetadata extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
   String _formatViewCount(int count) {

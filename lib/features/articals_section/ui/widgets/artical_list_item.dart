@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/func/format_date.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/artical_image.dart';
+import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 
 class ArticalListItem extends StatelessWidget {
@@ -29,7 +29,7 @@ class ArticalListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image Section
-          ArticalImage(imageUrl: articleItem.imageUrl, height: 180),
+          CustomArticleImage(imageUrl: articleItem.imageUrl, height: 180),
 
           // Content Section
           Padding(

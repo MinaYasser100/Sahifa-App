@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
-class ArticalImage extends StatelessWidget {
-  const ArticalImage({super.key, required this.imageUrl, this.height = 140});
+class CustomArticleImage extends StatelessWidget {
+  const CustomArticleImage({
+    super.key,
+    required this.imageUrl,
+    this.height = 140,
+  });
 
   final String imageUrl;
   final double height;

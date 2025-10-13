@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
-import 'package:sahifa/features/home/ui/widgets/artical_item_metadata.dart';
+import 'package:sahifa/core/widgets/custom_article_item_metadata.dart';
 
-class ArticalItemContent extends StatelessWidget {
-  const ArticalItemContent({super.key, required this.articalItem});
+class CustomArticleItemContent extends StatelessWidget {
+  const CustomArticleItemContent({super.key, required this.articleItem});
 
-  final ArticalItemModel articalItem;
+  final ArticalItemModel articleItem;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ArticalItemContent extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    articalItem.title,
+                    articleItem.title,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -45,7 +45,7 @@ class ArticalItemContent extends StatelessWidget {
 
             // الوصف
             Text(
-              articalItem.description,
+              articleItem.description,
               style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -62,9 +62,9 @@ class ArticalItemContent extends StatelessWidget {
             const SizedBox(height: 8),
 
             // التاريخ و عدد المشاهدين
-            ArticalItemMetadata(
-              date: articalItem.date,
-              viewerCount: articalItem.viewerCount,
+            CustomArticleItemMetadata(
+              date: articleItem.date,
+              viewerCount: articleItem.viewerCount,
             ),
           ],
         ),

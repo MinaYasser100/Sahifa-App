@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
-import 'package:sahifa/features/home/ui/widgets/artical_item_card.dart';
+import 'package:sahifa/core/widgets/custom_article_item_card.dart';
 
-class HorizontalArticalsListSection extends StatelessWidget {
-  const HorizontalArticalsListSection({super.key});
+class CustomHorizontalArticlesListSection extends StatelessWidget {
+  const CustomHorizontalArticlesListSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<ArticalItemModel> newsItems = [
+    final List<ArticalItemModel> articlesItems = [
       ArticalItemModel(
         imageUrl:
             'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400',
@@ -47,9 +49,17 @@ class HorizontalArticalsListSection extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: newsItems.length,
+        itemCount: articlesItems.length,
         itemBuilder: (context, index) {
-          return ArticalItemCard(articleItem: newsItems[index]);
+          return GestureDetector(
+            onTap: () {
+              context.push(
+                Routes.detailsArticalView,
+                extra: articlesItems[index],
+              );
+            },
+            child: CustomArticleItemCard(articleItem: articlesItems[index]),
+          );
         },
       ),
     );

@@ -4,7 +4,7 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
-import 'horizontal_articals_list_section.dart';
+import '../../../../core/widgets/custom_horizontal_articles_list_section.dart';
 
 class ArticalsGroupSection extends StatelessWidget {
   const ArticalsGroupSection({super.key});
@@ -37,7 +37,7 @@ class ArticalsGroupSection extends StatelessWidget {
             ),
           ),
         ),
-        HorizontalArticalsListSection(),
+        CustomHorizontalArticlesListSection(),
         SizedBox(height: 20),
       ],
     );

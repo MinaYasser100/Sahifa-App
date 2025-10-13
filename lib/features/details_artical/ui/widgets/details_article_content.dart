@@ -3,8 +3,8 @@ import 'package:sahifa/core/func/format_date.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 
-class DetailsArticalContent extends StatelessWidget {
-  const DetailsArticalContent({super.key, required this.articalModel});
+class DetailsArticleContent extends StatelessWidget {
+  const DetailsArticleContent({super.key, required this.articalModel});
 
   final ArticalItemModel articalModel;
 
@@ -93,7 +93,7 @@ class DetailsArticalContent extends StatelessWidget {
               letterSpacing: 0.2,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 10),
         ],
       ),
     );
