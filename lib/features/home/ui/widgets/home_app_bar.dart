@@ -8,14 +8,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.person),
-        onPressed: () {
-          context.push(Routes.profileView);
-        },
-      ),
       title: const Text('Al Thawra'),
+      centerTitle: false,
       actions: [
+        IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () {
+            context.push(Routes.profileView);
+          },
+        ),
         IconButton(
           icon: const Icon(Icons.search),
           onPressed: () {

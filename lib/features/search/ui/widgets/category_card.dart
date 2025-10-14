@@ -13,13 +13,13 @@ class CategoryCard extends StatelessWidget {
   final String categoryName;
   final VoidCallback onTap;
   final bool isLarge;
-
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: ColorsTheme().whiteColor,
+        color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Stack(
@@ -33,7 +33,9 @@ class CategoryCard extends StatelessWidget {
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ColorsTheme().primaryColor.withValues(alpha: 0.08),
+                    color: isDarkMode
+                        ? ColorsTheme().grayColor.withValues(alpha: 0.5)
+                        : ColorsTheme().primaryColor.withValues(alpha: 0.08),
                   ),
                 ),
               ),
@@ -45,7 +47,9 @@ class CategoryCard extends StatelessWidget {
                   height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ColorsTheme().primaryLight.withValues(alpha: 0.06),
+                    color: isDarkMode
+                        ? ColorsTheme().grayColor.withValues(alpha: 0.12)
+                        : ColorsTheme().primaryLight.withValues(alpha: 0.06),
                   ),
                 ),
               ),

@@ -11,6 +11,7 @@ class ArticalsGroupSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Column(
       children: [
         GestureDetector(
@@ -23,15 +24,19 @@ class ArticalsGroupSection extends StatelessWidget {
               children: [
                 Text(
                   'Local News',
-                  style: AppTextStyles.styleBold18sp(
-                    context,
-                  ).copyWith(color: ColorsTheme().primaryLight),
+                  style: AppTextStyles.styleBold18sp(context).copyWith(
+                    color: isDarkMode
+                        ? ColorsTheme().whiteColor
+                        : ColorsTheme().primaryLight,
+                  ),
                 ),
                 const SizedBox(width: 6),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 16,
-                  color: ColorsTheme().primaryLight,
+                  color: isDarkMode
+                      ? ColorsTheme().whiteColor
+                      : ColorsTheme().primaryLight,
                 ),
               ],
             ),

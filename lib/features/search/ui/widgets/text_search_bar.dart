@@ -8,9 +8,12 @@ class TextSearchBar extends StatelessWidget {
   const TextSearchBar({super.key, required this.controller});
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: double.infinity,
-      color: ColorsTheme().primaryColor,
+      color: isDarkMode
+          ? ColorsTheme().primaryDark
+          : ColorsTheme().primaryColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: CustomTextFormField(

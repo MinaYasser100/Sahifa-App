@@ -26,7 +26,7 @@ class CustomTrendingArticlesSection extends StatelessWidget {
               Icon(
                 Icons.trending_up,
                 color: isDarkMode
-                    ? ColorsTheme().secondaryLight
+                    ? ColorsTheme().whiteColor
                     : ColorsTheme().primaryLight,
                 size: 24,
               ),
@@ -35,7 +35,7 @@ class CustomTrendingArticlesSection extends StatelessWidget {
                 'Trending Now',
                 style: AppTextStyles.styleBold18sp(context).copyWith(
                   color: isDarkMode
-                      ? ColorsTheme().secondaryLight
+                      ? ColorsTheme().whiteColor
                       : ColorsTheme().primaryLight,
                 ),
               ),

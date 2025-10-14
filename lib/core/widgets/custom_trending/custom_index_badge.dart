@@ -27,12 +27,12 @@ class CustomIndexBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.trending_up, color: Colors.white, size: 16),
+            Icon(Icons.trending_up, color: ColorsTheme().whiteColor, size: 16),
             const SizedBox(width: 4),
             Text(
               '#${index + 1}',
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: ColorsTheme().whiteColor,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.5,

@@ -15,6 +15,7 @@ class CategoryCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Padding(
         padding: EdgeInsets.all(isLarge ? 24 : 16),
@@ -35,7 +36,11 @@ class CategoryCardContent extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: Colors.white, size: isLarge ? 32 : 24),
+              child: Icon(
+                icon,
+                color: ColorsTheme().whiteColor,
+                size: isLarge ? 32 : 24,
+              ),
             ),
             SizedBox(height: isLarge ? 16 : 12),
 
@@ -44,7 +49,9 @@ class CategoryCardContent extends StatelessWidget {
               categoryName,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: ColorsTheme().primaryDark,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryDark,
                 fontSize: isLarge ? 18 : 15,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.3,

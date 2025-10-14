@@ -16,6 +16,7 @@ class CarouselDotsIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: banners.asMap().entries.map((entry) {
@@ -28,7 +29,11 @@ class CarouselDotsIndicator extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
               color: currentIndex == entry.key
-                  ? ColorsTheme().primaryColor
+                  ? isDarkMode
+                        ? ColorsTheme().primaryLight
+                        : ColorsTheme().primaryColor
+                  : isDarkMode
+                  ? ColorsTheme().grayColor
                   : ColorsTheme().grayColor.withValues(alpha: 0.4),
             ),
           ),
