@@ -11,10 +11,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: const Icon(Icons.person),
         onPressed: () {
-          // Handle user icon press
+          context.push(Routes.profileView);
         },
       ),
-      title: const Text('الثورة'),
+      title: const Text('Al Thawra'),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),

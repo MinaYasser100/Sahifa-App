@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sahifa/core/caching/shared/shared_perf_helper.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/routing/app_router.dart';
+import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
 import 'package:sahifa/core/utils/constant.dart';
 import 'package:sahifa/core/utils/theme_data_func.dart';
 
@@ -30,14 +32,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      child: MaterialApp.router(
-        locale: context.locale, // استخدم اللغة الحالية
-        supportedLocales: context.supportedLocales,
-        localizationsDelegates: context.localizationDelegates,
-        debugShowCheckedModeBanner: false,
-        theme: themeDataFunc(),
-        routerConfig: AppRouter.router,
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, themeState) {
+          return ScreenUtilInit(
+            child: MaterialApp.router(
+              locale: context.locale, // استخدم اللغة الحالية
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: context.localizationDelegates,
+              debugShowCheckedModeBanner: false,
+              theme: themeDataFunc(),
+              darkTheme: darkThemeDataFunc(),
+              themeMode: themeState is ThemeDark
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+              routerConfig: AppRouter.router,
+            ),
+          );
+        },
       ),
     );
   }

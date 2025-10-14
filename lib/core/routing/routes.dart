@@ -25,4 +25,5 @@ class Routes {
   static const String searchCategoryView = '/search-category';
   static const String alThawraArchiveView = '/al-thawra-archive';
   static const String searchPdfView = '/search-pdf';
+  static const String profileView = '/profile';
 }

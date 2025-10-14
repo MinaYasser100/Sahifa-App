@@ -11,6 +11,7 @@ import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/pdf/ui/pdf_view.dart';
+import 'package:sahifa/features/profile/ui/profile_view.dart';
 import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
@@ -117,6 +118,10 @@ abstract class AppRouter {
           final pdfPath = state.extra as String?;
           return fadeTransitionPage(SearchPDFWidget(pdfPath: pdfPath));
         },
+      ),
+      GoRoute(
+        path: Routes.profileView,
+        pageBuilder: (context, state) => fadeTransitionPage(ProfileView()),
       ),
     ],
   );
