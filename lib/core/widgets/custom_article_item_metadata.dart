@@ -45,11 +45,23 @@ class _MetadataItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       children: [
-        Icon(icon, size: 14, color: Colors.grey[500]),
+        Icon(
+          icon,
+          size: 14,
+          color: isDarkMode ? Colors.grey[400] : Colors.grey[500],
+        ),
         const SizedBox(width: 4),
-        Text(text, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+          ),
+        ),
       ],
     );
   }

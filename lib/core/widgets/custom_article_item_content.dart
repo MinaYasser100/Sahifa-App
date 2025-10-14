@@ -11,6 +11,8 @@ class CustomArticleItemContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -26,7 +28,9 @@ class CustomArticleItemContent extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: ColorsTheme().primaryLight,
+                      color: isDarkMode
+                          ? ColorsTheme().secondaryLight
+                          : ColorsTheme().primaryLight,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -48,7 +52,9 @@ class CustomArticleItemContent extends StatelessWidget {
                     padding: const EdgeInsets.all(3.0),
                     child: Icon(
                       FontAwesomeIcons.share,
-                      color: ColorsTheme().primaryLight,
+                      color: isDarkMode
+                          ? ColorsTheme().secondaryLight
+                          : ColorsTheme().primaryLight,
                     ),
                   ),
                 ),
@@ -59,7 +65,12 @@ class CustomArticleItemContent extends StatelessWidget {
             // الوصف
             Text(
               articleItem.description,
-              style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+              style: TextStyle(
+                fontSize: 13,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor.withValues(alpha: 0.7)
+                    : Colors.grey[600],
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -69,7 +80,9 @@ class CustomArticleItemContent extends StatelessWidget {
 
             // خط فاصل
             Divider(
-              color: ColorsTheme().grayColor.withValues(alpha: 0.2),
+              color: isDarkMode
+                  ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
+                  : ColorsTheme().grayColor.withValues(alpha: 0.2),
               height: 1,
             ),
             const SizedBox(height: 8),

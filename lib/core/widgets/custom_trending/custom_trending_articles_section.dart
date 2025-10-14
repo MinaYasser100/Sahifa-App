@@ -11,6 +11,8 @@ class CustomTrendingArticlesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     // Sample trending articles data
 
     return Column(
@@ -23,15 +25,19 @@ class CustomTrendingArticlesSection extends StatelessWidget {
             children: [
               Icon(
                 Icons.trending_up,
-                color: ColorsTheme().primaryLight,
+                color: isDarkMode
+                    ? ColorsTheme().secondaryLight
+                    : ColorsTheme().primaryLight,
                 size: 24,
               ),
               const SizedBox(width: 8),
               Text(
                 'Trending Now',
-                style: AppTextStyles.styleBold18sp(
-                  context,
-                ).copyWith(color: ColorsTheme().primaryLight),
+                style: AppTextStyles.styleBold18sp(context).copyWith(
+                  color: isDarkMode
+                      ? ColorsTheme().secondaryLight
+                      : ColorsTheme().primaryLight,
+                ),
               ),
             ],
           ),

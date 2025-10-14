@@ -18,14 +18,18 @@ class TrendingArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: ColorsTheme().whiteColor,
+        color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: ColorsTheme().primaryDark.withValues(alpha: 0.06),
+            color: isDarkMode
+                ? ColorsTheme().blackColor.withValues(alpha: 0.3)
+                : ColorsTheme().primaryDark.withValues(alpha: 0.06),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),

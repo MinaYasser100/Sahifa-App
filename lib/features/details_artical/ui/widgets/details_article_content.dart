@@ -10,6 +10,9 @@ class DetailsArticleContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if dark mode is enabled
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -21,7 +24,9 @@ class DetailsArticleContent extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: ColorsTheme().primaryLight,
+              color: isDarkMode
+                  ? ColorsTheme().secondaryLight
+                  : ColorsTheme().primaryLight,
               height: 1.4,
             ),
           ),
@@ -37,7 +42,9 @@ class DetailsArticleContent extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+                  color: isDarkMode
+                      ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
+                      : ColorsTheme().primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -45,14 +52,18 @@ class DetailsArticleContent extends StatelessWidget {
                     Icon(
                       Icons.calendar_today,
                       size: 14,
-                      color: ColorsTheme().primaryColor,
+                      color: isDarkMode
+                          ? ColorsTheme().secondaryLight
+                          : ColorsTheme().primaryColor,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       formatDate(articalModel.date),
                       style: TextStyle(
                         fontSize: 13,
-                        color: ColorsTheme().primaryColor,
+                        color: isDarkMode
+                            ? ColorsTheme().secondaryLight
+                            : ColorsTheme().primaryColor,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -65,7 +76,12 @@ class DetailsArticleContent extends StatelessWidget {
           const SizedBox(height: 24),
 
           // Divider
-          Divider(color: ColorsTheme().dividerColor, thickness: 1),
+          Divider(
+            color: isDarkMode
+                ? ColorsTheme().primaryLight.withValues(alpha: 0.3)
+                : ColorsTheme().dividerColor,
+            thickness: 1,
+          ),
           const SizedBox(height: 24),
 
           // Description
@@ -73,7 +89,9 @@ class DetailsArticleContent extends StatelessWidget {
             articalModel.description,
             style: TextStyle(
               fontSize: 16,
-              color: Colors.grey[800],
+              color: isDarkMode
+                  ? ColorsTheme().whiteColor.withValues(alpha: 0.95)
+                  : Colors.grey[800],
               height: 1.6,
               letterSpacing: 0.3,
             ),
@@ -88,7 +106,9 @@ class DetailsArticleContent extends StatelessWidget {
             'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
             style: TextStyle(
               fontSize: 15,
-              color: Colors.grey[700],
+              color: isDarkMode
+                  ? ColorsTheme().whiteColor.withValues(alpha: 0.85)
+                  : Colors.grey[700],
               height: 1.8,
               letterSpacing: 0.2,
             ),

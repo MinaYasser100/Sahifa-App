@@ -13,8 +13,7 @@ class DetailsArticleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorsTheme().primaryColor,
-        foregroundColor: Colors.white,
+        foregroundColor: ColorsTheme().whiteColor,
         elevation: 0,
         actions: [
           IconButton(

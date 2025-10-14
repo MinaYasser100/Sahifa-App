@@ -17,15 +17,19 @@ class CustomArticleItemCard extends StatelessWidget {
   final bool isItemList;
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       width: cardWidth,
       margin: EdgeInsets.only(right: isItemList ? 0 : 12, bottom: 10),
       decoration: BoxDecoration(
-        color: ColorsTheme().whiteColor,
+        color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: ColorsTheme().blackColor.withValues(alpha: 0.1),
+            color: isDarkMode
+                ? ColorsTheme().blackColor.withValues(alpha: 0.3)
+                : ColorsTheme().blackColor.withValues(alpha: 0.1),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),

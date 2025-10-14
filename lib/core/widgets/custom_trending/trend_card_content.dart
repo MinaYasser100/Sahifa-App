@@ -10,6 +10,8 @@ class TrendCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -22,7 +24,9 @@ class TrendCardContent extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: ColorsTheme().primaryLight,
+                color: isDarkMode
+                    ? ColorsTheme().secondaryLight
+                    : ColorsTheme().primaryLight,
                 height: 1.3,
               ),
               maxLines: 2,
@@ -33,11 +37,18 @@ class TrendCardContent extends StatelessWidget {
             // Date
             Row(
               children: [
-                Icon(Icons.access_time, size: 14, color: Colors.grey[500]),
+                Icon(
+                  Icons.access_time,
+                  size: 14,
+                  color: isDarkMode ? Colors.grey[400] : Colors.grey[500],
+                ),
                 const SizedBox(width: 4),
                 Text(
                   formatDate(articleItem.date),
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                  ),
                 ),
               ],
             ),

@@ -8,6 +8,8 @@ class RelatedArticlesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -15,9 +17,11 @@ class RelatedArticlesSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             'Related Articles Placeholder',
-            style: AppTextStyles.styleBold18sp(
-              context,
-            ).copyWith(color: ColorsTheme().primaryLight),
+            style: AppTextStyles.styleBold18sp(context).copyWith(
+              color: isDarkMode
+                  ? ColorsTheme().secondaryLight
+                  : ColorsTheme().primaryLight,
+            ),
           ),
         ), // Placeholder for related articles
         SizedBox(height: 10),
