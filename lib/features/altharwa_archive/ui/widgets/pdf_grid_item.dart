@@ -74,23 +74,6 @@ class PdfGridItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-
-            // Issue Number
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: ColorsTheme().primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                'Issue #$pdfNumber',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ColorsTheme().primaryColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
           ],
         ),
       ),

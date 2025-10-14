@@ -47,6 +47,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         errorText: widget.textFieldModel.errorText,
         hintStyle: TextStyle(color: ColorsTheme().grayColor),
         labelStyle: TextStyle(color: ColorsTheme().primaryColor),
+        prefixIcon: widget.textFieldModel.icon != null
+            ? Icon(
+                widget.textFieldModel.icon,
+                color: widget.textFieldModel.ischangeColor
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
+              )
+            : null,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
