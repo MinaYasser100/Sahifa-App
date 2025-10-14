@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/widgets/custom_text_form_field.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/pdf_grid_item.dart';
+
+import 'widgets/date_range_filter_sheet.dart';
 
 class AltharwaArchiveView extends StatefulWidget {
   const AltharwaArchiveView({super.key});
@@ -82,147 +83,6 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class DateRangeFilterSheet extends StatefulWidget {
-  const DateRangeFilterSheet({super.key});
-
-  @override
-  State<DateRangeFilterSheet> createState() => _DateRangeFilterSheetState();
-}
-
-class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
-  late TextEditingController fromSelectedDate;
-  late TextEditingController toSelectedDate;
-
-  @override
-  void initState() {
-    fromSelectedDate = TextEditingController();
-    toSelectedDate = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    fromSelectedDate.dispose();
-    toSelectedDate.dispose();
-    super.dispose();
-  }
-
-  Future<void> _selectDate(
-    BuildContext context,
-    TextEditingController controller,
-  ) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        controller.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title
-          const Text(
-            'Filter by Date',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 24),
-
-          // From Date Field
-          GestureDetector(
-            onTap: () => _selectDate(context, fromSelectedDate),
-            child: AbsorbPointer(
-              child: CustomTextFormField(
-                textFieldModel: TextFieldModel(
-                  controller: fromSelectedDate,
-                  hintText: 'From Date',
-                  icon: Icons.calendar_today_rounded,
-                  keyboardType: TextInputType.none,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select a date';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // To Date Field
-          GestureDetector(
-            onTap: () => _selectDate(context, toSelectedDate),
-            child: AbsorbPointer(
-              child: CustomTextFormField(
-                textFieldModel: TextFieldModel(
-                  controller: toSelectedDate,
-                  hintText: 'To Date',
-                  icon: Icons.calendar_today_rounded,
-                  keyboardType: TextInputType.none,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select a date';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Search Button
-          SizedBox(
-            child: ElevatedButton(
-              onPressed: () {
-                // Handle search logic here
-                if (fromSelectedDate.text.isNotEmpty &&
-                    toSelectedDate.text.isNotEmpty) {
-                  // Perform search
-                  Navigator.pop(context);
-                  // Add your search logic here
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please select both dates'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                }
-              },
-
-              child: Text(
-                'Search',
-                style: AppTextStyles.styleBold16sp(context),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
         ],
       ),
     );
