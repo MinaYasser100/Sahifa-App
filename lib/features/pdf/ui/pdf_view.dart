@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/utils/colors.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:sahifa/core/widgets/custom_pdf_bottom_bar/pdf_page_indicator.dart';
 
 class PdfView extends StatefulWidget {
   const PdfView({super.key, this.pdfPath});
@@ -10,126 +13,141 @@ class PdfView extends StatefulWidget {
   State<PdfView> createState() => _PdfViewState();
 }
 
-class _PdfViewState extends State<PdfView> {
+class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   int _currentPageNumber = 1;
   int _totalPages = 0;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Use provided path or default
-    final pdfPath =
-        widget.pdfPath ?? 'assets/pdf/World_Events_Chronicle_2025.pdf';
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('PDF Viewer'),
         elevation: 0,
         actions: [
-          // Page indicator
-          if (_totalPages > 0)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  '$_currentPageNumber / $_totalPages',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
+          PdfPageIndicator(
+            currentPage: _currentPageNumber,
+            totalPages: _totalPages,
+          ),
         ],
       ),
       body: Stack(
         children: [
           // PDF Viewer
-          SfPdfViewer.asset(
-            pdfPath,
-            controller: _pdfViewerController,
-            onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-              setState(() {
-                _totalPages = details.document.pages.count;
-              });
-            },
-            onPageChanged: (PdfPageChangedDetails details) {
-              setState(() {
-                _currentPageNumber = details.newPageNumber;
-              });
-            },
+          SfPdfViewerTheme(
+            data: SfPdfViewerThemeData(
+              backgroundColor: ColorsTheme().whiteColor,
+            ),
+            child: SfPdfViewer.asset(
+              widget.pdfPath ?? 'assets/pdf/World_Events_Chronicle_2025.pdf',
+              controller: _pdfViewerController,
+              pageLayoutMode: PdfPageLayoutMode.single,
+              scrollDirection: PdfScrollDirection.horizontal,
+              pageSpacing: 0,
+              canShowScrollHead: false,
+              interactionMode: PdfInteractionMode.selection,
+              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                setState(() {
+                  _totalPages = details.document.pages.count;
+                });
+              },
+              onPageChanged: (PdfPageChangedDetails details) {
+                setState(() {
+                  _currentPageNumber = details.newPageNumber;
+                });
+              },
+            ),
           ),
+
+          // زر التقليب اليسار (Previous)
+          if (_currentPageNumber > 1)
+            Positioned(
+              left: 12,
+              top: MediaQuery.of(context).size.height / 2 - 30,
+              child: _buildNavigationButton(
+                icon: Icons.chevron_left_rounded,
+                onPressed: () {
+                  _animatePageChange(() {
+                    _pdfViewerController.previousPage();
+                  });
+                },
+                isLeft: true,
+              ),
+            ),
+
+          // زر التقليب اليمين (Next)
+          if (_currentPageNumber < _totalPages)
+            Positioned(
+              right: 12,
+              top: MediaQuery.of(context).size.height / 2 - 30,
+              child: _buildNavigationButton(
+                icon: Icons.chevron_right_rounded,
+                onPressed: () {
+                  _animatePageChange(() {
+                    _pdfViewerController.nextPage();
+                  });
+                },
+                isLeft: false,
+              ),
+            ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // Previous page button
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                if (_currentPageNumber > 1) {
-                  _pdfViewerController.previousPage();
-                }
-              },
-            ),
+    );
+  }
 
-            // Zoom out button
-            IconButton(
-              icon: const Icon(Icons.zoom_out),
-              onPressed: () {
-                _pdfViewerController.zoomLevel =
-                    (_pdfViewerController.zoomLevel - 0.25).clamp(1.0, 3.0);
-              },
+  Widget _buildNavigationButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+    required bool isLeft,
+  }) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutBack,
+      builder: (context, value, child) {
+        return Transform.scale(scale: value, child: child);
+      },
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(30),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: ColorsTheme().primaryColor.withValues(alpha: 0.3),
+              width: 1.5,
             ),
-
-            // Reset zoom button
-            IconButton(
-              icon: const Icon(Icons.zoom_in_map),
-              onPressed: () {
-                _pdfViewerController.zoomLevel = 1.0;
-              },
-            ),
-
-            // Zoom in button
-            IconButton(
-              icon: const Icon(Icons.zoom_in),
-              onPressed: () {
-                _pdfViewerController.zoomLevel =
-                    (_pdfViewerController.zoomLevel + 0.25).clamp(1.0, 3.0);
-              },
-            ),
-
-            // Next page button
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                if (_currentPageNumber < _totalPages) {
-                  _pdfViewerController.nextPage();
-                }
-              },
-            ),
-          ],
+          ),
+          child: Center(
+            child: Icon(icon, color: ColorsTheme().primaryLight, size: 32),
+          ),
         ),
       ),
     );
   }
 
+  void _animatePageChange(VoidCallback pageChangeCallback) {
+    _animationController.forward().then((_) {
+      pageChangeCallback();
+      _animationController.reverse();
+    });
+  }
+
   @override
   void dispose() {
     _pdfViewerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 }
