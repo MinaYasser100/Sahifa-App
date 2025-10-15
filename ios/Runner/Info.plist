@@ -49,5 +49,10 @@
 	<string>نحتاج إلى إذن للوصول إلى مكتبة الصور لحفظ ملفات PDF</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>نحتاج إلى إذن للوصول إلى مكتبة الصور لحفظ ملفات PDF</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>https</string>
+  		<string>http</string>
+	</array>
 </dict>
 </plist>
