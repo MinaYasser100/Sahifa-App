@@ -36,9 +36,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onFieldSubmitted: widget.textFieldModel.onFieldSubmitted,
       onChanged: widget.textFieldModel.onChanged,
       style: TextStyle(
-        color: widget.textFieldModel.ischangeColor
-            ? ColorsTheme().whiteColor
-            : ColorsTheme().primaryColor,
+        color: widget.textFieldModel.readOnly
+            ? ColorsTheme().grayColor
+            : (widget.textFieldModel.ischangeColor
+                  ? ColorsTheme().whiteColor
+                  : ColorsTheme().primaryColor),
         fontSize: 18,
       ),
       readOnly: widget.textFieldModel.readOnly,
