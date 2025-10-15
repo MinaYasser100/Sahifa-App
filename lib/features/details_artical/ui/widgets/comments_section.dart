@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sahifa/features/details_artical/data/models/comment_model.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/add_comment_widget.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/comment_item.dart';
-
-import 'comments_empty_list.dart';
-import 'comments_header_section.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/comments_empty_list.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/comments_header_section.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/show_more_button.dart';
 
 class CommentsSection extends StatefulWidget {
   const CommentsSection({super.key});
@@ -15,8 +15,11 @@ class CommentsSection extends StatefulWidget {
 }
 
 class _CommentsSectionState extends State<CommentsSection> {
-  // Sample comments data - في المستقبل هتيجي من الـ backend
-  List<CommentModel> comments = [
+  static const int _initialCommentsToShow = 2;
+  bool _showAllComments = false;
+
+  // Sample comments - في المستقبل من الـ backend
+  final List<CommentModel> _comments = [
     CommentModel(
       id: '1',
       userName: 'Mohamed Ahmed',
@@ -42,7 +45,39 @@ class _CommentsSectionState extends State<CommentsSection> {
       date: DateTime.now().subtract(const Duration(days: 1)),
       likes: 5,
     ),
+    CommentModel(
+      id: '4',
+      userName: 'Sarah Ibrahim',
+      userAvatar: '',
+      comment: 'Very interesting topic, looking forward to more articles',
+      date: DateTime.now().subtract(const Duration(days: 2)),
+      likes: 3,
+    ),
+    CommentModel(
+      id: '5',
+      userName: 'Ahmed Khalil',
+      userAvatar: '',
+      comment: 'Excellent analysis and well researched content',
+      date: DateTime.now().subtract(const Duration(days: 3)),
+      likes: 7,
+    ),
   ];
+
+  int get _displayedCommentsCount => _showAllComments
+      ? _comments.length
+      : (_comments.length > _initialCommentsToShow
+            ? _initialCommentsToShow
+            : _comments.length);
+
+  int get _remainingCommentsCount => _comments.length - _initialCommentsToShow;
+
+  bool get _hasMoreComments => _comments.length > _initialCommentsToShow;
+
+  void _toggleShowAllComments() {
+    setState(() {
+      _showAllComments = !_showAllComments;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,30 +88,73 @@ class _CommentsSectionState extends State<CommentsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section Header
-          CommentsHeaderSection(isDarkMode: isDarkMode, comments: comments),
+          CommentsHeaderSection(isDarkMode: isDarkMode, comments: _comments),
           const SizedBox(height: 20),
 
-          // Add Comment Widget
-          FadeInUp(child: AddCommentWidget()),
+          FadeInUp(child: const AddCommentWidget()),
           const SizedBox(height: 24),
 
-          // Comments List
-          if (comments.isEmpty)
-            CommentsEmptyList()
+          if (_comments.isEmpty)
+            const CommentsEmptyList()
           else
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: comments.length,
-              itemBuilder: (context, index) {
-                return FadeInUp(
-                  duration: Duration(milliseconds: 300 + (index * 100)),
-                  child: CommentItem(comment: comments[index]),
-                );
-              },
-            ),
+            _buildCommentsList(isDarkMode),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCommentsList(bool isDarkMode) {
+    return Column(
+      children: [
+        _buildCommentsListView(),
+
+        if (_hasMoreComments && !_showAllComments)
+          _buildShowMoreButton(isDarkMode),
+
+        if (_showAllComments && _hasMoreComments)
+          _buildShowLessButton(isDarkMode),
+      ],
+    );
+  }
+
+  Widget _buildCommentsListView() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _displayedCommentsCount,
+      itemBuilder: (context, index) {
+        return FadeInUp(
+          duration: Duration(milliseconds: 300 + (index * 100)),
+          child: CommentItem(comment: _comments[index]),
+        );
+      },
+    );
+  }
+
+  Widget _buildShowMoreButton(bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: FadeInUp(
+        child: ShowMoreButton(
+          isDarkMode: isDarkMode,
+          text: 'Show more ($_remainingCommentsCount)',
+          icon: Icons.keyboard_arrow_down_rounded,
+          onTap: _toggleShowAllComments,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShowLessButton(bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: FadeInUp(
+        child: ShowMoreButton(
+          isDarkMode: isDarkMode,
+          text: 'Show less',
+          icon: Icons.keyboard_arrow_up_rounded,
+          onTap: _toggleShowAllComments,
+        ),
       ),
     );
   }

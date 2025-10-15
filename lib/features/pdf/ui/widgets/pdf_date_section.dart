@@ -19,9 +19,11 @@ class PdfDateSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: InkWell(
-        onTap: () => showDatePickerMethod(context, currentDate, onDateSelected),
-        borderRadius: BorderRadius.circular(8),
+      child: GestureDetector(
+        onTap: () {
+          print('🔘 Date section tapped!');
+          showDatePickerMethod(context, currentDate, onDateSelected);
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(

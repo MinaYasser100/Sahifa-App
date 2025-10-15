@@ -7,33 +7,36 @@ Future<void> showDatePickerMethod(
   DateTime currentDate,
   Function(DateTime) onDateSelected,
 ) async {
-  final DateTime? picked = await showDatePicker(
+  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+  showDatePicker(
     context: context,
     initialDate: currentDate,
     firstDate: DateTime(2020),
     lastDate: DateTime.now(),
     locale: context.locale,
-    builder: (context, child) {
-      final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    builder: (BuildContext context, Widget? child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
-            primary: ColorsTheme().primaryColor,
-            onPrimary: ColorsTheme().whiteColor,
-            surface: isDarkMode
-                ? ColorsTheme().cardColor
-                : ColorsTheme().whiteColor,
-            onSurface: isDarkMode
-                ? ColorsTheme().whiteColor
-                : ColorsTheme().blackColor,
-          ),
+          colorScheme: isDarkMode
+              ? ColorScheme.dark(
+                  primary: ColorsTheme().grayColor,
+                  onPrimary: ColorsTheme().whiteColor,
+                  surface: ColorsTheme().primaryDark,
+                  onSurface: ColorsTheme().whiteColor,
+                )
+              : ColorScheme.light(
+                  primary: ColorsTheme().primaryColor,
+                  onPrimary: ColorsTheme().whiteColor,
+                  surface: ColorsTheme().whiteColor,
+                  onSurface: ColorsTheme().blackColor,
+                ),
+          dialogBackgroundColor: isDarkMode
+              ? ColorsTheme().cardColor
+              : ColorsTheme().whiteColor,
         ),
         child: child!,
       );
     },
   );
-
-  if (picked != null && picked != currentDate) {
-    onDateSelected(picked);
-  }
 }
