@@ -39,7 +39,7 @@ class RegisterFormFields extends StatelessWidget {
               controller: fullNameController,
               keyboardType: TextInputType.name,
               hintText: 'Full Name',
-              validator: Validatoin.validateFullName,
+              validator: Validation.validateFullName,
               focusNode: fullNameFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {
@@ -58,7 +58,7 @@ class RegisterFormFields extends StatelessWidget {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               hintText: 'Email Address',
-              validator: Validatoin.emailValidation,
+              validator: Validation.emailValidation,
               focusNode: emailFocusNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(passwordFocusNode);
@@ -76,7 +76,7 @@ class RegisterFormFields extends StatelessWidget {
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
               hintText: 'Password',
-              validator: Validatoin.validatePassword,
+              validator: Validation.validatePassword,
               obscureText: true,
               focusNode: passwordFocusNode,
               onFieldSubmitted: (_) {
@@ -96,7 +96,7 @@ class RegisterFormFields extends StatelessWidget {
               keyboardType: TextInputType.visiblePassword,
               hintText: 'Confirm Password',
               validator: (value) =>
-                  Validatoin.validateConfirmPassword(value, passwordController),
+                  Validation.validateConfirmPassword(value, passwordController),
               obscureText: true,
               focusNode: confirmPasswordFocusNode,
             ),

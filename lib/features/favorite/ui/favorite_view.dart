@@ -4,14 +4,13 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item_card.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 
-class SearchCategoryView extends StatelessWidget {
-  const SearchCategoryView({super.key, required this.categoryName});
-  final String categoryName;
+class FavoriteView extends StatelessWidget {
+  const FavoriteView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(categoryName), elevation: 0),
+      appBar: AppBar(title: const Text('My Favorites')),
       body: CustomScrollView(
         slivers: [
           SliverPadding(

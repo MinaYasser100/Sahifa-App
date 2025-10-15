@@ -31,7 +31,7 @@ class LoginFormFields extends StatelessWidget {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               hintText: 'Email Address',
-              validator: Validatoin.emailValidation,
+              validator: Validation.emailValidation,
               focusNode: emailFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {
@@ -50,7 +50,7 @@ class LoginFormFields extends StatelessWidget {
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
               hintText: 'Password',
-              validator: Validatoin.validatePassword,
+              validator: Validation.validatePassword,
               obscureText: true,
               focusNode: passwordFocusNode,
             ),

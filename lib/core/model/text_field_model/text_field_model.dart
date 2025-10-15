@@ -17,6 +17,8 @@ class TextFieldModel {
   bool autofocus;
   final String? errorText;
   final bool ischangeColor;
+  final bool readOnly;
+
   TextFieldModel({
     required this.controller,
     this.labelText,
@@ -34,5 +36,6 @@ class TextFieldModel {
     this.onTap,
     this.maxLines = 1,
     this.ischangeColor = false,
+    this.readOnly = false,
   });
 }

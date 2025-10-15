@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Validatoin {
+class Validation {
   static String? emailValidation(value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your email';

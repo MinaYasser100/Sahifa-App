@@ -23,7 +23,7 @@ class ForgetPasswordFormField extends StatelessWidget {
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
           hintText: 'Email Address',
-          validator: Validatoin.emailValidation,
+          validator: Validation.emailValidation,
           focusNode: emailFocusNode,
           autofocus: true,
         ),

@@ -5,6 +5,8 @@ import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/search_pdf_widget.dart';
 import 'package:sahifa/features/articals_section/ui/articasl_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
+import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
+import 'package:sahifa/features/favorite/ui/favorite_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
@@ -122,6 +124,14 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.profileView,
         pageBuilder: (context, state) => fadeTransitionPage(ProfileView()),
+      ),
+      GoRoute(
+        path: Routes.favoritesView,
+        pageBuilder: (context, state) => fadeTransitionPage(FavoriteView()),
+      ),
+      GoRoute(
+        path: Routes.editInfoView,
+        pageBuilder: (context, state) => fadeTransitionPage(EditInfoView()),
       ),
     ],
   );

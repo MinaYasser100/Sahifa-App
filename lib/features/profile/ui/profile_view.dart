@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/additional_setting_model/additional_setting_model.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
 
 import 'widgets/additonal_settings_item.dart';
@@ -45,7 +47,7 @@ class ProfileView extends StatelessWidget {
                           title: 'Edit Information',
                           isDark: isDark,
                           onTap: () {
-                            // Navigate to edit information settings
+                            context.push(Routes.editInfoView);
                           },
                         ),
                       ),
@@ -56,7 +58,7 @@ class ProfileView extends StatelessWidget {
                           title: 'My Favorites',
                           isDark: isDark,
                           onTap: () {
-                            // Navigate to favorites settings
+                            context.push(Routes.favoritesView);
                           },
                         ),
                       ),

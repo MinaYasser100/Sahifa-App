@@ -26,4 +26,6 @@ class Routes {
   static const String alThawraArchiveView = '/al-thawra-archive';
   static const String searchPdfView = '/search-pdf';
   static const String profileView = '/profile';
+  static const String favoritesView = '/favorites';
+  static const String editInfoView = '/edit-info';
 }
