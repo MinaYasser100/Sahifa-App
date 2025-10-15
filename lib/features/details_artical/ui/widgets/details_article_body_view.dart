@@ -6,6 +6,7 @@ import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
 
+import 'comments_section.dart';
 import 'details_article_content.dart';
 import 'related_articles_section.dart';
 
@@ -59,6 +60,9 @@ class DetailsArticleBodyView extends StatelessWidget {
         SliverToBoxAdapter(
           child: DetailsArticleContent(articalModel: articalModel),
         ),
+
+        // Comments Section
+        SliverToBoxAdapter(child: CommentsSection()),
 
         // Related Articles Section
         SliverToBoxAdapter(child: RelatedArticlesSection()),

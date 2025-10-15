@@ -41,6 +41,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             : ColorsTheme().primaryColor,
         fontSize: 18,
       ),
+      maxLines: widget.textFieldModel.maxLines,
+      onTap: widget.textFieldModel.onTap,
       decoration: InputDecoration(
         labelText: widget.textFieldModel.labelText,
         hintText: widget.textFieldModel.hintText,

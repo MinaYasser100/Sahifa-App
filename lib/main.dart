@@ -8,12 +8,14 @@ import 'package:sahifa/core/routing/app_router.dart';
 import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
 import 'package:sahifa/core/utils/constant.dart';
 import 'package:sahifa/core/utils/theme_data_func.dart';
+import 'package:sahifa/core/utils/timeago_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupDependencies();
   await SharedPrefHelper.instance.init();
   await EasyLocalization.ensureInitialized();
+  initTimeago(); // Initialize timeago with Arabic locale
   runApp(
     EasyLocalization(
       supportedLocales: [

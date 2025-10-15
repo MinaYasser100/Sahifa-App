@@ -12,6 +12,8 @@ class TextFieldModel {
   final FocusNode? focusNode;
   void Function(String)? onFieldSubmitted;
   void Function(String)? onChanged;
+  void Function()? onTap;
+  final int maxLines;
   bool autofocus;
   final String? errorText;
   final bool ischangeColor;
@@ -29,6 +31,8 @@ class TextFieldModel {
     this.onFieldSubmitted,
     this.errorText,
     this.onChanged,
+    this.onTap,
+    this.maxLines = 1,
     this.ischangeColor = false,
   });
 }
