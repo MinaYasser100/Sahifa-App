@@ -33,7 +33,7 @@ class CarouselDotsIndicator extends StatelessWidget {
                         ? ColorsTheme().primaryLight
                         : ColorsTheme().primaryColor
                   : isDarkMode
-                  ? ColorsTheme().grayColor
+                  ? ColorsTheme().whiteColor
                   : ColorsTheme().grayColor.withValues(alpha: 0.4),
             ),
           ),

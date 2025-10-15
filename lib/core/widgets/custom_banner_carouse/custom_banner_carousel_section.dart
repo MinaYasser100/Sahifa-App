@@ -2,16 +2,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/features/home/data/models/banner_model.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_carousel_item.dart';
-import 'package:sahifa/features/home/ui/widgets/carousel_dots_indicator.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/carousel_dots_indicator.dart';
 
-class BannerCarouselSection extends StatefulWidget {
-  const BannerCarouselSection({super.key});
+class CustomBannerCarouselSection extends StatefulWidget {
+  const CustomBannerCarouselSection({super.key});
 
   @override
-  State<BannerCarouselSection> createState() => _BannerCarouselSectionState();
+  State<CustomBannerCarouselSection> createState() =>
+      _CustomBannerCarouselSectionState();
 }
 
-class _BannerCarouselSectionState extends State<BannerCarouselSection> {
+class _CustomBannerCarouselSectionState
+    extends State<CustomBannerCarouselSection> {
   int _currentBannerIndex = 0;
   final CarouselSliderController _carouselController =
       CarouselSliderController();

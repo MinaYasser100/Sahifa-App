@@ -25,20 +25,20 @@ class VideoCategoryAndShareButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+              color: isDarkMode
+                  ? ColorsTheme().whiteColor.withValues(alpha: 0.3)
+                  : ColorsTheme().primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
-                color: ColorsTheme().primaryColor.withValues(alpha: 0.3),
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
                 width: 1,
               ),
             ),
             child: Text(
               video.category,
-              style: AppTextStyles.styleMedium16sp(context).copyWith(
-                color: isDarkMode
-                    ? ColorsTheme().secondaryLight
-                    : ColorsTheme().primaryColor,
-              ),
+              style: AppTextStyles.styleMedium16sp(context).copyWith(),
             ),
           ),
         ), // Share Button
@@ -50,13 +50,7 @@ class VideoCategoryAndShareButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Padding(
               padding: const EdgeInsets.all(4),
-              child: Icon(
-                FontAwesomeIcons.share,
-                size: 18,
-                color: isDarkMode
-                    ? ColorsTheme().secondaryLight
-                    : ColorsTheme().primaryLight,
-              ),
+              child: Icon(FontAwesomeIcons.share, size: 18),
             ),
           ),
         ),

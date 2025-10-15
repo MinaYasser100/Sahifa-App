@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/custom_banner_carousel_section.dart';
 import 'package:sahifa/features/tv/data/models/video_item_model.dart';
 import 'package:sahifa/features/tv/ui/widgets/video_item_card.dart';
 
@@ -28,48 +30,77 @@ class _TvViewState extends State<TvView> {
 
     return Scaffold(
       appBar: TvAppBar(isDarkMode: isDarkMode),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          // Simulate refresh
-          await Future.delayed(const Duration(seconds: 1));
-          setState(() {
-            videos = VideoItemModel.getSampleVideos();
-          });
-        },
-        color: ColorsTheme().primaryColor,
-        child: videos.isEmpty
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.videoSlash,
-                      size: 80,
+      body: videos.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    FontAwesomeIcons.videoSlash,
+                    size: 80,
+                    color: isDarkMode
+                        ? ColorsTheme().primaryLight.withValues(alpha: 0.5)
+                        : ColorsTheme().grayColor,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No videos available',
+                    style: TextStyle(
+                      fontSize: 18,
                       color: isDarkMode
-                          ? ColorsTheme().primaryLight.withValues(alpha: 0.5)
-                          : ColorsTheme().grayColor,
+                          ? ColorsTheme().whiteColor.withValues(alpha: 0.6)
+                          : Colors.grey[600],
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'لا توجد فيديوهات متاحة',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: isDarkMode
-                            ? ColorsTheme().whiteColor.withValues(alpha: 0.6)
-                            : Colors.grey[600],
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: () async {
+                // Simulate refresh
+                await Future.delayed(const Duration(seconds: 1));
+                setState(() {
+                  videos = VideoItemModel.getSampleVideos();
+                });
+              },
+              color: ColorsTheme().primaryColor,
+              child: CustomScrollView(
+                slivers: [
+                  // Banner Carousel Section
+                  SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+
+                  // Videos Title Section
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                      child: Row(
+                        children: [
+                          Icon(FontAwesomeIcons.film, size: 20),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Latest Videos',
+                            style: AppTextStyles.styleBold20sp(context),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: videos.length,
-                itemBuilder: (context, index) {
-                  return VideoItemCard(video: videos[index]);
-                },
+                  ),
+
+                  // Videos List
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return VideoItemCard(video: videos[index]);
+                      }, childCount: videos.length),
+                    ),
+                  ),
+
+                  // Bottom Spacing
+                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                ],
               ),
-      ),
+            ),
     );
   }
 }

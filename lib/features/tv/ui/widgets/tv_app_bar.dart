@@ -14,13 +14,7 @@ class TvAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Row(
         children: [
-          Icon(
-            FontAwesomeIcons.tv,
-            size: 24,
-            color: isDarkMode
-                ? ColorsTheme().secondaryLight
-                : ColorsTheme().primaryColor,
-          ),
+          Icon(FontAwesomeIcons.tv),
           const SizedBox(width: 12),
           Text('Al Thawra TV'),
         ],
