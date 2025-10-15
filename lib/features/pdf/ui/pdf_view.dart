@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/features/pdf/ui/func/build_navigation_button.dart';
+import 'package:sahifa/features/pdf/ui/func/pdf_download_helper.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:sahifa/core/widgets/custom_pdf_bottom_bar/pdf_page_indicator.dart';
+import 'package:sahifa/features/pdf/ui/widgets/newspaper_info_bar.dart';
 
 class PdfView extends StatefulWidget {
   const PdfView({super.key, this.pdfPath});
@@ -18,6 +22,9 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
   int _currentPageNumber = 1;
   int _totalPages = 0;
   late AnimationController _animationController;
+  DateTime _selectedDate = DateTime.now();
+  final String _issueNumber = '2252';
+  String _pdfPath = '';
 
   @override
   void initState() {
@@ -26,13 +33,20 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    _pdfPath = widget.pdfPath ?? 'assets/pdf/World_Events_Chronicle_2025.pdf';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PDF Viewer'),
+        leading: IconButton(
+          icon: const Icon(FontAwesomeIcons.download, size: 20),
+          onPressed: () {
+            _downloadPdf();
+          },
+        ),
+        title: const Text('Al Thawra'),
         elevation: 0,
         actions: [
           PdfPageIndicator(
@@ -41,99 +55,96 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      body: Stack(
+      body: Column(
         children: [
-          // PDF Viewer
-          SfPdfViewerTheme(
-            data: SfPdfViewerThemeData(
-              backgroundColor: ColorsTheme().whiteColor,
-            ),
-            child: SfPdfViewer.asset(
-              widget.pdfPath ?? 'assets/pdf/World_Events_Chronicle_2025.pdf',
-              controller: _pdfViewerController,
-              pageLayoutMode: PdfPageLayoutMode.single,
-              scrollDirection: PdfScrollDirection.horizontal,
-              pageSpacing: 0,
-              canShowScrollHead: false,
-              interactionMode: PdfInteractionMode.selection,
-              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-                setState(() {
-                  _totalPages = details.document.pages.count;
-                });
-              },
-              onPageChanged: (PdfPageChangedDetails details) {
-                setState(() {
-                  _currentPageNumber = details.newPageNumber;
-                });
-              },
-            ),
+          NewspaperInfoBar(
+            currentDate: _selectedDate,
+            issueNumber: _issueNumber,
+            onDateSelected: (selectedDate) {
+              setState(() {
+                _selectedDate = selectedDate;
+                _currentPageNumber = 1;
+              });
+              // Update PDF path based on selected date if needed
+            },
           ),
 
-          // زر التقليب اليسار (Previous)
-          if (_currentPageNumber > 1)
-            Positioned(
-              left: 12,
-              top: MediaQuery.of(context).size.height / 2 - 30,
-              child: _buildNavigationButton(
-                icon: Icons.chevron_left_rounded,
-                onPressed: () {
-                  _animatePageChange(() {
-                    _pdfViewerController.previousPage();
-                  });
-                },
-                isLeft: true,
-              ),
-            ),
+          Expanded(
+            child: Stack(
+              children: [
+                // PDF Viewer
+                SfPdfViewerTheme(
+                  data: SfPdfViewerThemeData(
+                    backgroundColor: ColorsTheme().whiteColor,
+                  ),
+                  child: SfPdfViewer.asset(
+                    _pdfPath,
+                    key: ValueKey(_selectedDate.toString()),
+                    controller: _pdfViewerController,
+                    pageLayoutMode: PdfPageLayoutMode.single,
+                    scrollDirection: PdfScrollDirection.horizontal,
+                    pageSpacing: 0,
+                    canShowScrollHead: false,
+                    interactionMode: PdfInteractionMode.selection,
+                    onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                      setState(() {
+                        _totalPages = details.document.pages.count;
+                      });
+                    },
+                    onPageChanged: (PdfPageChangedDetails details) {
+                      setState(() {
+                        _currentPageNumber = details.newPageNumber;
+                      });
+                    },
+                  ),
+                ),
 
-          // زر التقليب اليمين (Next)
-          if (_currentPageNumber < _totalPages)
-            Positioned(
-              right: 12,
-              top: MediaQuery.of(context).size.height / 2 - 30,
-              child: _buildNavigationButton(
-                icon: Icons.chevron_right_rounded,
-                onPressed: () {
-                  _animatePageChange(() {
-                    _pdfViewerController.nextPage();
-                  });
-                },
-                isLeft: false,
-              ),
+                if (_currentPageNumber > 1)
+                  Positioned(
+                    left: 12,
+                    top: MediaQuery.of(context).size.height / 2 - 30,
+                    child: buildNavigationButton(
+                      icon: Icons.chevron_left_rounded,
+                      onPressed: () {
+                        _animatePageChange(() {
+                          _pdfViewerController.previousPage();
+                        });
+                      },
+                      isLeft: true,
+                    ),
+                  ),
+
+                if (_currentPageNumber < _totalPages)
+                  Positioned(
+                    right: 12,
+                    top: MediaQuery.of(context).size.height / 2 - 30,
+                    child: buildNavigationButton(
+                      icon: Icons.chevron_right_rounded,
+                      onPressed: () {
+                        _animatePageChange(() {
+                          _pdfViewerController.nextPage();
+                        });
+                      },
+                      isLeft: false,
+                    ),
+                  ),
+              ],
             ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildNavigationButton({
-    required IconData icon,
-    required VoidCallback onPressed,
-    required bool isLeft,
-  }) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.0, end: 1.0),
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutBack,
-      builder: (context, value, child) {
-        return Transform.scale(scale: value, child: child);
-      },
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(30),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: ColorsTheme().primaryColor.withValues(alpha: 0.3),
-              width: 1.5,
-            ),
-          ),
-          child: Center(
-            child: Icon(icon, color: ColorsTheme().primaryLight, size: 32),
-          ),
-        ),
-      ),
+  void _downloadPdf() {
+    // Generate a filename based on the selected date and issue number
+    final formattedDate = _selectedDate.toString().split(' ')[0];
+    final fileName = 'AlThawra_${formattedDate}_Issue_$_issueNumber.pdf';
+
+    PdfDownloadHelper.downloadPdfFromAssets(
+      context: context,
+      assetPath: _pdfPath,
+      fileName: fileName,
     );
   }
 

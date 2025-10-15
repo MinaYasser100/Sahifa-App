@@ -43,7 +43,10 @@ dependencies:
   go_router: ^16.2.4
   hive_flutter: ^1.1.0
   motion_toast: ^2.14.0
+  path_provider: ^2.1.5
   pdf_thumbnail: ^0.1.6+1
+  permission_handler: ^11.3.1
+  share_plus: ^10.1.4
   shared_preferences: ^2.5.3
   syncfusion_flutter_core: ^31.1.19
   syncfusion_flutter_pdfviewer: 31.1.19
