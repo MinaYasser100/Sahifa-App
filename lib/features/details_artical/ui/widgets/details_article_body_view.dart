@@ -1,4 +1,7 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/features/home/data/models/news_item_model.dart';
@@ -19,9 +22,35 @@ class DetailsArticleBodyView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Hero(
             tag: 'article_${articalModel.imageUrl}',
-            child: CustomArticleImage(
-              imageUrl: articalModel.imageUrl,
-              height: 300,
+            child: Stack(
+              children: [
+                FadeIn(
+                  child: CustomArticleImage(
+                    imageUrl: articalModel.imageUrl,
+                    height: 300,
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: FadeInDown(
+                    child: CircleAvatar(
+                      backgroundColor: ColorsTheme().whiteColor.withValues(
+                        alpha: 0.3,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          FontAwesomeIcons.heart,
+                          color: ColorsTheme().primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

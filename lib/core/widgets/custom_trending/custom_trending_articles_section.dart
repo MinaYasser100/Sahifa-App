@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
@@ -31,12 +32,14 @@ class CustomTrendingArticlesSection extends StatelessWidget {
                 size: 24,
               ),
               const SizedBox(width: 8),
-              Text(
-                'Trending Now',
-                style: AppTextStyles.styleBold18sp(context).copyWith(
-                  color: isDarkMode
-                      ? ColorsTheme().whiteColor
-                      : ColorsTheme().primaryLight,
+              FadeInLeft(
+                child: Text(
+                  'Trending Now',
+                  style: AppTextStyles.styleBold18sp(context).copyWith(
+                    color: isDarkMode
+                        ? ColorsTheme().whiteColor
+                        : ColorsTheme().primaryLight,
+                  ),
                 ),
               ),
             ],

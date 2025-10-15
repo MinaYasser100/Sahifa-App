@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -36,26 +37,30 @@ class CategoryCardContent extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: ColorsTheme().whiteColor,
-                size: isLarge ? 32 : 24,
+              child: FadeInRight(
+                child: Icon(
+                  icon,
+                  color: ColorsTheme().whiteColor,
+                  size: isLarge ? 32 : 24,
+                ),
               ),
             ),
             SizedBox(height: isLarge ? 16 : 12),
 
             // Category Name
-            Text(
-              categoryName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: isDarkMode
-                    ? ColorsTheme().whiteColor
-                    : ColorsTheme().primaryDark,
-                fontSize: isLarge ? 18 : 15,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 0.3,
-                height: 1.2,
+            FadeInUp(
+              child: Text(
+                categoryName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: isDarkMode
+                      ? ColorsTheme().whiteColor
+                      : ColorsTheme().primaryDark,
+                  fontSize: isLarge ? 18 : 15,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.3,
+                  height: 1.2,
+                ),
               ),
             ),
           ],

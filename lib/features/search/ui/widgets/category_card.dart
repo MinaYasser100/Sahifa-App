@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card_content.dart';
@@ -20,46 +21,48 @@ class CategoryCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Stack(
-            children: [
-              // Decorative background pattern
-              Positioned(
-                top: -20,
-                right: -20,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isDarkMode
-                        ? ColorsTheme().grayColor.withValues(alpha: 0.5)
-                        : ColorsTheme().primaryColor.withValues(alpha: 0.08),
+        child: FadeInLeft(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Stack(
+              children: [
+                // Decorative background pattern
+                Positioned(
+                  top: -20,
+                  right: -20,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isDarkMode
+                          ? ColorsTheme().grayColor.withValues(alpha: 0.5)
+                          : ColorsTheme().primaryColor.withValues(alpha: 0.08),
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: -30,
-                left: -30,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isDarkMode
-                        ? ColorsTheme().grayColor.withValues(alpha: 0.12)
-                        : ColorsTheme().primaryLight.withValues(alpha: 0.06),
+                Positioned(
+                  bottom: -30,
+                  left: -30,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isDarkMode
+                          ? ColorsTheme().grayColor.withValues(alpha: 0.12)
+                          : ColorsTheme().primaryLight.withValues(alpha: 0.06),
+                    ),
                   ),
                 ),
-              ),
 
-              CategoryCardContent(
-                categoryName: categoryName,
-                icon: _getCategoryIcon(categoryName),
-                isLarge: isLarge,
-              ),
-            ],
+                CategoryCardContent(
+                  categoryName: categoryName,
+                  icon: _getCategoryIcon(categoryName),
+                  isLarge: isLarge,
+                ),
+              ],
+            ),
           ),
         ),
       ),

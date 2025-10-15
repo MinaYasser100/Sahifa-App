@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
@@ -25,12 +26,14 @@ class CategoriesGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Al-Thawra Archive - Large Category (full width)
-          CategoryCard(
-            categoryName: 'Al-Thawra Archive',
-            isLarge: true,
-            onTap: () {
-              context.push(Routes.alThawraArchiveView);
-            },
+          FadeInLeft(
+            child: CategoryCard(
+              categoryName: 'Al-Thawra Archive',
+              isLarge: true,
+              onTap: () {
+                context.push(Routes.alThawraArchiveView);
+              },
+            ),
           ),
           const SizedBox(height: 16),
 
