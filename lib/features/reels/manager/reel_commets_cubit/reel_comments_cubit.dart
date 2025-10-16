@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sahifa/features/details_artical/data/models/comment_model.dart';
+import 'package:sahifa/core/model/comment_model/comment_model.dart';
 
 part 'reel_comments_state.dart';
 
@@ -14,7 +14,6 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
     emit(ReelCommentsLoading());
 
     try {
-      // TODO: Replace with API call
       await Future.delayed(const Duration(milliseconds: 500));
 
       // Sample data - will be replaced with API
@@ -24,6 +23,7 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
           userName: 'Ahmed Mohamed',
           userAvatar: '',
           userId: 'user_1',
+          isApproved: true,
           comment: 'Amazing content! 🔥',
           date: DateTime.now().subtract(const Duration(hours: 2)),
         ),
@@ -32,6 +32,7 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
           userName: 'Fatima Ali',
           userAvatar: '',
           userId: 'user_2',
+          isApproved: true,
           comment: 'Great work, keep it up 👏',
           date: DateTime.now().subtract(const Duration(hours: 5)),
         ),
@@ -39,6 +40,7 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
           id: '3',
           userName: 'Mohamed Hassan',
           userAvatar: '',
+          isApproved: true,
           userId: 'user_3',
           comment: 'Excellent video!',
           date: DateTime.now().subtract(const Duration(days: 1)),
@@ -48,6 +50,7 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
           userName: 'Sarah Ibrahim',
           userAvatar: '',
           userId: 'user_4',
+          isApproved: false,
           comment: 'Very informative ❤️',
           date: DateTime.now().subtract(const Duration(days: 2)),
         ),

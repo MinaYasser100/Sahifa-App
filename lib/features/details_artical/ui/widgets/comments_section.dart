@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:sahifa/features/details_artical/data/models/comment_model.dart';
+import 'package:sahifa/core/model/comment_model/comment_model.dart';
+import 'package:sahifa/core/widgets/custom_comment_item/comments_filter_helper.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/add_comment_widget.dart';
-import 'package:sahifa/features/details_artical/ui/widgets/comment_item.dart';
+import 'package:sahifa/core/widgets/custom_comment_item/custom_comment_item.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/comments_empty_list.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/comments_header_section.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/show_more_button.dart';
@@ -18,6 +19,8 @@ class _CommentsSectionState extends State<CommentsSection> {
   static const int _initialCommentsToShow = 2;
   bool _showAllComments = false;
 
+  final String? _currentUserId = 'user_4';
+
   // Sample comments - في المستقبل من الـ backend
   final List<CommentModel> _comments = [
     CommentModel(
@@ -25,6 +28,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userName: 'Mohamed Ahmed',
       userAvatar: '',
       userId: 'user_1',
+      isApproved: true,
       comment:
           "This is a great article, very informative and well-written. Thanks for sharing!",
       date: DateTime.now().subtract(const Duration(hours: 2)),
@@ -34,6 +38,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userName: 'Fatima Ali',
       userAvatar: '',
       userId: 'user_2',
+      isApproved: true,
       comment: 'Valuable information, I hope for more of these topics',
       date: DateTime.now().subtract(const Duration(hours: 5)),
     ),
@@ -42,6 +47,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userName: 'Mohamed Hassan',
       userAvatar: '',
       userId: 'user_3',
+      isApproved: true,
       comment: 'Great article, keep up the good work!',
       date: DateTime.now().subtract(const Duration(days: 1)),
     ),
@@ -50,6 +56,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userName: 'Sarah Ibrahim',
       userAvatar: '',
       userId: 'user_4',
+      isApproved: false,
       comment: 'Very interesting topic, looking forward to more articles',
       date: DateTime.now().subtract(const Duration(days: 2)),
     ),
@@ -58,20 +65,37 @@ class _CommentsSectionState extends State<CommentsSection> {
       userName: 'Ahmed Khalil',
       userAvatar: '',
       userId: 'user_5',
+      isApproved: true,
       comment: 'Excellent analysis and well researched content',
       date: DateTime.now().subtract(const Duration(days: 3)),
     ),
   ];
 
-  int get _displayedCommentsCount => _showAllComments
-      ? _comments.length
-      : (_comments.length > _initialCommentsToShow
-            ? _initialCommentsToShow
-            : _comments.length);
+  int get _displayedCommentsCount {
+    final filtered = _getFilteredComments();
+    return _showAllComments
+        ? filtered.length
+        : (filtered.length > _initialCommentsToShow
+              ? _initialCommentsToShow
+              : filtered.length);
+  }
 
-  int get _remainingCommentsCount => _comments.length - _initialCommentsToShow;
+  int get _remainingCommentsCount {
+    final filtered = _getFilteredComments();
+    return filtered.length - _initialCommentsToShow;
+  }
 
-  bool get _hasMoreComments => _comments.length > _initialCommentsToShow;
+  bool get _hasMoreComments {
+    final filtered = _getFilteredComments();
+    return filtered.length > _initialCommentsToShow;
+  }
+
+  List<CommentModel> _getFilteredComments() {
+    return CommentsFilterHelper.filterComments(
+      comments: _comments,
+      currentUserId: _currentUserId,
+    );
+  }
 
   void _toggleShowAllComments() {
     setState(() {
@@ -118,6 +142,8 @@ class _CommentsSectionState extends State<CommentsSection> {
   }
 
   Widget _buildCommentsListView() {
+    final filteredComments = _getFilteredComments();
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -125,7 +151,10 @@ class _CommentsSectionState extends State<CommentsSection> {
       itemBuilder: (context, index) {
         return FadeInUp(
           duration: Duration(milliseconds: 300 + (index * 100)),
-          child: CommentItem(comment: _comments[index]),
+          child: CommentItem(
+            comment: filteredComments[index],
+            currentUserId: _currentUserId,
+          ),
         );
       },
     );

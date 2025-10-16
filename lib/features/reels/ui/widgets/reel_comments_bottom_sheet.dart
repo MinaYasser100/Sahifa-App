@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/reels/manager/reel_commets_cubit/reel_comments_cubit.dart';
 import 'package:sahifa/features/reels/ui/widgets/comments_bottom_sheet_widgets/add_comment_field.dart';
-import 'package:sahifa/features/reels/ui/widgets/comments_bottom_sheet_widgets/comments_bottom_sheet_handle.dart';
 import 'package:sahifa/features/reels/ui/widgets/comments_bottom_sheet_widgets/comments_bottom_sheet_header.dart';
 import 'package:sahifa/features/reels/ui/widgets/comments_bottom_sheet_widgets/comments_empty_state.dart';
 import 'package:sahifa/features/reels/ui/widgets/comments_bottom_sheet_widgets/comments_error_state.dart';
@@ -36,7 +35,6 @@ class ReelCommentsBottomSheet extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const CommentsBottomSheetHandle(),
             BlocBuilder<ReelCommentsCubit, ReelCommentsState>(
               builder: (context, state) {
                 int displayCount = commentsCount;
@@ -73,7 +71,11 @@ class ReelCommentsBottomSheet extends StatelessWidget {
                     if (state.comments.isEmpty) {
                       return const CommentsEmptyState();
                     }
-                    return CommentsList(comments: state.comments);
+                    return CommentsList(
+                      comments: state.comments,
+                      currentUserId:
+                          'current_user', // TODO: Get from auth/user service
+                    );
                   }
 
                   return const CommentsEmptyState();

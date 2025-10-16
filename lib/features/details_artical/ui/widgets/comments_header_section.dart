@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/details_artical/data/models/comment_model.dart';
+import 'package:sahifa/core/model/comment_model/comment_model.dart';
 
 class CommentsHeaderSection extends StatelessWidget {
   const CommentsHeaderSection({

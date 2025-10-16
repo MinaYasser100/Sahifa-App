@@ -5,6 +5,7 @@ class CommentModel {
   final String userAvatar;
   final String comment;
   final DateTime date;
+  final bool isApproved;
 
   CommentModel({
     required this.id,
@@ -13,5 +14,6 @@ class CommentModel {
     required this.userAvatar,
     required this.comment,
     required this.date,
+    this.isApproved = false,
   });
 }
