@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+import 'package:sahifa/core/model/reel_model/reel_model.dart';
+import 'package:sahifa/features/reels/manager/cubit/video_player_cubit.dart';
+import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
+import 'package:sahifa/features/reels/ui/widgets/reel_actions_column.dart';
+import 'package:sahifa/features/reels/ui/widgets/reel_video_player.dart';
+
+class ReelItem extends StatelessWidget {
+  final ReelModel reel;
+  final bool isCurrentPage;
+
+  const ReelItem({super.key, required this.reel, required this.isCurrentPage});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => VideoPlayerCubit()..initializeVideo(reel.videoUrl),
+      child: BlocConsumer<VideoPlayerCubit, VideoPlayerState>(
+        listener: (context, state) {
+          // لو الفيديو جاهز والصفحة الحالية active, نشغل الفيديو (auto play)
+          if (state is VideoPlayerReady &&
+              !state.isPlaying &&
+              !state.isManuallyPaused &&
+              isCurrentPage) {
+            final cubit = context.read<VideoPlayerCubit>();
+            if (!cubit.isClosed) {
+              cubit.autoPlay();
+            }
+          }
+        },
+        builder: (context, state) {
+          if (state is VideoPlayerLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: ColorsTheme().whiteColor),
+            );
+          }
+
+          if (state is VideoPlayerError) {
+            return Center(
+              child: Text(
+                'Error loading video',
+                style: TextStyle(color: ColorsTheme().whiteColor),
+              ),
+            );
+          }
+
+          if (state is VideoPlayerReady) {
+            final cubit = context.read<VideoPlayerCubit>();
+            final controller = cubit.controller;
+
+            if (controller == null) {
+              return const SizedBox.shrink();
+            }
+
+            return _buildReelContent(
+              context: context,
+              controller: controller,
+              isPlaying: state.isPlaying,
+              cubit: cubit,
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  Widget _buildReelContent({
+    required BuildContext context,
+    required controller,
+    required bool isPlaying,
+    required VideoPlayerCubit cubit,
+  }) {
+    return VisibilityDetector(
+      key: Key(reel.id),
+      onVisibilityChanged: (info) {
+        // تحقق إذا كان الـ Cubit مقفول قبل الاستدعاء
+        if (!cubit.isClosed) {
+          // لو الـ reel مش visible خالص، نوقف الفيديو (auto pause)
+          if (info.visibleFraction < 0.5) {
+            cubit.autoPause();
+          }
+          // لو الـ reel visible ومحتاج يشتغل (بس في حالة isCurrentPage)
+          else if (info.visibleFraction > 0.5 && isCurrentPage) {
+            cubit.autoPlay();
+          }
+        }
+      },
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Video Player
+          ReelVideoPlayer(
+            controller: controller,
+            isPlaying: isPlaying,
+            onTogglePlay: () => cubit.togglePlayPause(),
+          ),
+
+          // Gradient overlay
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 300,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    ColorsTheme().blackColor.withValues(alpha: 0.8),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // User info and caption
+          Positioned(
+            bottom: 80,
+            left: 16,
+            right: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Caption
+                Text(
+                  reel.caption,
+                  style: TextStyle(
+                    color: ColorsTheme().whiteColor,
+                    fontSize: 14,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+
+          // Action buttons (right side)
+          Positioned(
+            right: 12,
+            bottom: 80,
+            child: ReelActionsColumn(
+              isLiked: reel.isLiked,
+              likes: reel.likes,
+              comments: reel.comments,
+              shares: reel.shares,
+              onLikeTap: () {
+                context.read<ReelsCubit>().toggleLike(reel.id);
+              },
+              onCommentTap: () {
+                showSuccessToast(context, 'Comment', 'Soon will be available');
+              },
+              onShareTap: () {},
+              onMoreTap: () {},
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
