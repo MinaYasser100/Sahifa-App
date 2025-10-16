@@ -55,6 +55,9 @@ dependencies:
   syncfusion_flutter_pdfviewer: 31.1.19
   timeago: ^3.7.0
   url_launcher: ^6.2.0
+  video_player: ^2.9.2
+  chewie: ^1.8.5
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   build_runner: ^2.5.4
