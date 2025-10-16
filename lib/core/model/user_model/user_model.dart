@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'user_model.g.dart';
+//part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
 class UserModel {
