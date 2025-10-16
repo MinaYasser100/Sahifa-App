@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:sahifa/core/model/reel_model/reel_model.dart';
-import 'package:sahifa/features/reels/manager/cubit/video_player_cubit.dart';
+import 'package:sahifa/features/reels/manager/video_player_cubit/video_player_cubit.dart';
 import 'package:sahifa/features/reels/ui/widgets/reel_video_player.dart';
 
 import 'reel_actions_section.dart';

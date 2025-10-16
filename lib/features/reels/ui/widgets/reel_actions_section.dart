@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/model/reel_model/reel_model.dart';
-import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
+import 'package:sahifa/features/reels/ui/widgets/reel_comments_bottom_sheet.dart';
 
 import 'reel_actions_column.dart';
 
@@ -25,7 +25,11 @@ class ReelActionsSection extends StatelessWidget {
           context.read<ReelsCubit>().toggleLike(reel.id);
         },
         onCommentTap: () {
-          showSuccessToast(context, 'Comment', 'Soon will be available');
+          showReelCommentsBottomSheet(
+            context,
+            reelId: reel.id,
+            commentsCount: reel.comments,
+          );
         },
         onShareTap: () {},
         onMoreTap: () {},

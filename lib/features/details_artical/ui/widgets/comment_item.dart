@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/details_artical/data/models/comment_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -21,14 +22,11 @@ class _CommentItemState extends State<CommentItem> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
+        color: isDarkMode
+            ? ColorsTheme().primaryLight
+            : ColorsTheme().whiteColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDarkMode
-              ? ColorsTheme().primaryLight.withValues(alpha: 0.1)
-              : Colors.grey.withValues(alpha: 0.2),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.2), width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,9 +38,9 @@ class _CommentItemState extends State<CommentItem> {
               // User Avatar
               CircleAvatar(
                 radius: 20,
-                backgroundColor: ColorsTheme().primaryColor.withValues(
-                  alpha: 0.2,
-                ),
+                backgroundColor: isDarkMode
+                    ? ColorsTheme().whiteColor.withValues(alpha: 0.3)
+                    : ColorsTheme().primaryColor.withValues(alpha: 0.2),
                 child: Text(
                   widget.comment.userName[0].toUpperCase(),
                   style: TextStyle(
@@ -62,19 +60,21 @@ class _CommentItemState extends State<CommentItem> {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         widget.comment.userName,
-                        style: TextStyle(
+                        style: AppTextStyles.styleBold16sp(context).copyWith(
                           color: isDarkMode
                               ? ColorsTheme().whiteColor
                               : ColorsTheme().blackColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
                         ),
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       timeago.format(widget.comment.date, locale: 'en'),
-                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                      style: AppTextStyles.styleMedium12sp(context).copyWith(
+                        color: isDarkMode
+                            ? ColorsTheme().whiteColor.withValues(alpha: 0.8)
+                            : ColorsTheme().grayColor,
+                      ),
                     ),
                   ],
                 ),
