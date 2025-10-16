@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:sahifa/core/model/reel_model/reel_model.dart';
 import 'package:sahifa/features/reels/manager/cubit/video_player_cubit.dart';
-import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
-import 'package:sahifa/features/reels/ui/widgets/reel_actions_column.dart';
 import 'package:sahifa/features/reels/ui/widgets/reel_video_player.dart';
+
+import 'reel_actions_section.dart';
+import 'reel_caption_section.dart';
+import 'reel_gradient_overlay.dart';
 
 class ReelItem extends StatelessWidget {
   final ReelModel reel;
@@ -102,66 +103,13 @@ class ReelItem extends StatelessWidget {
           ),
 
           // Gradient overlay
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 300,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    ColorsTheme().blackColor.withValues(alpha: 0.8),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
+          ReelGradientOverlay(),
 
           // User info and caption
-          Positioned(
-            bottom: 80,
-            left: 16,
-            right: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Caption
-                Text(
-                  reel.caption,
-                  style: TextStyle(
-                    color: ColorsTheme().whiteColor,
-                    fontSize: 14,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
+          ReelCaptionSection(reel: reel),
 
           // Action buttons (right side)
-          Positioned(
-            right: 12,
-            bottom: 80,
-            child: ReelActionsColumn(
-              isLiked: reel.isLiked,
-              likes: reel.likes,
-              comments: reel.comments,
-              shares: reel.shares,
-              onLikeTap: () {
-                context.read<ReelsCubit>().toggleLike(reel.id);
-              },
-              onCommentTap: () {
-                showSuccessToast(context, 'Comment', 'Soon will be available');
-              },
-              onShareTap: () {},
-              onMoreTap: () {},
-            ),
-          ),
+          ReelActionsSection(reel: reel),
         ],
       ),
     );
