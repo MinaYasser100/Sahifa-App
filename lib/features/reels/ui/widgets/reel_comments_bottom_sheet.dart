@@ -71,7 +71,7 @@ class ReelCommentsBottomSheet extends StatelessWidget {
                     if (state.comments.isEmpty) {
                       return const CommentsEmptyState();
                     }
-                    return CommentsList(
+                    return ReelCommentsList(
                       comments: state.comments,
                       currentUserId:
                           'current_user', // TODO: Get from auth/user service

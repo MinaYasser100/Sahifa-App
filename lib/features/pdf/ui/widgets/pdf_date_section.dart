@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
@@ -34,67 +35,71 @@ class PdfDateSection extends StatelessWidget {
         onTap: () {
           showDatePickerMethod(context, currentDate, onDateSelected);
         },
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: _containerPaddingHorizontal,
-            vertical: _containerPaddingVertical,
-          ),
-          decoration: BoxDecoration(
-            color: isDarkMode
-                ? ColorsTheme().primaryLight.withValues(alpha: _bgOpacityDark)
-                : ColorsTheme().primaryColor.withValues(alpha: _bgOpacityLight),
-            borderRadius: BorderRadius.circular(_borderRadius),
-            border: Border.all(
-              color: isDarkMode
-                  ? ColorsTheme().primaryLight.withValues(
-                      alpha: _borderOpacityDark,
-                    )
-                  : ColorsTheme().primaryColor.withValues(
-                      alpha: _borderOpacityLight,
-                    ),
-              width: _borderWidth,
+        child: FadeInDown(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: _containerPaddingHorizontal,
+              vertical: _containerPaddingVertical,
             ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'date'.toUpperCase(),
-                      style: AppTextStyles.styleMedium12sp(context).copyWith(
-                        color: isDarkMode
-                            ? ColorsTheme().whiteColor.withValues(
-                                alpha: _textOpacity,
-                              )
-                            : ColorsTheme().primaryColor,
-                      ),
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? ColorsTheme().primaryLight.withValues(alpha: _bgOpacityDark)
+                  : ColorsTheme().primaryColor.withValues(
+                      alpha: _bgOpacityLight,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      DateFormat('dd/MM/yyyy').format(currentDate),
-                      style: AppTextStyles.styleMedium14sp(context).copyWith(
-                        color: isDarkMode
-                            ? ColorsTheme().secondaryLight
-                            : ColorsTheme().primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 4),
-              Icon(
-                Icons.arrow_drop_down,
-                size: 24,
+              borderRadius: BorderRadius.circular(_borderRadius),
+              border: Border.all(
                 color: isDarkMode
-                    ? ColorsTheme().secondaryLight
-                    : ColorsTheme().primaryColor,
+                    ? ColorsTheme().primaryLight.withValues(
+                        alpha: _borderOpacityDark,
+                      )
+                    : ColorsTheme().primaryColor.withValues(
+                        alpha: _borderOpacityLight,
+                      ),
+                width: _borderWidth,
               ),
-            ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'date'.tr(),
+                        style: AppTextStyles.styleMedium12sp(context).copyWith(
+                          color: isDarkMode
+                              ? ColorsTheme().whiteColor.withValues(
+                                  alpha: _textOpacity,
+                                )
+                              : ColorsTheme().primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        DateFormat('dd/MM/yyyy').format(currentDate),
+                        style: AppTextStyles.styleMedium14sp(context).copyWith(
+                          color: isDarkMode
+                              ? ColorsTheme().secondaryLight
+                              : ColorsTheme().primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: 24,
+                  color: isDarkMode
+                      ? ColorsTheme().secondaryLight
+                      : ColorsTheme().primaryColor,
+                ),
+              ],
+            ),
           ),
         ),
       ),

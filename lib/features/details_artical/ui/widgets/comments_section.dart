@@ -151,7 +151,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       itemBuilder: (context, index) {
         return FadeInUp(
           duration: Duration(milliseconds: 300 + (index * 100)),
-          child: CommentItem(
+          child: CustomCommentItem(
             comment: filteredComments[index],
             currentUserId: _currentUserId,
           ),

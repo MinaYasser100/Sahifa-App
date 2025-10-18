@@ -67,7 +67,7 @@ class NewspaperInfoBar extends StatelessWidget {
       height: _dividerHeight,
       width: _dividerWidth,
       color: isDarkMode
-          ? ColorsTheme().primaryLight.withOpacity(_dividerOpacity)
+          ? ColorsTheme().primaryLight.withValues(alpha: _dividerOpacity)
           : ColorsTheme().dividerColor,
     );
   }

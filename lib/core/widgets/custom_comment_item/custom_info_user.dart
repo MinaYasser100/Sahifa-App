@@ -16,7 +16,7 @@ class CustomInfoUser extends StatelessWidget {
 
   final bool _isPendingApproval;
   final bool isDarkMode;
-  final CommentItem widget;
+  final CustomCommentItem widget;
 
   @override
   Widget build(BuildContext context) {

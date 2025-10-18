@@ -6,8 +6,8 @@ import 'package:sahifa/core/model/comment_model/comment_model.dart';
 import 'custom_info_user.dart';
 import 'pending_approval_widget.dart';
 
-class CommentItem extends StatefulWidget {
-  const CommentItem({
+class CustomCommentItem extends StatefulWidget {
+  const CustomCommentItem({
     super.key,
     required this.comment,
     this.currentUserId, // Current user ID to check if comment is user's own
@@ -17,10 +17,10 @@ class CommentItem extends StatefulWidget {
   final String? currentUserId;
 
   @override
-  State<CommentItem> createState() => _CommentItemState();
+  State<CustomCommentItem> createState() => _CustomCommentItemState();
 }
 
-class _CommentItemState extends State<CommentItem> {
+class _CustomCommentItemState extends State<CustomCommentItem> {
   bool get _isPendingApproval {
     // Show as pending if not approved AND belongs to current user
     return !widget.comment.isApproved &&
