@@ -26,7 +26,8 @@ class VideoItemModel {
       VideoItemModel(
         id: '1',
         title: 'video_1_title'.tr(),
-        thumbnailUrl: 'https://picsum.photos/400/225?random=1',
+        thumbnailUrl:
+            'https://althawra-news.net/user_images/news/16-10-25-787182266.jpg',
         category: 'category_politics'.tr(),
         date: DateTime.now().subtract(const Duration(hours: 2)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
@@ -56,7 +57,8 @@ class VideoItemModel {
       VideoItemModel(
         id: '4',
         title: 'video_4_title'.tr(),
-        thumbnailUrl: 'https://picsum.photos/400/225?random=4',
+        thumbnailUrl:
+            'https://althawra-news.net/user_images/news/16-10-25-787182266.jpg',
         category: 'category_art'.tr(),
         date: DateTime.now().subtract(const Duration(days: 1)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
@@ -76,7 +78,8 @@ class VideoItemModel {
       VideoItemModel(
         id: '6',
         title: 'video_6_title'.tr(),
-        thumbnailUrl: 'https://picsum.photos/400/225?random=6',
+        thumbnailUrl:
+            'https://althawra-news.net/user_images/news/16-10-25-787182266.jpg',
         category: 'category_world'.tr(),
         date: DateTime.now().subtract(const Duration(days: 2)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',

@@ -13,10 +13,8 @@ class BannerCarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
+      width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: ColorsTheme().blackColor.withValues(alpha: 0.2),
@@ -25,20 +23,17 @@ class BannerCarouselItem extends StatelessWidget {
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Stack(
-          children: [
-            // Banner Image
-            BannerImage(imageUrl: banner.imageUrl),
+      child: Stack(
+        children: [
+          // Banner Image
+          BannerImage(imageUrl: banner.imageUrl),
 
-            // Gradient Overlay
-            const BannerGradientOverlay(),
+          // Gradient Overlay
+          const BannerGradientOverlay(),
 
-            // Banner Info (Title, Date, Share)
-            BannerInfoSection(title: banner.title, dateTime: banner.date),
-          ],
-        ),
+          // Banner Info (Title, Date, Share)
+          BannerInfoSection(title: banner.title, dateTime: banner.date),
+        ],
       ),
     );
   }

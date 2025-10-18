@@ -2,12 +2,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item_content.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 
-class CustomArticleItemCard extends StatelessWidget {
-  const CustomArticleItemCard({
+class CustomBooksOpinions extends StatelessWidget {
+  const CustomBooksOpinions({
     super.key,
     required this.articleItem,
     this.cardWidth = 280,
@@ -17,6 +17,7 @@ class CustomArticleItemCard extends StatelessWidget {
   final ArticleItemModel articleItem;
   final double cardWidth;
   final bool isItemList;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -36,7 +37,10 @@ class CustomArticleItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Image Section
-                CustomArticleImage(imageUrl: articleItem.imageUrl, height: 180),
+                CustomBookOpinionImage(
+                  imageUrl: articleItem.imageUrl,
+                  containerWidth: cardWidth,
+                ),
                 // Content Section
                 CustomArticleItemContent(articleItem: articleItem),
               ],

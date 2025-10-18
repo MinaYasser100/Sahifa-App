@@ -26,18 +26,9 @@ class TrendingArticleCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: isDarkMode
-              ? ColorsTheme().cardColor
+              ? ColorsTheme().primaryDark
               : ColorsTheme().whiteColor,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: isDarkMode
-                  ? ColorsTheme().blackColor.withValues(alpha: 0.3)
-                  : ColorsTheme().primaryDark.withValues(alpha: 0.06),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(5),
         ),
         child: FadeInLeft(
           child: Row(
@@ -49,7 +40,7 @@ class TrendingArticleCard extends StatelessWidget {
                     imageUrl: articleItem.imageUrl,
                     height: 120,
                     width: 120,
-                    changeBorderRadius: true,
+                    changeBorderRadius: false,
                   ),
                   // Index Badge
                   CustomIndexBadge(index: index),

@@ -29,6 +29,7 @@ class DetailsArticleBodyView extends StatelessWidget {
                   child: CustomArticleImage(
                     imageUrl: articalModel.imageUrl,
                     height: 300,
+                    changeBorderRadius: true,
                   ),
                 ),
                 Positioned(

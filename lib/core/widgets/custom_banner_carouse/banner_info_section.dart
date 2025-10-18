@@ -28,15 +28,14 @@ class BannerInfoSection extends StatelessWidget {
             // العنوان
             Text(
               title,
-              maxLines: 2,
+              maxLines: 1,
+
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 20,
+
                 fontWeight: FontWeight.bold,
                 color: ColorsTheme().whiteColor,
-                shadows: [
-                  Shadow(color: ColorsTheme().blackColor, blurRadius: 4),
-                ],
               ),
             ),
             const SizedBox(height: 8),

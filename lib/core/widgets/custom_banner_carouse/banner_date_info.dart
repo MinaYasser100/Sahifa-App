@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/utils/colors.dart';
 
 class BannerDateInfo extends StatelessWidget {
   const BannerDateInfo({super.key, required this.dateTime});
@@ -13,11 +14,7 @@ class BannerDateInfo extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           _formatDate(dateTime),
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white70,
-            shadows: [Shadow(color: Colors.black, blurRadius: 2)],
-          ),
+          style: TextStyle(fontSize: 14, color: ColorsTheme().whiteColor),
         ),
       ],
     );

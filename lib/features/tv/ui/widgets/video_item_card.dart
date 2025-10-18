@@ -26,24 +26,9 @@ class VideoItemCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: isDarkMode
-              ? ColorsTheme().cardColor
+              ? ColorsTheme().primaryDark
               : ColorsTheme().whiteColor,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isDarkMode
-                ? ColorsTheme().whiteColor.withValues(alpha: 0.6)
-                : ColorsTheme().blackColor.withValues(alpha: 0.08),
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: isDarkMode
-                  ? ColorsTheme().whiteColor.withValues(alpha: 0.1)
-                  : ColorsTheme().blackColor.withValues(alpha: 0.08),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: InkWell(
           onTap: () => VideosHelper.launchVideoUrl(context, video),

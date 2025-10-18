@@ -4,11 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_horizontal_books_opinions.dart';
 
-import '../../../../core/widgets/custom_horizontal_articles_list_section.dart';
-
-class ArticalsGroupSection extends StatelessWidget {
-  const ArticalsGroupSection({super.key});
+class BooksOpinionsSection extends StatelessWidget {
+  const BooksOpinionsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +16,17 @@ class ArticalsGroupSection extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            context.push(Routes.articalsSectionView, extra: 'local_news'.tr());
+            context.push(
+              Routes.articalsSectionView,
+              extra: 'books_opinions'.tr(),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Row(
               children: [
                 Text(
-                  'local_news'.tr(),
+                  'books_opinions'.tr(),
                   style: AppTextStyles.styleBold18sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor
@@ -43,7 +45,7 @@ class ArticalsGroupSection extends StatelessWidget {
             ),
           ),
         ),
-        CustomHorizontalArticlesListSection(),
+        CustomHorizontalBooksOpinions(),
       ],
     );
   }

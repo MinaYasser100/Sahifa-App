@@ -27,7 +27,6 @@ class BannersCarousel extends StatelessWidget {
       duration: const Duration(milliseconds: 500),
       child: Column(
         children: [
-          const SizedBox(height: 10),
           _CarouselSliderSection(
             banners: banners,
             carouselController: carouselController,
@@ -67,9 +66,8 @@ class _CarouselSliderSection extends StatelessWidget {
         autoPlayInterval: const Duration(seconds: 4),
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,
-        enlargeCenterPage: true,
-        enlargeFactor: 0.25,
-        viewportFraction: 0.85,
+        enlargeCenterPage: false,
+        viewportFraction: 1.0,
         aspectRatio: 16 / 9,
         pauseAutoPlayOnTouch: true,
         onPageChanged: (index, reason) => onPageChanged(index),

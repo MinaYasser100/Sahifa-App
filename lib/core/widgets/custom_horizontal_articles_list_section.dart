@@ -14,10 +14,10 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
     final List<ArticleItemModel> articlesItems = trendingArticles;
 
     return SizedBox(
-      height: 300,
+      height: 320,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         itemCount: articlesItems.length,
         itemBuilder: (context, index) {
           return GestureDetector(

@@ -3,6 +3,7 @@ import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_sec
 import 'package:sahifa/core/widgets/custom_banner_carouse/custom_banner_carousel_section.dart';
 
 import 'articals_group_section.dart';
+import 'books_opinions_section.dart';
 
 class HomeBodyView extends StatelessWidget {
   const HomeBodyView({super.key});
@@ -16,6 +17,7 @@ class HomeBodyView extends StatelessWidget {
 
         // Local News Section Header
         SliverToBoxAdapter(child: ArticalsGroupSection()),
+        SliverToBoxAdapter(child: BooksOpinionsSection()),
         SliverToBoxAdapter(child: ArticalsGroupSection()),
         SliverToBoxAdapter(child: ArticalsGroupSection()),
         SliverToBoxAdapter(child: CustomTrendingArticlesSection()),

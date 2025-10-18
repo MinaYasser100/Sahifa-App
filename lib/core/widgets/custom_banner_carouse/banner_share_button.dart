@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/utils/colors.dart';
 
 class BannerShareButton extends StatelessWidget {
   const BannerShareButton({super.key});
@@ -20,13 +21,13 @@ class BannerShareButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.2),
+          color: Colors.white.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: const Icon(
+        child: Icon(
           FontAwesomeIcons.share,
           size: 16,
-          color: Colors.white,
+          color: ColorsTheme().primaryLight,
         ),
       ),
     );

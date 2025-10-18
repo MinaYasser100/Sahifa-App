@@ -54,7 +54,11 @@ class VideoCategoryAndShareButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: Icon(FontAwesomeIcons.share, size: 18),
+                child: Icon(
+                  FontAwesomeIcons.share,
+                  color: ColorsTheme().primaryColor,
+                  size: 18,
+                ),
               ),
             ),
           ),

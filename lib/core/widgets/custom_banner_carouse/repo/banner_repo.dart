@@ -24,46 +24,51 @@ class BannerRepoImpl implements BannerRepo {
         ArticleItemModel(
           id: 'banner_1',
           imageUrl:
-              'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=400&fit=crop',
+              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
           title: "breaking_major_economic_summit_concludes_successfully".tr(),
           description: "banner_1_description".tr(),
+          category: "category_economy".tr(),
           date: DateTime.now().subtract(const Duration(hours: 2)),
           viewerCount: 15420,
         ),
         ArticleItemModel(
           id: 'banner_2',
           imageUrl:
-              'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&h=400&fit=crop',
+              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
           title: "technology_breakthrough_ai_revolution_in_healthcare".tr(),
           description: "banner_2_description".tr(),
+          category: "category_economy".tr(),
           date: DateTime.now().subtract(const Duration(hours: 5)),
           viewerCount: 23150,
         ),
         ArticleItemModel(
           id: 'banner_3',
           imageUrl:
-              'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop',
+              'https://althawra-news.net/user_images/news/26-08-25-179659767.jpg',
           title: "climate_action_global_initiative_launches_today".tr(),
           description: "banner_3_description".tr(),
+          category: "category_economy".tr(),
           date: DateTime.now().subtract(const Duration(hours: 8)),
           viewerCount: 18900,
         ),
         ArticleItemModel(
           id: 'banner_4',
           imageUrl:
-              'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop',
+              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
           title: "education_reform_new_digital_learning_platform".tr(),
           description: "banner_4_description".tr(),
           date: DateTime.now().subtract(const Duration(hours: 12)),
+          category: "category_economy".tr(),
           viewerCount: 12340,
         ),
         ArticleItemModel(
           id: 'banner_5',
           imageUrl:
-              'https://images.unsplash.com/photo-1461532257246-777de18cd58b?w=800&h=400&fit=crop',
+              'https://althawra-news.net/user_images/news/26-08-25-179659767.jpg',
           title: "sports_championship_finals_set_record_viewership".tr(),
           description: "banner_5_description".tr(),
           date: DateTime.now().subtract(const Duration(days: 1)),
+          category: "category_economy".tr(),
           viewerCount: 45780,
         ),
       ];

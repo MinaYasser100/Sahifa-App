@@ -22,7 +22,7 @@ class DrawerSubcategoryTile extends StatelessWidget {
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
       decoration: BoxDecoration(
         color: isDarkMode
-            ? ColorsTheme().primaryColor.withValues(alpha: 0.1)
+            ? ColorsTheme().primaryLight.withValues(alpha: 0.5)
             : ColorsTheme().softBlue.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),

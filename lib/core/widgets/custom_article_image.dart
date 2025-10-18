@@ -17,45 +17,57 @@ class CustomArticleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(12),
-        topRight: changeBorderRadius ? Radius.zero : Radius.circular(12),
-        bottomLeft: changeBorderRadius ? Radius.circular(12) : Radius.zero,
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: ColorsTheme().grayColor.withValues(alpha: 0.3),
+          width: 2,
+        ),
       ),
-      child: Image.network(
-        imageUrl,
-        width: width,
-        height: height,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: height,
-            color: ColorsTheme().primaryColor,
-            child: Center(
-              child: Icon(
-                Icons.image,
-                size: 40,
-                color: ColorsTheme().whiteColor,
+      child: ClipRRect(
+        clipBehavior: Clip.antiAlias,
+        borderRadius: BorderRadius.only(
+          topLeft: changeBorderRadius ? Radius.zero : Radius.circular(8),
+          topRight: changeBorderRadius ? Radius.zero : Radius.circular(8),
+          bottomLeft: changeBorderRadius ? Radius.zero : Radius.circular(8),
+          bottomRight: changeBorderRadius ? Radius.zero : Radius.circular(8),
+        ),
+        child: Image.network(
+          imageUrl,
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              height: height,
+              color: ColorsTheme().primaryColor,
+              child: Center(
+                child: Icon(
+                  Icons.image,
+                  size: 40,
+                  color: ColorsTheme().whiteColor,
+                ),
               ),
-            ),
-          );
-        },
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            height: height,
-            color: ColorsTheme().primaryColor.withValues(alpha: 0.2),
-            child: Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                    : null,
+            );
+          },
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              height: height,
+              color: ColorsTheme().primaryColor.withValues(alpha: 0.2),
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
