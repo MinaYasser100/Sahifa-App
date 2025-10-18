@@ -13,29 +13,46 @@ class PdfDateSection extends StatelessWidget {
   });
 
   final DateTime currentDate;
-  final Function(DateTime p1) onDateSelected;
+  final Function(DateTime) onDateSelected;
   final bool isDarkMode;
+
+  // Constants
+  static const double _containerPaddingHorizontal = 12.0;
+  static const double _containerPaddingVertical = 8.0;
+  static const double _borderRadius = 8.0;
+  static const double _borderWidth = 1.0;
+  static const double _bgOpacityDark = 0.15;
+  static const double _bgOpacityLight = 0.08;
+  static const double _borderOpacityDark = 0.3;
+  static const double _borderOpacityLight = 0.2;
+  static const double _textOpacity = 0.7;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          print('🔘 Date section tapped!');
           showDatePickerMethod(context, currentDate, onDateSelected);
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: _containerPaddingHorizontal,
+            vertical: _containerPaddingVertical,
+          ),
           decoration: BoxDecoration(
             color: isDarkMode
-                ? ColorsTheme().primaryLight.withValues(alpha: 0.15)
-                : ColorsTheme().primaryColor.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(8),
+                ? ColorsTheme().primaryLight.withValues(alpha: _bgOpacityDark)
+                : ColorsTheme().primaryColor.withValues(alpha: _bgOpacityLight),
+            borderRadius: BorderRadius.circular(_borderRadius),
             border: Border.all(
               color: isDarkMode
-                  ? ColorsTheme().primaryLight.withValues(alpha: 0.3)
-                  : ColorsTheme().primaryColor.withValues(alpha: 0.2),
-              width: 1,
+                  ? ColorsTheme().primaryLight.withValues(
+                      alpha: _borderOpacityDark,
+                    )
+                  : ColorsTheme().primaryColor.withValues(
+                      alpha: _borderOpacityLight,
+                    ),
+              width: _borderWidth,
             ),
           ),
           child: Row(
@@ -51,7 +68,9 @@ class PdfDateSection extends StatelessWidget {
                       'date'.toUpperCase(),
                       style: AppTextStyles.styleMedium12sp(context).copyWith(
                         color: isDarkMode
-                            ? ColorsTheme().whiteColor.withValues(alpha: 0.7)
+                            ? ColorsTheme().whiteColor.withValues(
+                                alpha: _textOpacity,
+                              )
                             : ColorsTheme().primaryColor,
                       ),
                     ),

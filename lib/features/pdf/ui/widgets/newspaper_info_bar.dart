@@ -16,12 +16,23 @@ class NewspaperInfoBar extends StatelessWidget {
   final DateTime currentDate;
   final String issueNumber;
 
+  // Constants
+  static const double _horizontalPadding = 20.0;
+  static const double _verticalPadding = 12.0;
+  static const double _dividerHeight = 40.0;
+  static const double _dividerWidth = 1.5;
+  static const double _dividerOpacity = 0.2;
+  static const double _spacing = 12.0;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: _horizontalPadding,
+        vertical: _verticalPadding,
+      ),
       decoration: BoxDecoration(
         color: isDarkMode
             ? ColorsTheme().primaryDark
@@ -37,20 +48,27 @@ class NewspaperInfoBar extends StatelessWidget {
             isDarkMode: isDarkMode,
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: _spacing),
+
           // Vertical Divider
-          Container(
-            height: 40,
-            width: 1.5,
-            color: isDarkMode
-                ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
-                : ColorsTheme().dividerColor,
-          ),
-          const SizedBox(width: 12),
+          _buildDivider(isDarkMode),
+
+          const SizedBox(width: _spacing),
+
           // Issue Number Section
           IssueNumberSection(isDarkMode: isDarkMode, issueNumber: issueNumber),
         ],
       ),
+    );
+  }
+
+  Widget _buildDivider(bool isDarkMode) {
+    return Container(
+      height: _dividerHeight,
+      width: _dividerWidth,
+      color: isDarkMode
+          ? ColorsTheme().primaryLight.withOpacity(_dividerOpacity)
+          : ColorsTheme().dividerColor,
     );
   }
 }

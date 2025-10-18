@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
 
 Future<void> showDatePickerMethod(
   BuildContext context,
@@ -9,7 +10,7 @@ Future<void> showDatePickerMethod(
 ) async {
   final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-  showDatePicker(
+  final DateTime? pickedDate = await showDatePicker(
     context: context,
     initialDate: currentDate,
     firstDate: DateTime(2020),
@@ -39,4 +40,11 @@ Future<void> showDatePickerMethod(
       );
     },
   );
+
+  // Call the callback with the selected date if user didn't cancel
+  if (pickedDate != null) {
+    onDateSelected(pickedDate);
+  } else {
+    showErrorToast(context, 'Error', 'Date selection cancelled');
+  }
 }
