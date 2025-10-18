@@ -28,4 +28,5 @@ class Routes {
   static const String profileView = '/profile';
   static const String favoritesView = '/favorites';
   static const String editInfoView = '/edit-info';
+  static const String splashView = '/splash';
 }

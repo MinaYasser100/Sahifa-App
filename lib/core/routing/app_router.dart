@@ -18,11 +18,12 @@ import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';
+import 'package:sahifa/features/splash/ui/splash_view.dart';
 import 'package:sahifa/features/tv/ui/tv_view.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
-    initialLocation: Routes.layoutView,
+    initialLocation: Routes.splashView,
     routes: [
       //Register view
       GoRoute(
@@ -132,6 +133,10 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.editInfoView,
         pageBuilder: (context, state) => fadeTransitionPage(EditInfoView()),
+      ),
+      GoRoute(
+        path: Routes.splashView,
+        pageBuilder: (context, state) => fadeTransitionPage(SplashView()),
       ),
     ],
   );
