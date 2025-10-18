@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
@@ -50,39 +51,47 @@ class _AddCommentFieldState extends State<AddCommentField> {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: ColorsTheme().primaryColor.withValues(alpha: 0.2),
-            child: Icon(
-              Icons.person,
-              color: widget.isDarkMode
-                  ? ColorsTheme().whiteColor
-                  : ColorsTheme().primaryColor,
-              size: 20,
+          FadeInLeft(
+            child: CircleAvatar(
+              radius: 18,
+              backgroundColor: ColorsTheme().primaryColor.withValues(
+                alpha: 0.2,
+              ),
+              child: Icon(
+                Icons.person,
+                color: widget.isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
+                size: 20,
+              ),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: CustomTextFormField(
-              textFieldModel: TextFieldModel(
-                controller: _commentController,
-                hintText: 'Add a comment...',
-                ischangeColor: widget.isDarkMode,
-                maxLines: 1,
-                keyboardType: TextInputType.text,
-                validator: (value) => null,
-                onFieldSubmitted: (value) => _addComment(),
+            child: FadeInRight(
+              child: CustomTextFormField(
+                textFieldModel: TextFieldModel(
+                  controller: _commentController,
+                  hintText: 'Add a comment...',
+                  ischangeColor: widget.isDarkMode,
+                  maxLines: 1,
+                  keyboardType: TextInputType.text,
+                  validator: (value) => null,
+                  onFieldSubmitted: (value) => _addComment(),
+                ),
               ),
             ),
           ),
           const SizedBox(width: 8),
-          IconButton(
-            onPressed: _addComment,
-            icon: Icon(
-              Icons.send,
-              color: widget.isDarkMode
-                  ? ColorsTheme().whiteColor
-                  : ColorsTheme().primaryColor,
+          FadeInUp(
+            child: IconButton(
+              onPressed: _addComment,
+              icon: Icon(
+                Icons.send,
+                color: widget.isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
+              ),
             ),
           ),
         ],

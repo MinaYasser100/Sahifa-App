@@ -43,14 +43,19 @@ class VideoCategoryAndShareButton extends StatelessWidget {
           ),
         ), // Share Button
         FadeInRight(
-          child: InkWell(
-            onTap: () {
-              // Handle share action
-            },
-            borderRadius: BorderRadius.circular(20),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: Icon(FontAwesomeIcons.share, size: 18),
+          child: CircleAvatar(
+            backgroundColor: isDarkMode
+                ? ColorsTheme().whiteColor
+                : ColorsTheme().primaryColor.withValues(alpha: 0.1),
+            child: InkWell(
+              onTap: () {
+                // Handle share action
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Icon(FontAwesomeIcons.share, size: 18),
+              ),
             ),
           ),
         ),

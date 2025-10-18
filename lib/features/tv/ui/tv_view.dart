@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/theme/app_style.dart';
@@ -75,11 +76,15 @@ class _TvViewState extends State<TvView> {
                       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                       child: Row(
                         children: [
-                          Icon(FontAwesomeIcons.film, size: 20),
+                          FadeInDown(
+                            child: Icon(FontAwesomeIcons.film, size: 20),
+                          ),
                           const SizedBox(width: 10),
-                          Text(
-                            'Latest Videos',
-                            style: AppTextStyles.styleBold20sp(context),
+                          FadeInRight(
+                            child: Text(
+                              'Latest Videos',
+                              style: AppTextStyles.styleBold20sp(context),
+                            ),
                           ),
                         ],
                       ),

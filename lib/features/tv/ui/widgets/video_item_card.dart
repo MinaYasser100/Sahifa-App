@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/features/tv/data/models/video_item_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sahifa/features/tv/ui/func/video_formats_helper.dart';
 
 import 'video_category_and_share_button.dart';
 import 'video_date_and_views.dart';
@@ -18,32 +15,6 @@ class VideoItemCard extends StatelessWidget {
   const VideoItemCard({super.key, required this.video});
 
   final VideoItemModel video;
-
-  Future<void> _launchVideoUrl(BuildContext context) async {
-    try {
-      final Uri url = Uri.parse(video.videoUrl);
-
-      // Try to launch the URL directly
-      final bool launched = await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication,
-      );
-
-      if (!launched && context.mounted) {
-        log('Could not launch ${video.videoUrl}');
-        showErrorToast(context, "Error", "Could not launch the video URL");
-      }
-    } catch (e) {
-      log('Error launching video: $e');
-      if (context.mounted) {
-        showErrorToast(
-          context,
-          "Error",
-          "An error occurred while opening the video",
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +46,7 @@ class VideoItemCard extends StatelessWidget {
           ],
         ),
         child: InkWell(
-          onTap: () => _launchVideoUrl(context),
+          onTap: () => VideosHelper.launchVideoUrl(context, video),
           borderRadius: BorderRadius.circular(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

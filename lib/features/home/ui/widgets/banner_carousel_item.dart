@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sahifa/features/home/data/models/banner_model.dart';
+import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_gradient_overlay.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_image.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_info_section.dart';
@@ -7,7 +8,7 @@ import 'package:sahifa/features/home/ui/widgets/banner_info_section.dart';
 class BannerCarouselItem extends StatelessWidget {
   const BannerCarouselItem({super.key, required this.banner});
 
-  final BannerModel banner;
+  final ArticalItemModel banner;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class BannerCarouselItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: ColorsTheme().blackColor.withValues(alpha: 0.2),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -35,7 +36,7 @@ class BannerCarouselItem extends StatelessWidget {
             const BannerGradientOverlay(),
 
             // Banner Info (Title, Date, Share)
-            BannerInfoSection(title: banner.title, dateTime: banner.dateTime),
+            BannerInfoSection(title: banner.title, dateTime: banner.date),
           ],
         ),
       ),

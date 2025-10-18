@@ -31,7 +31,7 @@ class VideoDateAndViews extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            VideoFormatsHelper.formatDate(video.date),
+            VideosHelper.formatDate(video.date),
             style: TextStyle(
               fontSize: 13,
               color: isDarkMode
@@ -49,7 +49,7 @@ class VideoDateAndViews extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            '${VideoFormatsHelper.formatViewCount(video.viewCount)} views',
+            '${VideosHelper.formatViewCount(video.viewCount)} views',
             style: TextStyle(
               fontSize: 13,
               color: isDarkMode

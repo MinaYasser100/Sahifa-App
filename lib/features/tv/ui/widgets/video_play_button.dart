@@ -15,7 +15,7 @@ class VideoPlayButton extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: ColorsTheme().primaryColor.withValues(alpha: 0.9),
+              color: ColorsTheme().primaryColor.withValues(alpha: 0.6),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
@@ -27,7 +27,7 @@ class VideoPlayButton extends StatelessWidget {
             ),
             child: Icon(
               FontAwesomeIcons.play,
-              color: ColorsTheme().whiteColor,
+              color: ColorsTheme().whiteColor.withValues(alpha: 0.7),
               size: 24,
             ),
           ),

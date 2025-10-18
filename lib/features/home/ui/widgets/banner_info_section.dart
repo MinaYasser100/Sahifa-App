@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_date_info.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_share_button.dart';
 
@@ -27,11 +28,15 @@ class BannerInfoSection extends StatelessWidget {
             // العنوان
             Text(
               title,
-              style: const TextStyle(
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
-                shadows: [Shadow(color: Colors.black, blurRadius: 4)],
+                color: ColorsTheme().whiteColor,
+                shadows: [
+                  Shadow(color: ColorsTheme().blackColor, blurRadius: 4),
+                ],
               ),
             ),
             const SizedBox(height: 8),

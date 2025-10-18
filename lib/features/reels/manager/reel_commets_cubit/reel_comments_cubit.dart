@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/model/comment_model/comment_model.dart';
+import 'package:sahifa/core/widgets/custom_comment_item/comments_filter_helper.dart';
 
 part 'reel_comments_state.dart';
 
@@ -55,8 +56,11 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
           date: DateTime.now().subtract(const Duration(days: 2)),
         ),
       ];
-
-      emit(ReelCommentsLoaded(comments: List.from(_comments)));
+      final filteredComments = CommentsFilterHelper.filterComments(
+        comments: _comments,
+        currentUserId: 'current_user',
+      );
+      emit(ReelCommentsLoaded(comments: List.from(filteredComments)));
     } catch (e) {
       emit(ReelCommentsError(message: 'Failed to load comments: $e'));
     }
@@ -80,8 +84,12 @@ class ReelCommentsCubit extends Cubit<ReelCommentsState> {
       );
 
       _comments.insert(0, newComment);
-      emit(CommentAdded(comments: List.from(_comments)));
-      emit(ReelCommentsLoaded(comments: List.from(_comments)));
+      final filteredComments = CommentsFilterHelper.filterComments(
+        comments: _comments,
+        currentUserId: 'current_user',
+      );
+      emit(CommentAdded(comments: List.from(filteredComments)));
+      emit(ReelCommentsLoaded(comments: List.from(filteredComments)));
     } catch (e) {
       emit(ReelCommentsError(message: 'Failed to add comment: $e'));
       // Re-emit loaded state to keep showing comments

@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:sahifa/features/home/data/models/banner_model.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/features/home/data/models/news_item_model.dart';
 import 'package:sahifa/features/home/ui/widgets/banner_carousel_item.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/carousel_dots_indicator.dart';
 
@@ -18,24 +20,30 @@ class _CustomBannerCarouselSectionState
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
-  final List<BannerModel> banners = [
-    BannerModel(
-      title: 'Breaking News',
+  final List<ArticalItemModel> banners = [
+    ArticalItemModel(
       imageUrl:
-          'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800',
-      dateTime: DateTime(2025, 10, 12),
+          'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400',
+      title: 'Breaking: Major Political Development Shakes Nation',
+      description: 'Latest political news and analysis',
+      date: DateTime(2025, 10, 13),
+      viewerCount: 45200,
     ),
-    BannerModel(
-      title: 'Exclusive Videos',
+    ArticalItemModel(
       imageUrl:
-          'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800',
-      dateTime: DateTime(2025, 10, 12),
+          'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400',
+      title: 'Championship Finals: Historic Victory',
+      description: 'Sports highlights and match analysis',
+      date: DateTime(2025, 10, 13),
+      viewerCount: 38900,
     ),
-    BannerModel(
-      title: 'Featured Articles',
+    ArticalItemModel(
       imageUrl:
-          'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=800',
-      dateTime: DateTime(2025, 10, 12),
+          'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400',
+      title: 'Tech Revolution: AI Breakthrough Announced',
+      description: 'Technology innovation and trends',
+      date: DateTime(2025, 10, 12),
+      viewerCount: 32500,
     ),
   ];
 
@@ -64,7 +72,12 @@ class _CustomBannerCarouselSectionState
             },
           ),
           items: banners.map((banner) {
-            return BannerCarouselItem(banner: banner);
+            return GestureDetector(
+              onTap: () {
+                context.push(Routes.detailsArticalView, extra: banner);
+              },
+              child: BannerCarouselItem(banner: banner),
+            );
           }).toList(),
         ),
         const SizedBox(height: 16),
