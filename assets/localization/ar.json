@@ -1,4 +1,15 @@
 {
   "hello": "مرحبا",
-  "welcome": "مرحبا بك في تطبيقي"
-}
+  "welcome": "مرحبا بك في تطبيقي",
+  "Select Language": "اختر اللغة",
+  "Profile" : "الملف الشخصي",
+  "Edit Information" : "تعديل المعلومات",
+  "My Favorites" : "مفضلتي",
+  "Language" : "اللغة",
+  "Dark Mode": "الوضع الداكن",
+  "Light Mode": "الوضع الفاتح",
+  "Switch to light theme": "التبديل إلى الوضع الفاتح",
+  "Switch to dark theme": "التبديل إلى الوضع الداكن",
+  "Al Thawra" : "الثورة",
+  "Your Daily News Source": "مصدر أخبارك اليومية"
+ }

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
 
 import 'widgets/additonal_settings_item.dart';
+import 'widgets/language_bottom_sheet.dart';
 import 'widgets/theme_settings_card.dart';
 import 'widgets/user_profile_sectrion.dart';
 
@@ -15,8 +17,14 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Listen to locale changes to rebuild the entire widget including AppBar
+    final currentLocale = context.locale;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      key: ValueKey(
+        currentLocale.languageCode,
+      ), // Force rebuild on language change
+      appBar: AppBar(title: Text('Profile'.tr())),
       body: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
           final themeCubit = context.read<ThemeCubit>();
@@ -44,7 +52,7 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.edit,
-                          title: 'Edit Information',
+                          title: 'Edit Information'.tr(),
                           isDark: isDark,
                           onTap: () {
                             context.push(Routes.editInfoView);
@@ -55,7 +63,7 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.favorite,
-                          title: 'My Favorites',
+                          title: 'My Favorites'.tr(),
                           isDark: isDark,
                           onTap: () {
                             context.push(Routes.favoritesView);
@@ -66,10 +74,15 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.language,
-                          title: 'Language',
+                          title: 'Language'.tr(),
                           isDark: isDark,
                           onTap: () {
-                            // Navigate to language settings
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              builder: (context) => const LanguageBottomSheet(),
+                            );
                           },
                         ),
                       ),

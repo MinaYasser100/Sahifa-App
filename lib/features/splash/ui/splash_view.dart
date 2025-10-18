@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
@@ -82,7 +83,7 @@ class _SplashViewState extends State<SplashView> {
                   delay: const Duration(milliseconds: 800),
                   duration: const Duration(milliseconds: 600),
                   child: Text(
-                    'Al Thawra',
+                    'Al Thawra'.tr(),
                     style: AppTextStyles.styleBold34sp(
                       context,
                     ).copyWith(color: Colors.white, letterSpacing: 1.5),
@@ -96,7 +97,7 @@ class _SplashViewState extends State<SplashView> {
                   delay: const Duration(milliseconds: 1000),
                   duration: const Duration(milliseconds: 600),
                   child: Text(
-                    'Your Digital Newspaper',
+                    "Your Daily News Source".tr(),
                     style: AppTextStyles.styleRegular14sp(context).copyWith(
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 1,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -45,7 +46,7 @@ class CustomDrawerHeader extends StatelessWidget {
 
           // App Name
           Text(
-            'Sahifa',
+            'Al Thawra'.tr(),
             style: TextStyle(
               color: ColorsTheme().whiteColor,
               fontSize: 28,
@@ -56,7 +57,7 @@ class CustomDrawerHeader extends StatelessWidget {
 
           // App Tagline
           Text(
-            'Your Daily News Source',
+            'Your Daily News Source'.tr(),
             style: TextStyle(
               color: ColorsTheme().whiteColor.withValues(alpha: 0.9),
               fontSize: 14,

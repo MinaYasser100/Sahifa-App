@@ -1,4 +1,15 @@
 {
   "hello": "Hello",
-  "welcome": "Welcome to my app"
+  "welcome": "Welcome to my app",
+  "Select Language": "Select Language"  ,
+  "Profile" : "Profile",
+  "Edit Information" : "Edit Information",
+  "My Favorites" : "My Favorites",
+  "Language" : "Language",
+  "Dark Mode": "Dark Mode",
+  "Light Mode": "Light Mode",
+  "Switch to light theme": "Switch to light theme",
+  "Switch to dark theme": "Switch to dark theme",
+  "Al Thawra" : "Al Thawra",
+  "Your Daily News Source": "Your Daily News Source"
 }
