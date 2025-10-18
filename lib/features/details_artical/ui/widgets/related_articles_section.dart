@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -16,7 +17,7 @@ class RelatedArticlesSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            'Related Articles Placeholder',
+            'Related Articles Placeholder'.tr(),
             style: AppTextStyles.styleBold18sp(context).copyWith(
               color: isDarkMode
                   ? ColorsTheme().secondaryLight

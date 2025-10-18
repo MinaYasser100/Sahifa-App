@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CommentsEmptyState extends StatelessWidget {
@@ -12,12 +13,12 @@ class CommentsEmptyState extends StatelessWidget {
           Icon(Icons.comment_outlined, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No comments yet',
+            'no_comments_yet'.tr(),
             style: TextStyle(color: Colors.grey[600], fontSize: 16),
           ),
           const SizedBox(height: 8),
           Text(
-            'Be the first to comment!',
+            'be_the_first_to_comment'.tr(),
             style: TextStyle(color: Colors.grey[500], fontSize: 14),
           ),
         ],

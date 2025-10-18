@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -43,7 +44,7 @@ class ReelItem extends StatelessWidget {
           if (state is VideoPlayerError) {
             return Center(
               child: Text(
-                'Error loading video',
+                'error_loading_reels'.tr(),
                 style: TextStyle(color: ColorsTheme().whiteColor),
               ),
             );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -65,7 +66,7 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
                     onPressed: () {
                       context.read<ReelsCubit>().loadReels();
                     },
-                    child: Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),
@@ -76,7 +77,7 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
             if (state.reels.isEmpty) {
               return Center(
                 child: Text(
-                  'No reels available',
+                  'no_reels_available'.tr(),
                   style: TextStyle(
                     color: ColorsTheme().whiteColor,
                     fontSize: 16,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/widgets/custom_text_form_field.dart';
@@ -24,12 +25,12 @@ class DateRangeFilterFields extends StatelessWidget {
             child: CustomTextFormField(
               textFieldModel: TextFieldModel(
                 controller: fromSelectedDate,
-                hintText: 'From Date',
+                hintText: 'from_date'.tr(),
                 icon: Icons.calendar_today_rounded,
                 keyboardType: TextInputType.none,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please select a date';
+                    return 'please_select_a_date'.tr();
                   }
                   return null;
                 },
@@ -46,12 +47,12 @@ class DateRangeFilterFields extends StatelessWidget {
             child: CustomTextFormField(
               textFieldModel: TextFieldModel(
                 controller: toSelectedDate,
-                hintText: 'To Date',
+                hintText: 'to_date'.tr(),
                 icon: Icons.calendar_today_rounded,
                 keyboardType: TextInputType.none,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please select a date';
+                    return 'please_select_a_date'.tr();
                   }
                   return null;
                 },

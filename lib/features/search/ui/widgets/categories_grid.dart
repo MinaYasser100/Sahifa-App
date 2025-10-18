@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
@@ -11,13 +12,13 @@ class CategoriesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<CategoryModel> categories = [
-      CategoryModel(id: 'obituaries', name: 'Obituaries'),
-      CategoryModel(id: 'photo_gallery', name: 'Photo Gallery'),
-      CategoryModel(id: 'books_opinions', name: 'Books & Opinions'),
-      CategoryModel(id: 'economy', name: 'Economy'),
-      CategoryModel(id: 'security_courts', name: 'Security & Courts'),
-      CategoryModel(id: 'sports', name: 'Sports'),
-      CategoryModel(id: 'local_news', name: 'Local News'),
+      CategoryModel(id: 'obituaries', name: 'obituaries'.tr()),
+      CategoryModel(id: 'photo_gallery', name: 'photo_gallery'.tr()),
+      CategoryModel(id: 'books_opinions', name: 'books_opinions'.tr()),
+      CategoryModel(id: 'economy', name: 'economy'.tr()),
+      CategoryModel(id: 'security_courts', name: 'security_courts'.tr()),
+      CategoryModel(id: 'sports', name: 'sports'.tr()),
+      CategoryModel(id: 'local_news', name: 'local_news'.tr()),
     ];
 
     return Padding(
@@ -28,7 +29,7 @@ class CategoriesGrid extends StatelessWidget {
           // Al-Thawra Archive - Large Category (full width)
           FadeInLeft(
             child: CategoryCard(
-              categoryName: 'Al-Thawra Archive',
+              categoryName: 'altharwa_archive'.tr(),
               isLarge: true,
               onTap: () {
                 context.push(Routes.alThawraArchiveView);

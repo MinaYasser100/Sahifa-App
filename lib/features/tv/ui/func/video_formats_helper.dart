@@ -49,15 +49,19 @@ class VideosHelper {
 
       if (!launched && context.mounted) {
         log('Could not launch ${video.videoUrl}');
-        showErrorToast(context, "Error", "Could not launch the video URL");
+        showErrorToast(
+          context,
+          "error".tr(),
+          "could_not_launch_the_video_url".tr(),
+        );
       }
     } catch (e) {
       log('Error launching video: $e');
       if (context.mounted) {
         showErrorToast(
           context,
-          "Error",
-          "An error occurred while opening the video",
+          "error".tr(),
+          "an_error_occurred_while_opening_the_video".tr(),
         );
       }
     }

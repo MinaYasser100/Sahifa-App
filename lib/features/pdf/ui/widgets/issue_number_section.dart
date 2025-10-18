@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -42,7 +43,7 @@ class IssueNumberSection extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Issue Number',
+                      'issue_number'.tr(),
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.styleRegular12sp(context).copyWith(
                         color: isDarkMode

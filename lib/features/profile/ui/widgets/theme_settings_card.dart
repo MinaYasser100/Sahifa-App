@@ -27,11 +27,11 @@ class ThemeSettingsCard extends StatelessWidget {
           contentPadding: const EdgeInsets.all(12),
           leading: Icon(isDark ? Icons.dark_mode : Icons.light_mode, size: 28),
           title: Text(
-            isDark ? 'Dark Mode'.tr() : 'Light Mode'.tr(),
+            isDark ? "dark_mode".tr() : "light_mode".tr(),
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           subtitle: Text(
-            isDark ? 'Switch to light theme'.tr() : 'Switch to dark theme'.tr(),
+            isDark ? "switch_to_light_theme".tr() : "switch_to_dark_theme".tr(),
           ),
           trailing: Switch(
             activeColor: ColorsTheme().whiteColor,

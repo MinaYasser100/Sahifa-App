@@ -9,7 +9,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text('Al Thawra'.tr()),
+      title: Text('al_thawra'.tr()),
       centerTitle: false,
       actions: [
         IconButton(

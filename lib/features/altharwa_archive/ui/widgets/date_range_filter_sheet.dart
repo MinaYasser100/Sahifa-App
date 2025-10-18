@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -62,8 +63,8 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Title
-          const Text(
-            'Filter by Date',
+          Text(
+            'filter_by_date'.tr(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
@@ -89,8 +90,8 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
                   // Add your search logic here
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please select both dates'),
+                    SnackBar(
+                      content: Text('please_select_both_dates'.tr()),
                       duration: Duration(seconds: 2),
                     ),
                   );
@@ -98,7 +99,7 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
               },
 
               child: Text(
-                'Search',
+                'search'.tr(),
                 style: AppTextStyles.styleBold16sp(context),
               ),
             ),

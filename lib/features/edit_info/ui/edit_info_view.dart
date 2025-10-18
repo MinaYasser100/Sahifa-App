@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -18,8 +19,8 @@ class _EditInfoViewState extends State<EditInfoView> {
 
   @override
   void initState() {
-    _nameController = TextEditingController(text: 'John Doe');
-    _emailController = TextEditingController(text: 'john.doe@example.com');
+    _nameController = TextEditingController(text: '');
+    _emailController = TextEditingController(text: '');
     super.initState();
   }
 
@@ -34,7 +35,7 @@ class _EditInfoViewState extends State<EditInfoView> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Information')),
+      appBar: AppBar(title: Text('edit_information'.tr())),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -56,17 +57,17 @@ class _EditInfoViewState extends State<EditInfoView> {
               ),
               SizedBox(height: 16),
               Text(
-                'Name:',
+                '${'name'.tr()}:',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               CustomTextFormField(
                 textFieldModel: TextFieldModel(
                   controller: _nameController,
-                  hintText: 'Enter your name',
+                  hintText: 'enter_your_name'.tr(),
                   keyboardType: TextInputType.name,
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Name cannot be empty';
+                      return 'name_cannot_be_empty'.tr();
                     }
                     return null;
                   },
@@ -74,20 +75,20 @@ class _EditInfoViewState extends State<EditInfoView> {
               ),
               SizedBox(height: 16),
               Text(
-                'Email:',
+                '${'email'.tr()}:',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               CustomTextFormField(
                 textFieldModel: TextFieldModel(
                   controller: _emailController,
-                  hintText: 'Enter your email',
+                  hintText: 'enter_your_email'.tr(),
                   readOnly: true,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) => Validation.emailValidation(value),
                 ),
               ),
               SizedBox(height: 32),
-              CustomButton(text: 'Save', onPressed: () {}),
+              CustomButton(text: 'save'.tr(), onPressed: () {}),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -52,7 +53,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
               ),
               const SizedBox(width: 8),
               Text(
-                "Add your comment",
+                "Add your comment".tr(),
                 style: TextStyle(
                   color: isDarkMode
                       ? ColorsTheme().whiteColor
@@ -74,8 +75,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
                     focusNode: _focusNode,
                     keyboardType: TextInputType.text,
                     validator: (p0) => null,
-
-                    hintText: 'Write your comment here...',
+                    hintText: 'write_your_comment_here'.tr(),
                   ),
                 ),
               ),

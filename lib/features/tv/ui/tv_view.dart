@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,7 +53,7 @@ class _TvViewState extends State<TvView> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'No videos available',
+                      'no_videos_available'.tr(),
                       style: TextStyle(
                         fontSize: 18,
                         color: isDarkMode
@@ -89,7 +90,7 @@ class _TvViewState extends State<TvView> {
                             const SizedBox(width: 10),
                             FadeInRight(
                               child: Text(
-                                'Latest Videos',
+                                'latest_videos'.tr(),
                                 style: AppTextStyles.styleBold20sp(context),
                               ),
                             ),

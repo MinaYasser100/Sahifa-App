@@ -46,7 +46,7 @@ class CustomDrawerHeader extends StatelessWidget {
 
           // App Name
           Text(
-            'Al Thawra'.tr(),
+            'al_thawra'.tr(),
             style: TextStyle(
               color: ColorsTheme().whiteColor,
               fontSize: 28,
@@ -57,7 +57,7 @@ class CustomDrawerHeader extends StatelessWidget {
 
           // App Tagline
           Text(
-            'Your Daily News Source'.tr(),
+            'your_daily_news_source'.tr(),
             style: TextStyle(
               color: ColorsTheme().whiteColor.withValues(alpha: 0.9),
               fontSize: 14,

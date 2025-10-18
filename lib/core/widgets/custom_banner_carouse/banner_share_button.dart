@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,8 +11,8 @@ class BannerShareButton extends StatelessWidget {
       onTap: () {
         // Handle share action
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Share functionality will be implemented'),
+          SnackBar(
+            content: Text('share_functionality_will_be_implemented'.tr()),
             duration: Duration(seconds: 2),
           ),
         );

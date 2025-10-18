@@ -35,7 +35,7 @@ class CustomTrendingArticlesSection extends StatelessWidget {
               const SizedBox(width: 8),
               FadeInLeft(
                 child: Text(
-                  'Trending Now'.tr(),
+                  'trending_now'.tr(),
                   style: AppTextStyles.styleBold18sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -27,7 +28,7 @@ class CommentsHeaderSection extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Text(
-            'Comments',
+            "Comments".tr(),
             style: TextStyle(
               color: isDarkMode
                   ? ColorsTheme().whiteColor

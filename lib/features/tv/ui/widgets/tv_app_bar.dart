@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,7 @@ class TvAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Icon(FontAwesomeIcons.tv),
           const SizedBox(width: 12),
-          Text('Al Thawra TV'),
+          Text('al_thawra_tv'.tr()),
         ],
       ),
 

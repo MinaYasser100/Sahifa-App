@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -30,7 +31,7 @@ class CustomPdfBottomBar extends StatelessWidget {
             // Previous page button
             PdfControlButton(
               icon: Icons.skip_previous_rounded,
-              label: 'Previous',
+              label: 'previous'.tr(),
               onPressed: currentPageNumber > 1
                   ? () => controller.previousPage()
                   : null,
@@ -45,7 +46,7 @@ class CustomPdfBottomBar extends StatelessWidget {
             // Next page button
             PdfControlButton(
               icon: Icons.skip_next_rounded,
-              label: 'Next',
+              label: 'next'.tr(),
               onPressed: currentPageNumber < totalPages
                   ? () => controller.nextPage()
                   : null,

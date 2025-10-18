@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
@@ -54,7 +55,7 @@ class _RegisterViewState extends State<RegisterView> {
     return BlocProvider(
       create: (context) => AutovalidateModeCubit(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Create New Account')),
+        appBar: AppBar(title: Text('create_new_account'.tr())),
         body: SafeArea(
           child: RegisterBodyView(
             formKey: formKey,

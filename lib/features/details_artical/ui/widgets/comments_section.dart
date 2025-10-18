@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/comment_model/comment_model.dart';
 import 'package:sahifa/core/widgets/custom_comment_item/comments_filter_helper.dart';
@@ -30,7 +31,8 @@ class _CommentsSectionState extends State<CommentsSection> {
       userId: 'user_1',
       isApproved: true,
       comment:
-          "This is a great article, very informative and well-written. Thanks for sharing!",
+          "This is a great article, very informative and well-written. Thanks for sharing!"
+              .tr(),
       date: DateTime.now().subtract(const Duration(hours: 2)),
     ),
     CommentModel(
@@ -39,7 +41,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userAvatar: '',
       userId: 'user_2',
       isApproved: true,
-      comment: 'Valuable information, I hope for more of these topics',
+      comment: 'Valuable information, I hope for more of these topics'.tr(),
       date: DateTime.now().subtract(const Duration(hours: 5)),
     ),
     CommentModel(
@@ -48,7 +50,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userAvatar: '',
       userId: 'user_3',
       isApproved: true,
-      comment: 'Great article, keep up the good work!',
+      comment: 'Great article, keep up the good work!'.tr(),
       date: DateTime.now().subtract(const Duration(days: 1)),
     ),
     CommentModel(
@@ -57,7 +59,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       userAvatar: '',
       userId: 'user_4',
       isApproved: false,
-      comment: 'Very interesting topic, looking forward to more articles',
+      comment: 'Very interesting topic, looking forward to more articles'.tr(),
       date: DateTime.now().subtract(const Duration(days: 2)),
     ),
     CommentModel(
@@ -166,7 +168,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       child: FadeInUp(
         child: ShowMoreButton(
           isDarkMode: isDarkMode,
-          text: 'Show more ($_remainingCommentsCount)',
+          text: '${'Show more'.tr()} ($_remainingCommentsCount)',
           icon: Icons.keyboard_arrow_down_rounded,
           onTap: _toggleShowAllComments,
         ),
@@ -180,7 +182,7 @@ class _CommentsSectionState extends State<CommentsSection> {
       child: FadeInUp(
         child: ShowMoreButton(
           isDarkMode: isDarkMode,
-          text: 'Show less',
+          text: 'show_less'.tr(),
           icon: Icons.keyboard_arrow_up_rounded,
           onTap: _toggleShowAllComments,
         ),

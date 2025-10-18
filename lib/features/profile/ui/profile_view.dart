@@ -24,7 +24,7 @@ class ProfileView extends StatelessWidget {
       key: ValueKey(
         currentLocale.languageCode,
       ), // Force rebuild on language change
-      appBar: AppBar(title: Text('Profile'.tr())),
+      appBar: AppBar(title: Text('profile'.tr())),
       body: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
           final themeCubit = context.read<ThemeCubit>();
@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.edit,
-                          title: 'Edit Information'.tr(),
+                          title: 'edit_information'.tr(),
                           isDark: isDark,
                           onTap: () {
                             context.push(Routes.editInfoView);
@@ -63,7 +63,7 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.favorite,
-                          title: 'My Favorites'.tr(),
+                          title: 'my_favorites'.tr(),
                           isDark: isDark,
                           onTap: () {
                             context.push(Routes.favoritesView);
@@ -74,7 +74,7 @@ class ProfileView extends StatelessWidget {
                       AdditionalSettingsItem(
                         model: AdditionalSettingModel(
                           icon: Icons.language,
-                          title: 'Language'.tr(),
+                          title: 'language'.tr(),
                           isDark: isDark,
                           onTap: () {
                             showModalBottomSheet(

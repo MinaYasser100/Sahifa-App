@@ -83,7 +83,7 @@ class _SplashViewState extends State<SplashView> {
                   delay: const Duration(milliseconds: 800),
                   duration: const Duration(milliseconds: 600),
                   child: Text(
-                    'Al Thawra'.tr(),
+                    "al_thawra".tr(),
                     style: AppTextStyles.styleBold34sp(
                       context,
                     ).copyWith(color: Colors.white, letterSpacing: 1.5),
@@ -97,7 +97,7 @@ class _SplashViewState extends State<SplashView> {
                   delay: const Duration(milliseconds: 1000),
                   duration: const Duration(milliseconds: 600),
                   child: Text(
-                    "Your Daily News Source".tr(),
+                    "your_daily_news_source".tr(),
                     style: AppTextStyles.styleRegular14sp(context).copyWith(
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 1,

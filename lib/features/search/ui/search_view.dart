@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/categories_grid.dart';
@@ -28,7 +29,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search here ...')),
+      appBar: AppBar(title: Text('search_here'.tr())),
       body: Column(
         children: [
           // Fixed Search Bar at the top

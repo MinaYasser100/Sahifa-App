@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/data/local_data.dart';
@@ -57,10 +58,10 @@ class _ArticalsSectionViewState extends State<ArticalsSectionView> {
           // Articles List
           Expanded(
             child: filteredArticles.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
-                      'No articles in this category',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                      'no_articles_in_this_category'.tr(),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   )
                 : ListView.builder(

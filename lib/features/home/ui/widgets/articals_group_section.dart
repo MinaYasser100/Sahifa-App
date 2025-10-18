@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
@@ -16,14 +17,14 @@ class ArticalsGroupSection extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            context.push(Routes.articalsSectionView, extra: 'Local News');
+            context.push(Routes.articalsSectionView, extra: 'local_news'.tr());
           },
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
             child: Row(
               children: [
                 Text(
-                  'Local News',
+                  'local_news'.tr(),
                   style: AppTextStyles.styleBold18sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor

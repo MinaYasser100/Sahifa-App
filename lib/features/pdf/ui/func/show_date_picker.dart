@@ -45,6 +45,6 @@ Future<void> showDatePickerMethod(
   if (pickedDate != null) {
     onDateSelected(pickedDate);
   } else {
-    showErrorToast(context, 'Error', 'Date selection cancelled');
+    showErrorToast(context, 'error'.tr(), 'date_selection_cancelled'.tr());
   }
 }

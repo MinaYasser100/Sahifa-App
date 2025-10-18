@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -26,7 +27,7 @@ class UserProfileSection extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'User Profile',
+              'User Profile'.tr(),
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],

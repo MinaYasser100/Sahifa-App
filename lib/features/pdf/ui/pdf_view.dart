@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -46,7 +47,7 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
             _downloadPdf();
           },
         ),
-        title: const Text('Al Thawra'),
+        title: Text('al_thawra'.tr()),
         elevation: 0,
         actions: [
           PdfPageIndicator(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
@@ -42,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
     return BlocProvider(
       create: (context) => AutovalidateModeCubit(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Login')),
+        appBar: AppBar(title: Text('login'.tr())),
         body: SafeArea(
           child: LoginBodyView(
             formKey: formKey,

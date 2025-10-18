@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -20,7 +21,7 @@ class CommentsErrorState extends StatelessWidget {
           Icon(Icons.error_outline, size: 64, color: ColorsTheme().errorColor),
           const SizedBox(height: 16),
           Text(
-            'Failed to load comments',
+            'failed_to_load_comments'.tr(),
             style: TextStyle(
               color: ColorsTheme().errorColor,
               fontSize: 16,
@@ -37,7 +38,7 @@ class CommentsErrorState extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: onRetry,
             icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+            label: Text('retry'.tr()),
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorsTheme().primaryColor,
               foregroundColor: Colors.white,

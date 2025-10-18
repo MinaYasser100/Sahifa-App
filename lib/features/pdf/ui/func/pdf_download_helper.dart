@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,8 +54,8 @@ class PdfDownloadHelper {
         if (context.mounted) {
           showErrorToast(
             context,
-            'Error downloading PDF',
-            'Unable to access storage folder.',
+            'error_downloading_pdf'.tr(),
+            'unable_to_access_storage_folder'.tr(),
           );
         }
         return;
@@ -71,8 +72,8 @@ class PdfDownloadHelper {
       if (context.mounted) {
         showSuccessToast(
           context,
-          'PDF Downloaded',
-          'The PDF file has been downloaded',
+          'pdf_downloaded'.tr(),
+          'the_pdf_file_has_been_downloaded'.tr(),
         );
       }
     } catch (e) {

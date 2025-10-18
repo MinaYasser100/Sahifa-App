@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 class VideoItemModel {
   final String id;
   final String title;
@@ -6,7 +8,7 @@ class VideoItemModel {
   final DateTime date;
   final String videoUrl;
   final int viewCount;
-  final String duration; // مثال: "5:30"
+  final String duration;
 
   VideoItemModel({
     required this.id,
@@ -19,14 +21,13 @@ class VideoItemModel {
     required this.duration,
   });
 
-  // Sample data for testing
   static List<VideoItemModel> getSampleVideos() {
     return [
       VideoItemModel(
         id: '1',
-        title: 'latest news and analysis',
+        title: 'video_1_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=1',
-        category: 'Politics',
+        category: 'category_politics'.tr(),
         date: DateTime.now().subtract(const Duration(hours: 2)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 15420,
@@ -34,9 +35,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '2',
-        title: 'Analysis of Al Ahly vs Zamalek Match',
+        title: 'video_2_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=2',
-        category: 'Sports',
+        category: 'category_sports'.tr(),
         date: DateTime.now().subtract(const Duration(hours: 5)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 28350,
@@ -44,9 +45,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '3',
-        title: 'Gold and Currency Prices Today',
+        title: 'video_3_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=3',
-        category: 'Economy',
+        category: 'category_economy'.tr(),
         date: DateTime.now().subtract(const Duration(hours: 8)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 9870,
@@ -54,9 +55,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '4',
-        title: 'Behind the Scenes of the New Movie',
+        title: 'video_4_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=4',
-        category: 'Art',
+        category: 'category_art'.tr(),
         date: DateTime.now().subtract(const Duration(days: 1)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 45230,
@@ -64,9 +65,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '5',
-        title: 'Weather Forecast for Tomorrow',
+        title: 'video_5_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=5',
-        category: 'Weather',
+        category: 'category_weather'.tr(),
         date: DateTime.now().subtract(const Duration(days: 1)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 12450,
@@ -74,9 +75,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '6',
-        title: 'Global News Update',
+        title: 'video_6_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=6',
-        category: 'World',
+        category: 'category_world'.tr(),
         date: DateTime.now().subtract(const Duration(days: 2)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 67890,
@@ -84,9 +85,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '7',
-        title: 'Health Tips to Overcome Stress',
+        title: 'video_7_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=7',
-        category: 'Health',
+        category: 'category_health'.tr(),
         date: DateTime.now().subtract(const Duration(days: 2)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 34120,
@@ -94,9 +95,9 @@ class VideoItemModel {
       ),
       VideoItemModel(
         id: '8',
-        title: 'Latest Technologies in the World of Technology',
+        title: 'video_8_title'.tr(),
         thumbnailUrl: 'https://picsum.photos/400/225?random=8',
-        category: 'Technology',
+        category: 'category_technology'.tr(),
         date: DateTime.now().subtract(const Duration(days: 3)),
         videoUrl: 'https://youtu.be/IA6fQdNKPEY?si=ovqgs3j6B2F2Y5Hv',
         viewCount: 89430,

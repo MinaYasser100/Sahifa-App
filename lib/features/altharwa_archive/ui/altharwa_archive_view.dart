@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
@@ -28,7 +29,7 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Altharwa Archive'),
+        title: Text('altharwa_archive'.tr()),
         elevation: 10,
         actions: [
           IconButton(
@@ -51,7 +52,7 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
             child: CustomTextFormField(
               textFieldModel: TextFieldModel(
                 controller: controller,
-                hintText: 'Search...',
+                hintText: 'search_placeholder'.tr(),
                 icon: Icons.search,
                 keyboardType: TextInputType.text,
                 validator: (p0) {
@@ -73,7 +74,7 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return PdfGridItem(
-                    pdfTitle: 'World Events Chronicle',
+                    pdfTitle: 'world_events_chronicle'.tr(),
                     pdfNumber: index + 1,
                     onTap: () {
                       context.push(Routes.searchPdfView, extra: pdfPath);

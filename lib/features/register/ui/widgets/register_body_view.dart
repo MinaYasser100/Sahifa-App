@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
@@ -63,7 +64,7 @@ class RegisterBodyView extends StatelessWidget {
 
                 // Register Button
                 CustomButton(
-                  text: 'Create Account',
+                  text: 'create_account'.tr(),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       // Handle registration logic here

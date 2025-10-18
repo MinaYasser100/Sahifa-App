@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -19,7 +20,7 @@ class TextSearchBar extends StatelessWidget {
         child: CustomTextFormField(
           textFieldModel: TextFieldModel(
             controller: controller,
-            hintText: 'Search...',
+            hintText: 'search_placeholder'.tr(),
             ischangeColor: true,
             keyboardType: TextInputType.text,
             validator: (p0) {

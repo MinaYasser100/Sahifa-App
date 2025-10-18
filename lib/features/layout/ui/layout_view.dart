@@ -1,4 +1,5 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -77,7 +78,7 @@ class _LayoutViewState extends State<LayoutView> {
               size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'Home',
+            itemLabel: 'home'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
@@ -90,7 +91,7 @@ class _LayoutViewState extends State<LayoutView> {
               size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'Reels',
+            itemLabel: 'reels'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
@@ -103,7 +104,7 @@ class _LayoutViewState extends State<LayoutView> {
               size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'PDF',
+            itemLabel: 'pdf'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
@@ -116,7 +117,7 @@ class _LayoutViewState extends State<LayoutView> {
               size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'TV',
+            itemLabel: 'tv'.tr(),
           ),
         ],
         onTap: (index) {
