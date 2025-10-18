@@ -3,7 +3,7 @@ import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/data/local_data.dart';
 import 'package:sahifa/features/articals_section/ui/widgets/categories_bar.dart';
 import 'package:sahifa/features/articals_section/ui/widgets/artical_list_item.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 class ArticalsSectionView extends StatefulWidget {
   const ArticalsSectionView({super.key, required this.title});
@@ -28,7 +28,7 @@ class _ArticalsSectionViewState extends State<ArticalsSectionView> {
     CategoryModel(id: 'world', name: 'World'),
   ];
 
-  List<ArticalItemModel> get filteredArticles {
+  List<ArticleItemModel> get filteredArticles {
     if (selectedCategoryId == 'all') {
       // Merge all articles from all categories
       return articlesByCategory.values.expand((articles) => articles).toList()

@@ -1,8 +1,9 @@
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
-final Map<String, List<ArticalItemModel>> articlesByCategory = {
+final Map<String, List<ArticleItemModel>> articlesByCategory = {
   'politics': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '1',
       imageUrl:
           'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400',
       title: 'Breaking Political News',
@@ -10,7 +11,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 15420,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '2',
       imageUrl:
           'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400',
       title: 'International Summit Begins',
@@ -18,7 +20,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 12),
       viewerCount: 12300,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '3',
       imageUrl:
           'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400',
       title: 'Election Results Update',
@@ -28,7 +31,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'sports': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '4',
       imageUrl:
           'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400',
       title: 'Championship Finals Tonight',
@@ -36,7 +40,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 23500,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '5',
       imageUrl:
           'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400',
       title: 'Summer Transfer Window',
@@ -44,7 +49,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 11),
       viewerCount: 18900,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '6',
       imageUrl:
           'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400',
       title: 'Olympic Qualifiers Begin',
@@ -54,7 +60,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'technology': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '7',
       imageUrl:
           'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400',
       title: 'New Tech Update Released',
@@ -62,7 +69,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 8750,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '8',
       imageUrl:
           'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400',
       title: 'AI Technology Advances',
@@ -70,7 +78,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 12),
       viewerCount: 16200,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '9',
       imageUrl:
           'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400',
       title: 'Tech Giants Announce Partnership',
@@ -80,7 +89,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'business': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '10',
       imageUrl:
           'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?w=400',
       title: 'Market Analysis Today',
@@ -88,7 +98,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 12300,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '11',
       imageUrl:
           'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400',
       title: 'Stock Market Rally Continues',
@@ -98,7 +109,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'health': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '12',
       imageUrl:
           'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400',
       title: 'Health Tips for Winter',
@@ -106,7 +118,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 9500,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '13',
       imageUrl:
           'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=400',
       title: 'Medical Breakthrough Announced',
@@ -116,7 +129,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'entertainment': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '14',
       imageUrl:
           'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400',
       title: 'New Movies This Week',
@@ -124,7 +138,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 21400,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '15',
       imageUrl:
           'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400',
       title: 'Music Festival Highlights',
@@ -134,7 +149,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'science': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '16',
       imageUrl:
           'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400',
       title: 'Space Exploration Update',
@@ -142,7 +158,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 10200,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '17',
       imageUrl:
           'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=400',
       title: 'Climate Research Findings',
@@ -152,7 +169,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
     ),
   ],
   'world': [
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '18',
       imageUrl:
           'https://images.unsplash.com/photo-1526666923127-b2970f64b422?w=400',
       title: 'Global News Roundup',
@@ -160,7 +178,8 @@ final Map<String, List<ArticalItemModel>> articlesByCategory = {
       date: DateTime(2025, 10, 13),
       viewerCount: 19200,
     ),
-    ArticalItemModel(
+    ArticleItemModel(
+      id: '19',
       imageUrl:
           'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=400',
       title: 'International Relations Update',

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 import 'comments_section.dart';
 import 'details_article_content.dart';
@@ -13,7 +13,7 @@ import 'related_articles_section.dart';
 class DetailsArticleBodyView extends StatelessWidget {
   const DetailsArticleBodyView({super.key, required this.articalModel});
 
-  final ArticalItemModel articalModel;
+  final ArticleItemModel articalModel;
 
   @override
   Widget build(BuildContext context) {

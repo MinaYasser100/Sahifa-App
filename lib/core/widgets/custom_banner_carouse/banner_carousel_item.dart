@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
-import 'package:sahifa/features/home/ui/widgets/banner_gradient_overlay.dart';
-import 'package:sahifa/features/home/ui/widgets/banner_image.dart';
-import 'package:sahifa/features/home/ui/widgets/banner_info_section.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/banner_gradient_overlay.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/banner_image.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/banner_info_section.dart';
 
 class BannerCarouselItem extends StatelessWidget {
   const BannerCarouselItem({super.key, required this.banner});
 
-  final ArticalItemModel banner;
+  final ArticleItemModel banner;
 
   @override
   Widget build(BuildContext context) {

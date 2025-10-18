@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/ui/widgets/banner_date_info.dart';
-import 'package:sahifa/features/home/ui/widgets/banner_share_button.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/banner_date_info.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/banner_share_button.dart';
 
 class BannerInfoSection extends StatelessWidget {
   const BannerInfoSection({

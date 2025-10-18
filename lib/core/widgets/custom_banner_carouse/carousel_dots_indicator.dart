@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 class CarouselDotsIndicator extends StatelessWidget {
   const CarouselDotsIndicator({
@@ -10,7 +10,7 @@ class CarouselDotsIndicator extends StatelessWidget {
     required this.onDotTap,
   });
 
-  final List<ArticalItemModel> banners;
+  final List<ArticleItemModel> banners;
   final int currentIndex;
   final Function(int) onDotTap;
 

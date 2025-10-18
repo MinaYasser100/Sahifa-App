@@ -8,7 +8,7 @@ import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/favorite/ui/favorite_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
@@ -84,7 +84,7 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.detailsArticalView,
         pageBuilder: (context, state) {
-          final articalModel = state.extra as ArticalItemModel?;
+          final articalModel = state.extra as ArticleItemModel?;
           if (articalModel == null) {
             throw Exception('Artical model is not found');
           }

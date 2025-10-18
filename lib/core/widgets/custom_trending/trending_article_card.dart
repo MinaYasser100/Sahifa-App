@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_image.dart';
-import 'package:sahifa/features/home/data/models/news_item_model.dart';
+import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 import 'custom_index_badge.dart';
 import 'trend_card_content.dart';
@@ -14,7 +14,7 @@ class TrendingArticleCard extends StatelessWidget {
     required this.index,
   });
 
-  final ArticalItemModel articleItem;
+  final ArticleItemModel articleItem;
   final int index;
 
   @override
