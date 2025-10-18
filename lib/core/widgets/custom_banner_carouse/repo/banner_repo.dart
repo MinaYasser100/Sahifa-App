@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 abstract class BannerRepo {
@@ -13,6 +14,12 @@ class BannerRepoImpl implements BannerRepo {
       await Future.delayed(const Duration(seconds: 1));
 
       // Simulate API response - في المستقبل هيبقى API call حقيقي
+      // في BannerRepoImpl.fetchBanners()
+      // final response = await _apiService.get('/banners');
+      // final banners = (response.data as List)
+      //     .map((json) => ArticleItemModel.fromJson(json))
+      //     .toList();
+      // return Right(banners);
       final List<ArticleItemModel> banners = [
         ArticleItemModel(
           id: 'banner_1',
@@ -68,8 +75,7 @@ class BannerRepoImpl implements BannerRepo {
 
       return Right(banners);
     } catch (e) {
-      // في حالة حصول error
-      return Left('Failed to fetch banners: ${e.toString()}');
+      return Left("Failed to load banners".tr());
     }
   }
 }

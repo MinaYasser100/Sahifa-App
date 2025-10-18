@@ -42,14 +42,18 @@ class TrendCardContent extends StatelessWidget {
                   Icon(
                     Icons.access_time,
                     size: 14,
-                    color: isDarkMode ? Colors.grey[400] : Colors.grey[500],
+                    color: isDarkMode
+                        ? ColorsTheme().grayColor.withValues(alpha: 0.6)
+                        : ColorsTheme().grayColor.withValues(alpha: 0.8),
                   ),
                   const SizedBox(width: 4),
                   Text(
                     formatDate(articleItem.date),
                     style: TextStyle(
                       fontSize: 12,
-                      color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                      color: isDarkMode
+                          ? ColorsTheme().grayColor.withValues(alpha: 0.6)
+                          : ColorsTheme().grayColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ],

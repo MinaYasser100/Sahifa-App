@@ -11,6 +11,7 @@ class BannerLoadingState extends StatelessWidget {
     return FadeIn(
       duration: const Duration(milliseconds: 400),
       child: Container(
+        width: double.infinity,
         height: 240,
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(

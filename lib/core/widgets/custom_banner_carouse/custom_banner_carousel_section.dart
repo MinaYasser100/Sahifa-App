@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sahifa/features/home/manger/cubit/banners_cubit.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/banner_loading_state.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/banner_error_state.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/banner_empty_state.dart';

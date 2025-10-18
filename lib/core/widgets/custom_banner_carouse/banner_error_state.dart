@@ -4,7 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/manger/cubit/banners_cubit.dart';
+import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 
 class BannerErrorState extends StatelessWidget {
   const BannerErrorState({super.key, required this.message});
@@ -16,6 +16,7 @@ class BannerErrorState extends StatelessWidget {
     return FadeInDown(
       duration: const Duration(milliseconds: 500),
       child: Container(
+        width: double.infinity,
         height: 240,
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(24),
