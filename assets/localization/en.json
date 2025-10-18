@@ -13,5 +13,11 @@
   "Al Thawra" : "Al Thawra",
   "Your Daily News Source": "Your Daily News Source",
   "date": "Date",
-  "Issue Number": "Issue Number"
+  "Issue Number": "Issue Number",
+  "No banners available" : "No banners available",
+  "Failed to load banners" : "Failed to load banners",
+  "Try Again": "Try Again",
+  "Loading banners..." : "Loading banners...",
+  "Unable to fetch banners.\nPlease try again." : "Unable to fetch banners.\nPlease try again.",
+  "Check back later for featured articles": "Check back later for featured articles"
 }

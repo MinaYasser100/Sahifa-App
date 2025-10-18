@@ -36,4 +36,10 @@ class ColorsTheme {
   final successColor = const Color(0xFF388E3C); // Green for success
   final blackColor = Colors.black;
   final dividerColor = const Color(0xFFE0E0E0); // Light gray for dividers
+  final errorIconColor = const Color.fromARGB(
+    255,
+    211,
+    47,
+    47,
+  ); // Dark Red for error icons
 }

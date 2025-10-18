@@ -13,5 +13,11 @@
   "Al Thawra" : "الثورة",
   "Your Daily News Source": "مصدر أخبارك اليومية",
   "date": "التاريخ",
-  "Issue Number": "العدد"
+  "Issue Number": "العدد",
+  "No banners available" : "لا توجد لافتات متاحة",
+  "Failed to load banners" : "فشل في تحميل اللافتات",
+  "Try Again": "إعادة المحاولة",
+  "Loading banners..." : "جارٍ تحميل اللافتات...",
+  "Unable to fetch banners.\nPlease try again." : "غير قادر على جلب اللافتات.\nيرجى المحاولة مرة أخرى.",
+  "Check back later for featured articles": "تحقق مرة أخرى لاحقًا للمقالات المميزة"
  }
