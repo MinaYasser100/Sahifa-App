@@ -65,15 +65,31 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
           ),
           const SizedBox(height: 12),
           // Text Field
-          CustomTextFormField(
-            textFieldModel: TextFieldModel(
-              controller: _commentController,
-              focusNode: _focusNode,
-              keyboardType: TextInputType.text,
-              validator: (p0) => null,
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextFormField(
+                  textFieldModel: TextFieldModel(
+                    controller: _commentController,
+                    focusNode: _focusNode,
+                    keyboardType: TextInputType.text,
+                    validator: (p0) => null,
 
-              hintText: 'Write your comment here...',
-            ),
+                    hintText: 'Write your comment here...',
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              CircleAvatar(
+                backgroundColor: ColorsTheme().grayColor,
+                radius: 18,
+                child: Icon(
+                  Icons.send,
+                  color: ColorsTheme().primaryColor,
+                  size: 20,
+                ),
+              ),
+            ],
           ),
 
           // Action Buttons (shown when expanded)
