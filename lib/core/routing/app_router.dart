@@ -10,7 +10,9 @@ import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/favorite/ui/favorite_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer_subcategory_content.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/pdf/ui/pdf_view.dart';
@@ -136,6 +138,18 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.splashView,
         pageBuilder: (context, state) => fadeTransitionPage(SplashView()),
+      ),
+      GoRoute(
+        path: Routes.drawerSubCategoryContent,
+        pageBuilder: (context, state) {
+          final subcategory = state.extra as SubcategoryModel?;
+          if (subcategory == null) {
+            throw Exception('Subcategory is not found');
+          }
+          return fadeTransitionPage(
+            DrawerSubCategoryContentView(subcategory: subcategory),
+          );
+        },
       ),
     ],
   );

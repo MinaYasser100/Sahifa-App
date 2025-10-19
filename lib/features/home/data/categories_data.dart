@@ -9,10 +9,26 @@ class CategoriesData {
         name: 'news'.tr(),
         icon: 'newspaper',
         subcategories: [
-          Subcategory(id: 'local', name: 'local_news'.tr()),
-          Subcategory(id: 'international', name: 'international'.tr()),
-          Subcategory(id: 'politics', name: 'politics'.tr()),
-          Subcategory(id: 'breaking', name: 'breaking_news'.tr()),
+          SubcategoryModel(
+            id: 'local',
+            name: 'local_news'.tr(),
+            categoryId: 'news',
+          ),
+          SubcategoryModel(
+            id: 'international',
+            name: 'international'.tr(),
+            categoryId: 'news',
+          ),
+          SubcategoryModel(
+            id: 'politics',
+            name: 'politics'.tr(),
+            categoryId: 'news',
+          ),
+          SubcategoryModel(
+            id: 'breaking',
+            name: 'breaking_news'.tr(),
+            categoryId: 'news',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -20,10 +36,26 @@ class CategoriesData {
         name: 'sports'.tr(),
         icon: 'sports_soccer',
         subcategories: [
-          Subcategory(id: 'football', name: 'football'.tr()),
-          Subcategory(id: 'basketball', name: 'basketball'.tr()),
-          Subcategory(id: 'tennis', name: 'tennis'.tr()),
-          Subcategory(id: 'athletics', name: 'athletics'.tr()),
+          SubcategoryModel(
+            id: 'football',
+            name: 'football'.tr(),
+            categoryId: 'sports',
+          ),
+          SubcategoryModel(
+            id: 'basketball',
+            name: 'basketball'.tr(),
+            categoryId: 'sports',
+          ),
+          SubcategoryModel(
+            id: 'tennis',
+            name: 'tennis'.tr(),
+            categoryId: 'sports',
+          ),
+          SubcategoryModel(
+            id: 'athletics',
+            name: 'athletics'.tr(),
+            categoryId: 'sports',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -31,10 +63,26 @@ class CategoriesData {
         name: 'economy'.tr(),
         icon: 'attach_money',
         subcategories: [
-          Subcategory(id: 'market', name: 'market_news'.tr()),
-          Subcategory(id: 'business', name: 'business'.tr()),
-          Subcategory(id: 'finance', name: 'finance'.tr()),
-          Subcategory(id: 'stocks', name: 'stocks'.tr()),
+          SubcategoryModel(
+            id: 'market',
+            name: 'market_news'.tr(),
+            categoryId: 'economy',
+          ),
+          SubcategoryModel(
+            id: 'business',
+            name: 'business'.tr(),
+            categoryId: 'economy',
+          ),
+          SubcategoryModel(
+            id: 'finance',
+            name: 'finance'.tr(),
+            categoryId: 'economy',
+          ),
+          SubcategoryModel(
+            id: 'stocks',
+            name: 'stocks'.tr(),
+            categoryId: 'economy',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -42,10 +90,26 @@ class CategoriesData {
         name: 'technology'.tr(),
         icon: 'computer',
         subcategories: [
-          Subcategory(id: 'mobile', name: 'mobile'.tr()),
-          Subcategory(id: 'ai', name: 'ai_machine_learning'.tr()),
-          Subcategory(id: 'software', name: 'software'.tr()),
-          Subcategory(id: 'gadgets', name: 'gadgets'.tr()),
+          SubcategoryModel(
+            id: 'mobile',
+            name: 'mobile'.tr(),
+            categoryId: 'technology',
+          ),
+          SubcategoryModel(
+            id: 'ai',
+            name: 'ai_machine_learning'.tr(),
+            categoryId: 'technology',
+          ),
+          SubcategoryModel(
+            id: 'software',
+            name: 'software'.tr(),
+            categoryId: 'technology',
+          ),
+          SubcategoryModel(
+            id: 'gadgets',
+            name: 'gadgets'.tr(),
+            categoryId: 'technology',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -53,10 +117,26 @@ class CategoriesData {
         name: 'entertainment'.tr(),
         icon: 'movie',
         subcategories: [
-          Subcategory(id: 'cinema', name: 'cinema'.tr()),
-          Subcategory(id: 'music', name: 'music'.tr()),
-          Subcategory(id: 'tv', name: 'tv_shows'.tr()),
-          Subcategory(id: 'celebrities', name: 'celebrities'.tr()),
+          SubcategoryModel(
+            id: 'cinema',
+            name: 'cinema'.tr(),
+            categoryId: 'entertainment',
+          ),
+          SubcategoryModel(
+            id: 'music',
+            name: 'music'.tr(),
+            categoryId: 'entertainment',
+          ),
+          SubcategoryModel(
+            id: 'tv',
+            name: 'tv_shows'.tr(),
+            categoryId: 'entertainment',
+          ),
+          SubcategoryModel(
+            id: 'celebrities',
+            name: 'celebrities'.tr(),
+            categoryId: 'entertainment',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -64,10 +144,26 @@ class CategoriesData {
         name: 'health'.tr(),
         icon: 'favorite',
         subcategories: [
-          Subcategory(id: 'medical', name: 'medical_news'.tr()),
-          Subcategory(id: 'fitness', name: 'fitness'.tr()),
-          Subcategory(id: 'nutrition', name: 'nutrition'.tr()),
-          Subcategory(id: 'mental', name: 'mental_health'.tr()),
+          SubcategoryModel(
+            id: 'medical',
+            name: 'medical_news'.tr(),
+            categoryId: 'health',
+          ),
+          SubcategoryModel(
+            id: 'fitness',
+            name: 'fitness'.tr(),
+            categoryId: 'health',
+          ),
+          SubcategoryModel(
+            id: 'nutrition',
+            name: 'nutrition'.tr(),
+            categoryId: 'health',
+          ),
+          SubcategoryModel(
+            id: 'mental',
+            name: 'mental_health'.tr(),
+            categoryId: 'health',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -75,10 +171,22 @@ class CategoriesData {
         name: 'culture'.tr(),
         icon: 'menu_book',
         subcategories: [
-          Subcategory(id: 'books', name: 'books'.tr()),
-          Subcategory(id: 'art', name: 'art'.tr()),
-          Subcategory(id: 'history', name: 'history'.tr()),
-          Subcategory(id: 'literature', name: 'literature'.tr()),
+          SubcategoryModel(
+            id: 'books',
+            name: 'books'.tr(),
+            categoryId: 'culture',
+          ),
+          SubcategoryModel(id: 'art', name: 'art'.tr(), categoryId: 'culture'),
+          SubcategoryModel(
+            id: 'history',
+            name: 'history'.tr(),
+            categoryId: 'culture',
+          ),
+          SubcategoryModel(
+            id: 'literature',
+            name: 'literature'.tr(),
+            categoryId: 'culture',
+          ),
         ],
       ),
       CategoryWithSubcategories(
@@ -86,10 +194,26 @@ class CategoriesData {
         name: 'security_courts'.tr(),
         icon: 'security',
         subcategories: [
-          Subcategory(id: 'police', name: 'police_reports'.tr()),
-          Subcategory(id: 'courts', name: 'court_cases'.tr()),
-          Subcategory(id: 'investigations', name: 'investigations'.tr()),
-          Subcategory(id: 'crime', name: 'crime_news'.tr()),
+          SubcategoryModel(
+            id: 'police',
+            name: 'police_reports'.tr(),
+            categoryId: 'security',
+          ),
+          SubcategoryModel(
+            id: 'courts',
+            name: 'court_cases'.tr(),
+            categoryId: 'security',
+          ),
+          SubcategoryModel(
+            id: 'investigations',
+            name: 'investigations'.tr(),
+            categoryId: 'security',
+          ),
+          SubcategoryModel(
+            id: 'crime',
+            name: 'crime_news'.tr(),
+            categoryId: 'security',
+          ),
         ],
       ),
     ];

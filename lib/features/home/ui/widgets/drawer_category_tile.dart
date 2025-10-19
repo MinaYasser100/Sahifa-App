@@ -4,9 +4,12 @@ import 'package:sahifa/features/home/data/models/category_with_subcategories.dar
 import 'package:sahifa/features/home/ui/widgets/drawer_subcategory_tile.dart';
 
 class DrawerCategoryTile extends StatelessWidget {
-  const DrawerCategoryTile({super.key, required this.category});
+  const DrawerCategoryTile({
+    super.key,
+    required this.categoryWithSubcategories,
+  });
 
-  final CategoryWithSubcategories category;
+  final CategoryWithSubcategories categoryWithSubcategories;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class DrawerCategoryTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
-            _getIconData(category.icon),
+            _getIconData(categoryWithSubcategories.icon),
             color: isDarkMode
                 ? ColorsTheme().secondaryLight
                 : ColorsTheme().primaryColor,
@@ -37,7 +40,7 @@ class DrawerCategoryTile extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                category.name,
+                categoryWithSubcategories.name,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -57,7 +60,7 @@ class DrawerCategoryTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '${category.subcategories.length}',
+                '${categoryWithSubcategories.subcategories.length}',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -81,11 +84,8 @@ class DrawerCategoryTile extends StatelessWidget {
         collapsedIconColor: isDarkMode
             ? ColorsTheme().secondaryLight
             : ColorsTheme().primaryColor,
-        children: category.subcategories.map((subcategory) {
-          return DrawerSubcategoryTile(
-            subcategory: subcategory,
-            categoryName: category.name,
-          );
+        children: categoryWithSubcategories.subcategories.map((subcategory) {
+          return DrawerSubcategoryTile(subcategory: subcategory);
         }).toList(),
       ),
     );

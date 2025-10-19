@@ -11,7 +11,7 @@ class CategoriesHorizontalBar extends StatelessWidget {
   });
 
   final String selectedCategoryId;
-  final Function(String categoryId, String categoryName) onCategoryTap;
+  final void Function(CategoryModel category) onCategoryTap;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class CategoriesHorizontalBar extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              onCategoryTap(category.id, category.name);
+              onCategoryTap(category);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),

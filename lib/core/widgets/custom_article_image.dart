@@ -20,11 +20,15 @@ class CustomArticleImage extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorsTheme().grayColor.withValues(alpha: 0.3),
-          width: 2,
-        ),
+        borderRadius: changeBorderRadius
+            ? BorderRadius.zero
+            : BorderRadius.circular(10),
+        border: changeBorderRadius
+            ? null
+            : Border.all(
+                color: ColorsTheme().grayColor.withValues(alpha: 0.3),
+                width: 2,
+              ),
       ),
       child: ClipRRect(
         clipBehavior: Clip.antiAlias,

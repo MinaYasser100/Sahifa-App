@@ -29,4 +29,5 @@ class Routes {
   static const String favoritesView = '/favorites';
   static const String editInfoView = '/edit-info';
   static const String splashView = '/splash';
+  static const String drawerSubCategoryContent = '/drawerSubCategoryContent';
 }

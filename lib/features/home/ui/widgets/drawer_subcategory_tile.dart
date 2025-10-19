@@ -5,14 +5,9 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
 
 class DrawerSubcategoryTile extends StatelessWidget {
-  const DrawerSubcategoryTile({
-    super.key,
-    required this.subcategory,
-    required this.categoryName,
-  });
+  const DrawerSubcategoryTile({super.key, required this.subcategory});
 
-  final Subcategory subcategory;
-  final String categoryName;
+  final SubcategoryModel subcategory;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +53,7 @@ class DrawerSubcategoryTile extends StatelessWidget {
           Navigator.pop(context);
 
           // Navigate to category view
-          context.push(
-            Routes.searchCategoryView,
-            extra: '$categoryName - ${subcategory.name}',
-          );
+          context.push(Routes.drawerSubCategoryContent, extra: subcategory);
         },
       ),
     );

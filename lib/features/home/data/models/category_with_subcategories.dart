@@ -2,7 +2,7 @@ class CategoryWithSubcategories {
   final String id;
   final String name;
   final String icon;
-  final List<Subcategory> subcategories;
+  final List<SubcategoryModel> subcategories;
 
   CategoryWithSubcategories({
     required this.id,
@@ -12,10 +12,16 @@ class CategoryWithSubcategories {
   });
 }
 
-class Subcategory {
+class SubcategoryModel {
   final String id;
   final String name;
   final String? icon;
+  final String categoryId;
 
-  Subcategory({required this.id, required this.name, this.icon});
+  SubcategoryModel({
+    required this.id,
+    required this.name,
+    this.icon,
+    required this.categoryId,
+  });
 }

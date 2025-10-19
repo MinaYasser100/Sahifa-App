@@ -27,7 +27,9 @@ class CustomHomeDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               itemCount: categories.length,
               itemBuilder: (context, index) {
-                return DrawerCategoryTile(category: categories[index]);
+                return DrawerCategoryTile(
+                  categoryWithSubcategories: categories[index],
+                );
               },
             ),
           ),
