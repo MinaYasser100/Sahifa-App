@@ -48,7 +48,9 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
             children: [
               Icon(
                 FontAwesomeIcons.comment,
-                color: ColorsTheme().primaryColor,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -74,6 +76,7 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
                     controller: _commentController,
                     focusNode: _focusNode,
                     keyboardType: TextInputType.text,
+                    ischangeColor: true,
                     validator: (p0) => null,
                     hintText: 'write_your_comment_here'.tr(),
                   ),

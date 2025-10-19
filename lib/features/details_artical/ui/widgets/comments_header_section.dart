@@ -23,7 +23,9 @@ class CommentsHeaderSection extends StatelessWidget {
         children: [
           Icon(
             FontAwesomeIcons.comments,
-            color: ColorsTheme().primaryColor,
+            color: isDarkMode
+                ? ColorsTheme().whiteColor
+                : ColorsTheme().primaryColor,
             size: 24,
           ),
           const SizedBox(width: 12),
@@ -41,14 +43,18 @@ class CommentsHeaderSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: ColorsTheme().primaryColor.withValues(alpha: 0.15),
+              color: isDarkMode
+                  ? ColorsTheme().whiteColor.withValues(alpha: 0.3)
+                  : ColorsTheme().primaryColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               '${comments.length}',
               style: TextStyle(
-                color: ColorsTheme().primaryColor,
-                fontSize: 14,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),

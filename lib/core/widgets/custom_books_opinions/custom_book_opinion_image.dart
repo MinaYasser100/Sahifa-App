@@ -7,10 +7,12 @@ class CustomBookOpinionImage extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.containerWidth,
+    this.isListItem = false,
   });
 
   final String imageUrl;
   final double containerWidth;
+  final bool isListItem;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +21,18 @@ class CustomBookOpinionImage extends StatelessWidget {
 
     return Container(
       width: containerWidth,
-      height: 180,
+      height: isListItem ? 220 : 180,
       decoration: BoxDecoration(
         color: ColorsTheme().primaryColor,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isDarkMode
-              ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
-              : ColorsTheme().grayColor.withValues(alpha: 0.3),
-          width: 2,
-        ),
+        borderRadius: isListItem ? null : BorderRadius.circular(8),
+        border: isListItem
+            ? null
+            : Border.all(
+                color: isDarkMode
+                    ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
+                    : ColorsTheme().grayColor.withValues(alpha: 0.3),
+                width: 2,
+              ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,8 +41,8 @@ class CustomBookOpinionImage extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imageUrl,
-              width: 100,
-              height: 100,
+              width: isListItem ? 120 : 100,
+              height: isListItem ? 120 : 100,
               fit: BoxFit.fill,
               errorBuilder: (context, error, stackTrace) {
                 return Container(

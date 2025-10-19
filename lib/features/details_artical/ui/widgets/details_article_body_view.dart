@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
@@ -26,11 +27,17 @@ class DetailsArticleBodyView extends StatelessWidget {
             child: Stack(
               children: [
                 FadeIn(
-                  child: CustomArticleImage(
-                    imageUrl: articalModel.imageUrl,
-                    height: 300,
-                    changeBorderRadius: true,
-                  ),
+                  child: (articalModel.categoryId == "books_opinions")
+                      ? CustomBookOpinionImage(
+                          imageUrl: articalModel.imageUrl,
+                          containerWidth: double.infinity,
+                          isListItem: true,
+                        )
+                      : CustomArticleImage(
+                          imageUrl: articalModel.imageUrl,
+                          height: 300,
+                          changeBorderRadius: true,
+                        ),
                 ),
                 Positioned(
                   top: 10,
@@ -38,7 +45,7 @@ class DetailsArticleBodyView extends StatelessWidget {
                   child: FadeInDown(
                     child: CircleAvatar(
                       backgroundColor: ColorsTheme().whiteColor.withValues(
-                        alpha: 0.3,
+                        alpha: 0.8,
                       ),
                       child: IconButton(
                         icon: Icon(

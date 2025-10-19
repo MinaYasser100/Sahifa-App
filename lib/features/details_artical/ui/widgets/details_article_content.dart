@@ -2,8 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+
+import 'meta_chip_widget.dart';
 
 class DetailsArticleContent extends StatelessWidget {
   const DetailsArticleContent({super.key, required this.articalModel});
@@ -24,68 +27,59 @@ class DetailsArticleContent extends StatelessWidget {
           FadeInLeft(
             child: Text(
               articalModel.title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+              style: AppTextStyles.styleBold24sp(context).copyWith(
                 color: isDarkMode
                     ? ColorsTheme().secondaryLight
-                    : ColorsTheme().primaryLight,
-                height: 1.4,
+                    : ColorsTheme().primaryColor,
               ),
             ),
           ),
-          const SizedBox(height: 16),
 
+          const SizedBox(height: 10),
+          if (articalModel.categoryId == "books_opinions")
+            Text(
+              'محمد محمود',
+              style: TextStyle(
+                fontSize: 20,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor.withValues(alpha: 0.9)
+                    : Colors.grey[900],
+                height: 1.4,
+                letterSpacing: 0.25,
+              ),
+            ),
           // Metadata Row
           FadeInLeft(
             child: Row(
               children: [
-                // Date
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isDarkMode
-                        ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
-                        : ColorsTheme().primaryColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 14,
-                        color: isDarkMode
-                            ? ColorsTheme().secondaryLight
-                            : ColorsTheme().primaryColor,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        formatDate(articalModel.date),
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDarkMode
-                              ? ColorsTheme().secondaryLight
-                              : ColorsTheme().primaryColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+                MetaChipWidget(
+                  icon: Icons.calendar_today,
+                  text: formatDate(articalModel.date),
+                  isDarkMode: isDarkMode,
                 ),
-                const SizedBox(width: 12),
+                Container(
+                  width: 2,
+                  height: 20,
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  color: isDarkMode
+                      ? ColorsTheme().whiteColor.withValues(alpha: 0.9)
+                      : Colors.grey[900],
+                ),
+                MetaChipWidget(
+                  icon: Icons.visibility_outlined,
+                  text: formatViewCount(articalModel.viewerCount),
+                  isDarkMode: isDarkMode,
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
 
           // Divider
           FadeInUp(
             child: Divider(
               color: isDarkMode
-                  ? ColorsTheme().primaryLight.withValues(alpha: 0.3)
+                  ? ColorsTheme().primaryLight.withValues(alpha: 0.9)
                   : ColorsTheme().dividerColor,
               thickness: 1,
             ),
@@ -97,7 +91,7 @@ class DetailsArticleContent extends StatelessWidget {
             child: Text(
               articalModel.description,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 color: isDarkMode
                     ? ColorsTheme().whiteColor.withValues(alpha: 0.95)
                     : Colors.grey[800],
@@ -113,7 +107,7 @@ class DetailsArticleContent extends StatelessWidget {
             child: Text(
               "article_long_content".tr(),
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 18,
                 color: isDarkMode
                     ? ColorsTheme().whiteColor.withValues(alpha: 0.85)
                     : Colors.grey[700],
@@ -126,5 +120,15 @@ class DetailsArticleContent extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+String formatViewCount(int count) {
+  if (count >= 1000000) {
+    return '${(count / 1000000).toStringAsFixed(1)}M';
+  } else if (count >= 1000) {
+    return '${(count / 1000).toStringAsFixed(1)}K';
+  } else {
+    return count.toString();
   }
 }
