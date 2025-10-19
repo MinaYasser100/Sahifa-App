@@ -39,6 +39,7 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -105,7 +106,9 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
                     left: 12,
                     top: MediaQuery.of(context).size.height / 2 - 30,
                     child: buildNavigationButton(
-                      icon: Icons.chevron_left_rounded,
+                      icon: isArabic
+                          ? Icons.chevron_right_rounded
+                          : Icons.chevron_left_rounded,
                       onPressed: () {
                         _animatePageChange(() {
                           _pdfViewerController.previousPage();
@@ -120,7 +123,9 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
                     right: 12,
                     top: MediaQuery.of(context).size.height / 2 - 30,
                     child: buildNavigationButton(
-                      icon: Icons.chevron_right_rounded,
+                      icon: isArabic
+                          ? Icons.chevron_left_rounded
+                          : Icons.chevron_right_rounded,
                       onPressed: () {
                         _animatePageChange(() {
                           _pdfViewerController.nextPage();
