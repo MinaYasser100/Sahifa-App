@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
@@ -23,13 +24,10 @@ class TrendCardContent extends StatelessWidget {
               // Title
               Text(
                 articleItem.title,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
+                style: AppTextStyles.styleBold20sp(context).copyWith(
                   color: isDarkMode
-                      ? ColorsTheme().secondaryLight
-                      : ColorsTheme().primaryLight,
-                  height: 1.3,
+                      ? ColorsTheme().secondaryColor
+                      : ColorsTheme().primaryColor,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

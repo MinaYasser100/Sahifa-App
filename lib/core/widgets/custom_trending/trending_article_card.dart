@@ -38,8 +38,8 @@ class TrendingArticleCard extends StatelessWidget {
                 children: [
                   CustomArticleImage(
                     imageUrl: articleItem.imageUrl,
-                    height: 120,
-                    width: 120,
+                    height: 100,
+                    width: 100,
                     changeBorderRadius: false,
                   ),
                   // Index Badge

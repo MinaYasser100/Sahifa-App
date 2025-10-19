@@ -20,20 +20,17 @@ class SearchCategoryView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: SizedBox(
-                    height: 320,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(
-                          Routes.detailsArticalView,
-                          extra: trendingArticles[index],
-                        );
-                      },
-                      child: CustomArticleItemCard(
-                        articleItem: trendingArticles[index],
-                        cardWidth: double.infinity,
-                        isItemList: true,
-                      ),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push(
+                        Routes.detailsArticalView,
+                        extra: trendingArticles[index],
+                      );
+                    },
+                    child: CustomArticleItemCard(
+                      articleItem: trendingArticles[index],
+                      cardWidth: double.infinity,
+                      isItemList: true,
                     ),
                   ),
                 );

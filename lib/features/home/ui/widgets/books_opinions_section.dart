@@ -27,7 +27,7 @@ class BooksOpinionsSection extends StatelessWidget {
               children: [
                 Text(
                   'books_opinions'.tr(),
-                  style: AppTextStyles.styleBold18sp(context).copyWith(
+                  style: AppTextStyles.styleBold24sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor
                         : ColorsTheme().primaryLight,

@@ -21,7 +21,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
       viewerCount: 250,
     );
     return SizedBox(
-      height: 320,
+      height: 325,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 10),

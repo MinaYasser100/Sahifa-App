@@ -21,47 +21,53 @@ class CustomArticleItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return FadeInLeft(
-      child: Container(
-        width: cardWidth,
-        margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
-        decoration: BoxDecoration(
-          color: isDarkMode
-              ? ColorsTheme().primaryDark
-              : ColorsTheme().whiteColor,
-        ),
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Image Section
-                CustomArticleImage(imageUrl: articleItem.imageUrl, height: 180),
-                // Content Section
-                CustomArticleItemContent(articleItem: articleItem),
-              ],
-            ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: GestureDetector(
-                onTap: () {
-                  // Handle favorite icon tap
-                },
-                child: FadeInDown(
-                  child: CircleAvatar(
-                    radius: 16,
-                    backgroundColor: ColorsTheme().whiteColor,
-                    child: Icon(
-                      FontAwesomeIcons.heart,
-                      color: ColorsTheme().primaryColor,
-                      size: 20,
+    return SizedBox(
+      height: 325,
+      child: FadeInLeft(
+        child: Container(
+          width: cardWidth,
+          margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? ColorsTheme().primaryDark
+                : ColorsTheme().whiteColor,
+          ),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image Section
+                  CustomArticleImage(
+                    imageUrl: articleItem.imageUrl,
+                    height: 180,
+                  ),
+                  // Content Section
+                  CustomArticleItemContent(articleItem: articleItem),
+                ],
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: () {
+                    // Handle favorite icon tap
+                  },
+                  child: FadeInDown(
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: ColorsTheme().whiteColor,
+                      child: Icon(
+                        FontAwesomeIcons.heart,
+                        color: ColorsTheme().primaryColor,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

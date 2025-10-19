@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item_metadata.dart';
@@ -29,9 +30,7 @@ class CustomArticleItemContent extends StatelessWidget {
                   Expanded(
                     child: Text(
                       articleItem.category,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      style: AppTextStyles.styleBold22sp(context).copyWith(
                         color: isDarkMode
                             ? ColorsTheme().secondaryLight
                             : ColorsTheme().primaryDark,
@@ -81,7 +80,7 @@ class CustomArticleItemContent extends StatelessWidget {
                     child: Text(
                       articleItem.title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: isDarkMode
                             ? ColorsTheme().secondaryLight

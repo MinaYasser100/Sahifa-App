@@ -25,10 +25,10 @@ class ArticalsGroupSection extends StatelessWidget {
               children: [
                 Text(
                   'local_news'.tr(),
-                  style: AppTextStyles.styleBold18sp(context).copyWith(
+                  style: AppTextStyles.styleBold24sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor
-                        : ColorsTheme().primaryLight,
+                        : ColorsTheme().primaryColor,
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -37,7 +37,7 @@ class ArticalsGroupSection extends StatelessWidget {
                   size: 16,
                   color: isDarkMode
                       ? ColorsTheme().whiteColor
-                      : ColorsTheme().primaryLight,
+                      : ColorsTheme().primaryColor,
                 ),
               ],
             ),
