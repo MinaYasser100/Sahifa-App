@@ -7,9 +7,34 @@ abstract class BannerRepo {
 }
 
 class BannerRepoImpl implements BannerRepo {
+  // Singleton Pattern
+  static final BannerRepoImpl _instance = BannerRepoImpl._internal();
+  factory BannerRepoImpl() => _instance;
+  BannerRepoImpl._internal();
+
+  // Memory Cache
+  List<ArticleItemModel>? _cachedBanners;
+  DateTime? _lastFetchTime;
+  final Duration _cacheDuration = const Duration(minutes: 30);
+
+  // Getters for cache status (needed by Cubit to check cache)
+  bool get hasValidCache =>
+      _cachedBanners != null &&
+      _lastFetchTime != null &&
+      DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
+
   @override
   Future<Either<String, List<ArticleItemModel>>> fetchBanners() async {
     try {
+      // Check if cached data exists and is still fresh
+      if (_cachedBanners != null &&
+          _lastFetchTime != null &&
+          DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
+        // Return cached data immediately
+        return Right(_cachedBanners!);
+      }
+
+      // If no cache or cache expired, fetch from API
       // Simulate API delay
       await Future.delayed(const Duration(seconds: 1));
 
@@ -78,9 +103,25 @@ class BannerRepoImpl implements BannerRepo {
         ),
       ];
 
+      // Store in cache
+      _cachedBanners = banners;
+      _lastFetchTime = DateTime.now();
+
       return Right(banners);
     } catch (e) {
       return Left("Failed to load banners".tr());
     }
+  }
+
+  // Method to clear cache if needed (e.g., on logout or refresh)
+  void clearCache() {
+    _cachedBanners = null;
+    _lastFetchTime = null;
+  }
+
+  // Method to force refresh (ignores cache)
+  Future<Either<String, List<ArticleItemModel>>> forceRefresh() async {
+    clearCache();
+    return fetchBanners();
   }
 }

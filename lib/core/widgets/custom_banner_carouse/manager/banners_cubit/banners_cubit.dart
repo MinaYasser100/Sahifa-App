@@ -14,7 +14,12 @@ class BannersCubit extends Cubit<BannersState> {
   Future<void> fetchBanners() async {
     if (isClosed) return;
 
-    emit(BannersLoading());
+    // Only emit loading if we don't have cached data
+    // This prevents showing loading spinner when data is already cached
+    final repoImpl = bannerRepo as BannerRepoImpl;
+    if (!repoImpl.hasValidCache) {
+      emit(BannersLoading());
+    }
 
     final result = await bannerRepo.fetchBanners();
 
@@ -26,8 +31,20 @@ class BannersCubit extends Cubit<BannersState> {
     );
   }
 
-  /// Refresh banners
+  /// Refresh banners (force refresh, ignoring cache)
   Future<void> refreshBanners() async {
-    await fetchBanners();
+    if (isClosed) return;
+
+    emit(BannersLoading());
+
+    final repoImpl = bannerRepo as BannerRepoImpl;
+    final result = await repoImpl.forceRefresh();
+
+    if (isClosed) return;
+
+    result.fold(
+      (error) => emit(BannersError(error)),
+      (banners) => emit(BannersLoaded(banners)),
+    );
   }
 }
