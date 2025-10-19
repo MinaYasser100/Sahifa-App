@@ -6,27 +6,25 @@ import 'package:sahifa/features/articals_section/ui/widgets/categories_bar.dart'
 import 'package:sahifa/features/articals_section/ui/widgets/artical_list_item.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
-class ArticalsSectionView extends StatefulWidget {
-  const ArticalsSectionView({super.key, required this.title});
+class ArticlesCategorySectionView extends StatefulWidget {
+  const ArticlesCategorySectionView({super.key, required this.title});
   final String title;
 
   @override
-  State<ArticalsSectionView> createState() => _ArticalsSectionViewState();
+  State<ArticlesCategorySectionView> createState() =>
+      _ArticlesCategorySectionViewState();
 }
 
-class _ArticalsSectionViewState extends State<ArticalsSectionView> {
+class _ArticlesCategorySectionViewState
+    extends State<ArticlesCategorySectionView> {
   String selectedCategoryId = 'all';
 
   final List<CategoryModel> categories = [
-    CategoryModel(id: 'all', name: 'All'),
-    CategoryModel(id: 'politics', name: 'Politics'),
-    CategoryModel(id: 'sports', name: 'Sports'),
-    CategoryModel(id: 'technology', name: 'Technology'),
-    CategoryModel(id: 'business', name: 'Business'),
-    CategoryModel(id: 'health', name: 'Health'),
-    CategoryModel(id: 'entertainment', name: 'Entertainment'),
-    CategoryModel(id: 'science', name: 'Science'),
-    CategoryModel(id: 'world', name: 'World'),
+    CategoryModel(id: 'all', name: 'All'.tr()),
+    CategoryModel(id: 'politics', name: 'Politics'.tr()),
+    CategoryModel(id: 'sports', name: 'Sports'.tr()),
+    CategoryModel(id: 'technology', name: 'Technology'.tr()),
+    CategoryModel(id: 'business', name: 'Business'.tr()),
   ];
 
   List<ArticleItemModel> get filteredArticles {

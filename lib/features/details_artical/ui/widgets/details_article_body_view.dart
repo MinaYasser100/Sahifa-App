@@ -7,7 +7,7 @@ import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_im
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
-import 'comments_section.dart';
+import 'comments/comments_section.dart';
 import 'details_article_content.dart';
 import 'related_articles_section.dart';
 

@@ -5,12 +5,12 @@ import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 import 'package:sahifa/features/search/data/category_model.dart';
-import 'package:sahifa/features/home/ui/widgets/custom_home_drawer.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer/custom_home_drawer.dart';
 import 'package:sahifa/features/home/ui/widgets/home_app_bar.dart';
 import 'package:sahifa/features/home/ui/widgets/home_body_view.dart';
-import 'package:sahifa/features/home/ui/widgets/categories_horizontal_bar.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_horizontal_bar.dart';
 
-import 'widgets/home_category_veiw.dart';
+import 'widgets/home_categories_bar/home_categories_veiw.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -47,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: _selectedCategoryId == 'home'
                   ? HomeBodyView()
-                  : HomeCategoryView(categoryId: _selectedCategoryId),
+                  : HomeCategoriesView(categoryId: _selectedCategoryId),
             ),
           ],
         ),

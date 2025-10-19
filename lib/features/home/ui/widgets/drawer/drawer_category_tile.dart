@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
-import 'package:sahifa/features/home/ui/widgets/drawer_subcategory_tile.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_tile.dart';
 
 class DrawerCategoryTile extends StatelessWidget {
   const DrawerCategoryTile({
@@ -20,21 +21,12 @@ class DrawerCategoryTile extends StatelessWidget {
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         childrenPadding: EdgeInsets.zero,
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: isDarkMode
-                ? ColorsTheme().primaryLight.withValues(alpha: 0.2)
-                : ColorsTheme().primaryColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            _getIconData(categoryWithSubcategories.icon),
-            color: isDarkMode
-                ? ColorsTheme().secondaryLight
-                : ColorsTheme().primaryColor,
-            size: 22,
-          ),
+        leading: Icon(
+          FontAwesomeIcons.layerGroup,
+          color: isDarkMode
+              ? ColorsTheme().secondaryLight
+              : ColorsTheme().primaryColor,
+          size: 22,
         ),
         title: Row(
           children: [
@@ -89,28 +81,5 @@ class DrawerCategoryTile extends StatelessWidget {
         }).toList(),
       ),
     );
-  }
-
-  IconData _getIconData(String iconName) {
-    switch (iconName) {
-      case 'newspaper':
-        return Icons.newspaper;
-      case 'sports_soccer':
-        return Icons.sports_soccer;
-      case 'attach_money':
-        return Icons.attach_money;
-      case 'computer':
-        return Icons.computer;
-      case 'movie':
-        return Icons.movie;
-      case 'favorite':
-        return Icons.favorite;
-      case 'menu_book':
-        return Icons.menu_book;
-      case 'security':
-        return Icons.security;
-      default:
-        return Icons.category;
-    }
   }
 }

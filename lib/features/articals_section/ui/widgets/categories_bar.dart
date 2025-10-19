@@ -16,21 +16,18 @@ class CategoriesBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      height: 60,
+      height: 50,
       decoration: BoxDecoration(
-        color: ColorsTheme().primaryColor,
-        boxShadow: [
-          BoxShadow(
-            color: ColorsTheme().blackColor.withValues(alpha: 0.15),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        color: isDarkMode
+            ? ColorsTheme().primaryDark
+            : ColorsTheme().primaryColor,
       ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
@@ -38,51 +35,28 @@ class CategoriesBar extends StatelessWidget {
 
           return GestureDetector(
             onTap: () => onCategorySelected(category.id),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              margin: const EdgeInsets.only(right: 12),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? ColorsTheme().whiteColor
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: isSelected
-                      ? ColorsTheme().whiteColor
-                      : ColorsTheme().whiteColor.withValues(alpha: 0.3),
-                  width: isSelected ? 2 : 1,
-                ),
+                border: isSelected
+                    ? Border(
+                        bottom: BorderSide(
+                          color: ColorsTheme().whiteColor,
+                          style: BorderStyle.solid,
+                          width: 2,
+                        ),
+                      )
+                    : null,
               ),
               child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (isSelected)
-                      Container(
-                        width: 6,
-                        height: 6,
-                        margin: const EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          color: ColorsTheme().primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    Text(
-                      category.name,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
-                        color: isSelected
-                            ? ColorsTheme().primaryColor
-                            : Colors.white,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  category.name,
+                  style: TextStyle(
+                    color: ColorsTheme().whiteColor,
+                    fontSize: 18,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                  ),
                 ),
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/data/categories_data.dart';
-import 'package:sahifa/features/home/ui/widgets/drawer_category_tile.dart';
-import 'package:sahifa/features/home/ui/widgets/drawer_header.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer/drawer_category_tile.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer/drawer_header.dart';
 
 class CustomHomeDrawer extends StatelessWidget {
   const CustomHomeDrawer({super.key});

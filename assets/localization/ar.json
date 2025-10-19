@@ -280,5 +280,10 @@
   "category_world": "عالم",
   "category_health": "صحة",
   "category_technology": "تكنولوجيا",
-  "Select Language": "اختر اللغة"
+  "Select Language": "اختر اللغة",
+  "All" : "الكل",
+  "Politics" : "سياسة",
+  "Sports" : "رياضة",
+  "Technology" : "تكنولوجيا",
+  "Business" : "أعمال"
 }

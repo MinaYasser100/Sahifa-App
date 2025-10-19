@@ -269,5 +269,11 @@
   "category_weather": "Weather",
   "category_world": "World",
   "category_health": "Health",
-  "category_technology": "Technology"
+  "category_technology": "Technology",
+  "Select Language": "Select Language",
+  "All" : "All",
+  "Politics" : "Politics",
+  "Sports" : "Sports",
+  "Technology" : "Technology",
+  "Business" : "Business"
 }

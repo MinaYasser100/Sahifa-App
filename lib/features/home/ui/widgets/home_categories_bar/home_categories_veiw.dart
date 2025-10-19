@@ -6,8 +6,8 @@ import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';
 
-class HomeCategoryView extends StatelessWidget {
-  const HomeCategoryView({super.key, required this.categoryId});
+class HomeCategoriesView extends StatelessWidget {
+  const HomeCategoriesView({super.key, required this.categoryId});
 
   final String categoryId;
 
