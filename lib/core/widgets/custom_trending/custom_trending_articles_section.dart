@@ -43,7 +43,7 @@ class _CustomTrendingArticlesSectionBody extends StatelessWidget {
                 Icons.trending_up,
                 color: isDarkMode
                     ? ColorsTheme().whiteColor
-                    : ColorsTheme().primaryLight,
+                    : ColorsTheme().primaryColor,
                 size: 24,
               ),
               const SizedBox(width: 8),
@@ -53,7 +53,7 @@ class _CustomTrendingArticlesSectionBody extends StatelessWidget {
                   style: AppTextStyles.styleBold18sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor
-                        : ColorsTheme().primaryLight,
+                        : ColorsTheme().primaryColor,
                   ),
                 ),
               ),

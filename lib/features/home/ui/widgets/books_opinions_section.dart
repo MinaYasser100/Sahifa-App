@@ -30,7 +30,7 @@ class BooksOpinionsSection extends StatelessWidget {
                   style: AppTextStyles.styleBold24sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().whiteColor
-                        : ColorsTheme().primaryLight,
+                        : ColorsTheme().primaryColor,
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -39,7 +39,7 @@ class BooksOpinionsSection extends StatelessWidget {
                   size: 16,
                   color: isDarkMode
                       ? ColorsTheme().whiteColor
-                      : ColorsTheme().primaryLight,
+                      : ColorsTheme().primaryColor,
                 ),
               ],
             ),

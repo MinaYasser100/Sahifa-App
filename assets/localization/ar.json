@@ -77,6 +77,14 @@
   "categories": "الفئات",
   "filter_by_date": "تصفية حسب التاريخ",
   
+  "_comment_connectivity": "===== Internet Connection =====",
+  "no_internet_connection": "لا يوجد اتصال بالإنترنت",
+  "please_check_your_internet_connection": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى",
+  "troubleshooting_tips": "نصائح لحل المشكلة",
+  "check_wifi_or_mobile_data": "تحقق من Wi-Fi أو بيانات الجوال",
+  "turn_airplane_mode_off": "أوقف وضع الطيران إذا كان مفعلاً",
+  "check_router_or_cables": "تحقق من جهاز التوجيه أو الكابلات",
+  
   "_comment_auth": "===== Authentication =====",
   "login": "تسجيل الدخول",
   "create_account": "إنشاء حساب",
@@ -205,7 +213,6 @@
   "_comment_dialogs": "===== Dialogs & Messages =====",
   "cancel": "إلغاء",
   "no_internet": "لا يوجد اتصال بالإنترنت",
-  "please_check_your_internet_connection": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
   
   "_comment_validation": "===== Validation Messages =====",
   "please_enter_your_email": "يرجى إدخال بريدك الإلكتروني",
