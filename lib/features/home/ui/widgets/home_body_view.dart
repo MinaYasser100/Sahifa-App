@@ -14,7 +14,6 @@ class HomeBodyView extends StatelessWidget {
       slivers: [
         // Banner Carousel Section
         const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
-
         // Local News Section Header
         SliverToBoxAdapter(child: ArticalsGroupSection()),
         SliverToBoxAdapter(child: BooksOpinionsSection()),
