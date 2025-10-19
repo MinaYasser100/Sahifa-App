@@ -3,6 +3,7 @@ import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/search_pdf_widget.dart';
+import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/ui/articasl_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
@@ -101,13 +102,11 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.searchCategoryView,
         pageBuilder: (context, state) {
-          final categoryName = state.extra as String?;
-          if (categoryName == null) {
+          final category = state.extra as CategoryModel?;
+          if (category == null) {
             throw Exception('Category name is not found');
           }
-          return fadeTransitionPage(
-            SearchCategoryView(categoryName: categoryName),
-          );
+          return fadeTransitionPage(SearchCategoryView(category: category));
         },
       ),
       GoRoute(

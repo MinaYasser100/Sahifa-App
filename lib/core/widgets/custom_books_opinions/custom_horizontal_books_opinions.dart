@@ -32,7 +32,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
               context.push(Routes.detailsArticalView, extra: articlesItems);
             },
             child: FadeInLeft(
-              child: CustomBooksOpinions(articleItem: articlesItems),
+              child: CustomBooksOpinionsItem(articleItem: articlesItems),
             ),
           );
         },

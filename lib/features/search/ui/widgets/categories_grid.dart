@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/features/search/data/category_model.dart';
+import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card.dart';
 
 class CategoriesGrid extends StatelessWidget {
@@ -54,7 +54,7 @@ class CategoriesGrid extends StatelessWidget {
               return CategoryCard(
                 categoryName: category.name,
                 onTap: () {
-                  context.push(Routes.searchCategoryView, extra: category.name);
+                  context.push(Routes.searchCategoryView, extra: category);
                 },
               );
             },

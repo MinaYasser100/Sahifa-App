@@ -6,8 +6,8 @@ import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item_content.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 
-class CustomBooksOpinions extends StatelessWidget {
-  const CustomBooksOpinions({
+class CustomBooksOpinionsItem extends StatelessWidget {
+  const CustomBooksOpinionsItem({
     super.key,
     required this.articleItem,
     this.cardWidth = 280,
@@ -25,6 +25,7 @@ class CustomBooksOpinions extends StatelessWidget {
     return FadeInLeft(
       child: Container(
         width: cardWidth,
+        height: 325,
         margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
         decoration: BoxDecoration(
           color: isDarkMode
