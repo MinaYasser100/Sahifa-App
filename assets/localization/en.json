@@ -55,6 +55,8 @@
   
   "_comment_trending": "===== Trending & Articles =====",
   "trending_now": "Trending Now",
+  "failed_to_load_trending_articles": "Failed to load trending articles",
+  "no_trending_articles": "No trending articles",
   
   "_comment_comments": "===== Comments System =====",
   "comments": "Comments",

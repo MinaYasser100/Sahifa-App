@@ -55,6 +55,8 @@
   
   "_comment_trending": "===== Trending & Articles =====",
   "trending_now": "الرائج الآن",
+  "failed_to_load_trending_articles": "فشل في تحميل المقالات الرائجة",
+  "no_trending_articles": "لا توجد مقالات رائجة",
   
   "_comment_comments": "===== Comments System =====",
   "comments": "التعليقات",
