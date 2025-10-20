@@ -8,7 +8,7 @@ class DioHelper {
   DioHelper._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: Env.baseUrl, // استبدل AppConst.baseUrl بـ Env.baseUrl
+        baseUrl: Env.baseUrl,
         headers: {'Content-Type': 'application/json'},
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 10),

@@ -296,5 +296,12 @@
   "Politics" : "سياسة",
   "Sports" : "رياضة",
   "Technology" : "تكنولوجيا",
-  "Business" : "أعمال"
+  "Business" : "أعمال",
+  
+  "_comment_magazines": "===== Magazines =====",
+  "loading_magazines": "جاري تحميل المجلات...",
+  "failed_to_load_magazines": "فشل تحميل المجلات",
+  "no_magazines_found": "لا توجد مجلات",
+  "loading_more_magazines": "جاري تحميل المزيد...",
+  "no_pdf_found": "لم يتم العثور على ملف PDF"
 }

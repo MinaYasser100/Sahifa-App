@@ -23,6 +23,31 @@ class _SearchPDFWidgetState extends State<SearchPDFWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final pdfPath = widget.pdfPath;
+
+    // Check if pdfPath is null or empty
+    if (pdfPath == null || pdfPath.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text('pdf_viewer'.tr()), elevation: 0),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 64, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(
+                'no_pdf_found'.tr(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('pdf_viewer'.tr()),
@@ -35,11 +60,9 @@ class _SearchPDFWidgetState extends State<SearchPDFWidget> {
         ],
       ),
       body: SfPdfViewerTheme(
-        data: SfPdfViewerThemeData(
-          backgroundColor: ColorsTheme().whiteColor, // لون خلفية أبيض
-        ),
-        child: SfPdfViewer.asset(
-          widget.pdfPath!,
+        data: SfPdfViewerThemeData(backgroundColor: ColorsTheme().whiteColor),
+        child: SfPdfViewer.network(
+          pdfPath,
           controller: _pdfViewerController,
           pageLayoutMode: PdfPageLayoutMode.single,
           scrollDirection: PdfScrollDirection.horizontal,

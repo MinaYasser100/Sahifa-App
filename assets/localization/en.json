@@ -286,5 +286,12 @@
   "Politics" : "Politics",
   "Sports" : "Sports",
   "Technology" : "Technology",
-  "Business" : "Business"
+  "Business" : "Business",
+  
+  "_comment_magazines": "===== Magazines =====",
+  "loading_magazines": "Loading magazines...",
+  "failed_to_load_magazines": "Failed to load magazines",
+  "no_magazines_found": "No magazines found",
+  "loading_more_magazines": "Loading more...",
+  "no_pdf_found": "No PDF found"
 }
