@@ -56,7 +56,7 @@ void _configureEasyLoading() {
     ..backgroundColor = Colors.white
     ..indicatorColor = const Color(0xFF2196F3)
     ..textColor = const Color(0xFF2196F3)
-    ..maskColor = Colors.black.withOpacity(0.5)
+    ..maskColor = Colors.black.withValues(alpha: 0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
 }

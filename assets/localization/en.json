@@ -109,7 +109,9 @@
   "download": "Download",
   "latest_videos": "Latest Videos",
   "no_videos_available": "No videos available",
+  "check_back_later_for_new_videos": "Check back later for new videos",
   "failed_to_load_videos": "Failed to load videos",
+  "loading_videos": "Loading videos...",
   "error_loading_reels": "Error loading reels",
   "no_reels_available": "No reels available",
   

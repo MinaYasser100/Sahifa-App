@@ -109,7 +109,9 @@
   "download": "تحميل",
   "latest_videos": "أحدث الفيديوهات",
   "no_videos_available": "لا توجد فيديوهات متاحة",
+  "check_back_later_for_new_videos": "تحقق مرة أخرى لاحقاً للفيديوهات الجديدة",
   "failed_to_load_videos": "فشل في تحميل الفيديوهات",
+  "loading_videos": "جارٍ تحميل الفيديوهات...",
   "error_loading_reels": "خطأ في تحميل الريلز",
   "no_reels_available": "لا توجد ريلز متاحة",
   
