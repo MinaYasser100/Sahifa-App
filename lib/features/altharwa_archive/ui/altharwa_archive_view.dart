@@ -20,6 +20,10 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
   late ScrollController _scrollController;
   bool _isLoadingMore = false;
 
+  // Store cubits reference
+  MagazinesCubit? _magazinesCubit;
+  DateFilterCubit? _dateFilterCubit;
+
   @override
   void initState() {
     controller = TextEditingController();
@@ -44,19 +48,19 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
       final threshold = maxScroll * 0.6; // 60% threshold
 
       if (currentScroll >= threshold) {
-        // Trigger load more
-        final cubit = context.read<MagazinesCubit>();
-        final dateFilterCubit = context.read<DateFilterCubit>();
-        final state = cubit.state;
+        // Use stored cubit references instead of context.read
+        if (_magazinesCubit == null || _dateFilterCubit == null) return;
+
+        final state = _magazinesCubit!.state;
 
         if (state is MagazinesLoaded && state.hasMore) {
           _isLoadingMore = true;
 
           // Pass filter dates if available
-          cubit
+          _magazinesCubit!
               .loadMoreMagazines(
-                fromDate: dateFilterCubit.fromDate,
-                toDate: dateFilterCubit.toDate,
+                fromDate: _dateFilterCubit!.fromDate,
+                toDate: _dateFilterCubit!.toDate,
               )
               .then((_) {
                 if (mounted) {
@@ -83,8 +87,9 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
       ],
       child: Builder(
         builder: (context) {
-          final magazinesCubit = BlocProvider.of<MagazinesCubit>(context);
-          final dateFilterCubit = BlocProvider.of<DateFilterCubit>(context);
+          // Store cubits in state for use in scroll listener
+          _magazinesCubit = BlocProvider.of<MagazinesCubit>(context);
+          _dateFilterCubit = BlocProvider.of<DateFilterCubit>(context);
 
           return Scaffold(
             appBar: AppBar(
@@ -106,8 +111,8 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
                         child: DateRangeFilterSheet(
-                          magazinesCubit: magazinesCubit,
-                          dateFilterCubit: dateFilterCubit,
+                          magazinesCubit: _magazinesCubit!,
+                          dateFilterCubit: _dateFilterCubit!,
                         ),
                       ),
                     );

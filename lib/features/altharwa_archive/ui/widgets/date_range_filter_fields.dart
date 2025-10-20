@@ -28,6 +28,7 @@ class DateRangeFilterFields extends StatelessWidget {
                 hintText: 'from_date'.tr(),
                 icon: Icons.calendar_today_rounded,
                 keyboardType: TextInputType.none,
+                ischangeColor: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'please_select_a_date'.tr();
@@ -49,6 +50,7 @@ class DateRangeFilterFields extends StatelessWidget {
                 controller: toSelectedDate,
                 hintText: 'to_date'.tr(),
                 icon: Icons.calendar_today_rounded,
+                ischangeColor: true,
                 keyboardType: TextInputType.none,
                 validator: (value) {
                   if (value == null || value.isEmpty) {

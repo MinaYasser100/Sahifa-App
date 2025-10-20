@@ -25,7 +25,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       controller: widget.textFieldModel.controller,
       cursorColor: widget.textFieldModel.ischangeColor
-          ? ColorsTheme().whiteColor
+          ? ColorsTheme().grayColor
           : ColorsTheme().primaryColor,
       validator: widget.textFieldModel.validator,
       autovalidateMode: widget.textFieldModel.autovalidateMode,
@@ -39,8 +39,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         color: widget.textFieldModel.readOnly
             ? ColorsTheme().grayColor
             : (widget.textFieldModel.ischangeColor
-                  ? ColorsTheme().whiteColor
-                  : ColorsTheme().primaryColor),
+                  ? ColorsTheme().primaryColor
+                  : ColorsTheme().whiteColor),
         fontSize: 18,
       ),
       readOnly: widget.textFieldModel.readOnly,
@@ -56,8 +56,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ? Icon(
                 widget.textFieldModel.icon,
                 color: widget.textFieldModel.ischangeColor
-                    ? ColorsTheme().whiteColor
-                    : ColorsTheme().primaryColor,
+                    ? ColorsTheme().primaryColor
+                    : ColorsTheme().grayColor,
               )
             : null,
         contentPadding: const EdgeInsets.symmetric(
@@ -91,7 +91,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(
         color: widget.textFieldModel.ischangeColor
-            ? ColorsTheme().whiteColor
+            ? ColorsTheme().grayColor
             : ColorsTheme().primaryColor,
       ),
     );
