@@ -28,14 +28,14 @@ class MagazinesGridView extends StatelessWidget {
         ),
         itemCount: magazines.length,
         itemBuilder: (context, index) {
-          final magazine = magazines[index];
+          final pdfModel = magazines[index];
           return PdfGridItem(
-            thumbnailUrl: magazine.thumbnailUrl,
-            issueNumber: magazine.issueNumber,
-            date: magazine.createdAt,
+            thumbnailUrl: pdfModel.thumbnailUrl,
+            issueNumber: pdfModel.issueNumber,
+            date: pdfModel.createdAt,
             onTap: () {
-              if (magazine.pdfUrl != null && magazine.pdfUrl!.isNotEmpty) {
-                context.push(Routes.searchPdfView, extra: magazine.pdfUrl);
+              if (pdfModel.pdfUrl != null && pdfModel.pdfUrl!.isNotEmpty) {
+                context.push(Routes.archivePdfView, extra: pdfModel);
               }
             },
           );

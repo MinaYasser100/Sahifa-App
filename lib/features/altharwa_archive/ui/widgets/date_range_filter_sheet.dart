@@ -2,11 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
+import 'package:sahifa/features/altharwa_archive/manager/date_filter_cubit/date_filter_cubit.dart';
+import 'package:sahifa/features/altharwa_archive/manager/magazines_cubit/magazines_cubit.dart';
 
 import 'date_range_filter_fields.dart';
 
 class DateRangeFilterSheet extends StatefulWidget {
-  const DateRangeFilterSheet({super.key});
+  const DateRangeFilterSheet({
+    super.key,
+    required this.magazinesCubit,
+    required this.dateFilterCubit,
+  });
+
+  final MagazinesCubit magazinesCubit;
+  final DateFilterCubit dateFilterCubit;
 
   @override
   State<DateRangeFilterSheet> createState() => _DateRangeFilterSheetState();
@@ -38,7 +48,7 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(), // منع اختيار تاريخ مستقبلي
     );
     if (picked != null) {
       setState(() {
@@ -80,30 +90,68 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
 
           // Search Button
           SizedBox(
+            width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                // Handle search logic here
-                if (fromSelectedDate.text.isNotEmpty &&
-                    toSelectedDate.text.isNotEmpty) {
-                  // Perform search
-                  Navigator.pop(context);
-                  // Add your search logic here
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('please_select_both_dates'.tr()),
-                      duration: Duration(seconds: 2),
-                    ),
+                // Validate dates
+                if (fromSelectedDate.text.isEmpty ||
+                    toSelectedDate.text.isEmpty) {
+                  showErrorToast(
+                    context,
+                    "Error".tr(),
+                    'please_select_both_dates'.tr(),
                   );
+                  return;
                 }
-              },
 
+                // Set date range in DateFilterCubit (with validation)
+                final error = widget.dateFilterCubit.setDateRange(
+                  fromDate: fromSelectedDate.text,
+                  toDate: toSelectedDate.text,
+                );
+
+                if (error != null) {
+                  // Show validation error
+                  showErrorToast(context, "Error".tr(), error);
+                  return;
+                }
+
+                // Validation passed, fetch filtered magazines
+                widget.magazinesCubit.fetchMagazinesWithDateFilter(
+                  fromDate: fromSelectedDate.text,
+                  toDate: toSelectedDate.text,
+                );
+                Navigator.pop(context);
+              },
               child: Text(
                 'search'.tr(),
                 style: AppTextStyles.styleBold16sp(context),
               ),
             ),
           ),
+          const SizedBox(height: 16),
+
+          // Clear Filter Button
+          if (widget.dateFilterCubit.isFiltered)
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  widget.dateFilterCubit.clearFilter();
+                  widget.magazinesCubit.fetchMagazines();
+                  Navigator.pop(context);
+                },
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: ColorsTheme().primaryColor),
+                ),
+                child: Text(
+                  'clear_filter'.tr(),
+                  style: AppTextStyles.styleBold16sp(
+                    context,
+                  ).copyWith(color: ColorsTheme().primaryColor),
+                ),
+              ),
+            ),
           const SizedBox(height: 16),
         ],
       ),

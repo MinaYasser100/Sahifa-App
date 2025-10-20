@@ -303,5 +303,12 @@
   "failed_to_load_magazines": "فشل تحميل المجلات",
   "no_magazines_found": "لا توجد مجلات",
   "loading_more_magazines": "جاري تحميل المزيد...",
-  "no_pdf_found": "لم يتم العثور على ملف PDF"
+  "no_pdf_found": "لم يتم العثور على ملف PDF",
+  "clear_filter": "إلغاء التصفية",
+  "No Date" : "لا يوجد تاريخ",
+  "invalid_date_format": "صيغة التاريخ غير صحيحة",
+  "from_date_cannot_be_future": "تاريخ البداية لا يمكن أن يكون في المستقبل",
+  "to_date_cannot_be_future": "تاريخ النهاية لا يمكن أن يكون في المستقبل",
+  "from_date_must_be_before_to_date": "تاريخ البداية يجب أن يكون قبل تاريخ النهاية",
+  "Error" : "خطأ"
 }

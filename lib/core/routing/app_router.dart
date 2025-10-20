@@ -1,8 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/search_pdf_widget.dart';
+import 'package:sahifa/features/altharwa_archive/ui/widgets/archive_pdf_widget.dart';
 import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/ui/articles_category_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
@@ -117,10 +118,13 @@ abstract class AppRouter {
             fadeTransitionPage(AltharwaArchiveView()),
       ),
       GoRoute(
-        path: Routes.searchPdfView,
+        path: Routes.archivePdfView,
         pageBuilder: (context, state) {
-          final pdfPath = state.extra as String?;
-          return fadeTransitionPage(SearchPDFWidget(pdfPath: pdfPath));
+          final pdfModel = state.extra as PdfModel?;
+          if (pdfModel == null) {
+            throw Exception('PDF model is not found');
+          }
+          return fadeTransitionPage(ArchivePDFWidget(pdfModel: pdfModel));
         },
       ),
       GoRoute(

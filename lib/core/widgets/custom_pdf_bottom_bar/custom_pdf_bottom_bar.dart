@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/utils/constant.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_pdf_bottom_bar/pdf_control_button.dart';
@@ -21,6 +22,8 @@ class CustomPdfBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic =
+        context.locale.languageCode == ConstantVariable.arabicLangCode;
     return Container(
       decoration: BoxDecoration(color: ColorsTheme().primaryColor),
       child: Padding(
@@ -29,13 +32,21 @@ class CustomPdfBottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Previous page button
-            PdfControlButton(
-              icon: Icons.skip_previous_rounded,
-              label: 'previous'.tr(),
-              onPressed: currentPageNumber > 1
-                  ? () => controller.previousPage()
-                  : null,
-            ),
+            isArabic
+                ? PdfControlButton(
+                    icon: Icons.skip_next_rounded,
+                    label: 'next'.tr(),
+                    onPressed: currentPageNumber < totalPages
+                        ? () => controller.nextPage()
+                        : null,
+                  )
+                : PdfControlButton(
+                    icon: Icons.skip_previous_rounded,
+                    label: 'previous'.tr(),
+                    onPressed: currentPageNumber > 1
+                        ? () => controller.previousPage()
+                        : null,
+                  ),
 
             // Zoom controls
             PdfZoomControls(
@@ -44,13 +55,21 @@ class CustomPdfBottomBar extends StatelessWidget {
             ),
 
             // Next page button
-            PdfControlButton(
-              icon: Icons.skip_next_rounded,
-              label: 'next'.tr(),
-              onPressed: currentPageNumber < totalPages
-                  ? () => controller.nextPage()
-                  : null,
-            ),
+            isArabic
+                ? PdfControlButton(
+                    icon: Icons.skip_previous_rounded,
+                    label: 'previous'.tr(),
+                    onPressed: currentPageNumber > 1
+                        ? () => controller.previousPage()
+                        : null,
+                  )
+                : PdfControlButton(
+                    icon: Icons.skip_next_rounded,
+                    label: 'next'.tr(),
+                    onPressed: currentPageNumber < totalPages
+                        ? () => controller.nextPage()
+                        : null,
+                  ),
           ],
         ),
       ),

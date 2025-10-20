@@ -1,21 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:sahifa/core/widgets/custom_pdf_bottom_bar/pdf_page_indicator.dart';
 import 'package:sahifa/core/widgets/custom_pdf_bottom_bar/custom_pdf_bottom_bar.dart';
 
-class SearchPDFWidget extends StatefulWidget {
-  const SearchPDFWidget({super.key, this.pdfPath});
+import 'article_pdf_path_empty_widget.dart';
 
-  final String? pdfPath;
+class ArchivePDFWidget extends StatefulWidget {
+  const ArchivePDFWidget({super.key, required this.pdfModel});
+
+  final PdfModel pdfModel;
 
   @override
-  State<SearchPDFWidget> createState() => _SearchPDFWidgetState();
+  State<ArchivePDFWidget> createState() => _ArchivePDFWidgetState();
 }
 
-class _SearchPDFWidgetState extends State<SearchPDFWidget> {
+class _ArchivePDFWidgetState extends State<ArchivePDFWidget> {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   int _currentPageNumber = 1;
   int _totalPages = 0;
@@ -23,34 +26,16 @@ class _SearchPDFWidgetState extends State<SearchPDFWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final pdfPath = widget.pdfPath;
+    final pdfPath = widget.pdfModel.pdfUrl;
 
     // Check if pdfPath is null or empty
     if (pdfPath == null || pdfPath.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(title: Text('pdf_viewer'.tr()), elevation: 0),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 64, color: Colors.red),
-              const SizedBox(height: 16),
-              Text(
-                'no_pdf_found'.tr(),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ArticlePdfPathEmptyWidget(widget: widget);
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('pdf_viewer'.tr()),
+        title: Text(widget.pdfModel.createdAt ?? "No Date".tr()),
         elevation: 0,
         actions: [
           PdfPageIndicator(

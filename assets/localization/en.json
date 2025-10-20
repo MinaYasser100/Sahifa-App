@@ -293,5 +293,11 @@
   "failed_to_load_magazines": "Failed to load magazines",
   "no_magazines_found": "No magazines found",
   "loading_more_magazines": "Loading more...",
-  "no_pdf_found": "No PDF found"
+  "no_pdf_found": "No PDF found",
+  "clear_filter": "Clear Filter",
+  "invalid_date_format": "Invalid date format",
+  "from_date_cannot_be_future": "From date cannot be in the future",
+  "to_date_cannot_be_future": "To date cannot be in the future",
+  "from_date_must_be_before_to_date": "From date must be before to date"
+  ,  "Error" : "Error"
 }

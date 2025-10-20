@@ -19,7 +19,10 @@ class MagazinesCubit extends Cubit<MagazinesState> {
   Future<void> fetchMagazines() async {
     if (isClosed) return;
 
-    emit(MagazinesLoading());
+    // Only emit loading if no valid cache
+    if (!magazinesRepo.hasValidCache) {
+      emit(MagazinesLoading());
+    }
 
     final result = await magazinesRepo.getMagazines(pageNumber: 1);
 
@@ -41,8 +44,42 @@ class MagazinesCubit extends Cubit<MagazinesState> {
     });
   }
 
+  /// Fetch magazines with date range filter
+  Future<void> fetchMagazinesWithDateFilter({
+    required String fromDate,
+    required String toDate,
+  }) async {
+    if (isClosed) return;
+
+    emit(MagazinesLoading());
+
+    final result = await magazinesRepo.searchMagazinesByRangeDate(
+      fromDate: fromDate,
+      toDate: toDate,
+      pageNumber: 1,
+    );
+
+    if (isClosed) return;
+
+    result.fold((error) => emit(MagazinesError(error)), (magazineModel) {
+      _allMagazines = magazineModel.items ?? [];
+      _currentPage = magazineModel.pageNumber ?? 1;
+      _totalPages = magazineModel.totalPages ?? 1;
+
+      emit(
+        MagazinesLoaded(
+          magazines: _allMagazines,
+          currentPage: _currentPage,
+          totalPages: _totalPages,
+          hasMore: _currentPage < _totalPages,
+        ),
+      );
+    });
+  }
+
   /// Load more magazines (pagination)
-  Future<void> loadMoreMagazines() async {
+  /// Can be called with optional date filters
+  Future<void> loadMoreMagazines({String? fromDate, String? toDate}) async {
     if (isClosed || _isFetchingMore || _currentPage >= _totalPages) return;
 
     _isFetchingMore = true;
@@ -53,7 +90,16 @@ class MagazinesCubit extends Cubit<MagazinesState> {
     );
 
     final nextPage = _currentPage + 1;
-    final result = await magazinesRepo.getMagazines(pageNumber: nextPage);
+
+    // Use appropriate method based on filter state
+    final bool hasFilter = fromDate != null && toDate != null;
+    final result = hasFilter
+        ? await magazinesRepo.searchMagazinesByRangeDate(
+            fromDate: fromDate,
+            toDate: toDate,
+            pageNumber: nextPage,
+          )
+        : await magazinesRepo.getMagazines(pageNumber: nextPage);
 
     if (isClosed) {
       _isFetchingMore = false;

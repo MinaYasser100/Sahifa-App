@@ -1,16 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
-import 'package:sahifa/core/widgets/custom_text_form_field.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/altharwa_archive/manager/date_filter_cubit/date_filter_cubit.dart';
 import 'package:sahifa/features/altharwa_archive/manager/magazines_cubit/magazines_cubit.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/magazines_empty_widget.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/magazines_error_widget.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/magazines_grid_view.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/magazines_loading_more_indicator.dart';
-import 'package:sahifa/features/altharwa_archive/ui/widgets/magazines_loading_widget.dart';
 import 'package:get_it/get_it.dart';
+import 'widgets/althawra_archive_body_view.dart';
 import 'widgets/date_range_filter_sheet.dart';
 
 class AltharwaArchiveView extends StatefulWidget {
@@ -51,17 +46,25 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
       if (currentScroll >= threshold) {
         // Trigger load more
         final cubit = context.read<MagazinesCubit>();
+        final dateFilterCubit = context.read<DateFilterCubit>();
         final state = cubit.state;
 
         if (state is MagazinesLoaded && state.hasMore) {
           _isLoadingMore = true;
-          cubit.loadMoreMagazines().then((_) {
-            if (mounted) {
-              setState(() {
-                _isLoadingMore = false;
+
+          // Pass filter dates if available
+          cubit
+              .loadMoreMagazines(
+                fromDate: dateFilterCubit.fromDate,
+                toDate: dateFilterCubit.toDate,
+              )
+              .then((_) {
+                if (mounted) {
+                  setState(() {
+                    _isLoadingMore = false;
+                  });
+                }
               });
-            }
-          });
         }
       }
     }
@@ -69,89 +72,56 @@ class _AltharwaArchiveViewState extends State<AltharwaArchiveView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          MagazinesCubit(GetIt.instance<MagazinesRepoImpl>())..fetchMagazines(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('altharwa_archive'.tr()),
-          elevation: 10,
-          actions: [
-            IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return const DateRangeFilterSheet();
-                  },
-                );
-              },
-              icon: const Icon(Icons.tune_rounded),
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              MagazinesCubit(GetIt.instance<MagazinesRepoImpl>())
+                ..fetchMagazines(),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 16.0,
-                left: 16.0,
-                right: 16.0,
-              ),
-              child: CustomTextFormField(
-                textFieldModel: TextFieldModel(
-                  controller: controller,
-                  hintText: 'search_placeholder'.tr(),
-                  icon: Icons.search,
-                  keyboardType: TextInputType.text,
-                  validator: (p0) {
-                    return null;
-                  },
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<MagazinesCubit, MagazinesState>(
-                builder: (context, state) {
-                  if (state is MagazinesLoading) {
-                    return const MagazinesLoadingWidget();
-                  }
+        BlocProvider(create: (context) => DateFilterCubit()),
+      ],
+      child: Builder(
+        builder: (context) {
+          final magazinesCubit = BlocProvider.of<MagazinesCubit>(context);
+          final dateFilterCubit = BlocProvider.of<DateFilterCubit>(context);
 
-                  if (state is MagazinesError) {
-                    return MagazinesErrorWidget(message: state.message);
-                  }
-
-                  if (state is MagazinesLoaded ||
-                      state is MagazinesLoadingMore) {
-                    final magazines = state is MagazinesLoaded
-                        ? state.magazines
-                        : (state as MagazinesLoadingMore).magazines;
-
-                    if (magazines.isEmpty) {
-                      return const MagazinesEmptyWidget();
-                    }
-
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: MagazinesGridView(
-                            magazines: magazines,
-                            scrollController: _scrollController,
-                          ),
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('altharwa_archive'.tr()),
+              elevation: 10,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
                         ),
-                        // Loading more indicator
-                        if (state is MagazinesLoadingMore)
-                          const MagazinesLoadingMoreIndicator(),
-                      ],
+                      ),
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: DateRangeFilterSheet(
+                          magazinesCubit: magazinesCubit,
+                          dateFilterCubit: dateFilterCubit,
+                        ),
+                      ),
                     );
-                  }
-
-                  return const SizedBox.shrink();
-                },
-              ),
+                  },
+                  icon: const Icon(Icons.tune_rounded),
+                ),
+              ],
             ),
-          ],
-        ),
+            body: AlthawraArchiveBodyView(
+              controller: controller,
+              scrollController: _scrollController,
+            ),
+          );
+        },
       ),
     );
   }
