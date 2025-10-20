@@ -29,10 +29,9 @@ class NewspaperInfoBar extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.only(
-        left: _horizontalPadding,
-        right: _horizontalPadding,
-        top: _verticalPadding,
+      padding: const EdgeInsets.symmetric(
+        horizontal: _horizontalPadding,
+        vertical: _verticalPadding,
       ),
       decoration: BoxDecoration(
         color: isDarkMode

@@ -35,19 +35,24 @@ class PdfViewerWidget extends StatelessWidget {
     return Stack(
       children: [
         // PDF Viewer with network URL
-        SfPdfViewerTheme(
-          data: SfPdfViewerThemeData(backgroundColor: ColorsTheme().whiteColor),
-          child: SfPdfViewer.network(
-            pdfUrl,
-            key: ValueKey(selectedDate.toString()),
-            controller: pdfViewerController,
-            pageLayoutMode: PdfPageLayoutMode.single,
-            scrollDirection: PdfScrollDirection.horizontal,
-            pageSpacing: 0,
-            canShowScrollHead: false,
-            interactionMode: PdfInteractionMode.selection,
-            onDocumentLoaded: onDocumentLoaded,
-            onPageChanged: onPageChanged,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 50.0),
+          child: SfPdfViewerTheme(
+            data: SfPdfViewerThemeData(
+              backgroundColor: ColorsTheme().whiteColor,
+            ),
+            child: SfPdfViewer.network(
+              pdfUrl,
+              key: ValueKey(selectedDate.toString()),
+              controller: pdfViewerController,
+              pageLayoutMode: PdfPageLayoutMode.single,
+              scrollDirection: PdfScrollDirection.horizontal,
+              pageSpacing: 0,
+              canShowScrollHead: false,
+              interactionMode: PdfInteractionMode.selection,
+              onDocumentLoaded: onDocumentLoaded,
+              onPageChanged: onPageChanged,
+            ),
           ),
         ),
 
