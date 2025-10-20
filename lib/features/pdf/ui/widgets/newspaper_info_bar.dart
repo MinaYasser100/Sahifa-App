@@ -17,9 +17,9 @@ class NewspaperInfoBar extends StatelessWidget {
   final String issueNumber;
 
   // Constants
-  static const double _horizontalPadding = 20.0;
-  static const double _verticalPadding = 12.0;
-  static const double _dividerHeight = 40.0;
+  static const double _horizontalPadding = 10.0;
+  static const double _verticalPadding = 5.0;
+  static const double _dividerHeight = 30.0;
   static const double _dividerWidth = 1.5;
   static const double _dividerOpacity = 0.2;
   static const double _spacing = 12.0;
@@ -29,9 +29,10 @@ class NewspaperInfoBar extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: _horizontalPadding,
-        vertical: _verticalPadding,
+      padding: const EdgeInsets.only(
+        left: _horizontalPadding,
+        right: _horizontalPadding,
+        top: _verticalPadding,
       ),
       decoration: BoxDecoration(
         color: isDarkMode

@@ -236,6 +236,13 @@
   "unable_to_access_storage_folder": "تعذر الوصول إلى مجلد التخزين",
   "pdf_downloaded": "تم تنزيل ملف PDF",
   "the_pdf_file_has_been_downloaded": "تم تنزيل ملف PDF بنجاح",
+  "loading_pdf": "جاري تحميل ملف PDF...",
+  "download_feature_coming_soon": "ميزة التنزيل قريباً",
+  "downloading_pdf...": "جاري تنزيل ملف PDF...",
+  "pdf_downloaded_successfully": "تم تنزيل ملف PDF بنجاح",
+  "open": "فتح",
+  "no_pdf_to_download": "لا يوجد ملف PDF للتنزيل",
+  "storage_permission_denied": "تم رفض إذن الوصول إلى التخزين",
   
   "_comment_empty_states": "===== Empty State Messages =====",
   "there_are_no_comments_yet": "لا توجد تعليقات بعد",
@@ -310,5 +317,7 @@
   "from_date_cannot_be_future": "تاريخ البداية لا يمكن أن يكون في المستقبل",
   "to_date_cannot_be_future": "تاريخ النهاية لا يمكن أن يكون في المستقبل",
   "from_date_must_be_before_to_date": "تاريخ البداية يجب أن يكون قبل تاريخ النهاية",
-  "Error" : "خطأ"
+  "Error" : "خطأ",
+  "Failed to fetch PDF" : "فشل في جلب ملف PDF",
+  "No PDF to download" : "لا يوجد ملف PDF للتنزيل"
 }

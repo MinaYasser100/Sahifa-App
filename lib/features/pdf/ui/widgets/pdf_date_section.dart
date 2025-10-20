@@ -26,7 +26,6 @@ class PdfDateSection extends StatelessWidget {
   static const double _bgOpacityLight = 0.08;
   static const double _borderOpacityDark = 0.3;
   static const double _borderOpacityLight = 0.2;
-  static const double _textOpacity = 0.7;
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +62,12 @@ class PdfDateSection extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(width: 8),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'date'.tr(),
-                        style: AppTextStyles.styleMedium12sp(context).copyWith(
-                          color: isDarkMode
-                              ? ColorsTheme().whiteColor.withValues(
-                                  alpha: _textOpacity,
-                                )
-                              : ColorsTheme().primaryColor,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        DateFormat('dd/MM/yyyy').format(currentDate),
-                        style: AppTextStyles.styleMedium14sp(context).copyWith(
-                          color: isDarkMode
-                              ? ColorsTheme().secondaryLight
-                              : ColorsTheme().primaryColor,
-                        ),
-                      ),
-                    ],
+                Text(
+                  DateFormat('dd/MM/yyyy').format(currentDate),
+                  style: AppTextStyles.styleMedium14sp(context).copyWith(
+                    color: isDarkMode
+                        ? ColorsTheme().secondaryLight
+                        : ColorsTheme().primaryColor,
                   ),
                 ),
                 const SizedBox(width: 4),

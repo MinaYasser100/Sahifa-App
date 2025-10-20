@@ -236,6 +236,13 @@
   "unable_to_access_storage_folder": "Unable to access storage folder",
   "pdf_downloaded": "PDF Downloaded",
   "the_pdf_file_has_been_downloaded": "The PDF file has been downloaded",
+  "loading_pdf": "Loading PDF...",
+  "download_feature_coming_soon": "Download feature coming soon",
+  "downloading_pdf...": "Downloading PDF...",
+  "pdf_downloaded_successfully": "PDF downloaded successfully",
+  "open": "Open",
+  "no_pdf_to_download": "No PDF to download",
+  "storage_permission_denied": "Storage permission denied",
   
   "_comment_empty_states": "===== Empty State Messages =====",
   "there_are_no_comments_yet": "There are no comments yet",
@@ -298,6 +305,8 @@
   "invalid_date_format": "Invalid date format",
   "from_date_cannot_be_future": "From date cannot be in the future",
   "to_date_cannot_be_future": "To date cannot be in the future",
-  "from_date_must_be_before_to_date": "From date must be before to date"
-  ,  "Error" : "Error"
+  "from_date_must_be_before_to_date": "From date must be before to date",
+  "Error" : "Error",
+  "Failed to fetch PDF" : "Failed to fetch PDF",
+  "No PDF to download" : "No PDF to download"
 }

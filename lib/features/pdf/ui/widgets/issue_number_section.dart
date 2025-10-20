@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -37,32 +36,12 @@ class IssueNumberSection extends StatelessWidget {
                     : ColorsTheme().primaryColor,
               ),
               const SizedBox(width: 8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'issue_number'.tr(),
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.styleRegular12sp(context).copyWith(
-                        color: isDarkMode
-                            ? ColorsTheme().whiteColor.withValues(alpha: 0.85)
-                            : ColorsTheme().primaryColor.withValues(
-                                alpha: 0.85,
-                              ),
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      issueNumber,
-                      style: AppTextStyles.styleBold14sp(context).copyWith(
-                        color: isDarkMode
-                            ? ColorsTheme().secondaryLight
-                            : ColorsTheme().primaryColor,
-                      ),
-                    ),
-                  ],
+              Text(
+                issueNumber,
+                style: AppTextStyles.styleBold14sp(context).copyWith(
+                  color: isDarkMode
+                      ? ColorsTheme().secondaryLight
+                      : ColorsTheme().primaryColor,
                 ),
               ),
             ],

@@ -3,8 +3,8 @@ enum ApiEndpoints {
   // Magazines
   magazines('magazines/'),
 
-  // Banners
-  banners('banners/'),
+  // Magazines by Date
+  magazinesByDate('magazines/by-date'),
 
   // Trending Articles
   trendingArticles('trending-articles/'),
