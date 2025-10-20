@@ -5,7 +5,7 @@ class CommentsFilterHelper {
   CommentsFilterHelper._();
 
   /// Filter comments based on approval status and current user
-  /// 
+  ///
   /// Logic:
   /// - If isApproved = true → Show comment
   /// - If isApproved = false:

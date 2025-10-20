@@ -20,10 +20,10 @@ class _DotsLoadingAnimationState extends State<DotsLoadingAnimation>
       vsync: this,
     )..repeat(); // يعيد الحركة بشكل لا نهائي
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override

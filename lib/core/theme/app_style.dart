@@ -3,24 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextStyles {
   static TextStyle styleRegular10sp(BuildContext context) {
-    return TextStyle(
-      fontSize: 10.sp.clamp(8, 14),
-      fontWeight: FontWeight.w400,
-    );
+    return TextStyle(fontSize: 10.sp.clamp(8, 14), fontWeight: FontWeight.w400);
   }
 
   static TextStyle styleMedium10sp(BuildContext context) {
-    return TextStyle(
-      fontSize: 10.sp.clamp(8, 14),
-      fontWeight: FontWeight.w500,
-    );
+    return TextStyle(fontSize: 10.sp.clamp(8, 14), fontWeight: FontWeight.w500);
   }
 
   static TextStyle styleBold10sp(BuildContext context) {
-    return TextStyle(
-      fontSize: 10.sp.clamp(8, 14),
-      fontWeight: FontWeight.w700,
-    );
+    return TextStyle(fontSize: 10.sp.clamp(8, 14), fontWeight: FontWeight.w700);
   }
 
   static TextStyle styleRegular12sp(BuildContext context) {
