@@ -243,6 +243,8 @@
   "open": "Open",
   "no_pdf_to_download": "No PDF to download",
   "storage_permission_denied": "Storage permission denied",
+  "no_pdf_for_selected_date": "No edition available for this date",
+  "failed_to_fetch_pdf": "Failed to fetch PDF",
   
   "_comment_empty_states": "===== Empty State Messages =====",
   "there_are_no_comments_yet": "There are no comments yet",

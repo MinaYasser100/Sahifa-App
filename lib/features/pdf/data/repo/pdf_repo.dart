@@ -17,14 +17,25 @@ class PdfRepoImpl implements PdfRepo {
   @override
   Future<Either<String, PdfModel>> getPdf(String date) async {
     try {
+      log('Fetching PDF for date: $date');
+      log('URL: ${ApiEndpoints.magazinesByDate.path}');
+
       final response = await _dioHelper.getData(
         url: ApiEndpoints.magazinesByDate.path,
         query: {'date': date},
       );
+
+      log('PDF fetch successful');
       return Right(PdfModel.fromJson(response.data));
     } catch (e) {
       log('Error fetching PDF: $e');
-      return Left("Failed to fetch PDF".tr());
+
+      // Check if it's a 404 error (date not found)
+      if (e.toString().contains('404')) {
+        return Left('no_pdf_for_selected_date'.tr());
+      }
+
+      return Left('failed_to_fetch_pdf'.tr());
     }
   }
 }

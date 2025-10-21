@@ -243,6 +243,8 @@
   "open": "فتح",
   "no_pdf_to_download": "لا يوجد ملف PDF للتنزيل",
   "storage_permission_denied": "تم رفض إذن الوصول إلى التخزين",
+  "no_pdf_for_selected_date": "لا توجد نسخة متاحة لهذا التاريخ",
+  "failed_to_fetch_pdf": "فشل في تحميل ملف PDF",
   
   "_comment_empty_states": "===== Empty State Messages =====",
   "there_are_no_comments_yet": "لا توجد تعليقات بعد",

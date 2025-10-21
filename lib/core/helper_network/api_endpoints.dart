@@ -1,10 +1,10 @@
 /// API Endpoints Enum
 enum ApiEndpoints {
   // Magazines
-  magazines('magazines/'),
+  magazines('/api/v1/magazines'),
 
   // Magazines by Date
-  magazinesByDate('magazines/by-date'),
+  magazinesByDate('/api/v1/magazines/by-date'),
 
   // Trending Articles
   trendingArticles('trending-articles/'),
