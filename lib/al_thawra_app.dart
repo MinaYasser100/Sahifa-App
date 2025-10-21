@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sahifa/core/internet_check/cubit/internet_check__cubit.dart';
 import 'package:sahifa/core/routing/app_router.dart';
-import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
+import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:sahifa/core/utils/theme_data_func.dart';
 import 'package:sahifa/core/widgets/no_internet_screen.dart';
 

@@ -6,7 +6,7 @@ import 'package:sahifa/al_thawra_app.dart';
 import 'package:sahifa/core/caching/shared/shared_perf_helper.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/internet_check/cubit/internet_check__cubit.dart';
-import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
+import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:sahifa/core/utils/constant.dart';
 import 'package:sahifa/core/utils/timeago_helper.dart';
 

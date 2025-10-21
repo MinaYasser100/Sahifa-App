@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
 import 'package:sahifa/features/tv/data/models/video_item_model.dart';
 import 'package:sahifa/features/tv/ui/func/video_formats_helper.dart';
 

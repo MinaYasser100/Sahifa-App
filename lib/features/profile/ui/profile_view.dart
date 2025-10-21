@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/additional_setting_model/additional_setting_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
+import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 
 import 'widgets/additonal_settings_item.dart';
 import 'widgets/app_info_section.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item_card.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';

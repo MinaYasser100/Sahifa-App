@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item_card.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
