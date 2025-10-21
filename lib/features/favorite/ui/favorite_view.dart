@@ -21,7 +21,7 @@ class FavoriteView extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: SizedBox(
-                    height: 320,
+                    height: 325,
                     child: GestureDetector(
                       onTap: () {
                         context.push(

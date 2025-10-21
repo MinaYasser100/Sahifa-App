@@ -24,7 +24,7 @@ void main() async {
         Locale(ConstantVariable.arabicLangCode),
       ], // اللغات المدعومة
       path: 'assets/localization', // مسار الملفات
-      fallbackLocale: const Locale(ConstantVariable.englishLangCode),
+      fallbackLocale: const Locale(ConstantVariable.arabicLangCode),
       child: const MyApp(),
     ),
   );

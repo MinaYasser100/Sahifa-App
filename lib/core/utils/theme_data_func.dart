@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
 // Light Theme
@@ -35,11 +36,11 @@ ThemeData themeDataFunc() {
         minimumSize: const Size(double.infinity, 48),
       ),
     ),
+    textTheme: GoogleFonts.notoNaskhArabicTextTheme(),
     useMaterial3: true,
   );
 }
 
-// Dark Theme
 ThemeData darkThemeDataFunc() {
   return ThemeData(
     scaffoldBackgroundColor: ColorsTheme().backgroundColor,
@@ -76,11 +77,7 @@ ThemeData darkThemeDataFunc() {
       ),
     ),
     cardTheme: CardThemeData(color: ColorsTheme().cardColor, elevation: 4),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: Colors.white),
-      bodyMedium: TextStyle(color: Colors.white),
-      bodySmall: TextStyle(color: Colors.white70),
-    ),
+    textTheme: GoogleFonts.notoNaskhArabicTextTheme(),
     useMaterial3: true,
   );
 }
