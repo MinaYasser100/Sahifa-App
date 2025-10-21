@@ -108,10 +108,6 @@ class AppInfoSection extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
               style: ElevatedButton.styleFrom(
-                backgroundColor: isDark
-                    ? colors.primaryColor
-                    : colors.primaryColor,
-                foregroundColor: colors.whiteColor,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
