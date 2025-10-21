@@ -8,7 +8,9 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/cubit/theme_cubit.dart';
 
 import 'widgets/additonal_settings_item.dart';
+import 'widgets/app_info_section.dart';
 import 'widgets/language_bottom_sheet.dart';
+import 'widgets/logout_button.dart';
 import 'widgets/theme_settings_card.dart';
 import 'widgets/user_profile_sectrion.dart';
 
@@ -90,6 +92,24 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 16),
+
+              // App Info Section
+              FadeInLeft(
+                delay: const Duration(milliseconds: 100),
+                child: AppInfoSection(isDark: isDark),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Logout Button
+              FadeInUp(
+                delay: const Duration(milliseconds: 200),
+                child: const LogoutButton(),
+              ),
+
+              const SizedBox(height: 16),
             ],
           );
         },

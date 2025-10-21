@@ -18,6 +18,9 @@ import 'package:sahifa/features/layout/ui/layout_view.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/pdf/ui/pdf_view.dart';
 import 'package:sahifa/features/profile/ui/profile_view.dart';
+import 'package:sahifa/features/profile/ui/views/about_us_view.dart';
+import 'package:sahifa/features/profile/ui/views/contact_us_view.dart';
+import 'package:sahifa/features/profile/ui/views/privacy_policy_view.dart';
 import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
@@ -154,6 +157,19 @@ abstract class AppRouter {
             DrawerSubCategoryContentView(subcategory: subcategory),
           );
         },
+      ),
+      GoRoute(
+        path: Routes.aboutUsView,
+        pageBuilder: (context, state) => fadeTransitionPage(AboutUsView()),
+      ),
+      GoRoute(
+        path: Routes.privacyPolicyView,
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(PrivacyPolicyView()),
+      ),
+      GoRoute(
+        path: Routes.contactUsView,
+        pageBuilder: (context, state) => fadeTransitionPage(ContactUsView()),
       ),
     ],
   );

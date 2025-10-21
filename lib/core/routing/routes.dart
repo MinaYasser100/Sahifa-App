@@ -30,4 +30,7 @@ class Routes {
   static const String editInfoView = '/edit-info';
   static const String splashView = '/splash';
   static const String drawerSubCategoryContent = '/drawerSubCategoryContent';
+  static const String aboutUsView = '/about-us';
+  static const String privacyPolicyView = '/privacy-policy';
+  static const String contactUsView = '/contact-us';
 }
