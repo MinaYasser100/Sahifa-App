@@ -7,7 +7,7 @@ class ArticlesCategoryModel {
   int? totalPages;
   int? itemsFrom;
   int? itemsTo;
-  List<ArticleModel>? items;
+  List<ArticleModel>? articles;
 
   ArticlesCategoryModel({
     this.pageSize,
@@ -16,7 +16,7 @@ class ArticlesCategoryModel {
     this.totalPages,
     this.itemsFrom,
     this.itemsTo,
-    this.items,
+    this.articles,
   });
 
   factory ArticlesCategoryModel.fromJson(Map<String, dynamic> json) {
@@ -27,7 +27,7 @@ class ArticlesCategoryModel {
       totalPages: json['totalPages'] as int?,
       itemsFrom: json['itemsFrom'] as int?,
       itemsTo: json['itemsTo'] as int?,
-      items: (json['items'] as List<dynamic>?)
+      articles: (json['items'] as List<dynamic>?)
           ?.map((e) => ArticleModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -40,6 +40,6 @@ class ArticlesCategoryModel {
     'totalPages': totalPages,
     'itemsFrom': itemsFrom,
     'itemsTo': itemsTo,
-    'items': items?.map((e) => e.toJson()).toList(),
+    'items': articles?.map((e) => e.toJson()).toList(),
   };
 }

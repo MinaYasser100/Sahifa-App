@@ -391,5 +391,7 @@
   "favorite_article_economy_update": "Economic Update: Significant Market Growth",
   "favorite_4_description": "Comprehensive analysis of the current economic situation",
   "favorite_article_education_reform": "New Educational Reform Making a Difference",
-  "favorite_5_description": "The future of education in the digital age"
+  "favorite_5_description": "The future of education in the digital age",
+  "Error fetching articles of this category": "Error fetching articles of this category",
+  "Error fetching breaking news articles": "Error fetching breaking news articles"
 }

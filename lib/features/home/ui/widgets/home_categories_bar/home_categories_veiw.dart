@@ -7,9 +7,9 @@ import 'package:sahifa/features/details_artical/data/local_data.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';
 
 class HomeCategoriesView extends StatelessWidget {
-  const HomeCategoriesView({super.key, required this.categoryId});
+  const HomeCategoriesView({super.key, required this.categorySlug});
 
-  final String categoryId;
+  final String categorySlug;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,12 @@ class HomeCategoriesView extends StatelessWidget {
                     onTap: () {
                       context.push(
                         Routes.detailsArticalView,
-                        extra: categoryId == 'books_opinions'
+                        extra: categorySlug == 'books_opinions'
                             ? booksOpinionsListItems[index]
                             : trendingArticles[index],
                       );
                     },
-                    child: (categoryId == 'books_opinions')
+                    child: (categorySlug == 'books_opinions')
                         ? CustomBooksOpinionsItem(
                             articleItem: booksOpinionsListItems[index],
                             cardWidth: double.infinity,
@@ -45,7 +45,7 @@ class HomeCategoriesView extends StatelessWidget {
                   ),
                 );
               },
-              childCount: (categoryId == 'books_opinions')
+              childCount: (categorySlug == 'books_opinions')
                   ? booksOpinionsListItems.length
                   : trendingArticles.length,
             ),

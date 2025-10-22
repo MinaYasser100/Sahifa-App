@@ -49,7 +49,7 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: _selectedCategoryId == 'home'
                   ? HomeBodyView()
-                  : HomeCategoriesView(categoryId: _selectedCategoryId),
+                  : HomeCategoriesView(categorySlug: _selectedCategoryId),
             ),
           ],
         ),

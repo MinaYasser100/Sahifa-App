@@ -41,7 +41,7 @@ class AppConst {
 
 class ApiQueryParams {
   static const String from = 'From';
-  static const String categoryId = 'CategoryId';
+  static const String categorySlug = 'CategorySlug';
   static const String authorId = 'AuthorId';
   static const String status = 'Status';
   static const String isFeatured = 'IsFeatured';

@@ -3,16 +3,18 @@ import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
 
-abstract class ArticlesHomeCategoryRepo {
+abstract class ArticlesHorizontalBarCategoryRepo {
   Future<Either<String, ArticlesCategoryModel>> getArticlesByCategory(
     String categorySlug,
     String language,
   );
 }
 
-class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
+class ArticlesHorizontalBarCategoryRepoImpl
+    implements ArticlesHorizontalBarCategoryRepo {
   final DioHelper _dioHelper;
-  ArticlesHomeCategoryRepoImpl(this._dioHelper);
+
+  ArticlesHorizontalBarCategoryRepoImpl(this._dioHelper);
   @override
   Future<Either<String, ArticlesCategoryModel>> getArticlesByCategory(
     String categorySlug,
@@ -23,7 +25,7 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
         url: ApiEndpoints.articles.path,
         query: {
           ApiQueryParams.categorySlug: categorySlug,
-          ApiQueryParams.pageSize: 15,
+          ApiQueryParams.pageSize: 30,
           ApiQueryParams.language: language,
         },
       );
