@@ -8,7 +8,7 @@ import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/ui/articles_category_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
-import 'package:sahifa/features/favorite/ui/favorite_view.dart';
+import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';

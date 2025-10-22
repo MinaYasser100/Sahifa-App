@@ -3,6 +3,7 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
 import 'package:sahifa/features/pdf/data/repo/pdf_repo.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
 
@@ -23,4 +24,9 @@ void setupDependencies() async {
   final pdfRepo = PdfRepoImpl(getIt<DioHelper>());
   getIt.registerSingleton<PdfRepoImpl>(pdfRepo);
   getIt.registerSingleton<PdfRepo>(pdfRepo);
+
+  // Register MyFavoriteRepo as abstract type with implementation
+  final myFavoriteRepo = MyFavoriteRepoImpl();
+  getIt.registerSingleton<MyFavoriteRepoImpl>(myFavoriteRepo);
+  getIt.registerSingleton<MyFavoriteRepo>(myFavoriteRepo);
 }

@@ -387,4 +387,21 @@
   "daily_readers": "قارئ يومي",
   "news_updates": "تحديثات إخبارية",
   "last_updated": "آخر تحديث",
-  "Loading banners..." : "جارٍ تحميل اللافتات..."}
+  "Loading banners..." : "جارٍ تحميل اللافتات...",
+
+  "_comment_favorites": "===== My Favorites =====",
+  "failed_to_load_favorites": "فشل تحميل المفضلة",
+  "failed_to_remove_favorite": "فشل إزالة المفضلة",
+  "no_favorites_yet": "لا توجد مفضلات بعد",
+  "start_adding_favorites": "ابدأ بإضافة مقالاتك المفضلة",
+  "favorite_article_technology_advances": "تقدم التكنولوجيا يغير العالم",
+  "favorite_1_description": "اكتشف أحدث التطورات في عالم التكنولوجيا",
+  "favorite_article_sports_championship": "البطولة الرياضية تحقق أرقام قياسية",
+  "favorite_2_description": "تغطية شاملة للأحداث الرياضية المثيرة",
+  "favorite_article_health_breakthrough": "اختراق طبي جديد في علاج الأمراض",
+  "favorite_3_description": "أحدث الأبحاث الطبية والصحية",
+  "favorite_article_economy_update": "تحديث اقتصادي: نمو ملحوظ في الأسواق",
+  "favorite_4_description": "تحليل شامل للوضع الاقتصادي الحالي",
+  "favorite_article_education_reform": "إصلاح تعليمي جديد يحدث فرقاً",
+  "favorite_5_description": "مستقبل التعليم في العصر الرقمي"
+}

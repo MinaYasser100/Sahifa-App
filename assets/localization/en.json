@@ -375,5 +375,21 @@
   "years_experience": "Years Experience",
   "daily_readers": "Daily Readers",
   "news_updates": "News Updates",
-  "last_updated": "Last Updated"
+  "last_updated": "Last Updated",
+
+  "_comment_favorites": "===== My Favorites =====",
+  "failed_to_load_favorites": "Failed to load favorites",
+  "failed_to_remove_favorite": "Failed to remove favorite",
+  "no_favorites_yet": "No favorites yet",
+  "start_adding_favorites": "Start adding your favorite articles",
+  "favorite_article_technology_advances": "Technology Advances Changing the World",
+  "favorite_1_description": "Discover the latest developments in technology",
+  "favorite_article_sports_championship": "Sports Championship Sets Record Viewership",
+  "favorite_2_description": "Comprehensive coverage of exciting sports events",
+  "favorite_article_health_breakthrough": "New Medical Breakthrough in Disease Treatment",
+  "favorite_3_description": "Latest medical and health research",
+  "favorite_article_economy_update": "Economic Update: Significant Market Growth",
+  "favorite_4_description": "Comprehensive analysis of the current economic situation",
+  "favorite_article_education_reform": "New Educational Reform Making a Difference",
+  "favorite_5_description": "The future of education in the digital age"
 }
