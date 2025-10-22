@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
@@ -19,11 +20,12 @@ class TvView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final language = LanguageHelper.getCurrentLanguageCode(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) =>
-              BannersCubit(getIt<BannerRepoImpl>())..fetchBanners(),
+              BannersCubit(getIt<BannerRepoImpl>())..fetchBanners(language),
         ),
         BlocProvider(
           create: (context) => TvCubit(getIt<TVRepoImpl>())..fetchVideos(),

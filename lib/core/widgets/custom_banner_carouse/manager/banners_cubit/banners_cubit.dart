@@ -11,7 +11,7 @@ class BannersCubit extends Cubit<BannersState> {
   final BannerRepo bannerRepo;
 
   /// Fetch banners from repository
-  Future<void> fetchBanners() async {
+  Future<void> fetchBanners(String language) async {
     if (isClosed) return;
 
     // Only emit loading if we don't have cached data
@@ -21,7 +21,7 @@ class BannersCubit extends Cubit<BannersState> {
       emit(BannersLoading());
     }
 
-    final result = await bannerRepo.fetchBanners();
+    final result = await bannerRepo.fetchBanners(language);
 
     if (isClosed) return;
 
@@ -32,13 +32,13 @@ class BannersCubit extends Cubit<BannersState> {
   }
 
   /// Refresh banners (force refresh, ignoring cache)
-  Future<void> refreshBanners() async {
+  Future<void> refreshBanners(String language) async {
     if (isClosed) return;
 
     emit(BannersLoading());
 
     final repoImpl = bannerRepo as BannerRepoImpl;
-    final result = await repoImpl.forceRefresh();
+    final result = await repoImpl.forceRefresh(language);
 
     if (isClosed) return;
 

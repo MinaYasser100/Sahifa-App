@@ -11,7 +11,7 @@ class TrendingCubit extends Cubit<TrendingState> {
   final TrendingRepo trendingRepo;
 
   /// Fetch trending articles from repository
-  Future<void> fetchTrendingArticles() async {
+  Future<void> fetchTrendingArticles(String language) async {
     if (isClosed) return;
 
     // Only emit loading if we don't have cached data
@@ -21,7 +21,7 @@ class TrendingCubit extends Cubit<TrendingState> {
       emit(TrendingLoading());
     }
 
-    final result = await trendingRepo.fetchTrendingArticles();
+    final result = await trendingRepo.fetchTrendingArticles(language);
 
     if (isClosed) return;
 
@@ -32,13 +32,13 @@ class TrendingCubit extends Cubit<TrendingState> {
   }
 
   /// Refresh trending articles (force refresh, ignoring cache)
-  Future<void> refreshTrendingArticles() async {
+  Future<void> refreshTrendingArticles(String language) async {
     if (isClosed) return;
 
     emit(TrendingLoading());
 
     final repoImpl = trendingRepo as TrendingRepoImpl;
-    final result = await repoImpl.forceRefresh();
+    final result = await repoImpl.forceRefresh(language);
 
     if (isClosed) return;
 

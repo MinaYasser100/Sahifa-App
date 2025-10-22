@@ -3,7 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 abstract class TrendingRepo {
-  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles();
+  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles(
+    String language,
+  );
 }
 
 class TrendingRepoImpl implements TrendingRepo {
@@ -24,7 +26,9 @@ class TrendingRepoImpl implements TrendingRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles() async {
+  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles(
+    String language,
+  ) async {
     try {
       // Check if cached data exists and is still fresh
       if (_cachedTrendingArticles != null &&
@@ -38,12 +42,16 @@ class TrendingRepoImpl implements TrendingRepo {
       // Simulate API delay
       await Future.delayed(const Duration(seconds: 1));
 
-      // Simulate API response - في المستقبل هيبقى API call حقيقي
-      // final response = await _apiService.get('/trending-articles');
-      // final articles = (response.data as List)
-      //     .map((json) => ArticleItemModel.fromJson(json))
-      //     .toList();
-      // return Right(articles);
+      // final response = await _dioHelper.getData(
+      //   url: ApiEndpoints.articles.path,
+      //   query: {
+      //     ApiQueryParams.pageSize: 15,
+      //     ApiQueryParams.language: language,
+      //     ApiQueryParams.isFeatured: true,
+      //   },
+      // );
+      // final ArticlesCategoryModel articlesCategoryModel =
+      //     ArticlesCategoryModel.fromJson(response.data);
 
       final List<ArticleItemModel> trendingArticles = [
         ArticleItemModel(
@@ -120,8 +128,10 @@ class TrendingRepoImpl implements TrendingRepo {
   }
 
   // Method to force refresh (ignores cache)
-  Future<Either<String, List<ArticleItemModel>>> forceRefresh() async {
+  Future<Either<String, List<ArticleItemModel>>> forceRefresh(
+    String language,
+  ) async {
     clearCache();
-    return fetchTrendingArticles();
+    return fetchTrendingArticles(language);
   }
 }

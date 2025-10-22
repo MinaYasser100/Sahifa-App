@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 
 class BannerErrorState extends StatelessWidget {
@@ -90,11 +91,12 @@ class _RetryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final language = LanguageHelper.getCurrentLanguageCode(context);
     return ElasticIn(
       delay: const Duration(milliseconds: 300),
       child: ElevatedButton.icon(
         onPressed: () {
-          context.read<BannersCubit>().refreshBanners();
+          context.read<BannersCubit>().refreshBanners(language);
         },
         icon: const Icon(Icons.refresh_rounded, size: 20),
         label: Text(

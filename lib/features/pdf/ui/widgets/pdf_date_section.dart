@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/constant.dart';
 import 'package:sahifa/features/pdf/ui/func/show_date_picker.dart';
 
 class PdfDateSection extends StatelessWidget {
@@ -63,7 +64,10 @@ class PdfDateSection extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Text(
-                  DateFormat('dd/MM/yyyy').format(currentDate),
+                  DateFormat(
+                    'dd/MM/yyyy',
+                    ConstantVariable.englishLangCode,
+                  ).format(currentDate),
                   style: AppTextStyles.styleMedium14sp(context).copyWith(
                     color: isDarkMode
                         ? ColorsTheme().secondaryLight

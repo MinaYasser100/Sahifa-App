@@ -7,7 +7,7 @@ enum ApiEndpoints {
   magazinesByDate('/api/v1/magazines/by-date'),
 
   // Trending Articles
-  trendingArticles('trending-articles/'),
+  articles('/api/articles'),
 
   // TV Videos
   tvVideos('tv-videos/'),
@@ -37,4 +37,19 @@ class AppConst {
   // Static constants - DEPRECATED: Use ApiEndpoints enum instead
   @Deprecated('Use ApiEndpoints.products instead')
   static const String products = '';
+}
+
+class ApiQueryParams {
+  static const String from = 'From';
+  static const String categoryId = 'CategoryId';
+  static const String authorId = 'AuthorId';
+  static const String status = 'Status';
+  static const String isFeatured = 'IsFeatured';
+  static const String isBreaking = 'IsBreaking';
+  static const String isSlider = 'IsSlider';
+  static const String language = 'Language';
+  static const String to = 'To';
+  static const String pageNumber = 'PageNumber';
+  static const String pageSize = 'PageSize';
+  static const String searchPhrase = "SearchPhrase";
 }

@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sahifa/core/helper_network/api_endpoints.dart';
+import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 abstract class BannerRepo {
-  Future<Either<String, List<ArticleItemModel>>> fetchBanners();
+  Future<Either<String, List<ArticleItemModel>>> fetchBanners(String language);
 }
 
 class BannerRepoImpl implements BannerRepo {
@@ -11,6 +13,7 @@ class BannerRepoImpl implements BannerRepo {
   static final BannerRepoImpl _instance = BannerRepoImpl._internal();
   factory BannerRepoImpl() => _instance;
   BannerRepoImpl._internal();
+  final DioHelper _dioHelper = DioHelper();
 
   // Memory Cache
   List<ArticleItemModel>? _cachedBanners;
@@ -24,7 +27,9 @@ class BannerRepoImpl implements BannerRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ArticleItemModel>>> fetchBanners() async {
+  Future<Either<String, List<ArticleItemModel>>> fetchBanners(
+    String language,
+  ) async {
     try {
       // Check if cached data exists and is still fresh
       if (_cachedBanners != null &&
@@ -39,12 +44,17 @@ class BannerRepoImpl implements BannerRepo {
       await Future.delayed(const Duration(seconds: 1));
 
       // Simulate API response - في المستقبل هيبقى API call حقيقي
-      // في BannerRepoImpl.fetchBanners()
-      // final response = await _apiService.get('/banners');
-      // final banners = (response.data as List)
-      //     .map((json) => ArticleItemModel.fromJson(json))
-      //     .toList();
-      // return Right(banners);
+      // final response = await _dioHelper.getData(
+      //   url: ApiEndpoints.articles.path,
+      //   query: {
+      //     ApiQueryParams.pageSize: 15,
+      //     ApiQueryParams.language: language,
+      //     ApiQueryParams.isSlider: true,
+      //   },
+      // );
+      // final ArticlesCategoryModel articlesCategoryModel =
+      //     ArticlesCategoryModel.fromJson(response.data);
+
       final List<ArticleItemModel> banners = [
         ArticleItemModel(
           id: 'banner_1',
@@ -120,8 +130,10 @@ class BannerRepoImpl implements BannerRepo {
   }
 
   // Method to force refresh (ignores cache)
-  Future<Either<String, List<ArticleItemModel>>> forceRefresh() async {
+  Future<Either<String, List<ArticleItemModel>>> forceRefresh(
+    String language,
+  ) async {
     clearCache();
-    return fetchBanners();
+    return fetchBanners(language);
   }
 }

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/my_favorites/manager/my_favorite_cubit/my_favorite_cubit.dart';
 
@@ -11,11 +13,21 @@ class MyFavoritesBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MyFavoriteCubit, MyFavoriteState>(
-      builder: (context, state) {
-        // Loading State
+    return BlocConsumer<MyFavoriteCubit, MyFavoriteState>(
+      listener: (context, state) {
         if (state is MyFavoriteLoading) {
-          return const Center(child: CircularProgressIndicator());
+          EasyLoading.show(
+            status: 'loading'.tr(),
+            maskType: EasyLoadingMaskType.black,
+          );
+        } else {
+          EasyLoading.dismiss();
+        }
+      },
+      builder: (context, state) {
+        // Loading State - just show empty space since EasyLoading handles it
+        if (state is MyFavoriteLoading) {
+          return const SizedBox.shrink();
         }
 
         // Error State
