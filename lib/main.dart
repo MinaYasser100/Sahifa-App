@@ -25,6 +25,9 @@ void main() async {
       ], // اللغات المدعومة
       path: 'assets/localization', // مسار الملفات
       fallbackLocale: const Locale(ConstantVariable.arabicLangCode),
+      startLocale: const Locale(
+        ConstantVariable.arabicLangCode,
+      ), // اللغة الافتراضية عربي
       child: const MyApp(),
     ),
   );
