@@ -406,5 +406,7 @@
   "favorite_5_description": "مستقبل التعليم في العصر الرقمي",
   "Error fetching breaking news articles": "خطأ في جلب مقالات الأخبار العاجلة",
   "Error fetching articles of this category" : "خطأ في جلب مقالات هذه الفئة من الاخبار",
-  "Breaking News": "أخبار عاجلة"
+  "Breaking News": "أخبار عاجلة",
+  "Error fetching drawer categories": "خطأ في جلب فئات القائمة الجانبية",
+  "No Name": "بدون اسم"
 }

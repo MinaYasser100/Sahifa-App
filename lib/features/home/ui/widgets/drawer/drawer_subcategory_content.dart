@@ -2,20 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/parent_category/subcategory.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
-import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
 
 class DrawerSubCategoryContentView extends StatelessWidget {
   const DrawerSubCategoryContentView({super.key, required this.subcategory});
-  final SubcategoryModel subcategory;
+  final SubcategoryInfoModel subcategory;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(subcategory.name), elevation: 0),
+      appBar: AppBar(
+        title: Text(subcategory.name ?? "No Name".tr()),
+        elevation: 0,
+      ),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
@@ -29,12 +32,12 @@ class DrawerSubCategoryContentView extends StatelessWidget {
                       onTap: () {
                         context.push(
                           Routes.detailsArticalView,
-                          extra: subcategory.categoryId == 'books_opinions'
+                          extra: subcategory.id == 'books_opinions'
                               ? booksOpinionsListItems[index]
                               : trendingArticles[index],
                         );
                       },
-                      child: (subcategory.categoryId == 'books_opinions')
+                      child: (subcategory.id == 'books_opinions')
                           ? CustomBooksOpinionsItem(
                               articleItem: booksOpinionsListItems[index],
                               cardWidth: double.infinity,
@@ -48,7 +51,7 @@ class DrawerSubCategoryContentView extends StatelessWidget {
                     ),
                   );
                 },
-                childCount: (subcategory.categoryId == 'books_opinions')
+                childCount: (subcategory.id == 'books_opinions')
                     ? booksOpinionsListItems.length
                     : trendingArticles.length,
               ),

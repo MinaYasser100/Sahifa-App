@@ -9,8 +9,8 @@ enum ApiEndpoints {
   // Trending Articles
   articles('/api/articles'),
 
-  // TV Videos
-  tvVideos('tv-videos/'),
+  // Parent Categories
+  parentCategories('/api/v1/categories'),
 
   // Products (placeholder)
   products('products/');

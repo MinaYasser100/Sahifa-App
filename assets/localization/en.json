@@ -394,5 +394,7 @@
   "favorite_5_description": "The future of education in the digital age",
   "Error fetching articles of this category": "Error fetching articles of this category",
   "Error fetching breaking news articles": "Error fetching breaking news articles",
-  "Breaking News": "Breaking News"
+  "Breaking News": "Breaking News",
+  "Error fetching drawer categories": "Error fetching drawer categories",
+  "No Name": "No Name"
 }

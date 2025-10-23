@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
+import 'package:sahifa/core/model/parent_category/subcategory.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
@@ -11,7 +12,6 @@ import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
-import 'package:sahifa/features/home/data/models/category_with_subcategories.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_content.dart';
 import 'package:sahifa/features/layout/ui/layout_view.dart';
@@ -149,7 +149,7 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.drawerSubCategoryContent,
         pageBuilder: (context, state) {
-          final subcategory = state.extra as SubcategoryModel?;
+          final subcategory = state.extra as SubcategoryInfoModel?;
           if (subcategory == null) {
             throw Exception('Subcategory is not found');
           }
