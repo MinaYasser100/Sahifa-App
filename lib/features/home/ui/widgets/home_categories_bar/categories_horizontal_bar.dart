@@ -19,6 +19,7 @@ class CategoriesHorizontalBar extends StatelessWidget {
 
     final List<CategoryModel> categories = [
       CategoryModel(id: 'home', name: 'home'.tr()),
+      CategoryModel(id: 'Breaking News', name: 'Breaking News'.tr()),
       CategoryModel(id: 'obituaries', name: 'obituaries'.tr()),
       CategoryModel(id: 'photo_gallery', name: 'photo_gallery'.tr()),
       CategoryModel(id: 'books_opinions', name: 'books_opinions'.tr()),

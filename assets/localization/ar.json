@@ -405,5 +405,6 @@
   "favorite_article_education_reform": "إصلاح تعليمي جديد يحدث فرقاً",
   "favorite_5_description": "مستقبل التعليم في العصر الرقمي",
   "Error fetching breaking news articles": "خطأ في جلب مقالات الأخبار العاجلة",
-  "Error fetching articles of this category" : "خطأ في جلب مقالات هذه الفئة من الاخبار"
+  "Error fetching articles of this category" : "خطأ في جلب مقالات هذه الفئة من الاخبار",
+  "Breaking News": "أخبار عاجلة"
 }
