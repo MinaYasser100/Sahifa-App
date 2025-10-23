@@ -18,4 +18,15 @@ class DrawerCategoriesCubit extends Cubit<DrawerCategoriesState> {
       (categories) => emit(DrawerCategoriesLoaded(categories)),
     );
   }
+
+  // Force refresh - clears cache and fetches new data
+  Future<void> refreshDrawerCategories(String language) async {
+    emit(DrawerCategoriesLoading());
+    final result = await (_drawerCategoriesRepo as DrawerCategoriesRepoImpl)
+        .forceRefresh(language);
+    result.fold(
+      (failure) => emit(DrawerCategoriesError(failure)),
+      (categories) => emit(DrawerCategoriesLoaded(categories)),
+    );
+  }
 }

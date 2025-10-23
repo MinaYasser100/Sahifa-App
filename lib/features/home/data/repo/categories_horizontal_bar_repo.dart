@@ -4,21 +4,21 @@ import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
 
-abstract class DrawerCategoriesRepo {
-  Future<Either<String, List<ParentCategory>>> fetchDrawerCategories(
+abstract class CategoriesHorizontalBarRepo {
+  Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
     String language,
   );
 }
 
-class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
+class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
   // Singleton Pattern
-  static final DrawerCategoriesRepoImpl _instance =
-      DrawerCategoriesRepoImpl._internal();
-  factory DrawerCategoriesRepoImpl(DioHelper dioHelper) {
+  static final CategoriesHorizontalBarRepoImpl _instance =
+      CategoriesHorizontalBarRepoImpl._internal();
+  factory CategoriesHorizontalBarRepoImpl(DioHelper dioHelper) {
     _instance._dioHelper = dioHelper;
     return _instance;
   }
-  DrawerCategoriesRepoImpl._internal();
+  CategoriesHorizontalBarRepoImpl._internal();
 
   late DioHelper _dioHelper;
 
@@ -35,7 +35,7 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ParentCategory>>> fetchDrawerCategories(
+  Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
     String language,
   ) async {
     try {
@@ -64,7 +64,7 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
 
       return Right(parentCategories);
     } catch (e) {
-      return Left("Error fetching drawer categories".tr());
+      return Left("Error fetching categories horizontal bar".tr());
     }
   }
 
@@ -73,7 +73,7 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
     String language,
   ) async {
     clearCache();
-    return await fetchDrawerCategories(language);
+    return await fetchCategoriesHorizontalBar(language);
   }
 
   // Clear cache manually

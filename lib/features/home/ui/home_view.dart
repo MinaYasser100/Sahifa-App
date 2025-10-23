@@ -39,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
             // Categories Horizontal Bar
             CategoriesHorizontalBar(
               selectedCategoryId: _selectedCategoryId,
-              onCategoryTap: (CategoryModel category) {
+              onCategoryTap: (CategoryBarModel category) {
                 setState(() {
                   _selectedCategoryId = category.id;
                 });

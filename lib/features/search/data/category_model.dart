@@ -1,6 +1,7 @@
-class CategoryModel {
+class CategoryBarModel {
   final String id;
   final String name;
+  final String slug;
 
-  CategoryModel({required this.id, required this.name});
+  CategoryBarModel({required this.id, required this.name, required this.slug});
 }

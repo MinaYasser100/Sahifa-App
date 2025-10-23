@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/model/parent_category/parent_category.dart';
+import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
+
+part 'categories_horizontal_bar_state.dart';
+
+class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
+  CategoriesHorizontalBarCubit(this._horizontalBarRepo)
+    : super(CategoriesHorizontalBarInitial());
+
+  final CategoriesHorizontalBarRepo _horizontalBarRepo;
+
+  Future<void> fetchCategoriesHorizontalBar(String language) async {
+    emit(CategoriesHorizontalBarLoading());
+    final result = await _horizontalBarRepo.fetchCategoriesHorizontalBar(
+      language,
+    );
+    result.fold(
+      (error) => emit(CategoriesHorizontalBarError(error)),
+      (categories) => emit(CategoriesHorizontalBarLoaded(categories)),
+    );
+  }
+
+  // Force refresh - clears cache and fetches new data
+  Future<void> refreshCategoriesHorizontalBar(String language) async {
+    emit(CategoriesHorizontalBarLoading());
+    final result = await (_horizontalBarRepo as CategoriesHorizontalBarRepoImpl)
+        .forceRefresh(language);
+    result.fold(
+      (error) => emit(CategoriesHorizontalBarError(error)),
+      (categories) => emit(CategoriesHorizontalBarLoaded(categories)),
+    );
+  }
+}

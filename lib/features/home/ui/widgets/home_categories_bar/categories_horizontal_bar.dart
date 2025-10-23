@@ -1,6 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/features/home/manger/cateogries_horizontal_bar_cubit/categories_horizontal_bar_cubit.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_horizontal_bar_loading.dart'
+    as loading_widget;
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_horizontal_bar_error.dart'
+    as error_widget;
 import 'package:sahifa/features/search/data/category_model.dart';
 
 class CategoriesHorizontalBar extends StatelessWidget {
@@ -11,71 +19,144 @@ class CategoriesHorizontalBar extends StatelessWidget {
   });
 
   final String selectedCategoryId;
-  final void Function(CategoryModel category) onCategoryTap;
+  final void Function(CategoryBarModel category) onCategoryTap;
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final language = LanguageHelper.getCurrentLanguageCode(context);
 
-    final List<CategoryModel> categories = [
-      CategoryModel(id: 'home', name: 'home'.tr()),
-      CategoryModel(id: 'Breaking News', name: 'Breaking News'.tr()),
-      CategoryModel(id: 'obituaries', name: 'obituaries'.tr()),
-      CategoryModel(id: 'photo_gallery', name: 'photo_gallery'.tr()),
-      CategoryModel(id: 'books_opinions', name: 'books_opinions'.tr()),
-      CategoryModel(id: 'economy', name: 'economy'.tr()),
-      CategoryModel(id: 'security_courts', name: 'security_courts'.tr()),
-      CategoryModel(id: 'sports', name: 'sports'.tr()),
-      CategoryModel(id: 'local_news', name: 'local_news'.tr()),
-    ];
+    return BlocProvider(
+      create: (context) {
+        final cubit = CategoriesHorizontalBarCubit(getIt());
+        cubit.fetchCategoriesHorizontalBar(language);
+        return cubit;
+      },
+      child:
+          BlocBuilder<
+            CategoriesHorizontalBarCubit,
+            CategoriesHorizontalBarState
+          >(
+            builder: (context, state) {
+              if (state is CategoriesHorizontalBarLoading) {
+                return const loading_widget.CategoriesHorizontalBarLoading();
+              } else if (state is CategoriesHorizontalBarError) {
+                return error_widget.CategoriesHorizontalBarError(
+                  message: state.errorMessage,
+                  onRetry: () {
+                    final language = LanguageHelper.getCurrentLanguageCode(
+                      context,
+                    );
+                    context
+                        .read<CategoriesHorizontalBarCubit>()
+                        .refreshCategoriesHorizontalBar(language);
+                  },
+                );
+              } else if (state is CategoriesHorizontalBarLoaded) {
+                final isDarkMode =
+                    Theme.of(context).brightness == Brightness.dark;
 
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? ColorsTheme().primaryDark
-            : ColorsTheme().primaryColor,
-      ),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final isSelected = selectedCategoryId == category.id;
-
-          return GestureDetector(
-            onTap: () {
-              onCategoryTap(category);
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                border: isSelected
-                    ? Border(
-                        bottom: BorderSide(
-                          color: ColorsTheme().whiteColor,
-                          style: BorderStyle.solid,
-                          width: 2,
-                        ),
-                      )
-                    : null,
-              ),
-              child: Center(
-                child: Text(
-                  category.name,
-                  style: TextStyle(
-                    color: ColorsTheme().whiteColor,
-                    fontSize: 18,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                // الـ 3 عناصر الثابتة
+                final List<CategoryBarModel> fixedCategories = [
+                  CategoryBarModel(id: 'home', name: 'home'.tr(), slug: 'home'),
+                  CategoryBarModel(
+                    id: 'Breaking News',
+                    name: 'Breaking News'.tr(),
+                    slug: 'breaking-news',
                   ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+                  CategoryBarModel(
+                    id: 'books_opinions',
+                    name: 'books_opinions'.tr(),
+                    slug: 'books_opinions',
+                  ),
+                ];
+
+                // فلترة الـ parent categories اللي isActive && showOnMenu
+                final apiCategories =
+                    state.categories
+                        .where(
+                          (category) =>
+                              category.isActive == true &&
+                              category.showOnMenu == true,
+                        )
+                        .toList()
+                      ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+                // تحويل الـ API categories لـ CategoryModel
+                final List<CategoryBarModel> apiCategoryModels = apiCategories
+                    .map(
+                      (category) => CategoryBarModel(
+                        id: category.id.toString(),
+                        name: category.name ?? '',
+                        slug: category.slug ?? '',
+                      ),
+                    )
+                    .toList();
+
+                // دمج الـ fixed + API categories
+                final allCategories = [
+                  ...fixedCategories,
+                  ...apiCategoryModels,
+                ];
+
+                return Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? ColorsTheme().primaryDark
+                        : ColorsTheme().primaryColor,
+                  ),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    itemCount: allCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = allCategories[index];
+                      final isSelected = selectedCategoryId == category.id;
+
+                      return GestureDetector(
+                        onTap: () {
+                          onCategoryTap(category);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 8,
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: isSelected
+                                ? Border(
+                                    bottom: BorderSide(
+                                      color: ColorsTheme().whiteColor,
+                                      style: BorderStyle.solid,
+                                      width: 2,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          child: Center(
+                            child: Text(
+                              category.name,
+                              style: TextStyle(
+                                color: ColorsTheme().whiteColor,
+                                fontSize: 18,
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+
+              // Initial state
+              return const loading_widget.CategoriesHorizontalBarLoading();
+            },
+          ),
     );
   }
 }

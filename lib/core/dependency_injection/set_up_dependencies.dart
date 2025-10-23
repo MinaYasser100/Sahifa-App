@@ -3,6 +3,7 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
 import 'package:sahifa/features/home/data/repo/drawer_categories_repo.dart';
 import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
 import 'package:sahifa/features/pdf/data/repo/pdf_repo.dart';
@@ -35,4 +36,15 @@ void setupDependencies() async {
   final drawerCategoriesRepo = DrawerCategoriesRepoImpl(getIt<DioHelper>());
   getIt.registerSingleton<DrawerCategoriesRepoImpl>(drawerCategoriesRepo);
   getIt.registerSingleton<DrawerCategoriesRepo>(drawerCategoriesRepo);
+
+  // Register CategoriesHorizontalBarRepo as abstract type with implementation
+  final categoriesHorizontalBarRepo = CategoriesHorizontalBarRepoImpl(
+    getIt<DioHelper>(),
+  );
+  getIt.registerSingleton<CategoriesHorizontalBarRepoImpl>(
+    categoriesHorizontalBarRepo,
+  );
+  getIt.registerSingleton<CategoriesHorizontalBarRepo>(
+    categoriesHorizontalBarRepo,
+  );
 }
