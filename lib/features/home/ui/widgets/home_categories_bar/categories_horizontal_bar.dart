@@ -9,7 +9,7 @@ import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_h
     as loading_widget;
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_horizontal_bar_error.dart'
     as error_widget;
-import 'package:sahifa/features/search/data/category_model.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 
 class CategoriesHorizontalBar extends StatelessWidget {
   const CategoriesHorizontalBar({
@@ -19,7 +19,7 @@ class CategoriesHorizontalBar extends StatelessWidget {
   });
 
   final String selectedCategoryId;
-  final void Function(CategoryBarModel category) onCategoryTap;
+  final void Function(CategoryFilterModel category) onCategoryTap;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +56,18 @@ class CategoriesHorizontalBar extends StatelessWidget {
                     Theme.of(context).brightness == Brightness.dark;
 
                 // الـ 3 عناصر الثابتة
-                final List<CategoryBarModel> fixedCategories = [
-                  CategoryBarModel(id: 'home', name: 'home'.tr(), slug: 'home'),
-                  CategoryBarModel(
+                final List<CategoryFilterModel> fixedCategories = [
+                  CategoryFilterModel(
+                    id: 'home',
+                    name: 'home'.tr(),
+                    slug: 'home',
+                  ),
+                  CategoryFilterModel(
                     id: 'Breaking News',
                     name: 'Breaking News'.tr(),
                     slug: 'breaking-news',
                   ),
-                  CategoryBarModel(
+                  CategoryFilterModel(
                     id: 'books_opinions',
                     name: 'books_opinions'.tr(),
                     slug: 'books_opinions',
@@ -71,10 +75,10 @@ class CategoriesHorizontalBar extends StatelessWidget {
                 ];
 
                 // الـ API categories جايه جاهزة من الـ Cubit (filtered & sorted)
-                final List<CategoryBarModel> apiCategoryModels = state
+                final List<CategoryFilterModel> apiCategoryModels = state
                     .categories
                     .map(
-                      (category) => CategoryBarModel(
+                      (category) => CategoryFilterModel(
                         id: category.id.toString(),
                         name: category.name ?? '',
                         slug: category.slug ?? '',

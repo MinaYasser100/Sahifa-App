@@ -5,9 +5,9 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_item.dart';
 
 class DrawerCategoryItem extends StatelessWidget {
-  const DrawerCategoryItem({super.key, required this.category});
+  const DrawerCategoryItem({super.key, required this.parentCategory});
 
-  final ParentCategory category;
+  final ParentCategory parentCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DrawerCategoryItem extends StatelessWidget {
 
     // Filter active subcategories
     final activeSubcategories =
-        category.subcategories
+        parentCategory.subcategories
             ?.where((sub) => sub.isActive == true && sub.showOnMenu == true)
             .toList() ??
         [];
@@ -39,7 +39,7 @@ class DrawerCategoryItem extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                category.name ?? '',
+                parentCategory.name ?? '',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

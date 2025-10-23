@@ -5,7 +5,7 @@ import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
-import 'package:sahifa/features/search/data/category_model.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/custom_home_drawer.dart';
 import 'package:sahifa/features/home/ui/widgets/home_app_bar.dart';
 import 'package:sahifa/features/home/ui/widgets/home_body_view.dart';
@@ -39,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
             // Categories Horizontal Bar
             CategoriesHorizontalBar(
               selectedCategoryId: _selectedCategoryId,
-              onCategoryTap: (CategoryBarModel category) {
+              onCategoryTap: (CategoryFilterModel category) {
                 setState(() {
                   _selectedCategoryId = category.id;
                 });

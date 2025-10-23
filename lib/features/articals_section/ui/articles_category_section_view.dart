@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sahifa/features/articals_section/data/category_model.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/features/articals_section/data/local_data.dart';
 import 'package:sahifa/features/articals_section/ui/widgets/categories_bar.dart';
 import 'package:sahifa/features/articals_section/ui/widgets/artical_list_item.dart';
@@ -19,12 +19,24 @@ class _ArticlesCategorySectionViewState
     extends State<ArticlesCategorySectionView> {
   String selectedCategoryId = 'all';
 
-  final List<CategoryModel> categories = [
-    CategoryModel(id: 'all', name: 'All'.tr()),
-    CategoryModel(id: 'politics', name: 'Politics'.tr()),
-    CategoryModel(id: 'sports', name: 'Sports'.tr()),
-    CategoryModel(id: 'technology', name: 'Technology'.tr()),
-    CategoryModel(id: 'business', name: 'Business'.tr()),
+  final List<CategoryFilterModel> categories = [
+    CategoryFilterModel(id: 'all', name: 'All'.tr(), slug: 'all'),
+    CategoryFilterModel(
+      id: 'politics',
+      name: 'Politics'.tr(),
+      slug: 'politics',
+    ),
+    CategoryFilterModel(id: 'sports', name: 'Sports'.tr(), slug: 'sports'),
+    CategoryFilterModel(
+      id: 'technology',
+      name: 'Technology'.tr(),
+      slug: 'technology',
+    ),
+    CategoryFilterModel(
+      id: 'business',
+      name: 'Business'.tr(),
+      slug: 'business',
+    ),
   ];
 
   List<ArticleItemModel> get filteredArticles {

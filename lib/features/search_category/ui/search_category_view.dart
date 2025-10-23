@@ -2,15 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
-import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 
 class SearchCategoryView extends StatelessWidget {
   const SearchCategoryView({super.key, required this.category});
-  final CategoryModel category;
+  final CategoryFilterModel category;
 
   @override
   Widget build(BuildContext context) {

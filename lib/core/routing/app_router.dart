@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 import 'package:sahifa/core/model/parent_category/subcategory.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/archive_pdf_widget.dart';
-import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/articals_section/ui/articles_category_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
@@ -108,7 +108,7 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.searchCategoryView,
         pageBuilder: (context, state) {
-          final category = state.extra as CategoryModel?;
+          final category = state.extra as CategoryFilterModel?;
           if (category == null) {
             throw Exception('Category name is not found');
           }

@@ -52,7 +52,7 @@ class DrawerCategoriesList extends StatelessWidget {
         padding: EdgeInsets.zero,
         itemCount: categories.length,
         itemBuilder: (context, index) {
-          return DrawerCategoryItem(category: categories[index]);
+          return DrawerCategoryItem(parentCategory: categories[index]);
         },
       ),
     );

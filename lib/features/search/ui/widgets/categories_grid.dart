@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/features/articals_section/data/category_model.dart';
 import 'package:sahifa/features/search/ui/manager/search_cateories_cubit/search_categories_cubit.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_loading.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card.dart';
@@ -81,11 +81,12 @@ class CategoriesGrid extends StatelessWidget {
             );
           } else if (state is SearchCategoriesLoaded) {
             // الـ categories جايه جاهزة من الـ Cubit (filtered & sorted)
-            final List<CategoryModel> categories = state.categories
+            final List<CategoryFilterModel> categories = state.categories
                 .map(
-                  (category) => CategoryModel(
+                  (category) => CategoryFilterModel(
                     id: category.id.toString(),
                     name: category.name ?? '',
+                    slug: category.slug ?? '',
                   ),
                 )
                 .toList();

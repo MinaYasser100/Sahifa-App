@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/articals_section/data/category_model.dart';
 
 class CategoriesBar extends StatelessWidget {
   const CategoriesBar({
@@ -10,7 +10,7 @@ class CategoriesBar extends StatelessWidget {
     required this.onCategorySelected,
   });
 
-  final List<CategoryModel> categories;
+  final List<CategoryFilterModel> categories;
   final String selectedCategoryId;
   final ValueChanged<String> onCategorySelected;
 
