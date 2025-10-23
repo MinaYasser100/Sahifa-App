@@ -76,6 +76,7 @@
   "search_placeholder": "بحث...",
   "categories": "الفئات",
   "filter_by_date": "تصفية حسب التاريخ",
+  "no_categories_available": "لا توجد فئات متاحة",
   
   "_comment_connectivity": "===== Internet Connection =====",
   "no_internet_connection": "لا يوجد اتصال بالإنترنت",
@@ -408,5 +409,6 @@
   "Error fetching articles of this category" : "خطأ في جلب مقالات هذه الفئة من الاخبار",
   "Breaking News": "أخبار عاجلة",
   "Error fetching drawer categories": "خطأ في جلب فئات القائمة الجانبية",
-  "No Name": "بدون اسم"
+  "No Name": "بدون اسم",
+  "Failed to fetch search categories" : "فشل في جلب فئات البحث"
 }

@@ -4,21 +4,21 @@ import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
 
-abstract class CategoriesHorizontalBarRepo {
-  Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
+abstract class SearchCategoriesRepo {
+  Future<Either<String, List<ParentCategory>>> fetchSearchCategories(
     String language,
   );
 }
 
-class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
+class SearchCategoriesRepoImpl implements SearchCategoriesRepo {
   // Singleton Pattern
-  static final CategoriesHorizontalBarRepoImpl _instance =
-      CategoriesHorizontalBarRepoImpl._internal();
-  factory CategoriesHorizontalBarRepoImpl(DioHelper dioHelper) {
+  static final SearchCategoriesRepoImpl _instance =
+      SearchCategoriesRepoImpl._internal();
+  factory SearchCategoriesRepoImpl(DioHelper dioHelper) {
     _instance._dioHelper = dioHelper;
     return _instance;
   }
-  CategoriesHorizontalBarRepoImpl._internal();
+  SearchCategoriesRepoImpl._internal();
 
   late DioHelper _dioHelper;
 
@@ -35,7 +35,7 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
+  Future<Either<String, List<ParentCategory>>> fetchSearchCategories(
     String language,
   ) async {
     try {
@@ -54,7 +54,6 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
         query: {
           ApiQueryParams.language: language,
           ApiQueryParams.isActive: true,
-          ApiQueryParams.showOnHomepage: true,
         },
       );
       final List<ParentCategory> parentCategories = (result.data as List)
@@ -65,10 +64,9 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
       _cachedCategories = parentCategories;
       _lastFetchTime = DateTime.now();
       _lastLanguage = language;
-
       return Right(parentCategories);
     } catch (e) {
-      return Left("Error fetching categories horizontal bar".tr());
+      return Left("Failed to fetch search categories".tr());
     }
   }
 
@@ -77,7 +75,7 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
     String language,
   ) async {
     clearCache();
-    return await fetchCategoriesHorizontalBar(language);
+    return await fetchSearchCategories(language);
   }
 
   // Clear cache manually

@@ -16,10 +16,21 @@ class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
     final result = await _horizontalBarRepo.fetchCategoriesHorizontalBar(
       language,
     );
-    result.fold(
-      (error) => emit(CategoriesHorizontalBarError(error)),
-      (categories) => emit(CategoriesHorizontalBarLoaded(categories)),
-    );
+    result.fold((error) => emit(CategoriesHorizontalBarError(error)), (
+      categories,
+    ) {
+      // فلترة الـ categories اللي isActive && showOnMenu
+      final filteredCategories =
+          categories
+              .where(
+                (category) =>
+                    category.isActive == true && category.showOnMenu == true,
+              )
+              .toList()
+            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+      emit(CategoriesHorizontalBarLoaded(filteredCategories));
+    });
   }
 
   // Force refresh - clears cache and fetches new data
@@ -27,9 +38,20 @@ class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
     emit(CategoriesHorizontalBarLoading());
     final result = await (_horizontalBarRepo as CategoriesHorizontalBarRepoImpl)
         .forceRefresh(language);
-    result.fold(
-      (error) => emit(CategoriesHorizontalBarError(error)),
-      (categories) => emit(CategoriesHorizontalBarLoaded(categories)),
-    );
+    result.fold((error) => emit(CategoriesHorizontalBarError(error)), (
+      categories,
+    ) {
+      // فلترة الـ categories اللي isActive && showOnMenu
+      final filteredCategories =
+          categories
+              .where(
+                (category) =>
+                    category.isActive == true && category.showOnMenu == true,
+              )
+              .toList()
+            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+      emit(CategoriesHorizontalBarLoaded(filteredCategories));
+    });
   }
 }

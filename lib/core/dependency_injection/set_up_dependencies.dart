@@ -7,6 +7,7 @@ import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.da
 import 'package:sahifa/features/home/data/repo/drawer_categories_repo.dart';
 import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
 import 'package:sahifa/features/pdf/data/repo/pdf_repo.dart';
+import 'package:sahifa/features/search/ui/data/repo/search_categories_repo.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
 
 final getIt = GetIt.instance;
@@ -47,4 +48,9 @@ void setupDependencies() async {
   getIt.registerSingleton<CategoriesHorizontalBarRepo>(
     categoriesHorizontalBarRepo,
   );
+
+  // Register SearchCategoriesRepo as abstract type with implementation
+  final searchCategoriesRepo = SearchCategoriesRepoImpl(getIt<DioHelper>());
+  getIt.registerSingleton<SearchCategoriesRepoImpl>(searchCategoriesRepo);
+  getIt.registerSingleton<SearchCategoriesRepo>(searchCategoriesRepo);
 }

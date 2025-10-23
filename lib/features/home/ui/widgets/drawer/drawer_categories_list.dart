@@ -13,18 +13,8 @@ class DrawerCategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    // Filter only active categories that should show on menu
-    final activeCategories = categories
-        .where(
-          (category) =>
-              category.isActive == true && category.showOnMenu == true,
-        )
-        .toList();
-
-    // Sort by order
-    activeCategories.sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
-
-    if (activeCategories.isEmpty) {
+    // الـ categories جايه جاهزة من الـ Cubit (filtered & sorted)
+    if (categories.isEmpty) {
       return Expanded(
         child: Center(
           child: Padding(
@@ -60,9 +50,9 @@ class DrawerCategoriesList extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: activeCategories.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          return DrawerCategoryItem(category: activeCategories[index]);
+          return DrawerCategoryItem(category: categories[index]);
         },
       ),
     );

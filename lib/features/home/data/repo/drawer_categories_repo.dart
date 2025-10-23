@@ -51,7 +51,11 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
       // If no cache or cache expired or language changed, fetch from API
       final result = await _dioHelper.getData(
         url: ApiEndpoints.parentCategories.path,
-        query: {ApiQueryParams.language: 1},
+        query: {
+          ApiQueryParams.language: language,
+          ApiQueryParams.isActive: true,
+          ApiQueryParams.showOnMenu: true,
+        },
       );
       final List<ParentCategory> parentCategories = (result.data as List)
           .map((e) => ParentCategory.fromJson(e))

@@ -70,19 +70,9 @@ class CategoriesHorizontalBar extends StatelessWidget {
                   ),
                 ];
 
-                // فلترة الـ parent categories اللي isActive && showOnMenu
-                final apiCategories =
-                    state.categories
-                        .where(
-                          (category) =>
-                              category.isActive == true &&
-                              category.showOnMenu == true,
-                        )
-                        .toList()
-                      ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
-
-                // تحويل الـ API categories لـ CategoryModel
-                final List<CategoryBarModel> apiCategoryModels = apiCategories
+                // الـ API categories جايه جاهزة من الـ Cubit (filtered & sorted)
+                final List<CategoryBarModel> apiCategoryModels = state
+                    .categories
                     .map(
                       (category) => CategoryBarModel(
                         id: category.id.toString(),

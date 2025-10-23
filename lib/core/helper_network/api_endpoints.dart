@@ -52,4 +52,10 @@ class ApiQueryParams {
   static const String pageNumber = 'PageNumber';
   static const String pageSize = 'PageSize';
   static const String searchPhrase = "SearchPhrase";
+  static const String order = "Order";
+  static const String colorHex = "ColorHex";
+  static const String isActive = "IsActive";
+  static const String showOnMenu = "ShowOnMenu";
+  static const String showOnHomepage = "ShowOnHomepage";
+  static const String parentCategoryId = "ParentCategoryId";
 }
