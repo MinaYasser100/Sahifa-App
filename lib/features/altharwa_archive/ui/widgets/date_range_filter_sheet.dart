@@ -40,9 +40,14 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
     super.dispose();
   }
 
+  // Store selected dates as DateTime for conversion
+  DateTime? _fromDate;
+  DateTime? _toDate;
+
   Future<void> selectDate(
     BuildContext context,
     TextEditingController controller,
+    bool isFromDate,
   ) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -52,9 +57,42 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
     );
     if (picked != null) {
       setState(() {
+        // Store the DateTime for later conversion
+        if (isFromDate) {
+          _fromDate = picked;
+        } else {
+          _toDate = picked;
+        }
+
+        // Display in user-friendly format
         controller.text = "${picked.day}/${picked.month}/${picked.year}";
       });
     }
+  }
+
+  // تحويل DateTime لـ UTC String بصيغة ISO 8601 بدون Z
+  String _convertToUtcString(DateTime date) {
+    // Build the string manually to match backend format exactly
+    // Format: 2025-10-20T10:00:36.1794008
+
+    final year = date.year.toString().padLeft(4, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    final day = date.day.toString().padLeft(2, '0');
+
+    // Use current time instead of 00:00:00
+    final now = DateTime.now();
+    final hour = now.hour.toString().padLeft(2, '0');
+    final minute = now.minute.toString().padLeft(2, '0');
+    final second = now.second.toString().padLeft(2, '0');
+
+    // Combine millisecond (3 digits) + microsecond (4 digits) = 7 digits total
+    final millisecond = now.millisecond.toString().padLeft(3, '0');
+    final microsecond = now.microsecond.toString().padLeft(4, '0');
+    final fractionalSeconds =
+        '$millisecond$microsecond'; // This gives us 7 digits
+
+    // Combine to create: 2025-10-20T10:00:36.1794008
+    return '$year-$month-${day}T$hour:$minute:$second.$fractionalSeconds';
   }
 
   @override
@@ -81,8 +119,8 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
 
           // From Date Field
           DateRangeFilterFields(
-            onFromDateTap: () => selectDate(context, fromSelectedDate),
-            onToDateTap: () => selectDate(context, toSelectedDate),
+            onFromDateTap: () => selectDate(context, fromSelectedDate, true),
+            onToDateTap: () => selectDate(context, toSelectedDate, false),
             fromSelectedDate: fromSelectedDate,
             toSelectedDate: toSelectedDate,
           ),
@@ -104,7 +142,18 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
                   return;
                 }
 
+                // Validate that _fromDate and _toDate are set
+                if (_fromDate == null || _toDate == null) {
+                  showErrorToast(
+                    context,
+                    "Error".tr(),
+                    'please_select_both_dates'.tr(),
+                  );
+                  return;
+                }
+
                 // Set date range in DateFilterCubit (with validation)
+                // Use display format (DD/MM/YYYY) for validation
                 final error = widget.dateFilterCubit.setDateRange(
                   fromDate: fromSelectedDate.text,
                   toDate: toSelectedDate.text,
@@ -116,10 +165,14 @@ class _DateRangeFilterSheetState extends State<DateRangeFilterSheet> {
                   return;
                 }
 
-                // Validation passed, fetch filtered magazines
+                // Convert DateTime to UTC String for API
+                final fromUtcString = _convertToUtcString(_fromDate!);
+                final toUtcString = _convertToUtcString(_toDate!);
+
+                // Validation passed, fetch filtered magazines with UTC strings
                 widget.magazinesCubit.fetchMagazinesWithDateFilter(
-                  fromDate: fromSelectedDate.text,
-                  toDate: toSelectedDate.text,
+                  fromDate: fromUtcString,
+                  toDate: toUtcString,
                 );
                 Navigator.pop(context);
               },

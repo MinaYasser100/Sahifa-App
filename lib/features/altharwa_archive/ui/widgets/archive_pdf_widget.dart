@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/func/format_date_from_utc.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -35,7 +36,7 @@ class _ArchivePDFWidgetState extends State<ArchivePDFWidget> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.pdfModel.createdAt ?? "No Date".tr()),
+        title: Text(formatDateFromUTC(widget.pdfModel.createdAt)),
         elevation: 0,
         actions: [
           PdfPageIndicator(

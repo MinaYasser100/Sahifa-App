@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/func/format_date_from_utc.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -41,7 +42,7 @@ class PdfGridItemInfo extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 2),
             child: Text(
-              date!,
+              formatDateFromUTC(date),
               style: TextStyle(
                 fontSize: 15,
                 color: isDarkMode

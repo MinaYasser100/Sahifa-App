@@ -55,10 +55,10 @@ class DateFilterCubit extends Cubit<DateFilterState> {
         return 'from_date_must_be_before_to_date'.tr();
       }
 
-      // All validations passed
+      // All validations passed - store the dates
       _fromDate = fromDate;
       _toDate = toDate;
-      emit(DateFilterApplied(fromDate: fromDate, toDate: toDate));
+      // No need to emit state since we're only using the getter values
       return null;
     } catch (e) {
       return 'invalid_date_format'.tr();
@@ -69,6 +69,6 @@ class DateFilterCubit extends Cubit<DateFilterState> {
   void clearFilter() {
     _fromDate = null;
     _toDate = null;
-    emit(DateFilterCleared());
+    // No need to emit state since we're only using the getter values
   }
 }

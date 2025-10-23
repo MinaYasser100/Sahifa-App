@@ -92,8 +92,8 @@ class MagazinesRepoImpl implements MagazinesRepo {
 
       return Right(magazineModel);
     } catch (e) {
-      log('Error fetching magazines: $e');
-      return Left('Failed to fetch magazines: $e');
+      log('Error fetching magazines');
+      return Left('Failed to fetch magazines');
     }
   }
 
@@ -146,8 +146,8 @@ class MagazinesRepoImpl implements MagazinesRepo {
 
       return Right(magazineModel);
     } catch (e) {
-      log('Error searching magazines: $e');
-      return Left('Failed to search magazines: $e');
+      log('Error searching magazines');
+      return Left('Failed to search magazines');
     }
   }
 }

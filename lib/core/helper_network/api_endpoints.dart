@@ -7,7 +7,7 @@ enum ApiEndpoints {
   magazinesByDate('/api/v1/magazines/by-date'),
 
   // Trending Articles
-  articles('/api/articles'),
+  articles('/api/v1/categories/{categorySlug}/articles'),
 
   // Parent Categories
   parentCategories('/api/v1/categories'),
