@@ -2,10 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
 
 abstract class BannerRepo {
-  Future<Either<String, List<ArticleItemModel>>> fetchBanners(String language);
+  Future<Either<String, List<ArticleModel>>> fetchBanners(String language);
 }
 
 class BannerRepoImpl implements BannerRepo {
@@ -16,7 +17,7 @@ class BannerRepoImpl implements BannerRepo {
   final DioHelper _dioHelper = DioHelper();
 
   // Memory Cache
-  List<ArticleItemModel>? _cachedBanners;
+  List<ArticleModel>? _cachedBanners;
   DateTime? _lastFetchTime;
   final Duration _cacheDuration = const Duration(minutes: 30);
 
@@ -27,7 +28,7 @@ class BannerRepoImpl implements BannerRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ArticleItemModel>>> fetchBanners(
+  Future<Either<String, List<ArticleModel>>> fetchBanners(
     String language,
   ) async {
     try {
@@ -38,81 +39,18 @@ class BannerRepoImpl implements BannerRepo {
         // Return cached data immediately
         return Right(_cachedBanners!);
       }
-
-      // If no cache or cache expired, fetch from API
-      // Simulate API delay
-      await Future.delayed(const Duration(seconds: 1));
-
       // Simulate API response - في المستقبل هيبقى API call حقيقي
-      // final response = await _dioHelper.getData(
-      //   url: ApiEndpoints.articles.path,
-      //   query: {
-      //     ApiQueryParams.pageSize: 15,
-      //     ApiQueryParams.language: language,
-      //     ApiQueryParams.isSlider: true,
-      //   },
-      // );
-      // final ArticlesCategoryModel articlesCategoryModel =
-      //     ArticlesCategoryModel.fromJson(response.data);
-
-      final List<ArticleItemModel> banners = [
-        ArticleItemModel(
-          id: 'banner_1',
-          imageUrl:
-              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
-          title: "breaking_major_economic_summit_concludes_successfully".tr(),
-          description: "banner_1_description".tr(),
-          categoryId: "category_economy",
-          category: "category_economy".tr(),
-          date: DateTime.now().subtract(const Duration(hours: 2)),
-          viewerCount: 15420,
-        ),
-        ArticleItemModel(
-          id: 'banner_2',
-          imageUrl:
-              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
-          title: "technology_breakthrough_ai_revolution_in_healthcare".tr(),
-          description: "banner_2_description".tr(),
-          categoryId: "category_economy",
-          category: "category_economy".tr(),
-          date: DateTime.now().subtract(const Duration(hours: 5)),
-          viewerCount: 23150,
-        ),
-        ArticleItemModel(
-          id: 'banner_3',
-          imageUrl:
-              'https://althawra-news.net/user_images/news/26-08-25-179659767.jpg',
-          title: "climate_action_global_initiative_launches_today".tr(),
-          description: "banner_3_description".tr(),
-          category: "category_economy".tr(),
-          categoryId: "category_economy",
-          date: DateTime.now().subtract(const Duration(hours: 8)),
-          viewerCount: 18900,
-        ),
-        ArticleItemModel(
-          id: 'banner_4',
-          imageUrl:
-              'https://althawra-news.net/user_images/news/18-10-25-111655979.jpg',
-          title: "education_reform_new_digital_learning_platform".tr(),
-          description: "banner_4_description".tr(),
-          categoryId: "category_economy",
-          date: DateTime.now().subtract(const Duration(hours: 12)),
-          category: "category_economy".tr(),
-          viewerCount: 12340,
-        ),
-        ArticleItemModel(
-          id: 'banner_5',
-          imageUrl:
-              'https://althawra-news.net/user_images/news/26-08-25-179659767.jpg',
-          title: "sports_championship_finals_set_record_viewership".tr(),
-          description: "banner_5_description".tr(),
-          categoryId: "category_economy",
-          date: DateTime.now().subtract(const Duration(days: 1)),
-          category: "category_economy".tr(),
-          viewerCount: 45780,
-        ),
-      ];
-
+      final response = await _dioHelper.getData(
+        url: ApiEndpoints.articles.path,
+        query: {
+          ApiQueryParams.pageSize: 15,
+          ApiQueryParams.language: language,
+          ApiQueryParams.isSlider: true,
+        },
+      );
+      final ArticlesCategoryModel articlesCategoryModel =
+          ArticlesCategoryModel.fromJson(response.data);
+      final List<ArticleModel> banners = articlesCategoryModel.articles ?? [];
       // Store in cache
       _cachedBanners = banners;
       _lastFetchTime = DateTime.now();
@@ -130,7 +68,7 @@ class BannerRepoImpl implements BannerRepo {
   }
 
   // Method to force refresh (ignores cache)
-  Future<Either<String, List<ArticleItemModel>>> forceRefresh(
+  Future<Either<String, List<ArticleModel>>> forceRefresh(
     String language,
   ) async {
     clearCache();

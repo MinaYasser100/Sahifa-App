@@ -8,7 +8,7 @@ final class BannersInitial extends BannersState {}
 final class BannersLoading extends BannersState {}
 
 final class BannersLoaded extends BannersState {
-  final List<ArticleItemModel> banners;
+  final List<ArticleModel> banners;
 
   BannersLoaded(this.banners);
 }

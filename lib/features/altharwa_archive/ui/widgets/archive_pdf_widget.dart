@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/func/format_date_from_utc.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';

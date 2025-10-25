@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/banner_carousel_item.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/carousel_dots_indicator.dart';
@@ -16,7 +16,7 @@ class BannersCarousel extends StatelessWidget {
     required this.onPageChanged,
   });
 
-  final List<ArticleItemModel> banners;
+  final List<ArticleModel> banners;
   final int currentIndex;
   final CarouselSliderController carouselController;
   final ValueChanged<int> onPageChanged;
@@ -52,7 +52,7 @@ class _CarouselSliderSection extends StatelessWidget {
     required this.onPageChanged,
   });
 
-  final List<ArticleItemModel> banners;
+  final List<ArticleModel> banners;
   final CarouselSliderController carouselController;
   final ValueChanged<int> onPageChanged;
 
@@ -86,7 +86,7 @@ class _BannerCarouselItemWrapper extends StatelessWidget {
   const _BannerCarouselItemWrapper({required this.index, required this.banner});
 
   final int index;
-  final ArticleItemModel banner;
+  final ArticleModel banner;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +109,7 @@ class _DotsIndicatorSection extends StatelessWidget {
     required this.carouselController,
   });
 
-  final List<ArticleItemModel> banners;
+  final List<ArticleModel> banners;
   final int currentIndex;
   final CarouselSliderController carouselController;
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -8,34 +9,30 @@ class BannerImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      imageUrl,
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
       width: double.infinity,
       height: double.infinity,
       fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          color: ColorsTheme().primaryColor,
-          child: const Center(
-            child: Icon(Icons.image, size: 50, color: Colors.white),
+      placeholder: (context, url) => Container(
+        color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: ColorsTheme().primaryColor,
+            strokeWidth: 2,
           ),
-        );
-      },
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Container(
-          color: ColorsTheme().primaryColor,
-          child: Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                  : null,
-              color: Colors.white,
-            ),
+        ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+        child: Center(
+          child: Icon(
+            Icons.image_not_supported,
+            size: 50,
+            color: ColorsTheme().primaryColor.withValues(alpha: 0.5),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -11,7 +11,7 @@ class BannerInfoSection extends StatelessWidget {
   });
 
   final String title;
-  final DateTime dateTime;
+  final String dateTime;
 
   @override
   Widget build(BuildContext context) {

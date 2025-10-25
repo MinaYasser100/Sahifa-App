@@ -13,9 +13,9 @@ class ArticleModel {
   bool? isRecommended;
   int? viewsCount;
   int? likesCount;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? publishedAt;
+  String? createdAt;
+  String? updatedAt;
+  String? publishedAt;
   String? authorId;
   String? authorName;
   String? categoryId;
@@ -60,15 +60,9 @@ class ArticleModel {
     isRecommended: json['isRecommended'] as bool?,
     viewsCount: json['viewsCount'] as int?,
     likesCount: json['likesCount'] as int?,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
-    publishedAt: json['publishedAt'] == null
-        ? null
-        : DateTime.parse(json['publishedAt'] as String),
+    createdAt: json['createdAt'] as String?,
+    updatedAt: json['updatedAt'] as String?,
+    publishedAt: json['publishedAt'] as String?,
     authorId: json['authorId'] as String?,
     authorName: json['authorName'] as String?,
     categoryId: json['categoryId'] as String?,
@@ -90,9 +84,9 @@ class ArticleModel {
     'isRecommended': isRecommended,
     'viewsCount': viewsCount,
     'likesCount': likesCount,
-    'createdAt': createdAt?.toIso8601String(),
-    'updatedAt': updatedAt?.toIso8601String(),
-    'publishedAt': publishedAt?.toIso8601String(),
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+    'publishedAt': publishedAt,
     'authorId': authorId,
     'authorName': authorName,
     'categoryId': categoryId,
