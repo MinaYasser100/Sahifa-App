@@ -33,4 +33,5 @@ class Routes {
   static const String aboutUsView = '/about-us';
   static const String privacyPolicyView = '/privacy-policy';
   static const String contactUsView = '/contact-us';
+  static const String videoDetailsView = '/video-details';
 }

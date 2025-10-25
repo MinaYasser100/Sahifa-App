@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
+import 'package:sahifa/core/widgets/custom_video_banner_carousel/repo/video_banner_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
@@ -16,6 +17,7 @@ final getIt = GetIt.instance;
 void setupDependencies() async {
   getIt.registerSingleton<DioHelper>(DioHelper());
   getIt.registerSingleton<BannerRepoImpl>(BannerRepoImpl());
+  getIt.registerSingleton<VideoBannerRepoImpl>(VideoBannerRepoImpl());
   getIt.registerSingleton<TrendingRepoImpl>(TrendingRepoImpl());
   getIt.registerSingleton<TVRepoImpl>(TVRepoImpl());
 

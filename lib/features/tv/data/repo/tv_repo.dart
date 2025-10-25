@@ -1,56 +1,76 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
+import 'package:sahifa/core/helper_network/api_endpoints.dart';
+import 'package:sahifa/core/helper_network/dio_helper.dart';
+import 'package:sahifa/core/model/tv_videos_model/tv_videos_model.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 
 abstract class TVRepo {
-  Future<Either<String, List<VideoItemModel>>> fetchVideos();
+  Future<Either<String, TvVideosModel>> fetchVideos({
+    required String language,
+    required int pageNumber,
+  });
 }
 
 class TVRepoImpl implements TVRepo {
   // Singleton Pattern
-  static final TVRepoImpl _instance = TVRepoImpl._internal();
+  static final TVRepoImpl _instance = TVRepoImpl._internal(DioHelper());
   factory TVRepoImpl() => _instance;
-  TVRepoImpl._internal();
+  TVRepoImpl._internal(this._dioHelper);
+  final DioHelper _dioHelper;
 
-  // Memory Cache
-  List<VideoItemModel>? _cachedVideos;
+  // Memory Cache - now caching per page
+  final Map<int, List<VideoModel>> _cachedVideosByPage = {};
   DateTime? _lastFetchTime;
   final Duration _cacheDuration = const Duration(minutes: 30);
+  String? _cachedLanguage;
 
   // Getter for cache status (needed by Cubit to check cache)
-  bool get hasValidCache =>
-      _cachedVideos != null &&
+  bool hasValidCache(int pageNumber) =>
+      _cachedVideosByPage.containsKey(pageNumber) &&
       _lastFetchTime != null &&
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<VideoItemModel>>> fetchVideos() async {
+  Future<Either<String, TvVideosModel>> fetchVideos({
+    required String language,
+    required int pageNumber,
+  }) async {
     try {
-      // Check if cached data exists and is still fresh
-      if (_cachedVideos != null &&
-          _lastFetchTime != null &&
-          DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
+      // Clear cache if language changed
+      if (_cachedLanguage != null && _cachedLanguage != language) {
+        clearCache();
+      }
+      _cachedLanguage = language;
+
+      // Check if cached data exists for this page and is still fresh
+      if (hasValidCache(pageNumber)) {
         // Return cached data immediately
-        return Right(_cachedVideos!);
+        return Right(
+          TvVideosModel(
+            videos: _cachedVideosByPage[pageNumber],
+            pageNumber: pageNumber,
+          ),
+        );
       }
 
-      // If no cache or cache expired, fetch from API
-      // Simulate API delay
-      await Future.delayed(const Duration(seconds: 1));
+      final response = await _dioHelper.getData(
+        url: ApiEndpoints.videos.path,
+        query: {
+          ApiQueryParams.pageSize: 20,
+          ApiQueryParams.pageNumber: pageNumber,
+          ApiQueryParams.language: language,
+        },
+      );
 
-      // Simulate API response - في المستقبل هيبقى API call حقيقي
-      // final response = await _apiService.get('/tv-videos');
-      // final videos = (response.data as List)
-      //     .map((json) => VideoItemModel.fromJson(json))
-      //     .toList();
-      // return Right(videos);
+      final TvVideosModel tvVideosModel = TvVideosModel.fromJson(response.data);
+      final List<VideoModel> videos = tvVideosModel.videos ?? [];
 
-      final List<VideoItemModel> videos = VideoItemModel.getSampleVideos();
-
-      // Store in cache
-      _cachedVideos = videos;
+      // Store in cache by page number
+      _cachedVideosByPage[pageNumber] = videos;
       _lastFetchTime = DateTime.now();
-      return Right(videos);
+
+      return Right(tvVideosModel);
     } catch (e) {
       return Left("failed_to_load_videos".tr());
     }
@@ -58,13 +78,16 @@ class TVRepoImpl implements TVRepo {
 
   // Method to clear cache if needed (e.g., on logout or refresh)
   void clearCache() {
-    _cachedVideos = null;
+    _cachedVideosByPage.clear();
     _lastFetchTime = null;
+    _cachedLanguage = null;
   }
 
   // Method to force refresh (ignores cache)
-  Future<Either<String, List<VideoItemModel>>> forceRefresh() async {
+  Future<Either<String, TvVideosModel>> forceRefresh({
+    required String language,
+  }) async {
     clearCache();
-    return fetchVideos();
+    return fetchVideos(language: language, pageNumber: 1);
   }
 }

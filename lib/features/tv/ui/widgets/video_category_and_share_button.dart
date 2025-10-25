@@ -1,9 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
 
 class VideoCategoryAndShareButton extends StatelessWidget {
   const VideoCategoryAndShareButton({
@@ -12,7 +13,7 @@ class VideoCategoryAndShareButton extends StatelessWidget {
     required this.isDarkMode,
   });
 
-  final VideoItemModel video;
+  final VideoModel video;
   final bool isDarkMode;
 
   @override
@@ -37,7 +38,7 @@ class VideoCategoryAndShareButton extends StatelessWidget {
               ),
             ),
             child: Text(
-              video.category,
+              video.categoryName ?? 'No Category Name'.tr(),
               style: AppTextStyles.styleMedium16sp(context).copyWith(),
             ),
           ),

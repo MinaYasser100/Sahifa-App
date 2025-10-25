@@ -117,6 +117,14 @@
   "check_back_later_for_new_videos": "Check back later for new videos",
   "failed_to_load_videos": "Failed to load videos",
   "loading_videos": "Loading videos...",
+  "failed_to_load_video_banners": "Failed to load video banners",
+  "loading_video_banners": "Loading video banners...",
+  "no_video_banners_available": "No video banners available",
+  "check_back_later_for_featured_videos": "Check back later for featured videos",
+  "video_details": "Video Details",
+  "watch_it_now": "Watch It Now",
+  "description": "Description",
+  "no_date": "No Date",
   "error_loading_reels": "Error loading reels",
   "no_reels_available": "No reels available",
   
@@ -402,5 +410,8 @@
   "Breaking News": "Breaking News",
   "Error fetching drawer categories": "Error fetching drawer categories",
   "No Name": "No Name",
-  "Failed to fetch search categories": "Failed to fetch search categories"
+  "Failed to fetch search categories": "Failed to fetch search categories",
+  "No Category Name": "No Category Name",
+  "No Title": "No Title",
+  "Error fetching categories": "Error fetching categories"
 }

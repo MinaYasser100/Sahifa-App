@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/func/format_date_from_utc.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
 import 'package:sahifa/features/tv/ui/func/video_formats_helper.dart';
 
 class VideoDateAndViews extends StatelessWidget {
@@ -14,7 +15,7 @@ class VideoDateAndViews extends StatelessWidget {
 
   final bool isDarkMode;
 
-  final VideoItemModel video;
+  final VideoModel video;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class VideoDateAndViews extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            VideosHelper.formatDate(video.date),
+            formatDateFromUTC(video.publishedAt ?? ''),
             style: TextStyle(
               fontSize: 13,
               color: isDarkMode
@@ -49,7 +50,7 @@ class VideoDateAndViews extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            '${VideosHelper.formatViewCount(video.viewCount)} views',
+            '${VideosHelper.formatViewCount(video.viewCount ?? 0)} views',
             style: TextStyle(
               fontSize: 13,
               color: isDarkMode

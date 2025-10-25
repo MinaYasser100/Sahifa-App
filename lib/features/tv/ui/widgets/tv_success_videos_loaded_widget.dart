@@ -3,30 +3,70 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_banner_carouse/custom_banner_carousel_section.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
+import 'package:sahifa/core/widgets/custom_video_banner_carousel/custom_video_banner_carousel_section.dart';
 import 'package:sahifa/features/tv/manager/tv_cubit/tv_cubit.dart';
 
 import 'video_item_card.dart';
 
-class TvSuccessVideosLoadedWidget extends StatelessWidget {
-  const TvSuccessVideosLoadedWidget({super.key, required this.videos});
+class TvSuccessVideosLoadedWidget extends StatefulWidget {
+  const TvSuccessVideosLoadedWidget({
+    super.key,
+    required this.videos,
+    required this.language,
+  });
 
-  final List<VideoItemModel> videos;
+  final List<VideoModel> videos;
+  final String language;
+
+  @override
+  State<TvSuccessVideosLoadedWidget> createState() =>
+      _TvSuccessVideosLoadedWidgetState();
+}
+
+class _TvSuccessVideosLoadedWidgetState
+    extends State<TvSuccessVideosLoadedWidget> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      // Load more when scrolled 80% of the list
+      final cubit = context.read<TvCubit>();
+      if (!cubit.isFetchingMore) {
+        cubit.loadMoreVideos(language: widget.language);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await context.read<TvCubit>().refreshVideos();
+        await context.read<TvCubit>().refreshVideos(language: widget.language);
       },
       color: ColorsTheme().primaryColor,
       child: CustomScrollView(
+        controller: _scrollController,
         slivers: [
-          // Banner Carousel Section
-          const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+          // Video Banner Carousel Section
+          const SliverToBoxAdapter(child: CustomVideoBannerCarouselSection()),
 
           // Videos Title Section
           SliverToBoxAdapter(
@@ -54,8 +94,27 @@ class TvSuccessVideosLoadedWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return VideoItemCard(video: videos[index]);
-              }, childCount: videos.length),
+                return VideoItemCard(video: widget.videos[index]);
+              }, childCount: widget.videos.length),
+            ),
+          ),
+
+          // Loading More Indicator
+          SliverToBoxAdapter(
+            child: BlocBuilder<TvCubit, TvState>(
+              builder: (context, state) {
+                if (state is TvLoadingMore) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsTheme().primaryColor,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
             ),
           ),
 

@@ -68,7 +68,7 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
 
       return Right(parentCategories);
     } catch (e) {
-      return Left("Error fetching categories horizontal bar".tr());
+      return Left("Error fetching categories".tr());
     }
   }
 

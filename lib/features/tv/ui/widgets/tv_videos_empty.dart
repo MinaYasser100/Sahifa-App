@@ -6,9 +6,14 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/tv/manager/tv_cubit/tv_cubit.dart';
 
 class TvVideosEmpty extends StatelessWidget {
-  const TvVideosEmpty({super.key, required this.isDarkMode});
+  const TvVideosEmpty({
+    super.key,
+    required this.isDarkMode,
+    required this.language,
+  });
 
   final bool isDarkMode;
+  final String language;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,7 @@ class TvVideosEmpty extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  context.read<TvCubit>().fetchVideos();
+                  context.read<TvCubit>().fetchVideos(language: language);
                 },
                 icon: const Icon(Icons.refresh_rounded),
                 label: Text('retry'.tr()),

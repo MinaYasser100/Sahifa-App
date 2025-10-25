@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 import 'package:sahifa/core/model/parent_category/subcategory.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
@@ -27,6 +28,7 @@ import 'package:sahifa/features/search/ui/search_view.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';
 import 'package:sahifa/features/splash/ui/splash_view.dart';
 import 'package:sahifa/features/tv/ui/tv_view.dart';
+import 'package:sahifa/features/video_details/ui/video_details_view.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
@@ -170,6 +172,16 @@ abstract class AppRouter {
       GoRoute(
         path: Routes.contactUsView,
         pageBuilder: (context, state) => fadeTransitionPage(ContactUsView()),
+      ),
+      GoRoute(
+        path: Routes.videoDetailsView,
+        pageBuilder: (context, state) {
+          final video = state.extra as VideoModel?;
+          if (video == null) {
+            throw Exception('Video is not found');
+          }
+          return fadeTransitionPage(VideoDetailsView(video: video));
+        },
       ),
     ],
   );

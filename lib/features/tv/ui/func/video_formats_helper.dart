@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/utils/show_top_toast.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VideosHelper {
@@ -36,10 +36,10 @@ class VideosHelper {
 
   static Future<void> launchVideoUrl(
     BuildContext context,
-    VideoItemModel video,
+    VideoModel video,
   ) async {
     try {
-      final Uri url = Uri.parse(video.videoUrl);
+      final Uri url = Uri.parse(video.videoUrl ?? '');
 
       // Try to launch the URL directly
       final bool launched = await launchUrl(

@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
-import 'package:sahifa/features/tv/data/models/video_item_model.dart';
-import 'package:sahifa/features/tv/ui/func/video_formats_helper.dart';
 
 import 'video_category_and_share_button.dart';
 import 'video_date_and_views.dart';
@@ -14,7 +16,7 @@ import 'video_play_button.dart';
 class VideoItemCard extends StatelessWidget {
   const VideoItemCard({super.key, required this.video});
 
-  final VideoItemModel video;
+  final VideoModel video;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,10 @@ class VideoItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: InkWell(
-          onTap: () => VideosHelper.launchVideoUrl(context, video),
+          onTap: () {
+            // Navigate to video details page
+            context.push(Routes.videoDetailsView, extra: video);
+          },
           borderRadius: BorderRadius.circular(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +45,10 @@ class VideoItemCard extends StatelessWidget {
               Stack(
                 children: [
                   // Thumbnail Image
-                  CustomArticleImage(imageUrl: video.thumbnailUrl, height: 200),
+                  CustomArticleImage(
+                    imageUrl: video.videoThumbnailUrl ?? '',
+                    height: 200,
+                  ),
                   // Play Button Overlay
                   VideoPlayButton(),
                   // Duration Badge
@@ -66,7 +74,7 @@ class VideoItemCard extends StatelessWidget {
                     FadeInLeft(
                       delay: const Duration(milliseconds: 100),
                       child: Text(
-                        video.title,
+                        video.title ?? 'No Title'.tr(),
                         style: AppTextStyles.styleBold16sp(context),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

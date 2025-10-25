@@ -13,7 +13,7 @@ enum ApiEndpoints {
   parentCategories('/api/v1/categories'),
 
   // Products (placeholder)
-  products('products/');
+  videos('/api/v1/posts/categories/videos');
 
   final String path;
   const ApiEndpoints(this.path);

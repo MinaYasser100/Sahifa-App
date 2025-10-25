@@ -8,8 +8,13 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/tv/manager/tv_cubit/tv_cubit.dart';
 
 class TvErrorState extends StatelessWidget {
-  const TvErrorState({super.key, required this.errorText});
+  const TvErrorState({
+    super.key,
+    required this.errorText,
+    required this.language,
+  });
   final String errorText;
+  final String language;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -37,7 +42,7 @@ class TvErrorState extends StatelessWidget {
             FadeInLeft(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  context.read<TvCubit>().fetchVideos();
+                  context.read<TvCubit>().fetchVideos(language: language);
                 },
                 icon: const Icon(Icons.refresh_rounded),
                 label: Text('retry'.tr()),

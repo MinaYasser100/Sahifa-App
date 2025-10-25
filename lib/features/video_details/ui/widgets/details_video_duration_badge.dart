@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
-class VideoDurationBadge extends StatelessWidget {
-  const VideoDurationBadge({super.key, required this.video});
+class DetailsVideoDurationBadge extends StatelessWidget {
+  const DetailsVideoDurationBadge({super.key, required this.video});
 
   final VideoModel video;
 
