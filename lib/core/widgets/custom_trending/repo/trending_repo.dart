@@ -1,21 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/helper_network/api_endpoints.dart';
+import 'package:sahifa/core/helper_network/dio_helper.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
 
 abstract class TrendingRepo {
-  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles(
+  Future<Either<String, List<ArticleModel>>> fetchTrendingArticles(
     String language,
   );
 }
 
 class TrendingRepoImpl implements TrendingRepo {
   // Singleton Pattern
-  static final TrendingRepoImpl _instance = TrendingRepoImpl._internal();
+  static final TrendingRepoImpl _instance = TrendingRepoImpl._internal(
+    DioHelper(),
+  );
   factory TrendingRepoImpl() => _instance;
-  TrendingRepoImpl._internal();
-
+  TrendingRepoImpl._internal(this._dioHelper);
+  final DioHelper _dioHelper;
   // Memory Cache
-  List<ArticleItemModel>? _cachedTrendingArticles;
+  List<ArticleModel>? _cachedTrendingArticles;
   DateTime? _lastFetchTime;
   final Duration _cacheDuration = const Duration(minutes: 30);
 
@@ -26,7 +31,7 @@ class TrendingRepoImpl implements TrendingRepo {
       DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
 
   @override
-  Future<Either<String, List<ArticleItemModel>>> fetchTrendingArticles(
+  Future<Either<String, List<ArticleModel>>> fetchTrendingArticles(
     String language,
   ) async {
     try {
@@ -38,84 +43,22 @@ class TrendingRepoImpl implements TrendingRepo {
         return Right(_cachedTrendingArticles!);
       }
 
-      // If no cache or cache expired, fetch from API
-      // Simulate API delay
-      await Future.delayed(const Duration(seconds: 1));
-
-      // final response = await _dioHelper.getData(
-      //   url: ApiEndpoints.articles.path,
-      //   query: {
-      //     ApiQueryParams.pageSize: 15,
-      //     ApiQueryParams.language: language,
-      //     ApiQueryParams.isFeatured: true,
-      //   },
-      // );
-      // final ArticlesCategoryModel articlesCategoryModel =
-      //     ArticlesCategoryModel.fromJson(response.data);
-
-      final List<ArticleItemModel> trendingArticles = [
-        ArticleItemModel(
-          id: '1',
-          imageUrl:
-              "https://althawra-news.net/user_images/news/18-10-25-111655979.jpg",
-          title: "trending_article_1_title".tr(),
-          category: "category_politics".tr(),
-          categoryId: "category_politics",
-          description: "trending_article_1_description".tr(),
-          date: DateTime(2025, 10, 18),
-          viewerCount: 1250,
-        ),
-        ArticleItemModel(
-          id: '2',
-          imageUrl:
-              "https://althawra-news.net/user_images/news/18-10-25-111655979.jpg",
-          title: "trending_article_2_title".tr(),
-          category: "category_sports".tr(),
-          categoryId: "category_sports",
-          description: "trending_article_2_description".tr(),
-          date: DateTime(2025, 10, 17),
-          viewerCount: 980,
-        ),
-        ArticleItemModel(
-          id: '3',
-          imageUrl:
-              "https://althawra-news.net/user_images/news/26-08-25-179659767.jpg",
-          title: "trending_article_3_title".tr(),
-          category: "category_technology".tr(),
-          categoryId: "category_technology",
-          description: "trending_article_3_description".tr(),
-          date: DateTime(2025, 10, 16),
-          viewerCount: 1560,
-        ),
-        ArticleItemModel(
-          id: '4',
-          imageUrl:
-              "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-          title: "trending_article_4_title".tr(),
-          category: "category_economy".tr(),
-          categoryId: "category_economy",
-          description: "trending_article_4_description".tr(),
-          date: DateTime(2025, 10, 15),
-          viewerCount: 850,
-        ),
-        ArticleItemModel(
-          id: '5',
-          imageUrl:
-              "https://althawra-news.net/user_images/news/18-10-25-111655979.jpg",
-          title: "trending_article_5_title".tr(),
-          category: "category_health".tr(),
-          categoryId: "category_health",
-          description: "trending_article_5_description".tr(),
-          date: DateTime(2025, 10, 14),
-          viewerCount: 720,
-        ),
-      ];
+      final response = await _dioHelper.getData(
+        url: ApiEndpoints.articles.path,
+        query: {
+          ApiQueryParams.pageSize: 15,
+          ApiQueryParams.language: language,
+          ApiQueryParams.isFeatured: true,
+        },
+      );
+      final ArticlesCategoryModel articlesCategoryModel =
+          ArticlesCategoryModel.fromJson(response.data);
 
       // Store in cache
-      _cachedTrendingArticles = trendingArticles;
+      _cachedTrendingArticles = articlesCategoryModel.articles ?? [];
       _lastFetchTime = DateTime.now();
 
-      return Right(trendingArticles);
+      return Right(_cachedTrendingArticles!);
     } catch (e) {
       return Left("failed_to_load_trending_articles".tr());
     }
@@ -128,7 +71,7 @@ class TrendingRepoImpl implements TrendingRepo {
   }
 
   // Method to force refresh (ignores cache)
-  Future<Either<String, List<ArticleItemModel>>> forceRefresh(
+  Future<Either<String, List<ArticleModel>>> forceRefresh(
     String language,
   ) async {
     clearCache();

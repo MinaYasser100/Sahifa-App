@@ -7,6 +7,8 @@ import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/core/widgets/custom_trending/manager/trending_cubit/trending_cubit.dart';
 import 'package:sahifa/core/widgets/custom_trending/trending_article_card.dart';
 
+import 'trending_empty_state.dart';
+
 class TrendingArticlesListWithBLoC extends StatelessWidget {
   const TrendingArticlesListWithBLoC({super.key});
 
@@ -34,6 +36,11 @@ class TrendingArticlesListWithBLoC extends StatelessWidget {
         }
 
         if (state is TrendingLoaded) {
+          // Check if articles list is empty
+          if (state.articles.isEmpty) {
+            return TrendingEmptyState();
+          }
+
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

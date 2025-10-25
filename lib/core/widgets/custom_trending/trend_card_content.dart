@@ -1,14 +1,15 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/func/format_date_from_utc.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 class TrendCardContent extends StatelessWidget {
   const TrendCardContent({super.key, required this.articleItem});
 
-  final ArticleItemModel articleItem;
+  final ArticleModel articleItem;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class TrendCardContent extends StatelessWidget {
             children: [
               // Title
               Text(
-                articleItem.title,
+                articleItem.title ?? "No Name".tr(),
                 style: AppTextStyles.styleBold20sp(context).copyWith(
                   color: isDarkMode
                       ? ColorsTheme().secondaryColor
@@ -46,7 +47,7 @@ class TrendCardContent extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    formatDate(articleItem.date),
+                    formatDateFromUTC(articleItem.createdAt ?? ''),
                     style: TextStyle(
                       fontSize: 12,
                       color: isDarkMode

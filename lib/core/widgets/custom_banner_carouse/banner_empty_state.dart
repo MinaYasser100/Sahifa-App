@@ -45,7 +45,7 @@ class BannerEmptyState extends StatelessWidget {
             FadeInUp(
               delay: const Duration(milliseconds: 200),
               child: Text(
-                "No banners available".tr(),
+                'no_banners_available'.tr(),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class BannerEmptyState extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: Text(
-                  'Check back later for featured articles'.tr(),
+                  'check_back_later_for_featured_articles'.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,

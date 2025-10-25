@@ -8,7 +8,7 @@ class TrendingInitial extends TrendingState {}
 class TrendingLoading extends TrendingState {}
 
 class TrendingLoaded extends TrendingState {
-  final List<ArticleItemModel> articles;
+  final List<ArticleModel> articles;
 
   TrendingLoaded(this.articles);
 }

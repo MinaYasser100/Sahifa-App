@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -38,39 +39,32 @@ class CustomArticleImage extends StatelessWidget {
           bottomLeft: changeBorderRadius ? Radius.zero : Radius.circular(8),
           bottomRight: changeBorderRadius ? Radius.zero : Radius.circular(8),
         ),
-        child: Image.network(
-          imageUrl,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
           width: width,
           height: height,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              height: height,
-              color: ColorsTheme().primaryColor,
-              child: Center(
-                child: Icon(
-                  Icons.image,
-                  size: 40,
-                  color: ColorsTheme().whiteColor,
-                ),
+          placeholder: (context, url) => Container(
+            height: height,
+            color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: ColorsTheme().primaryColor,
+                strokeWidth: 2,
               ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: height,
-              color: ColorsTheme().primaryColor.withValues(alpha: 0.2),
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                      : null,
-                ),
+            ),
+          ),
+          errorWidget: (context, url, error) => Container(
+            height: height,
+            color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
+            child: Center(
+              child: Icon(
+                Icons.image_not_supported,
+                size: 40,
+                color: ColorsTheme().primaryColor.withValues(alpha: 0.5),
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
