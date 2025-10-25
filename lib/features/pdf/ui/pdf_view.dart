@@ -151,8 +151,11 @@ class _PdfViewState extends State<PdfView> with SingleTickerProviderStateMixin {
   void _downloadPdf(BuildContext context) {
     final state = context.read<PdfCubit>().state;
     if (state is PdfLoaded && state.pdfModel.pdfUrl != null) {
-      // Generate filename
-      final dateStr = _selectedDate.toString().split(' ')[0];
+      // Generate filename with date format: YYYY-MM-DD
+      final year = _selectedDate.year.toString();
+      final month = _selectedDate.month.toString().padLeft(2, '0');
+      final day = _selectedDate.day.toString().padLeft(2, '0');
+      final dateStr = '$year-$month-$day';
       final issueNumber = state.pdfModel.issueNumber ?? 'unknown';
       final fileName = 'AlThawra_${dateStr}_Issue_$issueNumber.pdf';
 

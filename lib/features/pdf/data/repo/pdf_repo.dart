@@ -8,21 +8,22 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 
 abstract class PdfRepo {
-  Future<Either<String, PdfModel>> getPdf(String date);
+  Future<Either<String, PdfModel>> getPdf(String dateUtc);
 }
 
 class PdfRepoImpl implements PdfRepo {
   final DioHelper _dioHelper;
   PdfRepoImpl(this._dioHelper);
+
   @override
-  Future<Either<String, PdfModel>> getPdf(String date) async {
+  Future<Either<String, PdfModel>> getPdf(String dateUtc) async {
     try {
-      log('Fetching PDF for date: $date');
+      log('Fetching PDF for date (UTC): $dateUtc');
       log('URL: ${ApiEndpoints.magazinesByDate.path}');
 
       final response = await _dioHelper.getData(
         url: ApiEndpoints.magazinesByDate.path,
-        query: {'date': date},
+        query: {'date': dateUtc},
       );
 
       log('PDF fetch successful');
