@@ -45,7 +45,7 @@ class TrendingArticlesListWithBLoC extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: state.articles.length,
+            itemCount: 10,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {

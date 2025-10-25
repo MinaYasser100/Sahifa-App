@@ -2,8 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 
 class CustomHorizontalBooksOpinions extends StatelessWidget {
@@ -11,15 +11,29 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ArticleItemModel articlesItems = ArticleItemModel(
-      id: '4',
-      imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-      title: "trending_article_4_title".tr(),
-      category: "books_opinions".tr(),
-      categoryId: "books_opinions",
-      description: "trending_article_4_description".tr(),
-      date: DateTime(2025, 10, 12),
-      viewerCount: 250,
+    final ArticleModel articlesItems = ArticleModel(
+      authorId: 'jkdkjjkhfkj',
+      authorName: "Author Name",
+      categoryName: "category_economy".tr(),
+      createdAt: "2025-10-13T12:34:56",
+      id: '1',
+      image:
+          'https://althawra-news.net/user_images/news/26-08-25-179659767.jpg',
+      imageDescription: "Description of trending article 1",
+      isBreaking: false,
+      isFeatured: true,
+      isRecommended: false,
+      isSlider: false,
+      title: 'trending_article_1_title'.tr(),
+      language: "ar",
+      likesCount: 361125,
+      publishedAt: "2025-10-13T12:34:56",
+      slug: "category_economy".tr(),
+      status: "published",
+      summary: "trending_article_1_description".tr(),
+      updatedAt: "2025-10-13T12:34:56",
+      categoryId: 'category_economy',
+      viewsCount: 50000,
     );
     return SizedBox(
       height: 330,

@@ -6,6 +6,8 @@ import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
+import 'package:sahifa/features/home/data/repo/articles_horizontal_bar_category.dart';
+import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/custom_home_drawer.dart';
 import 'package:sahifa/features/home/ui/widgets/home_app_bar.dart';
 import 'package:sahifa/features/home/ui/widgets/home_body_view.dart';
@@ -27,9 +29,18 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final language = LanguageHelper.getCurrentLanguageCode(context);
     final currentLocale = context.locale;
-    return BlocProvider(
-      create: (context) =>
-          BannersCubit(getIt<BannerRepoImpl>())..fetchBanners(language),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              BannersCubit(getIt<BannerRepoImpl>())..fetchBanners(language),
+        ),
+        BlocProvider(
+          create: (context) => ArticlesHorizontalBarCategoryCubit(
+            getIt<ArticlesHorizontalBarCategoryRepoImpl>(),
+          ),
+        ),
+      ],
       child: Scaffold(
         key: ValueKey(currentLocale.languageCode),
         drawer: CustomHomeDrawer(),

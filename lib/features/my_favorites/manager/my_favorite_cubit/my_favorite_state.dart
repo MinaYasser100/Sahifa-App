@@ -8,7 +8,7 @@ final class MyFavoriteInitial extends MyFavoriteState {}
 final class MyFavoriteLoading extends MyFavoriteState {}
 
 final class MyFavoriteLoaded extends MyFavoriteState {
-  final List<ArticleItemModel> favorites;
+  final List<ArticleModel> favorites;
 
   MyFavoriteLoaded(this.favorites);
 }

@@ -9,6 +9,12 @@ final class ArticlesHorizontalBarCategoryInitial
 final class ArticlesHorizontalBarCategoryLoading
     extends ArticlesHorizontalBarCategoryState {}
 
+final class ArticlesHorizontalBarCategoryLoadingMore
+    extends ArticlesHorizontalBarCategoryState {
+  final List<ArticleModel> currentArticles;
+  ArticlesHorizontalBarCategoryLoadingMore(this.currentArticles);
+}
+
 final class ArticlesHorizontalBarCategorySuccess
     extends ArticlesHorizontalBarCategoryState {
   final List<ArticleModel> articles;

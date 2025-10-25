@@ -23,4 +23,22 @@ class LanguageHelper {
   static Locale getCurrentLocale(BuildContext context) {
     return context.locale;
   }
+
+  /// Convert language code to backend format (ar -> arabic, en -> english)
+  static String getBackendLanguage(BuildContext context) {
+    final languageCode = context.locale.languageCode;
+    return convertLanguageCodeToBackend(languageCode);
+  }
+
+  /// Convert language code to backend format (ar -> arabic, en -> english)
+  static String convertLanguageCodeToBackend(String languageCode) {
+    switch (languageCode.toLowerCase()) {
+      case 'ar':
+        return 'arabic';
+      case 'en':
+        return 'english';
+      default:
+        return 'arabic'; // Default fallback
+    }
+  }
 }

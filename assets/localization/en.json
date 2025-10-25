@@ -59,6 +59,8 @@
   "no_trending_articles": "No trending articles",
   "check_back_later": "Check back later for new content",
   "no_articles_available": "No articles available",
+  "no_articles_found": "No Articles Found",
+  "no_articles_description": "There are no articles available in this category at the moment",
   "in_category": "in category",
   "error_fetching_category_articles": "Error fetching articles of this category",
   

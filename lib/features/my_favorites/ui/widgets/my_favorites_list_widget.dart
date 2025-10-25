@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 
 class MyFavoritesListWidget extends StatelessWidget {
   const MyFavoritesListWidget({super.key, required this.favorites});
 
-  final List<ArticleItemModel> favorites;
+  final List<ArticleModel> favorites;
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/core/widgets/custom_trending/trending_article_card.dart';
 import 'package:sahifa/features/home/manger/articles_drawer_subcategory_cubit/articles_drawer_subcategory_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_content.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/empty_articles_state.dart';
@@ -71,9 +71,8 @@ class DrawerSubCategoryContentBlocBuider extends StatelessWidget {
                             extra: articles[index],
                           );
                         },
-                        child: TrendingArticleCard(
+                        child: CustomArticleItemCard(
                           articleItem: articles[index],
-                          index: index,
                         ),
                       ),
                     );

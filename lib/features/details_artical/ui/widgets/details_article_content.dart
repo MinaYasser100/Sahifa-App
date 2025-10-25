@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:sahifa/core/func/format_date.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 
 import 'meta_chip_widget.dart';
 
 class DetailsArticleContent extends StatelessWidget {
   const DetailsArticleContent({super.key, required this.articalModel});
 
-  final ArticleItemModel articalModel;
+  final ArticleModel articalModel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class DetailsArticleContent extends StatelessWidget {
           // Title
           FadeInLeft(
             child: Text(
-              articalModel.title,
+              articalModel.title ?? '',
               style: AppTextStyles.styleBold24sp(context).copyWith(
                 color: isDarkMode
                     ? ColorsTheme().secondaryLight
@@ -38,7 +38,7 @@ class DetailsArticleContent extends StatelessWidget {
           const SizedBox(height: 10),
           if (articalModel.categoryId == "books_opinions")
             Text(
-              'محمد محمود',
+              articalModel.authorName ?? '',
               style: TextStyle(
                 fontSize: 20,
                 color: isDarkMode
@@ -54,7 +54,11 @@ class DetailsArticleContent extends StatelessWidget {
               children: [
                 MetaChipWidget(
                   icon: Icons.calendar_today,
-                  text: formatDate(articalModel.date),
+                  text: formatDate(
+                    articalModel.publishedAt != null
+                        ? DateTime.parse(articalModel.publishedAt!)
+                        : DateTime.now(),
+                  ),
                   isDarkMode: isDarkMode,
                 ),
                 Container(
@@ -67,7 +71,7 @@ class DetailsArticleContent extends StatelessWidget {
                 ),
                 MetaChipWidget(
                   icon: Icons.visibility_outlined,
-                  text: formatViewCount(articalModel.viewerCount),
+                  text: formatViewCount(articalModel.viewsCount ?? 0),
                   isDarkMode: isDarkMode,
                 ),
               ],
@@ -89,7 +93,7 @@ class DetailsArticleContent extends StatelessWidget {
           // Description
           FadeInUp(
             child: Text(
-              articalModel.description,
+              articalModel.summary ?? '',
               style: TextStyle(
                 fontSize: 18,
                 color: isDarkMode

@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/tv_videos_model/tv_videos_model.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 
 abstract class VideoBannerRepo {
   Future<Either<String, List<VideoModel>>> fetchVideoBanners(String language);
@@ -40,12 +43,17 @@ class VideoBannerRepoImpl implements VideoBannerRepo {
         return Right(_cachedVideoBanners!);
       }
 
+      // Convert language code to backend format
+      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+        language,
+      );
+
       // Fetch video banners from API
       final response = await _dioHelper.getData(
         url: ApiEndpoints.videos.path,
         query: {
           ApiQueryParams.pageSize: 15,
-          ApiQueryParams.language: language,
+          ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isSlider: true,
         },
       );
@@ -59,6 +67,7 @@ class VideoBannerRepoImpl implements VideoBannerRepo {
 
       return Right(videoBanners);
     } catch (e) {
+      log("Error fetching video banners: $e");
       return Left("failed_to_load_video_banners".tr());
     }
   }

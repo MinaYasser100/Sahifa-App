@@ -1,8 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/features/details_artical/data/local_data.dart';
 
@@ -11,7 +11,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ArticleItemModel> articlesItems = trendingArticles;
+    final List<ArticleModel> articlesItems = trendingArticles;
 
     return SizedBox(
       height: 325,

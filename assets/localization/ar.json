@@ -59,6 +59,8 @@
   "no_trending_articles": "لا توجد مقالات رائجة",
   "check_back_later": "تحقق مرة أخرى لاحقاً للمحتوى الجديد",
   "no_articles_available": "لا توجد مقالات متاحة",
+  "no_articles_found": "لا توجد مقالات",
+  "no_articles_description": "لا توجد مقالات متاحة في هذا التصنيف في الوقت الحالي",
   "in_category": "في تصنيف",
   "error_fetching_category_articles": "خطأ في جلب مقالات هذا التصنيف",
   

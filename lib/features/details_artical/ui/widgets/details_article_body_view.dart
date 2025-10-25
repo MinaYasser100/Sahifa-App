@@ -5,7 +5,7 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 
 import 'comments/comments_section.dart';
 import 'details_article_content.dart';
@@ -14,7 +14,7 @@ import 'related_articles_section.dart';
 class DetailsArticleBodyView extends StatelessWidget {
   const DetailsArticleBodyView({super.key, required this.articalModel});
 
-  final ArticleItemModel articalModel;
+  final ArticleModel articalModel;
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +23,18 @@ class DetailsArticleBodyView extends StatelessWidget {
         // Article Image
         SliverToBoxAdapter(
           child: Hero(
-            tag: 'article_${articalModel.imageUrl}',
+            tag: 'article_${articalModel.image}',
             child: Stack(
               children: [
                 FadeIn(
                   child: (articalModel.categoryId == "books_opinions")
                       ? CustomBookOpinionImage(
-                          imageUrl: articalModel.imageUrl,
+                          imageUrl: articalModel.image ?? '',
                           containerWidth: double.infinity,
                           isListItem: true,
                         )
                       : CustomArticleImage(
-                          imageUrl: articalModel.imageUrl,
+                          imageUrl: articalModel.image ?? '',
                           height: 300,
                           changeBorderRadius: true,
                         ),

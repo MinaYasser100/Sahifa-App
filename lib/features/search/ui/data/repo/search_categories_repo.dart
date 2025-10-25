@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 
 abstract class SearchCategoriesRepo {
   Future<Either<String, List<ParentCategory>>> fetchSearchCategories(
@@ -48,11 +49,16 @@ class SearchCategoriesRepoImpl implements SearchCategoriesRepo {
         return Right(_cachedCategories!);
       }
 
+      // Convert language code to backend format
+      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+        language,
+      );
+
       // If no cache or cache expired or language changed, fetch from API
       final result = await _dioHelper.getData(
         url: ApiEndpoints.parentCategories.path,
         query: {
-          ApiQueryParams.language: language,
+          ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isActive: true,
         },
       );

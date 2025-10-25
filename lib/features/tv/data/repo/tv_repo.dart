@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/tv_videos_model/tv_videos_model.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 
 abstract class TVRepo {
   Future<Either<String, TvVideosModel>> fetchVideos({
@@ -54,12 +57,17 @@ class TVRepoImpl implements TVRepo {
         );
       }
 
+      // Convert language code to backend format
+      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+        language,
+      );
+
       final response = await _dioHelper.getData(
         url: ApiEndpoints.videos.path,
         query: {
-          ApiQueryParams.pageSize: 20,
+          ApiQueryParams.pageSize: 30,
           ApiQueryParams.pageNumber: pageNumber,
-          ApiQueryParams.language: language,
+          ApiQueryParams.language: backendLanguage,
         },
       );
 
@@ -72,6 +80,7 @@ class TVRepoImpl implements TVRepo {
 
       return Right(tvVideosModel);
     } catch (e) {
+      log('Error fetching videos: $e');
       return Left("failed_to_load_videos".tr());
     }
   }

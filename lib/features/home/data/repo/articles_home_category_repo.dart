@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 
 abstract class ArticlesHomeCategoryRepo {
   Future<Either<String, ArticlesCategoryModel>> getArticlesByCategory(
@@ -19,12 +20,17 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
     String language,
   ) async {
     try {
+      // Convert language code to backend format
+      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+        language,
+      );
+
       final response = await _dioHelper.getData(
         url: ApiEndpoints.articles.path,
         query: {
           ApiQueryParams.categorySlug: categorySlug,
           ApiQueryParams.pageSize: 15,
-          ApiQueryParams.language: language,
+          ApiQueryParams.language: backendLanguage,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

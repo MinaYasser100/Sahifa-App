@@ -4,6 +4,7 @@ import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
 
 abstract class TrendingRepo {
   Future<Either<String, List<ArticleModel>>> fetchTrendingArticles(
@@ -43,11 +44,16 @@ class TrendingRepoImpl implements TrendingRepo {
         return Right(_cachedTrendingArticles!);
       }
 
+      // Convert language code to backend format
+      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+        language,
+      );
+
       final response = await _dioHelper.getData(
         url: ApiEndpoints.articles.path,
         query: {
           ApiQueryParams.pageSize: 15,
-          ApiQueryParams.language: language,
+          ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isFeatured: true,
         },
       );
