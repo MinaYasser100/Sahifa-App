@@ -58,6 +58,9 @@
   "failed_to_load_trending_articles": "فشل في تحميل المقالات الرائجة",
   "no_trending_articles": "لا توجد مقالات رائجة",
   "check_back_later": "تحقق مرة أخرى لاحقاً للمحتوى الجديد",
+  "no_articles_available": "لا توجد مقالات متاحة",
+  "in_category": "في تصنيف",
+  "error_fetching_category_articles": "خطأ في جلب مقالات هذا التصنيف",
   
   "_comment_comments": "===== Comments System =====",
   "comments": "التعليقات",

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
@@ -14,11 +15,7 @@ class DrawerCategoryItem extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     // Filter active subcategories
-    final activeSubcategories =
-        parentCategory.subcategories
-            ?.where((sub) => sub.isActive == true && sub.showOnMenu == true)
-            .toList() ??
-        [];
+    final activeSubcategories = parentCategory.subcategories ?? [];
 
     // Sort by order
     activeSubcategories.sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
@@ -39,7 +36,7 @@ class DrawerCategoryItem extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                parentCategory.name ?? '',
+                parentCategory.name ?? 'No Name'.tr(),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

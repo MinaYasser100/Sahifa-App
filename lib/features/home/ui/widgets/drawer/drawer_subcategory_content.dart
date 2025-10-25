@@ -1,117 +1,96 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sahifa/core/model/parent_category/subcategory.dart';
-import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
-import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
-import 'package:sahifa/features/details_artical/data/local_data.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
+import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
+import 'package:sahifa/features/home/manger/articles_drawer_subcategory_cubit/articles_drawer_subcategory_cubit.dart';
 
-class DrawerSubCategoryContentView extends StatelessWidget {
+import 'drawer_subcategory_content_bloc_builder.dart';
+
+class DrawerSubCategoryContentView extends StatefulWidget {
   const DrawerSubCategoryContentView({super.key, required this.subcategory});
   final SubcategoryInfoModel subcategory;
 
   @override
+  State<DrawerSubCategoryContentView> createState() =>
+      _DrawerSubCategoryContentViewState();
+}
+
+class _DrawerSubCategoryContentViewState
+    extends State<DrawerSubCategoryContentView> {
+  late ScrollController _scrollController;
+  bool _isLoadingMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients && !_isLoadingMore) {
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.position.pixels;
+      final threshold = maxScroll * 0.8; // 80% threshold
+
+      if (currentScroll >= threshold) {
+        final cubit = context.read<ArticlesDrawerSubcategoryCubit>();
+        final state = cubit.state;
+
+        if (state is ArticlesDrawerSubcategoryLoaded && state.hasMore) {
+          _isLoadingMore = true;
+
+          final language = LanguageHelper.getCurrentLanguageCode(context);
+          cubit
+              .loadMoreArticles(
+                categorySlug: widget.subcategory.slug ?? '',
+                language: language,
+              )
+              .then((_) {
+                if (mounted) {
+                  setState(() {
+                    _isLoadingMore = false;
+                  });
+                }
+              });
+        }
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(subcategory.name ?? "No Name".tr()),
-        elevation: 0,
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(
-                          Routes.detailsArticalView,
-                          extra: subcategory.id == 'books_opinions'
-                              ? booksOpinionsListItems[index]
-                              : trendingArticles[index],
-                        );
-                      },
-                      child: (subcategory.id == 'books_opinions')
-                          ? CustomBooksOpinionsItem(
-                              articleItem: booksOpinionsListItems[index],
-                              cardWidth: double.infinity,
-                              isItemList: true,
-                            )
-                          : CustomArticleItemCard(
-                              articleItem: trendingArticles[index],
-                              cardWidth: double.infinity,
-                              isItemList: true,
-                            ),
-                    ),
-                  );
-                },
-                childCount: (subcategory.id == 'books_opinions')
-                    ? booksOpinionsListItems.length
-                    : trendingArticles.length,
-              ),
-            ),
+    final language = LanguageHelper.getCurrentLanguageCode(context);
+
+    return BlocProvider(
+      create: (context) =>
+          ArticlesDrawerSubcategoryCubit(
+            GetIt.instance<ArticlesDrawerSubcategoryRepoImpl>(),
+          )..fetchArticles(
+            categorySlug: widget.subcategory.slug ?? '',
+            language: language,
           ),
-        ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.subcategory.name ?? "No Name".tr()),
+          elevation: 0,
+        ),
+        body: DrawerSubCategoryContentBlocBuider(
+          widget: widget,
+          language: language,
+          scrollController: _scrollController,
+        ),
       ),
     );
   }
 }
-
-List<ArticleItemModel> booksOpinionsListItems = [
-  ArticleItemModel(
-    id: '4',
-    imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-    title: "trending_article_4_title".tr(),
-    category: "books_opinions".tr(),
-    categoryId: "books_opinions".tr(),
-    description: "trending_article_4_description".tr(),
-    date: DateTime(2025, 10, 12),
-    viewerCount: 250,
-  ),
-  ArticleItemModel(
-    id: '4',
-    imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-    title: "trending_article_4_title".tr(),
-    category: "books_opinions".tr(),
-    categoryId: "books_opinions".tr(),
-    description: "trending_article_4_description".tr(),
-    date: DateTime(2025, 10, 12),
-    viewerCount: 250,
-  ),
-  ArticleItemModel(
-    id: '4',
-    imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-    title: "trending_article_4_title".tr(),
-    category: "books_opinions".tr(),
-    categoryId: "books_opinions".tr(),
-    description: "trending_article_4_description".tr(),
-    date: DateTime(2025, 10, 12),
-    viewerCount: 250,
-  ),
-  ArticleItemModel(
-    id: '4',
-    imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-    title: "trending_article_4_title".tr(),
-    category: "books_opinions".tr(),
-    categoryId: "books_opinions".tr(),
-    description: "trending_article_4_description".tr(),
-    date: DateTime(2025, 10, 12),
-    viewerCount: 250,
-  ),
-  ArticleItemModel(
-    id: '4',
-    imageUrl: "https://images.alwatanvoice.com/writers/large/9999501439.jpg",
-    title: "trending_article_4_title".tr(),
-    category: "books_opinions".tr(),
-    categoryId: "books_opinions".tr(),
-    description: "trending_article_4_description".tr(),
-    date: DateTime(2025, 10, 12),
-    viewerCount: 250,
-  ),
-];

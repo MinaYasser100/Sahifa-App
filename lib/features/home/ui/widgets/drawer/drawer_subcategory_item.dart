@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/parent_category/subcategory.dart';
@@ -32,7 +33,7 @@ class DrawerSubcategoryItem extends StatelessWidget {
               : ColorsTheme().primaryColor,
         ),
         title: Text(
-          subcategory.name ?? '',
+          subcategory.name ?? 'No Name'.tr(),
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,

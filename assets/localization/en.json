@@ -58,6 +58,9 @@
   "failed_to_load_trending_articles": "Failed to load trending articles",
   "no_trending_articles": "No trending articles",
   "check_back_later": "Check back later for new content",
+  "no_articles_available": "No articles available",
+  "in_category": "in category",
+  "error_fetching_category_articles": "Error fetching articles of this category",
   
   "_comment_comments": "===== Comments System =====",
   "comments": "Comments",

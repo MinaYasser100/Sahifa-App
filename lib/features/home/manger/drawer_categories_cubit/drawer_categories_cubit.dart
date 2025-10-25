@@ -17,14 +17,8 @@ class DrawerCategoriesCubit extends Cubit<DrawerCategoriesState> {
       categories,
     ) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(DrawerCategoriesLoaded(filteredCategories));
     });
@@ -39,14 +33,8 @@ class DrawerCategoriesCubit extends Cubit<DrawerCategoriesState> {
       categories,
     ) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(DrawerCategoriesLoaded(filteredCategories));
     });

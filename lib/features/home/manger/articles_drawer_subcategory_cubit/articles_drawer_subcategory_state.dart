@@ -9,11 +9,30 @@ final class ArticlesDrawerSubcategoryInitial
 final class ArticlesDrawerSubcategoryLoading
     extends ArticlesDrawerSubcategoryState {}
 
+final class ArticlesDrawerSubcategoryLoadingMore
+    extends ArticlesDrawerSubcategoryState {
+  final List<ArticleModel> articles;
+  final int currentPage;
+
+  ArticlesDrawerSubcategoryLoadingMore({
+    required this.articles,
+    required this.currentPage,
+  });
+}
+
 final class ArticlesDrawerSubcategoryLoaded
     extends ArticlesDrawerSubcategoryState {
   final List<ArticleModel> articles;
+  final int currentPage;
+  final int totalPages;
+  final bool hasMore;
 
-  ArticlesDrawerSubcategoryLoaded(this.articles);
+  ArticlesDrawerSubcategoryLoaded({
+    required this.articles,
+    required this.currentPage,
+    required this.totalPages,
+    required this.hasMore,
+  });
 }
 
 final class ArticlesDrawerSubcategoryError

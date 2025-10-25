@@ -3,6 +3,7 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
 import 'package:sahifa/features/home/data/repo/drawer_categories_repo.dart';
 import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
@@ -53,4 +54,13 @@ void setupDependencies() async {
   final searchCategoriesRepo = SearchCategoriesRepoImpl(getIt<DioHelper>());
   getIt.registerSingleton<SearchCategoriesRepoImpl>(searchCategoriesRepo);
   getIt.registerSingleton<SearchCategoriesRepo>(searchCategoriesRepo);
+
+  // Register ArticlesDrawerSubcategoryRepo as singleton
+  final articlesDrawerSubcategoryRepo = ArticlesDrawerSubcategoryRepoImpl();
+  getIt.registerSingleton<ArticlesDrawerSubcategoryRepoImpl>(
+    articlesDrawerSubcategoryRepo,
+  );
+  getIt.registerSingleton<ArticlesDrawerSubcategoryRepo>(
+    articlesDrawerSubcategoryRepo,
+  );
 }
