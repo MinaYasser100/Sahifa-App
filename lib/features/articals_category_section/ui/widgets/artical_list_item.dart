@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/func/format_date_from_utc.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 
 class ArticalListItem extends StatelessWidget {
-  const ArticalListItem({super.key, required this.articleItem});
+  const ArticalListItem({super.key, required this.article});
 
-  final ArticleItemModel articleItem;
+  final ArticleModel article;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class ArticalListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image Section
-          CustomArticleImage(imageUrl: articleItem.imageUrl, height: 180),
+          CustomArticleImage(imageUrl: article.image ?? '', height: 180),
 
           // Content Section
           Padding(
@@ -42,7 +43,7 @@ class ArticalListItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        articleItem.title,
+                        article.title ?? 'No Title'.tr(),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -65,19 +66,6 @@ class ArticalListItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
 
-                // Description
-                Text(
-                  articleItem.description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    height: 1.5,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 12),
-
                 // Metadata Row
                 Row(
                   children: [
@@ -85,7 +73,7 @@ class ArticalListItem extends StatelessWidget {
                     Icon(Icons.access_time, size: 16, color: Colors.grey[500]),
                     const SizedBox(width: 4),
                     Text(
-                      formatDate(articleItem.date),
+                      formatDateFromUTC(article.createdAt ?? ''),
                       style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                   ],

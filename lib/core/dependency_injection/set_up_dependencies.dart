@@ -4,6 +4,7 @@ import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart'
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 import 'package:sahifa/core/widgets/custom_video_banner_carousel/repo/video_banner_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/articals_category_section/data/repo/all_category_articles_repo.dart';
 import 'package:sahifa/features/articals_category_section/data/repo/horizontal_bar_subcategories.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
@@ -111,6 +112,13 @@ void setupDependencies() async {
   getIt.registerSingleton<HorizontalBarSubcategoriesRepo>(
     horizontalBarSubcategoriesRepo,
   );
+
+  // Register AllCategoryArticlesRepo as singleton
+  final allCategoryArticlesRepo = AllCategoryArticlesRepoImpl(
+    getIt<DioHelper>(),
+  );
+  getIt.registerSingleton<AllCategoryArticlesRepoImpl>(allCategoryArticlesRepo);
+  getIt.registerSingleton<AllCategoryArticlesRepo>(allCategoryArticlesRepo);
 
   getIt.registerSingleton<DetailsArticleRepoImpl>(
     DetailsArticleRepoImpl(getIt<DioHelper>()),
