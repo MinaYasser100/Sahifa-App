@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sahifa/core/model/parent_category/subcategory.dart';
+import 'package:sahifa/core/model/parent_category/subcategory_info_model.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/manger/articles_drawer_subcategory_cubit/articles_drawer_subcategory_cubit.dart';

@@ -2,13 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
-import 'package:sahifa/core/model/parent_category/subcategory.dart';
+import 'package:sahifa/core/model/parent_category/parent_category.dart';
+import 'package:sahifa/core/model/parent_category/subcategory_info_model.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/routing/animation_route.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/archive_pdf_widget.dart';
-import 'package:sahifa/features/articals_section/ui/articles_category_section_view.dart';
+import 'package:sahifa/features/articals_category_section/ui/articles_category_section_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
@@ -82,11 +83,15 @@ abstract class AppRouter {
       ),
 
       GoRoute(
-        path: Routes.articalsSectionView,
+        path: Routes.articalsCategorySectionView,
         pageBuilder: (context, state) {
-          final title = state.extra as String?;
-          if (title == null) throw Exception('Level is not found');
-          return fadeTransitionPage(ArticlesCategorySectionView(title: title));
+          final parentCategory = state.extra as ParentCategory?;
+          if (parentCategory == null) {
+            throw Exception('Parent category is not found');
+          }
+          return fadeTransitionPage(
+            ArticlesCategorySectionView(parentCategory: parentCategory),
+          );
         },
       ),
 

@@ -15,7 +15,9 @@ enum ApiEndpoints {
   // Products (placeholder)
   videos('/api/v1/posts/categories/videos'),
 
-  articleDetails('/api/v1/posts/categories/{categorySlug}/articles/{slug}');
+  articleDetails('/api/v1/posts/categories/{categorySlug}/articles/{slug}'),
+
+  categoryInfoBySlug('/api/v1/categories/{slug}');
 
   final String path;
   const ApiEndpoints(this.path);

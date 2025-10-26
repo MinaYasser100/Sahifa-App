@@ -12,7 +12,6 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ArticleModel articlesItems = ArticleModel(
-      authorId: 'jkdkjjkhfkj',
       authorName: "Author Name",
       categoryName: "category_economy".tr(),
       createdAt: "2025-10-13T12:34:56",

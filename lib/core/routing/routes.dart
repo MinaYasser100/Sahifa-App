@@ -19,7 +19,7 @@ class Routes {
   static const String reelsView = '/reels';
   static const String tvView = '/tv';
   static const String pdfView = '/pdf';
-  static const String articalsSectionView = '/articals-section';
+  static const String articalsCategorySectionView = '/articals-section';
   static const String detailsArticalView = '/details-artical';
   static const String searchView = '/search';
   static const String searchCategoryView = '/search-category';

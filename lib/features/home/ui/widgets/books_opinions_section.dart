@@ -17,7 +17,7 @@ class BooksOpinionsSection extends StatelessWidget {
         GestureDetector(
           onTap: () {
             context.push(
-              Routes.articalsSectionView,
+              Routes.articalsCategorySectionView,
               extra: 'books_opinions'.tr(),
             );
           },

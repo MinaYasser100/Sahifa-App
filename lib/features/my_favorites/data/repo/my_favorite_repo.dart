@@ -47,7 +47,6 @@ class MyFavoriteRepoImpl implements MyFavoriteRepo {
       // return Right(favorites);
       final List<ArticleModel> favorites = [
         ArticleModel(
-          authorId: 'jkdkjjkhfkj',
           authorName: "Author Name",
           categoryName: "category_economy".tr(),
           createdAt: "2025-10-13T12:34:56",
@@ -71,7 +70,6 @@ class MyFavoriteRepoImpl implements MyFavoriteRepo {
           viewsCount: 50000,
         ),
         ArticleModel(
-          authorId: 'jkdkjjkhfkj',
           authorName: "Author Name",
           categoryName: "category_economy".tr(),
           createdAt: "2025-10-13T12:34:56",
@@ -95,7 +93,6 @@ class MyFavoriteRepoImpl implements MyFavoriteRepo {
           viewsCount: 50000,
         ),
         ArticleModel(
-          authorId: 'jkdkjjkhfkj',
           authorName: "Author Name",
           categoryName: "category_economy".tr(),
           createdAt: "2025-10-13T12:34:56",
@@ -119,7 +116,6 @@ class MyFavoriteRepoImpl implements MyFavoriteRepo {
           viewsCount: 50000,
         ),
         ArticleModel(
-          authorId: 'jkdkjjkhfkj',
           authorName: "Author Name",
           categoryName: "category_economy".tr(),
           createdAt: "2025-10-13T12:34:56",

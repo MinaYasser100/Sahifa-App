@@ -21,8 +21,8 @@ class ArticalsGroupSection extends StatelessWidget {
         GestureDetector(
           onTap: () {
             context.push(
-              Routes.articalsSectionView,
-              extra: parentCategory.name ?? 'Category'.tr(),
+              Routes.articalsCategorySectionView,
+              extra: parentCategory,
             );
           },
           child: Padding(

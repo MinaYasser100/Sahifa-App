@@ -1,4 +1,4 @@
-import 'subcategory.dart';
+import 'subcategory_info_model.dart';
 
 class ParentCategory {
   String? id;

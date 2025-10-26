@@ -16,7 +16,6 @@ class ArticleModel {
   String? createdAt;
   String? updatedAt;
   String? publishedAt;
-  String? authorId;
   String? authorName;
   String? categoryId;
   String? categoryName;
@@ -40,7 +39,6 @@ class ArticleModel {
     this.createdAt,
     this.updatedAt,
     this.publishedAt,
-    this.authorId,
     this.authorName,
     this.categoryId,
     this.categoryName,
@@ -65,7 +63,6 @@ class ArticleModel {
     createdAt: json['createdAt'] as String?,
     updatedAt: json['updatedAt'] as String?,
     publishedAt: json['publishedAt'] as String?,
-    authorId: json['authorId'] as String?,
     authorName: json['authorName'] as String?,
     categoryId: json['categoryId'] as String?,
     categoryName: json['categoryName'] as String?,
@@ -90,7 +87,6 @@ class ArticleModel {
     'createdAt': createdAt,
     'updatedAt': updatedAt,
     'publishedAt': publishedAt,
-    'authorId': authorId,
     'authorName': authorName,
     'categoryId': categoryId,
     'categoryName': categoryName,

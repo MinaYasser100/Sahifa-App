@@ -11,7 +11,7 @@ class CategoriesBar extends StatelessWidget {
   });
 
   final List<CategoryFilterModel> categories;
-  final String selectedCategoryId;
+  final String selectedCategoryId; // This is actually the slug
   final ValueChanged<String> onCategorySelected;
 
   @override
@@ -31,10 +31,10 @@ class CategoriesBar extends StatelessWidget {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
-          final isSelected = category.id == selectedCategoryId;
+          final isSelected = category.slug == selectedCategoryId;
 
           return GestureDetector(
-            onTap: () => onCategorySelected(category.id),
+            onTap: () => onCategorySelected(category.slug),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               padding: const EdgeInsets.symmetric(horizontal: 16),
