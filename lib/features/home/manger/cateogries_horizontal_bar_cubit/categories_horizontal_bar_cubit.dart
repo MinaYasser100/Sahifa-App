@@ -20,14 +20,8 @@ class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
       categories,
     ) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(CategoriesHorizontalBarLoaded(filteredCategories));
     });
@@ -42,14 +36,8 @@ class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
       categories,
     ) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(CategoriesHorizontalBarLoaded(filteredCategories));
     });

@@ -44,25 +44,31 @@ class _DrawerSubCategoryContentViewState
       final threshold = maxScroll * 0.8; // 80% threshold
 
       if (currentScroll >= threshold) {
-        final cubit = context.read<ArticlesDrawerSubcategoryCubit>();
-        final state = cubit.state;
+        // Safe access to cubit - only if it exists
+        try {
+          final cubit = context.read<ArticlesDrawerSubcategoryCubit>();
+          final state = cubit.state;
 
-        if (state is ArticlesDrawerSubcategoryLoaded && state.hasMore) {
-          _isLoadingMore = true;
+          if (state is ArticlesDrawerSubcategoryLoaded && state.hasMore) {
+            _isLoadingMore = true;
 
-          final language = LanguageHelper.getCurrentLanguageCode(context);
-          cubit
-              .loadMoreArticles(
-                categorySlug: widget.subcategory.slug ?? '',
-                language: language,
-              )
-              .then((_) {
-                if (mounted) {
-                  setState(() {
-                    _isLoadingMore = false;
-                  });
-                }
-              });
+            final language = LanguageHelper.getCurrentLanguageCode(context);
+            cubit
+                .loadMoreArticles(
+                  categorySlug: widget.subcategory.slug ?? '',
+                  language: language,
+                )
+                .then((_) {
+                  if (mounted) {
+                    setState(() {
+                      _isLoadingMore = false;
+                    });
+                  }
+                });
+          }
+        } catch (e) {
+          // Cubit not available yet, ignore
+          return;
         }
       }
     }

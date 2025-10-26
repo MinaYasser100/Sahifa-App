@@ -20,6 +20,7 @@ class ArticleModel {
   String? authorName;
   String? categoryId;
   String? categoryName;
+  String? categorySlug;
 
   ArticleModel({
     this.id,
@@ -43,6 +44,7 @@ class ArticleModel {
     this.authorName,
     this.categoryId,
     this.categoryName,
+    this.categorySlug,
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) => ArticleModel(
@@ -67,6 +69,7 @@ class ArticleModel {
     authorName: json['authorName'] as String?,
     categoryId: json['categoryId'] as String?,
     categoryName: json['categoryName'] as String?,
+    categorySlug: json['categorySlug'] as String?,
   );
 
   Map<String, dynamic> toJson() => {
@@ -91,5 +94,6 @@ class ArticleModel {
     'authorName': authorName,
     'categoryId': categoryId,
     'categoryName': categoryName,
+    'categorySlug': categorySlug,
   };
 }
