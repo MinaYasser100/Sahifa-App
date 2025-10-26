@@ -1,23 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sahifa/core/model/article_item_model/article_item_model.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
-import 'package:sahifa/features/articals_category_section/data/local_data.dart';
 import 'package:sahifa/features/articals_category_section/manager/horizontal_bar_subcategories_cubit/horizontal_bar_subcategories_cubit.dart';
+import 'package:sahifa/features/articals_category_section/manager/subcategory_articles_cubit/subcategory_articles_cubit.dart';
 import 'package:sahifa/features/articals_category_section/ui/widgets/all_category_articles_list.dart';
 import 'package:sahifa/features/articals_category_section/ui/widgets/categories_bar.dart';
-import 'package:sahifa/features/articals_category_section/ui/widgets/subcategory_articles_list.dart';
+import 'package:sahifa/features/articals_category_section/ui/widgets/subcategory_articles_list_with_cubit.dart';
 
 class CategoriesSectionBody extends StatefulWidget {
   const CategoriesSectionBody({
     super.key,
-    required this.onRefresh,
-    required this.onLoadMore,
+    required this.parentCategorySlug,
+    required this.onAllRefresh,
+    required this.onAllLoadMore,
+    required this.onSubcategoryRefresh,
+    required this.onSubcategoryLoadMore,
   });
 
-  final Future<void> Function() onRefresh;
-  final VoidCallback onLoadMore;
+  final String parentCategorySlug;
+  final Future<void> Function() onAllRefresh;
+  final VoidCallback onAllLoadMore;
+  final Future<void> Function() onSubcategoryRefresh;
+  final VoidCallback onSubcategoryLoadMore;
 
   @override
   State<CategoriesSectionBody> createState() => _CategoriesSectionBodyState();
@@ -26,13 +31,31 @@ class CategoriesSectionBody extends StatefulWidget {
 class _CategoriesSectionBodyState extends State<CategoriesSectionBody> {
   String _selectedCategorySlug = 'all';
 
-  List<ArticleItemModel> get _filteredArticles {
-    if (_selectedCategorySlug == 'all') {
-      // Merge all articles from all categories
-      return articlesByCategory.values.expand((articles) => articles).toList()
-        ..sort((a, b) => b.date.compareTo(a.date));
+  @override
+  void didUpdateWidget(CategoriesSectionBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If category slug changed and we're not on "all", fetch new data
+    if (_selectedCategorySlug != 'all') {
+      _fetchSubcategoryArticles();
     }
-    return articlesByCategory[_selectedCategorySlug] ?? [];
+  }
+
+  void _fetchSubcategoryArticles() {
+    context.read<SubcategoryArticlesCubit>().fetchSubcategoryArticles(
+      language: context.locale.languageCode,
+      categorySlug: _selectedCategorySlug,
+    );
+  }
+
+  void _onCategorySelected(String categorySlug) {
+    setState(() {
+      _selectedCategorySlug = categorySlug;
+    });
+
+    // Fetch articles when subcategory is selected
+    if (categorySlug != 'all') {
+      _fetchSubcategoryArticles();
+    }
   }
 
   @override
@@ -69,21 +92,20 @@ class _CategoriesSectionBodyState extends State<CategoriesSectionBody> {
               CategoriesBar(
                 categories: categories,
                 selectedCategoryId: _selectedCategorySlug,
-                onCategorySelected: (categorySlug) {
-                  setState(() {
-                    _selectedCategorySlug = categorySlug;
-                  });
-                },
+                onCategorySelected: _onCategorySelected,
               ),
 
             // Articles List - Show All Category Articles when "all" is selected
             if (_selectedCategorySlug == 'all')
               AllCategoryArticlesList(
-                onRefresh: widget.onRefresh,
-                onLoadMore: widget.onLoadMore,
+                onRefresh: widget.onAllRefresh,
+                onLoadMore: widget.onAllLoadMore,
               )
             else
-              SubcategoryArticlesList(articles: _filteredArticles),
+              SubcategoryArticlesListWithCubit(
+                onRefresh: widget.onSubcategoryRefresh,
+                onLoadMore: widget.onSubcategoryLoadMore,
+              ),
           ],
         );
       },
