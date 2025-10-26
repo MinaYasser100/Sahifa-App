@@ -70,7 +70,7 @@ class ArticlesSearchCategoryRepoImpl implements ArticlesSearchCategoryRepo {
         url: ApiEndpoints.articles.path,
         query: {
           ApiQueryParams.categorySlug: categorySlug,
-          ApiQueryParams.pageSize: 15,
+          ApiQueryParams.pageSize: 30,
           ApiQueryParams.pageNumber: page,
           ApiQueryParams.language: backendLanguage,
         },

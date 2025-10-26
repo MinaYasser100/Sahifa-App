@@ -15,14 +15,8 @@ class SearchCategoriesCubit extends Cubit<SearchCategoriesState> {
     final result = await _searchCategoriesRepo.fetchSearchCategories(language);
     result.fold((error) => emit(SearchCategoriesError(error)), (categories) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(SearchCategoriesLoaded(filteredCategories));
     });
@@ -35,14 +29,8 @@ class SearchCategoriesCubit extends Cubit<SearchCategoriesState> {
         .forceRefresh(language);
     result.fold((error) => emit(SearchCategoriesError(error)), (categories) {
       // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories =
-          categories
-              .where(
-                (category) =>
-                    category.isActive == true && category.showOnMenu == true,
-              )
-              .toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+      final filteredCategories = categories
+        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
       emit(SearchCategoriesLoaded(filteredCategories));
     });

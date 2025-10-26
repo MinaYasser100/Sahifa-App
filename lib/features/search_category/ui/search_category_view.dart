@@ -31,7 +31,7 @@ class _SearchCategoryViewState extends State<SearchCategoryView> {
       );
       _cubit.fetchSearchCategories(
         language: context.locale.languageCode,
-        categorySlug: widget.category.id,
+        categorySlug: widget.category.slug,
       );
       _isInitialized = true;
     }

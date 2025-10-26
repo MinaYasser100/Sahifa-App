@@ -22,16 +22,22 @@ class DetailsArticleRepoImpl implements DetailsArticleRepo {
     required String categorySlug,
   }) async {
     try {
-      final response = await _dioHelper.getData(
-        url: ApiEndpoints.articleDetails.path,
-        query: {
-          ApiQueryParams.slug: articleSlug,
-          ApiQueryParams.categorySlug: categorySlug,
-        },
-      );
-      final ArticleModel articleModel = ArticleModel.fromJson(
-        response.data['data'],
-      );
+      // Replace path parameters
+      final url = ApiEndpoints.articleDetails.withParams({
+        'categorySlug': categorySlug,
+        'slug': articleSlug,
+      });
+
+      final response = await _dioHelper.getData(url: url);
+
+      // Check if response.data is directly the article object or wrapped in 'data'
+      final articleData =
+          response.data is Map<String, dynamic> &&
+              response.data.containsKey('data')
+          ? response.data['data']
+          : response.data;
+
+      final ArticleModel articleModel = ArticleModel.fromJson(articleData);
       return Right(articleModel);
     } catch (e) {
       log("Error fetching article details: $e");

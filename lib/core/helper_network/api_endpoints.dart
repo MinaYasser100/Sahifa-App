@@ -22,6 +22,16 @@ enum ApiEndpoints {
 
   @override
   String toString() => path;
+
+  /// Replace path parameters with actual values
+  /// Example: articleDetails.withParams({'categorySlug': 'sports', 'slug': 'article-1'})
+  String withParams(Map<String, String> params) {
+    String result = path;
+    params.forEach((key, value) {
+      result = result.replaceAll('{$key}', value);
+    });
+    return result;
+  }
 }
 
 class AppConst {
