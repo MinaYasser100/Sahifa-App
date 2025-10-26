@@ -74,40 +74,43 @@ class _HomeBodyViewState extends State<HomeBodyView> {
 
               // If we have categories
               if (categories.isNotEmpty) ...[
-                // Dynamic Parent Categories with BooksOpinions and Trending
-                SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    // First category
-                    if (index == 0) {
-                      return Column(
-                        children: [
-                          ArticalsGroupSection(
-                            parentCategory: categories[index],
-                          ),
-                          const BooksOpinionsSection(),
-                        ],
-                      );
-                    }
-                    // Last category
-                    else if (index == categories.length - 1) {
-                      return Column(
-                        children: [
-                          ArticalsGroupSection(
-                            parentCategory: categories[index],
-                          ),
-                          const CustomTrendingArticlesSection(),
-                          const SizedBox(height: 70),
-                        ],
-                      );
-                    }
-                    // Middle categories
-                    else {
-                      return ArticalsGroupSection(
-                        parentCategory: categories[index],
-                      );
-                    }
-                  }, childCount: categories.length),
+                // First category
+                SliverToBoxAdapter(
+                  child: ArticalsGroupSection(parentCategory: categories[0]),
                 ),
+
+                // BooksOpinionsSection after first category
+                const SliverToBoxAdapter(child: BooksOpinionsSection()),
+
+                // Middle categories (from index 1 to length-2)
+                if (categories.length > 2)
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        // index 0 is for categories[1], index 1 is for categories[2], etc.
+                        final categoryIndex = index + 1;
+                        return ArticalsGroupSection(
+                          parentCategory: categories[categoryIndex],
+                        );
+                      },
+                      childCount:
+                          categories.length - 2, // Exclude first and last
+                    ),
+                  ),
+
+                // Last category (only if more than 1 category)
+                if (categories.length > 1)
+                  SliverToBoxAdapter(
+                    child: ArticalsGroupSection(
+                      parentCategory: categories[categories.length - 1],
+                    ),
+                  ),
+
+                // CustomTrendingArticlesSection after last category
+                const SliverToBoxAdapter(
+                  child: CustomTrendingArticlesSection(),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 70)),
               ]
               // If no categories, still show BooksOpinions and Trending
               else ...[

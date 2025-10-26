@@ -427,5 +427,6 @@
   "Failed to fetch search categories" : "فشل في جلب فئات البحث",
   "No Category Name": "لا يوجد اسم فئة",
   "No Title": "لا يوجد عنوان",
-  "Error fetching categories" : "خطأ في جلب الفئات"
+  "Error fetching categories" : "خطأ في جلب الفئات",
+  "Error fetching article details" : "خطأ في جلب تفاصيل المقال"
 }

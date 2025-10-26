@@ -415,5 +415,6 @@
   "Failed to fetch search categories": "Failed to fetch search categories",
   "No Category Name": "No Category Name",
   "No Title": "No Title",
-  "Error fetching categories": "Error fetching categories"
+  "Error fetching categories": "Error fetching categories",
+  "Error fetching article details": "Error fetching article details"
 }

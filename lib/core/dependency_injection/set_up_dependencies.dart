@@ -4,7 +4,9 @@ import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart'
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 import 'package:sahifa/core/widgets/custom_video_banner_carousel/repo/video_banner_repo.dart';
 import 'package:sahifa/features/altharwa_archive/data/repo/magazines_repo.dart';
+import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
+import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_horizontal_bar_category.dart';
 import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
 import 'package:sahifa/features/home/data/repo/drawer_categories_repo.dart';
@@ -75,5 +77,18 @@ void setupDependencies() async {
   );
   getIt.registerSingleton<ArticlesHorizontalBarCategoryRepo>(
     articlesHorizontalBarCategoryRepo,
+  );
+
+  // Register ArticlesHomeCategoryRepo as singleton
+  final articlesHomeCategoryRepo = ArticlesHomeCategoryRepoImpl(
+    getIt<DioHelper>(),
+  );
+  getIt.registerSingleton<ArticlesHomeCategoryRepoImpl>(
+    articlesHomeCategoryRepo,
+  );
+  getIt.registerSingleton<ArticlesHomeCategoryRepo>(articlesHomeCategoryRepo);
+
+  getIt.registerSingleton<DetailsArticleRepoImpl>(
+    DetailsArticleRepoImpl(getIt<DioHelper>()),
   );
 }

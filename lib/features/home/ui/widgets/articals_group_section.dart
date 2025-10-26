@@ -49,7 +49,9 @@ class ArticalsGroupSection extends StatelessWidget {
             ),
           ),
         ),
-        CustomHorizontalArticlesListSection(),
+        CustomHorizontalArticlesListSection(
+          categorySlug: parentCategory.slug ?? '',
+        ),
       ],
     );
   }

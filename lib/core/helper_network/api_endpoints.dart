@@ -13,7 +13,9 @@ enum ApiEndpoints {
   parentCategories('/api/v1/categories'),
 
   // Products (placeholder)
-  videos('/api/v1/posts/categories/videos');
+  videos('/api/v1/posts/categories/videos'),
+
+  articleDetails('/api/v1/posts/categories/{categorySlug}/articles/{slug}');
 
   final String path;
   const ApiEndpoints(this.path);
@@ -58,4 +60,5 @@ class ApiQueryParams {
   static const String showOnMenu = "ShowOnMenu";
   static const String showOnHomepage = "ShowOnHomepage";
   static const String parentCategoryId = "ParentCategoryId";
+  static const String slug = "Slug";
 }

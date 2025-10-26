@@ -26,7 +26,7 @@ class RelatedArticlesSection extends StatelessWidget {
           ),
         ), // Placeholder for related articles
         SizedBox(height: 10),
-        CustomHorizontalArticlesListSection(),
+        CustomHorizontalArticlesListSection(categorySlug: "sports-ar"),
       ],
     );
   }
