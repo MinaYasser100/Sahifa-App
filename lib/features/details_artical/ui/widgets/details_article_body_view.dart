@@ -73,7 +73,11 @@ class DetailsArticleBodyView extends StatelessWidget {
         SliverToBoxAdapter(child: CommentsSection()),
 
         // Related Articles Section
-        SliverToBoxAdapter(child: RelatedArticlesSection()),
+        SliverToBoxAdapter(
+          child: RelatedArticlesSection(
+            categorySlug: articalModel.categorySlug!,
+          ),
+        ),
 
         // Trending Articles Section
         SliverToBoxAdapter(child: CustomTrendingArticlesSection()),

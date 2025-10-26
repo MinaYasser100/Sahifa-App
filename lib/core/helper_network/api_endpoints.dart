@@ -61,4 +61,6 @@ class ApiQueryParams {
   static const String showOnHomepage = "ShowOnHomepage";
   static const String parentCategoryId = "ParentCategoryId";
   static const String slug = "Slug";
+  static const String withSub = "WithSub";
+  static const String sortBy = "SortBy";
 }

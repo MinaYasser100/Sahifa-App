@@ -12,8 +12,11 @@ class ParentCategory {
   bool? showOnMenu;
   bool? showOnHomepage;
   int? postsCount;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  int? subCategoriesCount;
+  String? parentCategoryId;
+  String? parentCategoryName;
+  String? parentCategorySlug;
+  int? parentCategoryPostsCount;
   List<SubcategoryInfoModel>? subcategories;
 
   ParentCategory({
@@ -28,8 +31,11 @@ class ParentCategory {
     this.showOnMenu,
     this.showOnHomepage,
     this.postsCount,
-    this.createdAt,
-    this.updatedAt,
+    this.subCategoriesCount,
+    this.parentCategoryId,
+    this.parentCategoryName,
+    this.parentCategorySlug,
+    this.parentCategoryPostsCount,
     this.subcategories,
   });
 
@@ -46,13 +52,12 @@ class ParentCategory {
       showOnMenu: json['showOnMenu'] as bool?,
       showOnHomepage: json['showOnHomepage'] as bool?,
       postsCount: json['postsCount'] as int?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      subcategories: (json['subcategories'] as List<dynamic>?)
+      subCategoriesCount: json['subCategoriesCount'] as int?,
+      parentCategoryId: json['parentCategoryId'] as String?,
+      parentCategoryName: json['parentCategoryName'] as String?,
+      parentCategorySlug: json['parentCategorySlug'] as String?,
+      parentCategoryPostsCount: json['parentCategoryPostsCount'] as int?,
+      subcategories: (json['subCategories'] as List<dynamic>?)
           ?.map((e) => SubcategoryInfoModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -70,8 +75,11 @@ class ParentCategory {
     'showOnMenu': showOnMenu,
     'showOnHomepage': showOnHomepage,
     'postsCount': postsCount,
-    'createdAt': createdAt?.toIso8601String(),
-    'updatedAt': updatedAt?.toIso8601String(),
-    'subcategories': subcategories?.map((e) => e.toJson()).toList(),
+    'subCategoriesCount': subCategoriesCount,
+    'parentCategoryId': parentCategoryId,
+    'parentCategoryName': parentCategoryName,
+    'parentCategorySlug': parentCategorySlug,
+    'parentCategoryPostsCount': parentCategoryPostsCount,
+    'subCategories': subcategories?.map((e) => e.toJson()).toList(),
   };
 }

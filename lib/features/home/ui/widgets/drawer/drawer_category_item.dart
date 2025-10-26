@@ -20,6 +20,10 @@ class DrawerCategoryItem extends StatelessWidget {
     // Sort by order
     activeSubcategories.sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
+    // Use API count if available, otherwise use actual list length
+    final subcategoriesCount =
+        parentCategory.subCategoriesCount ?? activeSubcategories.length;
+
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
@@ -47,7 +51,7 @@ class DrawerCategoryItem extends StatelessWidget {
               ),
             ),
             // Badge with count
-            if (activeSubcategories.isNotEmpty)
+            if (subcategoriesCount > 0)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -57,7 +61,7 @@ class DrawerCategoryItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  '${activeSubcategories.length}',
+                  '$subcategoriesCount',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

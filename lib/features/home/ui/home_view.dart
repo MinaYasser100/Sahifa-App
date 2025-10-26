@@ -26,6 +26,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String _selectedCategoryId = 'home';
+  String _selectedCategorySlug = 'home';
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,7 @@ class _HomeViewState extends State<HomeView> {
               onCategoryTap: (CategoryFilterModel category) {
                 setState(() {
                   _selectedCategoryId = category.id;
+                  _selectedCategorySlug = category.slug;
                 });
               },
             ),
@@ -67,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: _selectedCategoryId == 'home'
                   ? HomeBodyView()
-                  : HomeCategoriesView(categorySlug: _selectedCategoryId),
+                  : HomeCategoriesView(categorySlug: _selectedCategorySlug),
             ),
           ],
         ),

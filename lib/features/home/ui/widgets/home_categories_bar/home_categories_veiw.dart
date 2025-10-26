@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,6 @@ class HomeCategoriesView extends StatefulWidget {
 
 class _HomeCategoriesViewState extends State<HomeCategoriesView> {
   final ScrollController _scrollController = ScrollController();
-  bool _isFirstLoad = true;
 
   @override
   void initState() {
@@ -31,15 +32,29 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Fetch articles only on first load
-    if (_isFirstLoad) {
-      _isFirstLoad = false;
-      final cubit = context.read<ArticlesHorizontalBarCategoryCubit>();
-      cubit.fetchCategories(
-        categorySlug: widget.categorySlug,
-        language: context.locale.languageCode,
+    log('categorySlug: ${widget.categorySlug}');
+    // Fetch articles on first load
+    _fetchArticles();
+  }
+
+  @override
+  void didUpdateWidget(HomeCategoriesView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Fetch new articles when categorySlug changes
+    if (oldWidget.categorySlug != widget.categorySlug) {
+      log(
+        'Category changed from ${oldWidget.categorySlug} to ${widget.categorySlug}',
       );
+      _fetchArticles();
     }
+  }
+
+  void _fetchArticles() {
+    final cubit = context.read<ArticlesHorizontalBarCategoryCubit>();
+    cubit.fetchCategories(
+      categorySlug: widget.categorySlug,
+      language: context.locale.languageCode,
+    );
   }
 
   @override

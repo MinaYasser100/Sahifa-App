@@ -5,8 +5,8 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_horizontal_articles_list_section.dart';
 
 class RelatedArticlesSection extends StatelessWidget {
-  const RelatedArticlesSection({super.key});
-
+  const RelatedArticlesSection({super.key, required this.categorySlug});
+  final String categorySlug;
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -26,7 +26,7 @@ class RelatedArticlesSection extends StatelessWidget {
           ),
         ), // Placeholder for related articles
         SizedBox(height: 10),
-        CustomHorizontalArticlesListSection(categorySlug: "sports-ar"),
+        CustomHorizontalArticlesListSection(categorySlug: categorySlug),
       ],
     );
   }

@@ -60,7 +60,7 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
         query: {
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isActive: true,
-          ApiQueryParams.showOnMenu: true,
+          ApiQueryParams.withSub: true,
         },
       );
       final List<ParentCategory> parentCategories = (result.data as List)
