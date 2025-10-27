@@ -6,7 +6,10 @@ import 'package:sahifa/core/widgets/custom_text_form_field.dart';
 
 class TextSearchBar extends StatelessWidget {
   final TextEditingController controller;
-  const TextSearchBar({super.key, required this.controller});
+  final Function(String)? onChanged;
+
+  const TextSearchBar({super.key, required this.controller, this.onChanged});
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -23,6 +26,7 @@ class TextSearchBar extends StatelessWidget {
             hintText: 'search_placeholder'.tr(),
             ischangeColor: true,
             keyboardType: TextInputType.text,
+            onChanged: onChanged,
             validator: (p0) {
               return null;
             },

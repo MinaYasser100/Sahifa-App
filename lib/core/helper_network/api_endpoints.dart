@@ -75,4 +75,5 @@ class ApiQueryParams {
   static const String slug = "Slug";
   static const String withSub = "WithSub";
   static const String sortBy = "SortBy";
+  static const String search = "SearchPhrase";
 }

@@ -39,7 +39,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         color: widget.textFieldModel.readOnly
             ? ColorsTheme().grayColor
             : (widget.textFieldModel.ischangeColor
-                  ? ColorsTheme().primaryColor
+                  ? ColorsTheme().grayColor
                   : ColorsTheme().whiteColor),
         fontSize: 18,
       ),

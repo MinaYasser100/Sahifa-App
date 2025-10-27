@@ -432,5 +432,6 @@
   "No Category Name": "لا يوجد اسم فئة",
   "No Title": "لا يوجد عنوان",
   "Error fetching categories" : "خطأ في جلب الفئات",
-  "Error fetching article details" : "خطأ في جلب تفاصيل المقال"
+  "Error fetching article details" : "خطأ في جلب تفاصيل المقال",
+  "Error searching articles" : "خطأ في البحث عن المقالات"
 }
