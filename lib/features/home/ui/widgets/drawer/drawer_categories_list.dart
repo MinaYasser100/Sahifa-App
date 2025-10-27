@@ -46,13 +46,20 @@ class DrawerCategoriesList extends StatelessWidget {
         ),
       );
     }
+    final filterCategories = categories
+        .where(
+          (category) =>
+              category.subcategories != null &&
+              category.subcategories!.isNotEmpty,
+        )
+        .toList();
 
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: categories.length,
+        itemCount: filterCategories.length,
         itemBuilder: (context, index) {
-          return DrawerCategoryItem(parentCategory: categories[index]);
+          return DrawerCategoryItem(parentCategory: filterCategories[index]);
         },
       ),
     );
