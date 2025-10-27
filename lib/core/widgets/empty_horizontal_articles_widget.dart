@@ -21,8 +21,8 @@ class EmptyHorizontalArticlesWidget extends StatelessWidget {
                 Icons.article_outlined,
                 size: 60,
                 color: isDarkMode
-                    ? ColorsTheme().grayColor.withOpacity(0.3)
-                    : ColorsTheme().grayColor.withOpacity(0.5),
+                    ? ColorsTheme().grayColor.withValues(alpha: 0.3)
+                    : ColorsTheme().grayColor.withValues(alpha: 0.5),
               ),
               const SizedBox(height: 16),
               Text(
@@ -30,7 +30,7 @@ class EmptyHorizontalArticlesWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: isDarkMode
-                      ? ColorsTheme().grayColor.withOpacity(0.7)
+                      ? ColorsTheme().grayColor.withValues(alpha: 0.7)
                       : ColorsTheme().grayColor,
                 ),
                 textAlign: TextAlign.center,

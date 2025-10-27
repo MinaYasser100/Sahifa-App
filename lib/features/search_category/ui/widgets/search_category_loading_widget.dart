@@ -24,7 +24,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
     return Container(
       height: 120,
       decoration: BoxDecoration(
-        color: baseColor.withOpacity(0.3),
+        color: baseColor.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -33,7 +33,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
           Container(
             width: 120,
             decoration: BoxDecoration(
-              color: baseColor.withOpacity(0.5),
+              color: baseColor.withValues(alpha: 0.5),
               borderRadius: const BorderRadius.horizontal(
                 left: Radius.circular(12),
               ),
@@ -52,7 +52,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
                     width: 80,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: baseColor.withOpacity(0.5),
+                      color: baseColor.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -62,7 +62,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 16,
                     decoration: BoxDecoration(
-                      color: baseColor.withOpacity(0.5),
+                      color: baseColor.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -72,7 +72,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
                     width: 150,
                     height: 16,
                     decoration: BoxDecoration(
-                      color: baseColor.withOpacity(0.5),
+                      color: baseColor.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -84,7 +84,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
                         width: 60,
                         height: 12,
                         decoration: BoxDecoration(
-                          color: baseColor.withOpacity(0.5),
+                          color: baseColor.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -93,7 +93,7 @@ class SearchCategoryLoadingWidget extends StatelessWidget {
                         width: 80,
                         height: 12,
                         decoration: BoxDecoration(
-                          color: baseColor.withOpacity(0.5),
+                          color: baseColor.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

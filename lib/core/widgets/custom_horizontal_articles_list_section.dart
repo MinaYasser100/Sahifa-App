@@ -7,6 +7,7 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/empty_horizontal_articles_widget.dart';
+import 'package:sahifa/core/widgets/horizontal_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
 import 'package:sahifa/features/home/manger/articles_home_category_cubit/articles_home_category_cubit.dart';
 
@@ -30,10 +31,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
         builder: (context, state) {
           // Loading State
           if (state is ArticlesHomeCategoryLoading) {
-            return const SizedBox(
-              height: 325,
-              child: Center(child: CircularProgressIndicator()),
-            );
+            return const HorizontalArticlesLoadingSkeleton();
           }
 
           // Error State

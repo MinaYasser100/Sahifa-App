@@ -24,7 +24,10 @@ class ArticlesHorizontalBarCategoryCubit
     required String categorySlug,
     required String language,
   }) async {
-    emit(ArticlesHorizontalBarCategoryLoading());
+    // Don't proceed if cubit is closed
+    if (isClosed) return;
+
+    if (!isClosed) emit(ArticlesHorizontalBarCategoryLoading());
 
     // Reset pagination state for new category
     _allArticles = [];
@@ -42,25 +45,34 @@ class ArticlesHorizontalBarCategoryCubit
             pageNumber: 1,
           );
 
+      if (isClosed) return;
+
       result.fold(
         (failure) {
-          emit(ArticlesHorizontalBarCategoryError(failure));
+          if (!isClosed) emit(ArticlesHorizontalBarCategoryError(failure));
         },
         (articlesData) {
           _allArticles = articlesData.articles ?? [];
           _totalPages = articlesData.totalPages;
           _currentPage = 1;
-          emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          if (!isClosed) {
+            emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          }
         },
       );
     } catch (e) {
-      emit(
-        ArticlesHorizontalBarCategoryError('Failed to fetch categories: $e'),
-      );
+      if (!isClosed) {
+        emit(
+          ArticlesHorizontalBarCategoryError('Failed to fetch categories: $e'),
+        );
+      }
     }
   }
 
   Future<void> loadMoreArticles() async {
+    // Don't proceed if cubit is closed
+    if (isClosed) return;
+
     // Prevent multiple simultaneous requests
     if (_isFetchingMore) return;
 
@@ -71,7 +83,9 @@ class ArticlesHorizontalBarCategoryCubit
     if (_currentCategorySlug == null || _currentLanguage == null) return;
 
     _isFetchingMore = true;
-    emit(ArticlesHorizontalBarCategoryLoadingMore(_allArticles));
+    if (!isClosed) {
+      emit(ArticlesHorizontalBarCategoryLoadingMore(_allArticles));
+    }
 
     try {
       final nextPage = _currentPage + 1;
@@ -82,11 +96,15 @@ class ArticlesHorizontalBarCategoryCubit
             pageNumber: nextPage,
           );
 
+      if (isClosed) return;
+
       result.fold(
         (failure) {
           _isFetchingMore = false;
           // Keep current articles, just show error in a non-intrusive way
-          emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          if (!isClosed) {
+            emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          }
         },
         (articlesData) {
           if (articlesData.articles != null &&
@@ -96,17 +114,22 @@ class ArticlesHorizontalBarCategoryCubit
             _totalPages = articlesData.totalPages;
           }
           _isFetchingMore = false;
-          emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          if (!isClosed) {
+            emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+          }
         },
       );
     } catch (e) {
       _isFetchingMore = false;
       // Keep current articles even on error
-      emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+      if (!isClosed) {
+        emit(ArticlesHorizontalBarCategorySuccess(_allArticles));
+      }
     }
   }
 
   Future<void> refreshCategories() async {
+    if (isClosed) return;
     if (_currentCategorySlug == null || _currentLanguage == null) return;
 
     // Clear cache

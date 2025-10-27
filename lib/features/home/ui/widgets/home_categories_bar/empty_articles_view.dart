@@ -16,7 +16,7 @@ class EmptyArticlesView extends StatelessWidget {
             Icon(
               Icons.article_outlined,
               size: 100,
-              color: ColorsTheme().grayColor.withOpacity(0.3),
+              color: ColorsTheme().grayColor.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 24),
             Text(
@@ -33,7 +33,7 @@ class EmptyArticlesView extends StatelessWidget {
               'no_articles_description'.tr(),
               style: TextStyle(
                 fontSize: 16,
-                color: ColorsTheme().grayColor.withOpacity(0.7),
+                color: ColorsTheme().grayColor.withValues(alpha: 0.7),
               ),
               textAlign: TextAlign.center,
             ),

@@ -7,11 +7,20 @@ final class ArticlesBreakingNewsInitial extends ArticlesBreakingNewsState {}
 
 final class ArticlesBreakingNewsLoaded extends ArticlesBreakingNewsState {
   final List<ArticleModel> articles;
+  final bool hasMore;
 
-  ArticlesBreakingNewsLoaded(this.articles);
+  ArticlesBreakingNewsLoaded(this.articles, this.hasMore);
+}
+
+final class ArticlesBreakingNewsLoadingMore extends ArticlesBreakingNewsState {
+  final List<ArticleModel> currentArticles;
+
+  ArticlesBreakingNewsLoadingMore(this.currentArticles);
 }
 
 final class ArticlesBreakingNewsLoading extends ArticlesBreakingNewsState {}
+
+final class ArticlesBreakingNewsEmpty extends ArticlesBreakingNewsState {}
 
 final class ArticlesBreakingNewsError extends ArticlesBreakingNewsState {
   final String message;

@@ -23,6 +23,9 @@ class AllCategoryArticlesCubit extends Cubit<AllCategoryArticlesState> {
     required String categorySlug,
     bool isRefresh = false,
   }) async {
+    // Don't proceed if cubit is closed
+    if (isClosed) return;
+
     // Reset on new category or language
     if (_currentCategorySlug != categorySlug ||
         _currentLanguage != language ||
@@ -39,9 +42,9 @@ class AllCategoryArticlesCubit extends Cubit<AllCategoryArticlesState> {
 
     // Show loading indicator
     if (_currentPage == 1) {
-      emit(AllCategoryArticlesLoading());
+      if (!isClosed) emit(AllCategoryArticlesLoading());
     } else {
-      emit(AllCategoryArticlesLoadingMore(_articles));
+      if (!isClosed) emit(AllCategoryArticlesLoadingMore(_articles));
     }
 
     final result = await _allCategoryArticlesRepo.fetchArticleSearchCategory(
@@ -50,12 +53,16 @@ class AllCategoryArticlesCubit extends Cubit<AllCategoryArticlesState> {
       page: _currentPage,
     );
 
+    if (isClosed) return;
+
     result.fold(
       (error) {
         if (_currentPage == 1) {
-          emit(AllCategoryArticlesError(error));
+          if (!isClosed) emit(AllCategoryArticlesError(error));
         } else {
-          emit(AllCategoryArticlesLoaded(_articles, hasMore: _hasMore));
+          if (!isClosed) {
+            emit(AllCategoryArticlesLoaded(_articles, hasMore: _hasMore));
+          }
         }
       },
       (articlesModel) {
@@ -70,15 +77,18 @@ class AllCategoryArticlesCubit extends Cubit<AllCategoryArticlesState> {
         _currentPage++;
 
         if (_articles.isEmpty) {
-          emit(AllCategoryArticlesEmpty());
+          if (!isClosed) emit(AllCategoryArticlesEmpty());
         } else {
-          emit(AllCategoryArticlesLoaded(_articles, hasMore: _hasMore));
+          if (!isClosed) {
+            emit(AllCategoryArticlesLoaded(_articles, hasMore: _hasMore));
+          }
         }
       },
     );
   }
 
   Future<void> loadMore() async {
+    if (isClosed) return;
     if (_hasMore && _currentCategorySlug != null && _currentLanguage != null) {
       await fetchAllCategoryArticles(
         language: _currentLanguage!,
@@ -88,6 +98,7 @@ class AllCategoryArticlesCubit extends Cubit<AllCategoryArticlesState> {
   }
 
   Future<void> refresh() async {
+    if (isClosed) return;
     _allCategoryArticlesRepo.refresh();
     if (_currentCategorySlug != null && _currentLanguage != null) {
       await fetchAllCategoryArticles(

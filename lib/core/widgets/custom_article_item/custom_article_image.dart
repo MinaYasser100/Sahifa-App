@@ -1,6 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+// كاش مانجر مخصص
+class CustomCacheManager extends CacheManager {
+  static const key = "customCache";
+  static final CustomCacheManager _instance = CustomCacheManager._internal();
+
+  factory CustomCacheManager() {
+    return _instance;
+  }
+
+  CustomCacheManager._internal()
+    : super(
+        Config(key, stalePeriod: Duration(days: 7), maxNrOfCacheObjects: 300),
+      );
+}
 
 class CustomArticleImage extends StatelessWidget {
   const CustomArticleImage({
@@ -40,10 +56,12 @@ class CustomArticleImage extends StatelessWidget {
           bottomRight: changeBorderRadius ? Radius.zero : Radius.circular(8),
         ),
         child: CachedNetworkImage(
+          cacheManager: CustomCacheManager(),
           imageUrl: imageUrl,
           width: width,
           height: height,
           fit: BoxFit.cover,
+          fadeInDuration: Duration(milliseconds: 300),
           placeholder: (context, url) => Container(
             height: height,
             color: ColorsTheme().primaryColor.withValues(alpha: 0.1),

@@ -93,6 +93,7 @@ class SubcategoryArticlesRepoImpl implements SubcategoryArticlesRepo {
   }
 
   // Clear cache
+  @override
   void clearCache() {
     _cachedArticles = null;
     _lastFetchTime = null;
@@ -101,6 +102,7 @@ class SubcategoryArticlesRepoImpl implements SubcategoryArticlesRepo {
   }
 
   // Force refresh
+  @override
   Future<Either<String, ArticlesCategoryModel>> forceRefresh({
     required String categorySlug,
     required String language,

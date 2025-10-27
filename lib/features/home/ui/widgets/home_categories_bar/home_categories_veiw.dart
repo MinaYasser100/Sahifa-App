@@ -3,13 +3,11 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
-import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
+import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
+import 'package:sahifa/features/home/manger/articles_breaking_news_cubit/articles_breaking_news_cubit.dart';
 import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
-
-import 'empty_articles_view.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/breaking_news_articles_widget.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/other_categories_articles_widget.dart';
 
 class HomeCategoriesView extends StatefulWidget {
   const HomeCategoriesView({super.key, required this.categorySlug});
@@ -22,6 +20,7 @@ class HomeCategoriesView extends StatefulWidget {
 
 class _HomeCategoriesViewState extends State<HomeCategoriesView> {
   final ScrollController _scrollController = ScrollController();
+  late ArticlesBreakingNewsCubit? _breakingNewsCubit;
 
   @override
   void initState() {
@@ -33,6 +32,17 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     log('categorySlug: ${widget.categorySlug}');
+
+    // Initialize Breaking News Cubit if needed
+    if (widget.categorySlug == 'breaking-news') {
+      _breakingNewsCubit = ArticlesBreakingNewsCubit(getIt());
+      _breakingNewsCubit!.fetchBreakingNewsArticles(
+        context.locale.languageCode,
+      );
+    } else {
+      _breakingNewsCubit = null;
+    }
+
     // Fetch articles on first load
     _fetchArticles();
   }
@@ -45,11 +55,30 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> {
       log(
         'Category changed from ${oldWidget.categorySlug} to ${widget.categorySlug}',
       );
+
+      // Close old cubit before creating new one
+      _breakingNewsCubit?.close();
+
+      // Re-initialize Breaking News Cubit if needed
+      if (widget.categorySlug == 'breaking-news') {
+        _breakingNewsCubit = ArticlesBreakingNewsCubit(getIt());
+        _breakingNewsCubit!.fetchBreakingNewsArticles(
+          context.locale.languageCode,
+        );
+      } else {
+        _breakingNewsCubit = null;
+      }
+
       _fetchArticles();
     }
   }
 
   void _fetchArticles() {
+    // Skip fetch for Breaking News as it's handled by its own cubit
+    if (widget.categorySlug == 'breaking-news') {
+      return;
+    }
+
     final cubit = context.read<ArticlesHorizontalBarCategoryCubit>();
     cubit.fetchCategories(
       categorySlug: widget.categorySlug,
@@ -60,91 +89,44 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _breakingNewsCubit?.close();
     super.dispose();
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
-      context.read<ArticlesHorizontalBarCategoryCubit>().loadMoreArticles();
+        _scrollController.position.maxScrollExtent * 0.9) {
+      if (widget.categorySlug == 'breaking-news') {
+        _breakingNewsCubit?.loadMore();
+      } else {
+        context.read<ArticlesHorizontalBarCategoryCubit>().loadMoreArticles();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<
-      ArticlesHorizontalBarCategoryCubit,
-      ArticlesHorizontalBarCategoryState
-    >(
-      builder: (context, state) {
-        if (state is ArticlesHorizontalBarCategoryLoading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is ArticlesHorizontalBarCategoryError) {
-          return Center(child: Text(state.message));
-        } else if (state is ArticlesHorizontalBarCategorySuccess ||
-            state is ArticlesHorizontalBarCategoryLoadingMore) {
-          final articles = state is ArticlesHorizontalBarCategorySuccess
-              ? state.articles
-              : (state as ArticlesHorizontalBarCategoryLoadingMore)
-                    .currentArticles;
+    // Handle Breaking News separately
+    if (widget.categorySlug == 'breaking-news' && _breakingNewsCubit != null) {
+      return BlocProvider.value(
+        value: _breakingNewsCubit!,
+        child: BreakingNewsArticlesWidget(
+          scrollController: _scrollController,
+          onRefresh: () async {
+            await _breakingNewsCubit!.refresh();
+          },
+        ),
+      );
+    }
 
-          // Show empty state if no articles
-          if (articles.isEmpty) {
-            return const EmptyArticlesView();
-          }
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              await context
-                  .read<ArticlesHorizontalBarCategoryCubit>()
-                  .refreshCategories();
-            },
-            child: CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.push(
-                              Routes.detailsArticalView,
-                              extra: articles[index],
-                            );
-                          },
-                          child: (widget.categorySlug == 'books_opinions')
-                              ? CustomBooksOpinionsItem(
-                                  articleItem: articles[index],
-                                  cardWidth: double.infinity,
-                                  isItemList: true,
-                                )
-                              : CustomArticleItemCard(
-                                  articleItem: articles[index],
-                                  cardWidth: double.infinity,
-                                  isItemList: true,
-                                ),
-                        ),
-                      );
-                    }, childCount: articles.length),
-                  ),
-                ),
-                // Loading indicator for pagination
-                if (state is ArticlesHorizontalBarCategoryLoadingMore)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-              ],
-            ),
-          );
-        }
-
-        return const EmptyArticlesView();
+    // Handle other categories with existing cubit
+    return OtherCategoriesArticlesWidget(
+      categorySlug: widget.categorySlug,
+      scrollController: _scrollController,
+      onRefresh: () async {
+        await context
+            .read<ArticlesHorizontalBarCategoryCubit>()
+            .refreshCategories();
       },
     );
   }

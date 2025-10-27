@@ -8,6 +8,7 @@ import 'package:sahifa/features/articals_category_section/data/repo/all_category
 import 'package:sahifa/features/articals_category_section/data/repo/horizontal_bar_subcategories.dart';
 import 'package:sahifa/features/articals_category_section/data/repo/subcategory_articles_repo.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
+import 'package:sahifa/features/home/data/repo/articles_breaking_news_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_horizontal_bar_category.dart';
@@ -125,6 +126,15 @@ void setupDependencies() async {
   final subcategoryArticlesRepo = SubcategoryArticlesRepoImpl();
   getIt.registerSingleton<SubcategoryArticlesRepoImpl>(subcategoryArticlesRepo);
   getIt.registerSingleton<SubcategoryArticlesRepo>(subcategoryArticlesRepo);
+
+  // Register ArticlesBreakingNewsRepo as singleton
+  final articlesBreakingNewsRepo = ArticlesBreakingNewsRepoImpl(
+    getIt<DioHelper>(),
+  );
+  getIt.registerSingleton<ArticlesBreakingNewsRepoImpl>(
+    articlesBreakingNewsRepo,
+  );
+  getIt.registerSingleton<ArticlesBreakingNewsRepo>(articlesBreakingNewsRepo);
 
   getIt.registerSingleton<DetailsArticleRepoImpl>(
     DetailsArticleRepoImpl(getIt<DioHelper>()),
