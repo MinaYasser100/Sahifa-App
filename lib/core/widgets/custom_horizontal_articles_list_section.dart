@@ -6,7 +6,6 @@ import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
-import 'package:sahifa/core/widgets/empty_horizontal_articles_widget.dart';
 import 'package:sahifa/core/widgets/horizontal_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
 import 'package:sahifa/features/home/manger/articles_home_category_cubit/articles_home_category_cubit.dart';
@@ -15,9 +14,11 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
   const CustomHorizontalArticlesListSection({
     super.key,
     required this.categorySlug,
+    this.articleSlug,
   });
 
   final String categorySlug;
+  final String? articleSlug;
 
   @override
   Widget build(BuildContext context) {
@@ -52,26 +53,35 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
             final articles = state.articles;
 
             if (articles.isEmpty) {
-              return const EmptyHorizontalArticlesWidget();
+              return const SizedBox.shrink();
             }
+            final filteredArticles = articleSlug != null
+                ? articles
+                      .where((article) => article.slug != articleSlug)
+                      .toList()
+                : articles;
 
+            // If after filtering, no articles left, hide the section
+            if (filteredArticles.isEmpty) {
+              return const SizedBox.shrink();
+            }
             return SizedBox(
               height: 325,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: articles.length,
+                itemCount: filteredArticles.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       context.push(
                         Routes.detailsArticalView,
-                        extra: articles[index],
+                        extra: filteredArticles[index],
                       );
                     },
                     child: FadeInLeft(
                       child: CustomArticleItemCard(
-                        articleItem: articles[index],
+                        articleItem: filteredArticles[index],
                       ),
                     ),
                   );

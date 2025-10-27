@@ -76,6 +76,7 @@ class DetailsArticleBodyView extends StatelessWidget {
         SliverToBoxAdapter(
           child: RelatedArticlesSection(
             categorySlug: articalModel.categorySlug!,
+            articleSlug: articalModel.slug!,
           ),
         ),
 
