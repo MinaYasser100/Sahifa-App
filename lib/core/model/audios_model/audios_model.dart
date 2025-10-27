@@ -1,33 +1,33 @@
-import 'item.dart';
+import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 
-class AudioModel {
+class AudiosModel {
   int? pageSize;
   int? pageNumber;
   int? totalCount;
   int? totalPages;
   int? itemsFrom;
   int? itemsTo;
-  List<Item>? items;
+  List<AudioItemModel>? audios;
 
-  AudioModel({
+  AudiosModel({
     this.pageSize,
     this.pageNumber,
     this.totalCount,
     this.totalPages,
     this.itemsFrom,
     this.itemsTo,
-    this.items,
+    this.audios,
   });
 
-  factory AudioModel.fromJson(Map<String, dynamic> json) => AudioModel(
+  factory AudiosModel.fromJson(Map<String, dynamic> json) => AudiosModel(
     pageSize: json['pageSize'] as int?,
     pageNumber: json['pageNumber'] as int?,
     totalCount: json['totalCount'] as int?,
     totalPages: json['totalPages'] as int?,
     itemsFrom: json['itemsFrom'] as int?,
     itemsTo: json['itemsTo'] as int?,
-    items: (json['items'] as List<dynamic>?)
-        ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
+    audios: (json['items'] as List<dynamic>?)
+        ?.map((e) => AudioItemModel.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 
@@ -38,6 +38,6 @@ class AudioModel {
     'totalPages': totalPages,
     'itemsFrom': itemsFrom,
     'itemsTo': itemsTo,
-    'items': items?.map((e) => e.toJson()).toList(),
+    'items': audios?.map((e) => e.toJson()).toList(),
   };
 }

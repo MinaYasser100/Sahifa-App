@@ -17,7 +17,9 @@ enum ApiEndpoints {
 
   articleDetails('/api/v1/posts/categories/{categorySlug}/articles/{slug}'),
 
-  categoryInfoBySlug('/api/v1/categories/{slug}');
+  categoryInfoBySlug('/api/v1/categories/{slug}'),
+
+  audiosByCategory('/api/v1/posts/categories/audios');
 
   final String path;
   const ApiEndpoints(this.path);
