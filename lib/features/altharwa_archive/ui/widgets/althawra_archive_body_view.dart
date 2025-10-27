@@ -20,12 +20,11 @@ class AlthawraArchiveBodyView extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          padding: const EdgeInsets.all(16.0),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: controller,
               hintText: 'search_placeholder'.tr(),
-              icon: Icons.search,
               keyboardType: TextInputType.text,
               validator: (p0) {
                 return null;

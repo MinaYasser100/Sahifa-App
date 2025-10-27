@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
 class DecorationCirclesWidget extends StatelessWidget {
-  const DecorationCirclesWidget({super.key});
+  const DecorationCirclesWidget({super.key, required this.isDarkMode});
+  final bool isDarkMode;
 
   @override
   Widget build(BuildContext context) {

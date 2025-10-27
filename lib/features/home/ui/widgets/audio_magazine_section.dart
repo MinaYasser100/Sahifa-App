@@ -23,7 +23,7 @@ class AudioMagazineSection extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isDarkMode
-              ? ColorsTheme().primaryDark
+              ? ColorsTheme().primaryLight
               : ColorsTheme().primaryColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
@@ -36,7 +36,7 @@ class AudioMagazineSection extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            const DecorationCirclesWidget(),
+            DecorationCirclesWidget(isDarkMode: isDarkMode),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
