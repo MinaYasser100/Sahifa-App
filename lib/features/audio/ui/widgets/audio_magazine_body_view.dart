@@ -1,115 +1,110 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
-import 'package:sahifa/features/audio/ui/widgets/audio_category_section.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/helper_network/dio_helper.dart';
+import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
+import 'package:sahifa/features/audio/data/repo/audios_by_category_repo.dart';
+import 'package:sahifa/features/audio/manager/audio_categories_cubit/audio_categories_cubit.dart';
+import 'package:sahifa/features/audio/manager/audios_by_category_cubit/audio_by_category_cubit.dart';
+import 'package:sahifa/features/audio/ui/widgets/audio_category_skeleton.dart';
+import 'package:sahifa/features/audio/ui/widgets/audio_category_with_data_section.dart';
 
-class AudioMagazineBodyView extends StatelessWidget {
+class AudioMagazineBodyView extends StatefulWidget {
   const AudioMagazineBodyView({super.key});
 
-  Map<String, List<AudioItemModel>> _getDummyAudioCategories() {
-    return {
-      'تاريخ': [
-        AudioItemModel(
-          id: '1',
-          title: 'كتاب صوتي عن التاريخ الإسلامي',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '45:30',
-          authorName: 'محمد أحمد',
-          summary:
-              'كتاب صوتي رائع يتحدث عن التاريخ الإسلامي وأهم الأحداث التي شكلت العالم الإسلامي',
-          categoryName: 'تاريخ',
-        ),
-        AudioItemModel(
-          id: '2',
-          title: 'الحضارة العربية القديمة',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '38:20',
-          authorName: 'سامي حسن',
-          summary: 'استكشاف للحضارة العربية وإنجازاتها عبر التاريخ',
-          categoryName: 'تاريخ',
-        ),
-        AudioItemModel(
-          id: '2',
-          title: 'الحضارة العربية القديمة',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '38:20',
-          authorName: 'سامي حسن',
-          summary: 'استكشاف للحضارة العربية وإنجازاتها عبر التاريخ',
-          categoryName: 'تاريخ',
-        ),
-      ],
-      'أدب': [
-        AudioItemModel(
-          id: '3',
-          title: 'رحلة في عالم الأدب العربي',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '52:15',
-          authorName: 'أحمد محمود',
-          summary:
-              'استكشاف شيق لأهم الأعمال الأدبية العربية عبر العصور المختلفة',
-          categoryName: 'أدب',
-        ),
-        AudioItemModel(
-          id: '4',
-          title: 'الشعر العربي الحديث',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '41:30',
-          authorName: 'نادية كمال',
-          summary: 'جولة في عالم الشعر العربي الحديث وأبرز شعرائه',
-          categoryName: 'أدب',
-        ),
-      ],
-      'ثقافة': [
-        AudioItemModel(
-          id: '5',
-          title: 'فن الطبخ العربي',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '38:45',
-          authorName: 'فاطمة حسن',
-          summary:
-              'دليل صوتي شامل لأشهر الأطباق العربية وكيفية تحضيرها بطريقة احترافية',
-          categoryName: 'ثقافة',
-        ),
-        AudioItemModel(
-          id: '6',
-          title: 'العادات والتقاليد العربية',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '44:10',
-          authorName: 'ياسر محمد',
-          summary: 'تعرف على العادات والتقاليد العربية الأصيلة',
-          categoryName: 'ثقافة',
-        ),
-        AudioItemModel(
-          id: '5',
-          title: 'فن الطبخ العربي',
-          thumbnailUrl: 'https://via.placeholder.com/160x220',
-          duration: '38:45',
-          authorName: 'فاطمة حسن',
-          summary:
-              'دليل صوتي شامل لأشهر الأطباق العربية وكيفية تحضيرها بطريقة احترافية',
-          categoryName: 'ثقافة',
-        ),
-      ],
-    };
+  @override
+  State<AudioMagazineBodyView> createState() => _AudioMagazineBodyViewState();
+}
+
+class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
+  bool _isInitialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isInitialized) {
+      final language = context.locale.languageCode;
+      context.read<AudioCategoriesCubit>().fetchAudioCategories(
+        language: language,
+      );
+      _isInitialized = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final audioCategories = _getDummyAudioCategories();
+    final language = context.locale.languageCode;
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          ...audioCategories.entries.map((entry) {
-            return AudioCategorySection(
-              categoryName: entry.key,
-              audioItems: entry.value,
+    return BlocBuilder<AudioCategoriesCubit, AudioCategoriesState>(
+      builder: (context, state) {
+        if (state is AudioCategoriesLoading) {
+          return SingleChildScrollView(
+            child: Column(
+              children: List.generate(
+                3,
+                (index) => const AudioCategorySkeleton(),
+              ),
+            ),
+          );
+        }
+
+        if (state is AudioCategoriesError) {
+          return Center(
+            child: CustomErrorLoadingWidget(
+              message: state.message,
+              onPressed: () {
+                context.read<AudioCategoriesCubit>().fetchAudioCategories(
+                  language: language,
+                );
+              },
+            ),
+          );
+        }
+
+        if (state is AudioCategoriesLoaded) {
+          final categories = state.categories;
+
+          if (categories.isEmpty) {
+            return Center(
+              child: Text(
+                "no_categories_available".tr(),
+                style: const TextStyle(fontSize: 16),
+              ),
             );
-          }),
-          const SizedBox(height: 16),
-        ],
-      ),
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<AudioCategoriesCubit>().fetchAudioCategories(
+                language: language,
+              );
+            },
+            child: ListView.builder(
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+
+                return BlocProvider(
+                  create: (context) =>
+                      AudioByCategoryCubit(
+                        AudiosByCategoryRepoImpl(DioHelper()),
+                      )..fetchAudiosByCategory(
+                        categorySlug: category.slug ?? '',
+                        language: language,
+                      ),
+                  child: AudioCategoryWithDataSection(
+                    category: category,
+                    language: language,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
     );
   }
 }

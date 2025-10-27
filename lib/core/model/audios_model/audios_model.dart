@@ -19,6 +19,12 @@ class AudiosModel {
     this.audios,
   });
 
+  // Getter to check if there are more pages
+  bool get hasNextPage {
+    if (pageNumber == null || totalPages == null) return false;
+    return pageNumber! < totalPages!;
+  }
+
   factory AudiosModel.fromJson(Map<String, dynamic> json) => AudiosModel(
     pageSize: json['pageSize'] as int?,
     pageNumber: json['pageNumber'] as int?,

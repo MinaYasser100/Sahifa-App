@@ -9,7 +9,19 @@ final class AudioByCategoryLoading extends AudioByCategoryState {}
 
 final class AudioByCategoryLoaded extends AudioByCategoryState {
   final List<AudioItemModel> audios;
-  AudioByCategoryLoaded({required this.audios});
+  final bool hasMorePages;
+
+  AudioByCategoryLoaded({required this.audios, required this.hasMorePages});
+}
+
+final class AudioByCategoryLoadingMore extends AudioByCategoryState {
+  final List<AudioItemModel> audios;
+  final bool hasMorePages;
+
+  AudioByCategoryLoadingMore({
+    required this.audios,
+    required this.hasMorePages,
+  });
 }
 
 final class AudioByCategoryError extends AudioByCategoryState {

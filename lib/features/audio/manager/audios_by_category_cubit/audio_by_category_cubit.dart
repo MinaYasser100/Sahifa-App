@@ -11,23 +11,90 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
 
   final AudiosByCategoryRepoImpl _audiosByCategoryRepoImpl;
 
+  List<AudioItemModel> _audios = [];
+  int _currentPage = 1;
+  bool _hasMorePages = true;
+  String? _currentCategorySlug;
+  String? _currentLanguage;
+
   Future<void> fetchAudiosByCategory({
     required String categorySlug,
     required String language,
   }) async {
+    // Reset state for new category
+    _audios = [];
+    _currentPage = 1;
+    _hasMorePages = true;
+    _currentCategorySlug = categorySlug;
+    _currentLanguage = language;
+
     emit(AudioByCategoryLoading());
     final result = await _audiosByCategoryRepoImpl.fetchAudiosByCategory(
       categorySlug: categorySlug,
       language: language,
+      page: _currentPage,
     );
 
     result.fold(
       (failure) {
         emit(AudioByCategoryError(message: failure));
       },
-      (audios) {
-        emit(AudioByCategoryLoaded(audios: audios.audios ?? []));
+      (audiosModel) {
+        _audios = audiosModel.audios ?? [];
+        _hasMorePages = audiosModel.hasNextPage;
+        emit(
+          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+        );
       },
     );
+  }
+
+  Future<void> loadMoreAudios() async {
+    if (!_hasMorePages ||
+        _currentCategorySlug == null ||
+        _currentLanguage == null) {
+      return;
+    }
+
+    if (state is AudioByCategoryLoadingMore) {
+      return; // Already loading more
+    }
+
+    emit(
+      AudioByCategoryLoadingMore(audios: _audios, hasMorePages: _hasMorePages),
+    );
+
+    _currentPage++;
+
+    final result = await _audiosByCategoryRepoImpl.fetchAudiosByCategory(
+      categorySlug: _currentCategorySlug!,
+      language: _currentLanguage!,
+      page: _currentPage,
+    );
+
+    result.fold(
+      (failure) {
+        _currentPage--; // Rollback page increment
+        emit(
+          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+        );
+      },
+      (audiosModel) {
+        _audios.addAll(audiosModel.audios ?? []);
+        _hasMorePages = audiosModel.hasNextPage;
+        emit(
+          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+        );
+      },
+    );
+  }
+
+  void resetState() {
+    _audios = [];
+    _currentPage = 1;
+    _hasMorePages = true;
+    _currentCategorySlug = null;
+    _currentLanguage = null;
+    emit(AudioByCategoryInitial());
   }
 }
