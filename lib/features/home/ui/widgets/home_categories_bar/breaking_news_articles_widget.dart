@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
+import 'package:sahifa/core/widgets/vertical_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/manger/articles_breaking_news_cubit/articles_breaking_news_cubit.dart';
-import 'package:sahifa/features/home/ui/widgets/home_categories_bar/breaking_news_articles_loading.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/empty_articles_view.dart';
 
 class BreakingNewsArticlesWidget extends StatelessWidget {
@@ -23,7 +23,7 @@ class BreakingNewsArticlesWidget extends StatelessWidget {
     return BlocBuilder<ArticlesBreakingNewsCubit, ArticlesBreakingNewsState>(
       builder: (context, state) {
         if (state is ArticlesBreakingNewsLoading) {
-          return const BreakingNewsArticlesLoading();
+          return const VerticalArticlesLoadingSkeleton();
         } else if (state is ArticlesBreakingNewsError) {
           return CustomErrorLoadingWidget(
             message: state.message,

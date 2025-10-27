@@ -10,6 +10,9 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/features/altharwa_archive/ui/altharwa_archive_view.dart';
 import 'package:sahifa/features/altharwa_archive/ui/widgets/archive_pdf_widget.dart';
 import 'package:sahifa/features/articals_category_section/ui/articles_category_section_view.dart';
+import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
+import 'package:sahifa/features/audio/ui/audio_book_details_view.dart';
+import 'package:sahifa/features/audio/ui/audio_magazine_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
@@ -186,6 +189,18 @@ abstract class AppRouter {
             throw Exception('Video is not found');
           }
           return fadeTransitionPage(VideoDetailsView(video: video));
+        },
+      ),
+      GoRoute(
+        path: Routes.audioMagazineView,
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(AudioMagazineView()),
+      ),
+      GoRoute(
+        path: Routes.audioBookDetails,
+        pageBuilder: (context, state) {
+          final audioItem = state.extra as AudioItemModel;
+          return fadeTransitionPage(AudioBookDetailsView(audioItem: audioItem));
         },
       ),
     ],

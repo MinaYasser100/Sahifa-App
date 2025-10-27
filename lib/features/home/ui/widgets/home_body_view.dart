@@ -8,6 +8,7 @@ import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_sec
 import 'package:sahifa/features/home/manger/cateogries_horizontal_bar_cubit/categories_horizontal_bar_cubit.dart';
 
 import 'articals_group_section.dart';
+import 'audio_magazine_section.dart';
 import 'books_opinions_section.dart';
 
 class HomeBodyView extends StatefulWidget {
@@ -42,6 +43,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           return const CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+              SliverToBoxAdapter(child: AudioMagazineSection()),
               SliverToBoxAdapter(child: CustomCategoriesLoadingWidget()),
             ],
           );
@@ -49,6 +51,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           return CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+              const SliverToBoxAdapter(child: AudioMagazineSection()),
               SliverFillRemaining(
                 child: CustomErrorLoadingWidget(
                   message: state.errorMessage,
@@ -71,6 +74,9 @@ class _HomeBodyViewState extends State<HomeBodyView> {
             slivers: [
               // Banner Carousel Section
               const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+
+              // Audio Magazine Section (always visible)
+              const SliverToBoxAdapter(child: AudioMagazineSection()),
 
               // If we have categories
               if (categories.isNotEmpty) ...[
@@ -127,6 +133,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
         return const CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+            SliverToBoxAdapter(child: AudioMagazineSection()),
             SliverToBoxAdapter(child: BooksOpinionsSection()),
             SliverToBoxAdapter(child: CustomTrendingArticlesSection()),
             SliverFillRemaining(
