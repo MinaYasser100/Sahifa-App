@@ -175,6 +175,9 @@
   "photo_gallery": "معرض الصور",
   "books_opinions": "كتب وآراء",
   "audio_magazine": "المجلة الصوتية",
+  "audio_player": "مشغل الصوت",
+  "unknown_author": "مؤلف غير معروف",
+  "listen_now": "استمع الآن",
   "duration": "المدة",
   "author": "المؤلف",
   "related_audio_books": "كتب صوتية ذات صلة",
@@ -433,5 +436,6 @@
   "No Title": "لا يوجد عنوان",
   "Error fetching categories" : "خطأ في جلب الفئات",
   "Error fetching article details" : "خطأ في جلب تفاصيل المقال",
-  "Error searching articles" : "خطأ في البحث عن المقالات"
+  "Error searching articles" : "خطأ في البحث عن المقالات",
+  "minute": "دقيقة"
 }

@@ -175,6 +175,9 @@
   "photo_gallery": "Photo Gallery",
   "books_opinions": "Books & Opinions",
   "audio_magazine": "Audio Magazine",
+  "audio_player": "Audio Player",
+  "unknown_author": "Unknown Author",
+  "listen_now": "Listen Now",
   "duration": "Duration",
   "author": "Author",
   "related_audio_books": "Related Audio Books",
@@ -420,5 +423,6 @@
   "No Category Name": "No Category Name",
   "No Title": "No Title",
   "Error fetching categories": "Error fetching categories",
-  "Error fetching article details": "Error fetching article details"
+  "Error fetching article details": "Error fetching article details",
+  "minute": "minute"
 }

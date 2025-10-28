@@ -13,6 +13,7 @@ import 'package:sahifa/features/articals_category_section/ui/articles_category_s
 import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 import 'package:sahifa/features/audio/ui/audio_book_details_view.dart';
 import 'package:sahifa/features/audio/ui/audio_magazine_view.dart';
+import 'package:sahifa/features/audio/ui/audio_player_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
@@ -201,6 +202,13 @@ abstract class AppRouter {
         pageBuilder: (context, state) {
           final audioItem = state.extra as AudioItemModel;
           return fadeTransitionPage(AudioBookDetailsView(audioItem: audioItem));
+        },
+      ),
+      GoRoute(
+        path: Routes.audioPlayerView,
+        pageBuilder: (context, state) {
+          final audioItem = state.extra as AudioItemModel;
+          return fadeTransitionPage(AudioPlayerView(audioItem: audioItem));
         },
       ),
     ],
