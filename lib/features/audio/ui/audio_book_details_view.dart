@@ -13,35 +13,13 @@ import 'package:sahifa/features/audio/ui/widgets/related_audio_books_section.dar
 
 class AudioBookDetailsView extends StatelessWidget {
   final AudioItemModel audioItem;
-  const AudioBookDetailsView({super.key, required this.audioItem});
 
-  List<AudioItemModel> _getRelatedBooks() {
-    return [
-      AudioItemModel(
-        id: '10',
-        title: 'كتاب صوتي مشابه 1',
-        thumbnailUrl: 'https://via.placeholder.com/160x220',
-        duration: '40:20',
-        authorName: 'كاتب آخر',
-        summary: 'وصف الكتاب المشابه',
-        categoryName: audioItem.categoryName,
-      ),
-      AudioItemModel(
-        id: '11',
-        title: 'كتاب صوتي مشابه 2',
-        thumbnailUrl: 'https://via.placeholder.com/160x220',
-        duration: '35:45',
-        authorName: 'كاتب ثالث',
-        summary: 'وصف كتاب آخر مشابه',
-        categoryName: audioItem.categoryName,
-      ),
-    ];
-  }
+  const AudioBookDetailsView({super.key, required this.audioItem});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final relatedBooks = _getRelatedBooks();
+    final currentLanguage = context.locale.languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,10 +52,17 @@ class AudioBookDetailsView extends StatelessWidget {
               const SizedBox(height: 10),
               Divider(color: isDark ? ColorsTheme().grayColor : Colors.black12),
               const SizedBox(height: 14),
-              FadeInUp(
-                duration: const Duration(milliseconds: 400),
-                child: RelatedAudioBooksSection(relatedBooks: relatedBooks),
-              ),
+              // Related Audio Books Section
+              if (audioItem.categorySlug != null &&
+                  audioItem.categorySlug!.isNotEmpty)
+                FadeInUp(
+                  duration: const Duration(milliseconds: 400),
+                  child: RelatedAudioBooksSection(
+                    categorySlug: audioItem.categorySlug!,
+                    language: currentLanguage,
+                    currentAudioId: audioItem.id,
+                  ),
+                ),
               const SizedBox(height: 18),
             ],
           ),

@@ -8,18 +8,12 @@ import 'package:sahifa/core/utils/colors.dart';
 class AudioDetailsInfoSection extends StatelessWidget {
   final AudioItemModel audioItem;
   final bool isDark;
-  final Duration? audioDuration;
-  final bool isLoadingDuration;
-  final String formattedDuration;
   final VoidCallback onListenPressed;
 
   const AudioDetailsInfoSection({
     super.key,
     required this.audioItem,
     required this.isDark,
-    this.audioDuration,
-    this.isLoadingDuration = false,
-    this.formattedDuration = '00:00',
     required this.onListenPressed,
   });
 
