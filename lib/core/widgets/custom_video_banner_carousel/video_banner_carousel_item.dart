@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'package:sahifa/features/tv/ui/widgets/video_duration_badge.dart';
 import 'package:sahifa/features/tv/ui/widgets/video_play_button.dart';
 
@@ -17,7 +17,7 @@ class VideoBannerCarouselItem extends StatelessWidget {
       child: Stack(
         children: [
           // Video Thumbnail
-          CustomArticleImage(
+          CustomImageWidget(
             imageUrl: videoBanner.videoThumbnailUrl ?? '',
             height: 200,
           ),

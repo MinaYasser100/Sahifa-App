@@ -26,16 +26,16 @@ class DescriptionSection extends StatelessWidget {
           children: [
             Text(
               'description'.tr(),
-              style: AppTextStyles.styleBold24sp(context).copyWith(
+              style: AppTextStyles.styleBold20sp(context).copyWith(
                 color: isDark
                     ? ColorsTheme().whiteColor
-                    : ColorsTheme().blackColor,
+                    : ColorsTheme().primaryColor,
               ),
             ),
             const SizedBox(height: 7),
             Text(
               audioItem.summary ?? 'No description available',
-              style: AppTextStyles.styleMedium16sp(context).copyWith(
+              style: AppTextStyles.styleMedium14sp(context).copyWith(
                 color: isDark
                     ? ColorsTheme().grayColor
                     : ColorsTheme().blackColor.withValues(alpha: 0.65),

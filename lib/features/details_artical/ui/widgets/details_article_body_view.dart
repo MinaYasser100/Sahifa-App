@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
@@ -33,7 +33,7 @@ class DetailsArticleBodyView extends StatelessWidget {
                           containerWidth: double.infinity,
                           isListItem: true,
                         )
-                      : CustomArticleImage(
+                      : CustomImageWidget(
                           imageUrl: articalModel.image ?? '',
                           height: 300,
                           changeBorderRadius: true,

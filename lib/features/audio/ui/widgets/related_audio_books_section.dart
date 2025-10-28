@@ -20,17 +20,14 @@ class RelatedAudioBooksSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'related_audio_books'.tr(),
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkMode
-                  ? ColorsTheme().whiteColor
-                  : ColorsTheme().blackColor,
-            ),
+        Text(
+          'related_audio_books'.tr(),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode
+                ? ColorsTheme().whiteColor
+                : ColorsTheme().primaryColor,
           ),
         ),
         const SizedBox(height: 12),
@@ -38,7 +35,6 @@ class RelatedAudioBooksSection extends StatelessWidget {
           height: 280,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: relatedBooks.length,
             itemBuilder: (context, index) {
               return AudioBookCardWidget(audioItem: relatedBooks[index]);

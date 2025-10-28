@@ -71,6 +71,8 @@ class AudioBookDetailsView extends StatelessWidget {
               Divider(color: isDark ? ColorsTheme().grayColor : Colors.black12),
               const SizedBox(height: 8),
               DescriptionSection(audioItem: audioItem, isDark: isDark),
+              const SizedBox(height: 10),
+              Divider(color: isDark ? ColorsTheme().grayColor : Colors.black12),
               const SizedBox(height: 14),
               FadeInUp(
                 duration: const Duration(milliseconds: 400),

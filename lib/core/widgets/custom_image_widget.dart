@@ -18,8 +18,8 @@ class CustomCacheManager extends CacheManager {
       );
 }
 
-class CustomArticleImage extends StatelessWidget {
-  const CustomArticleImage({
+class CustomImageWidget extends StatelessWidget {
+  const CustomImageWidget({
     super.key,
     required this.imageUrl,
     this.height = 140,

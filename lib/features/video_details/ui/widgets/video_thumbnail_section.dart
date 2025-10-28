@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'package:sahifa/features/video_details/ui/widgets/details_video_duration_badge.dart';
 import 'package:sahifa/features/video_details/ui/widgets/details_video_play_button.dart';
 
@@ -15,7 +15,7 @@ class VideoThumbnailSection extends StatelessWidget {
     return FadeInDown(
       child: Stack(
         children: [
-          CustomArticleImage(
+          CustomImageWidget(
             imageUrl: video.videoThumbnailUrl ?? '',
             height: 250,
           ),

@@ -6,7 +6,7 @@ import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_image.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
 
 import 'video_category_and_share_button.dart';
 import 'video_date_and_views.dart';
@@ -45,7 +45,7 @@ class VideoItemCard extends StatelessWidget {
               Stack(
                 children: [
                   // Thumbnail Image
-                  CustomArticleImage(
+                  CustomImageWidget(
                     imageUrl: video.videoThumbnailUrl ?? '',
                     height: 200,
                   ),

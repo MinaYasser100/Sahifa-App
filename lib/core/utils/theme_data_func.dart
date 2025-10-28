@@ -36,7 +36,7 @@ ThemeData themeDataFunc() {
         minimumSize: const Size(double.infinity, 48),
       ),
     ),
-    textTheme: GoogleFonts.notoNaskhArabicTextTheme(),
+    textTheme: GoogleFonts.changaTextTheme(),
     useMaterial3: true,
   );
 }
@@ -77,7 +77,7 @@ ThemeData darkThemeDataFunc() {
       ),
     ),
     cardTheme: CardThemeData(color: ColorsTheme().cardColor, elevation: 4),
-    textTheme: GoogleFonts.notoNaskhArabicTextTheme(),
+    textTheme: GoogleFonts.changaTextTheme(),
     useMaterial3: true,
   );
 }
