@@ -1,37 +1,24 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
-import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/manager/banners_cubit/banners_cubit.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/repo/banner_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_horizontal_bar_category.dart';
 import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
 import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
 import 'package:sahifa/features/home/manger/cateogries_horizontal_bar_cubit/categories_horizontal_bar_cubit.dart';
-import 'package:sahifa/features/home/ui/widgets/drawer/custom_home_drawer.dart';
-import 'package:sahifa/features/home/ui/widgets/home_app_bar.dart';
-import 'package:sahifa/features/home/ui/widgets/home_body_view.dart';
-import 'package:sahifa/features/home/ui/widgets/home_categories_bar/categories_horizontal_bar.dart';
+import 'package:sahifa/features/home/ui/widgets/home_mobile_view.dart';
+import 'package:sahifa/features/home/ui/widgets/home_tablet_view.dart';
 
-import 'widgets/home_categories_bar/home_categories_veiw.dart';
-
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  String _selectedCategoryId = 'home';
-  String _selectedCategorySlug = 'home';
 
   @override
   Widget build(BuildContext context) {
     final language = LanguageHelper.getCurrentLanguageCode(context);
-    final currentLocale = context.locale;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -49,30 +36,15 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ],
-      child: Scaffold(
-        key: ValueKey(currentLocale.languageCode),
-        drawer: CustomHomeDrawer(),
-        appBar: HomeAppBar(),
-        body: Column(
-          children: [
-            // Categories Horizontal Bar
-            CategoriesHorizontalBar(
-              selectedCategoryId: _selectedCategoryId,
-              onCategoryTap: (CategoryFilterModel category) {
-                setState(() {
-                  _selectedCategoryId = category.id;
-                  _selectedCategorySlug = category.slug;
-                });
-              },
-            ),
-            // Body Content
-            Expanded(
-              child: _selectedCategoryId == 'home'
-                  ? HomeBodyView()
-                  : HomeCategoriesView(categorySlug: _selectedCategorySlug),
-            ),
-          ],
-        ),
+      child: AdaptiveLayout(
+        // Mobile Layout - مع Carousel عادي
+        mobileLayout: (context) => const HomeMobileView(),
+
+        // Tablet Layout - مع Horizontal List للبانرز و Grid للترندينج
+        tabletLayout: (context) => const HomeTabletView(),
+
+        // Desktop Layout - نفس الـ Tablet
+        desktopLayout: (context) => const HomeTabletView(),
       ),
     );
   }
