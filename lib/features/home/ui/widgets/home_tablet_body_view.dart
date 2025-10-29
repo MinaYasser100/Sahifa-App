@@ -81,7 +81,9 @@ class _HomeTabletBodyViewState extends State<HomeTabletBodyView> {
               if (categories.isNotEmpty) ...[
                 // First category
                 SliverToBoxAdapter(
-                  child: ArticalsGroupSection(parentCategory: categories[0]),
+                  child: ArticalsGroupSection(
+                    parentCategory: categories[0],
+                  ),
                 ),
 
                 // BooksOpinionsSection after first category

@@ -6,8 +6,8 @@ import 'package:sahifa/core/utils/colors.dart';
 
 import 'trending_articles_list_with_bloc.dart';
 
-class CustomTrendingArticlesSectionBody extends StatelessWidget {
-  const CustomTrendingArticlesSectionBody({super.key});
+class CustomMobileTrendingArticlesSectionBody extends StatelessWidget {
+  const CustomMobileTrendingArticlesSectionBody({super.key});
 
   @override
   Widget build(BuildContext context) {

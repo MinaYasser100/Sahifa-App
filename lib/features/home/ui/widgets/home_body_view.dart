@@ -114,7 +114,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
 
                 // CustomTrendingArticlesSection after last category
                 const SliverToBoxAdapter(
-                  child: CustomTrendingArticlesSection(),
+                  child: CustomMobileTrendingArticlesSection(),
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 70)),
               ]
@@ -122,7 +122,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
               else ...[
                 const SliverToBoxAdapter(child: BooksOpinionsSection()),
                 const SliverToBoxAdapter(
-                  child: CustomTrendingArticlesSection(),
+                  child: CustomMobileTrendingArticlesSection(),
                 ),
                 const SliverToBoxAdapter(child: SizedBox(height: 70)),
               ],
@@ -135,7 +135,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
             SliverToBoxAdapter(child: CustomBannerCarouselSection()),
             SliverToBoxAdapter(child: CustomAudioMagazineSection()),
             SliverToBoxAdapter(child: BooksOpinionsSection()),
-            SliverToBoxAdapter(child: CustomTrendingArticlesSection()),
+            SliverToBoxAdapter(child: CustomMobileTrendingArticlesSection()),
             SliverFillRemaining(
               child: Center(child: Text('No categories found')),
             ),

@@ -9,9 +9,7 @@ import 'package:sahifa/core/widgets/custom_trending/manager/trending_cubit/trend
 import 'tablet_trending_article_card.dart';
 
 class TabletTrendingArticlesGridBloc extends StatelessWidget {
-  const TabletTrendingArticlesGridBloc({
-    super.key,
-  });
+  const TabletTrendingArticlesGridBloc({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class TabletTrendingArticlesGridBloc extends StatelessWidget {
               ),
             );
           }
-    
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: GridView.builder(
@@ -55,7 +53,7 @@ class TabletTrendingArticlesGridBloc extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 2.3,
+                childAspectRatio: 1.8,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
@@ -77,7 +75,7 @@ class TabletTrendingArticlesGridBloc extends StatelessWidget {
             ),
           );
         }
-    
+
         return const SizedBox.shrink();
       },
     );

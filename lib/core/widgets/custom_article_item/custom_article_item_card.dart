@@ -5,6 +5,7 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_content.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 
 class CustomArticleItemCard extends StatelessWidget {
   const CustomArticleItemCard({
@@ -20,12 +21,13 @@ class CustomArticleItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isTablet = ResponsiveHelper.isTablet(context);
 
     return SizedBox(
-      height: 325,
+      height: isTablet ? 380 : 325,
       child: FadeInLeft(
         child: Container(
-          width: cardWidth,
+          width: isTablet ? 320 : cardWidth,
           margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
           decoration: BoxDecoration(
             color: isDarkMode
@@ -40,7 +42,7 @@ class CustomArticleItemCard extends StatelessWidget {
                   // Image Section
                   CustomImageWidget(
                     imageUrl: articleItem.image ?? '',
-                    height: 180,
+                    height: isTablet ? 250 : 180,
                   ),
                   // Content Section
                   CustomArticleItemContent(articleItem: articleItem),

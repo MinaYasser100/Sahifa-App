@@ -14,7 +14,10 @@ import 'package:sahifa/features/home/manger/articles_home_category_cubit/article
 import '../../../../core/widgets/custom_horizontal_articles_list_section.dart';
 
 class ArticalsGroupSection extends StatelessWidget {
-  const ArticalsGroupSection({super.key, required this.parentCategory});
+  const ArticalsGroupSection({
+    super.key,
+    required this.parentCategory,
+  });
 
   final ParentCategory parentCategory;
 

@@ -45,8 +45,10 @@ class _CardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isDarkMode ? ColorsTheme().cardColor : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: isDarkMode
+            ? ColorsTheme().secondaryColor
+            : ColorsTheme().whiteColor,
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDarkMode ? 0.3 : 0.08),

@@ -81,7 +81,7 @@ class DetailsArticleBodyView extends StatelessWidget {
         ),
 
         // Trending Articles Section
-        SliverToBoxAdapter(child: CustomTrendingArticlesSection()),
+        SliverToBoxAdapter(child: CustomMobileTrendingArticlesSection()),
       ],
     );
   }

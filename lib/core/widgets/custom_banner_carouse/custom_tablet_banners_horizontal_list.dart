@@ -17,7 +17,7 @@ class CustomTabletBannersHorizontalList extends StatelessWidget {
       child: SizedBox(
         height: 270,
         child: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
           itemCount: banners.length,
           itemBuilder: (context, index) {

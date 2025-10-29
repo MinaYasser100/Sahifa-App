@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/horizontal_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
@@ -38,7 +39,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
           // Error State
           if (state is ArticlesHomeCategoryError) {
             return SizedBox(
-              height: 325,
+              height: ResponsiveHelper.isTablet(context) ? 380 : 325,
               child: Center(
                 child: Text(
                   state.message,
@@ -65,8 +66,9 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
             if (filteredArticles.isEmpty) {
               return const SizedBox.shrink();
             }
+            final isTablet = ResponsiveHelper.isTablet(context);
             return SizedBox(
-              height: 325,
+              height: isTablet ? 380 : 325,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10),

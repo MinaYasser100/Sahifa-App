@@ -7,8 +7,8 @@ import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 
 import 'custom_trending_articles_section_body.dart';
 
-class CustomTrendingArticlesSection extends StatelessWidget {
-  const CustomTrendingArticlesSection({super.key});
+class CustomMobileTrendingArticlesSection extends StatelessWidget {
+  const CustomMobileTrendingArticlesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CustomTrendingArticlesSection extends StatelessWidget {
       create: (context) =>
           TrendingCubit(getIt<TrendingRepoImpl>())
             ..fetchTrendingArticles(language),
-      child: const CustomTrendingArticlesSectionBody(),
+      child: const CustomMobileTrendingArticlesSectionBody(),
     );
   }
 }

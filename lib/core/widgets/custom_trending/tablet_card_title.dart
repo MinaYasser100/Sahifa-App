@@ -3,10 +3,7 @@ import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
 class TabletCardTitle extends StatelessWidget {
-  const TabletCardTitle({
-    super.key,
-    required this.title,
-  });
+  const TabletCardTitle({super.key, required this.title});
 
   final String title;
 
@@ -17,12 +14,9 @@ class TabletCardTitle extends StatelessWidget {
     return Text(
       title,
       style: AppTextStyles.styleBold16sp(context).copyWith(
-        color: isDarkMode
-            ? ColorsTheme().whiteColor
-            : ColorsTheme().blackColor,
-        height: 1.3,
+        color: isDarkMode ? ColorsTheme().whiteColor : ColorsTheme().blackColor,
       ),
-      maxLines: 3,
+      maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
   }
