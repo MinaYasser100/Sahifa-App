@@ -7,8 +7,13 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_audio_magazine_section/decoration_circles_widget.dart';
 
 class CustomAudioMagazineSection extends StatelessWidget {
-  const CustomAudioMagazineSection({super.key, this.notMargin = false});
+  const CustomAudioMagazineSection({
+    super.key,
+    this.notMargin = false,
+    this.isDecorated = false,
+  });
   final bool notMargin;
+  final bool isDecorated;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,8 @@ class CustomAudioMagazineSection extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDarkMode
               ? ColorsTheme().primaryLight
+              : isDecorated
+              ? ColorsTheme().primaryColor.withValues(alpha: 0.8)
               : ColorsTheme().primaryColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
@@ -40,7 +47,7 @@ class CustomAudioMagazineSection extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            DecorationCirclesWidget(isDarkMode: isDarkMode),
+            if (isDecorated) DecorationCirclesWidget(isDarkMode: isDarkMode),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
