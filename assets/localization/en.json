@@ -25,9 +25,11 @@
   "name_cannot_be_empty": "Name cannot be empty",
   
   "_comment_app_branding": "===== App Branding =====",
+  "sahifa": "Sahifa",
   "al_thawra": "Al Thawrah",
   "al_thawra_tv": "Al Thawrah TV",
   "your_daily_news_source": "Your Daily News Source",
+  "your_daily_news": "Your Daily News",
   "altharwa_archive": "Altharwa Archive",
   "pdf_viewer": "PDF Viewer",
   

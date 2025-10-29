@@ -3,10 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/ui/home_view.dart';
-import 'package:sahifa/features/pdf/ui/pdf_view.dart';
-import 'package:sahifa/features/reels/ui/reels_view.dart';
-import 'package:sahifa/features/tv/ui/tv_view.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
+import 'package:sahifa/features/layout/ui/widgets/layout_mobile_view.dart';
+import 'package:sahifa/features/layout/ui/widgets/layout_tablet_view.dart';
 
 class LayoutView extends StatefulWidget {
   const LayoutView({super.key});
@@ -16,12 +15,10 @@ class LayoutView extends StatefulWidget {
 }
 
 class _LayoutViewState extends State<LayoutView> {
-  final _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
   final NotchBottomBarController _controller = NotchBottomBarController(
     index: 0,
   );
-
-  int maxCount = 4;
 
   @override
   void dispose() {
@@ -29,24 +26,29 @@ class _LayoutViewState extends State<LayoutView> {
     super.dispose();
   }
 
+  void _onPageChanged(int index) {
+    if (mounted) {
+      _pageController.jumpToPage(index);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Widget> bottomBarPages = [
-      const HomeView(),
-      const ReelsView(),
-      PdfView(),
-      const TvView(),
-    ];
+    return AdaptiveLayout(
+      // Mobile Layout - مع AnimatedNotchBottomBar
+      mobileLayout: (context) => _buildMobileLayout(context),
 
+      // Tablet Layout - مع NavigationRail
+      tabletLayout: (context) => const LayoutTabletView(),
+
+      // Desktop Layout - مع Extended NavigationRail
+      desktopLayout: (context) => const LayoutTabletView(),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(
-          bottomBarPages.length,
-          (index) => bottomBarPages[index],
-        ),
-      ),
+      body: LayoutMobileView(pageController: _pageController),
       extendBody: true,
       bottomNavigationBar: AnimatedNotchBottomBar(
         notchBottomBarController: _controller,
@@ -121,7 +123,7 @@ class _LayoutViewState extends State<LayoutView> {
           ),
         ],
         onTap: (index) {
-          _pageController.jumpToPage(index);
+          _onPageChanged(index);
         },
         kIconSize: 24.0,
       ),

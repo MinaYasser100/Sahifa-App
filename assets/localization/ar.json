@@ -25,9 +25,11 @@
   "name_cannot_be_empty": "الاسم لا يمكن أن يكون فارغًا",
   
   "_comment_app_branding": "===== App Branding =====",
+  "sahifa": "صحيفة",
   "al_thawra": "الثورة",
   "al_thawra_tv": "تلفزيون الثورة",
   "your_daily_news_source": "مصدر أخبارك اليومية",
+  "your_daily_news": "أخبارك اليومية",
   "altharwa_archive": "أرشيف الثورة",
   "pdf_viewer": "عارض PDF",
   
