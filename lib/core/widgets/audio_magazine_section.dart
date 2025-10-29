@@ -4,10 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/ui/widgets/decoration_circles_widget.dart';
+import 'package:sahifa/core/widgets/custom_audio_magazine_section/decoration_circles_widget.dart';
 
 class AudioMagazineSection extends StatelessWidget {
-  const AudioMagazineSection({super.key});
+  const AudioMagazineSection({super.key, this.notMargin = false});
+  final bool notMargin;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class AudioMagazineSection extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 80,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: EdgeInsets.symmetric(horizontal: notMargin ? 0 : 16, vertical: 12),
         decoration: BoxDecoration(
           color: isDarkMode
               ? ColorsTheme().primaryLight

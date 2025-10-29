@@ -32,7 +32,7 @@ class CategoryCard extends StatelessWidget {
                   right: -20,
                   child: Container(
                     width: 80,
-                    height: 80,
+                    height: 50,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: isDarkMode
@@ -59,7 +59,6 @@ class CategoryCard extends StatelessWidget {
                 CategoryCardContent(
                   categoryName: categoryName,
                   icon: _getCategoryIcon(categoryName),
-                  isLarge: isLarge,
                 ),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/widgets/custom_audio_magazine_section/custom_audio_magazine_section.dart';
 import 'package:sahifa/core/widgets/custom_banner_carouse/custom_banner_carousel_section.dart';
 import 'package:sahifa/core/widgets/custom_categories_loading_widget.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
@@ -8,7 +9,6 @@ import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_sec
 import 'package:sahifa/features/home/manger/cateogries_horizontal_bar_cubit/categories_horizontal_bar_cubit.dart';
 
 import 'articals_group_section.dart';
-import 'audio_magazine_section.dart';
 import 'books_opinions_section.dart';
 
 class HomeBodyView extends StatefulWidget {
@@ -43,7 +43,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           return const CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: CustomBannerCarouselSection()),
-              SliverToBoxAdapter(child: AudioMagazineSection()),
+              SliverToBoxAdapter(child: CustomAudioMagazineSection()),
               SliverToBoxAdapter(child: CustomCategoriesLoadingWidget()),
             ],
           );
@@ -51,7 +51,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           return CustomScrollView(
             slivers: [
               const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
-              const SliverToBoxAdapter(child: AudioMagazineSection()),
+              const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
               SliverFillRemaining(
                 child: CustomErrorLoadingWidget(
                   message: state.errorMessage,
@@ -76,7 +76,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
               const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
 
               // Audio Magazine Section (always visible)
-              const SliverToBoxAdapter(child: AudioMagazineSection()),
+              const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
 
               // If we have categories
               if (categories.isNotEmpty) ...[
@@ -133,7 +133,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
         return const CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: CustomBannerCarouselSection()),
-            SliverToBoxAdapter(child: AudioMagazineSection()),
+            SliverToBoxAdapter(child: CustomAudioMagazineSection()),
             SliverToBoxAdapter(child: BooksOpinionsSection()),
             SliverToBoxAdapter(child: CustomTrendingArticlesSection()),
             SliverFillRemaining(

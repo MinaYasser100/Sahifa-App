@@ -7,19 +7,17 @@ class CategoryCardContent extends StatelessWidget {
     super.key,
     required this.categoryName,
     required this.icon,
-    required this.isLarge,
   });
 
   final String categoryName;
   final IconData icon;
-  final bool isLarge;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(isLarge ? 24 : 16),
+        padding: EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -38,14 +36,10 @@ class CategoryCardContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: FadeInRight(
-                child: Icon(
-                  icon,
-                  color: ColorsTheme().whiteColor,
-                  size: isLarge ? 32 : 24,
-                ),
+                child: Icon(icon, color: ColorsTheme().whiteColor, size: 24),
               ),
             ),
-            SizedBox(height: isLarge ? 16 : 12),
+            SizedBox(height: 12),
 
             // Category Name
             FadeInUp(
@@ -56,7 +50,7 @@ class CategoryCardContent extends StatelessWidget {
                   color: isDarkMode
                       ? ColorsTheme().whiteColor
                       : ColorsTheme().primaryDark,
-                  fontSize: isLarge ? 18 : 15,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.3,
                   height: 1.2,
