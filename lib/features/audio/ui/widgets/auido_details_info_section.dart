@@ -53,9 +53,12 @@ class AudioDetailsInfoSection extends StatelessWidget {
               duration: const Duration(milliseconds: 350),
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.play_arrow_rounded, size: 24),
-                label: Text(
-                  'listen_now'.tr(),
-                  style: AppTextStyles.styleBold16sp(context),
+                label: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'listen_now'.tr(),
+                    style: AppTextStyles.styleBold16sp(context),
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(shape: StadiumBorder()),
                 onPressed: onListenPressed,

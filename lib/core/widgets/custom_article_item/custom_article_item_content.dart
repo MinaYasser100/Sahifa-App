@@ -23,7 +23,6 @@ class CustomArticleItemContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // العنوان
             FadeInLeft(
               child: Row(
                 children: [

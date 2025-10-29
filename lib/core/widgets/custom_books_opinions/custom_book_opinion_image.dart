@@ -41,7 +41,7 @@ class CustomBookOpinionImage extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imageUrl,
-              width: isListItem ? 120 : 100,
+              width: isListItem ? 120 : 90,
               height: isListItem ? 120 : 100,
               fit: BoxFit.fill,
               errorBuilder: (context, error, stackTrace) {
@@ -83,11 +83,14 @@ class CustomBookOpinionImage extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Text(
-            'محمد محمود',
-            style: AppTextStyles.styleBold20sp(
-              context,
-            ).copyWith(color: ColorsTheme().whiteColor),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'محمد محمود',
+              style: AppTextStyles.styleBold16sp(
+                context,
+              ).copyWith(color: ColorsTheme().whiteColor),
+            ),
           ),
         ],
       ),
