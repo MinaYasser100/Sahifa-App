@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
-import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
+import 'package:sahifa/core/widgets/custom_article_item/tablet_grid_article_card.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/tablet_grid_book_opinion_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/core/widgets/vertical_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
@@ -62,9 +62,9 @@ class TabletOtherCategoriesGrid extends StatelessWidget {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 2.3,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
+                          childAspectRatio: 0.8,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return GestureDetector(
@@ -75,15 +75,11 @@ class TabletOtherCategoriesGrid extends StatelessWidget {
                           );
                         },
                         child: (categorySlug == 'books_opinions')
-                            ? CustomBooksOpinionsItem(
+                            ? TabletGridBookOpinionCard(
                                 articleItem: articles[index],
-                                cardWidth: double.infinity,
-                                isItemList: false,
                               )
-                            : CustomArticleItemCard(
+                            : TabletGridArticleCard(
                                 articleItem: articles[index],
-                                cardWidth: double.infinity,
-                                isItemList: false,
                               ),
                       );
                     }, childCount: articles.length),

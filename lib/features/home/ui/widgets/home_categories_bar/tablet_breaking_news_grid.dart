@@ -53,9 +53,9 @@ class TabletBreakingNewsGrid extends StatelessWidget {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 2.3,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
+                          childAspectRatio: 0.8,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return GestureDetector(
