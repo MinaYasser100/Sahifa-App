@@ -2,23 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
-import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/audio/data/repo/audios_by_category_repo.dart';
 import 'package:sahifa/features/audio/manager/audio_categories_cubit/audio_categories_cubit.dart';
 import 'package:sahifa/features/audio/manager/audios_by_category_cubit/audio_by_category_cubit.dart';
 import 'package:sahifa/features/audio/ui/widgets/audio_category_skeleton.dart';
-import 'package:sahifa/features/audio/ui/widgets/audio_category_with_data_section.dart';
 import 'package:sahifa/features/audio/ui/widgets/tablet_audio_category_grid_section.dart';
 
-class AudioMagazineBodyView extends StatefulWidget {
-  const AudioMagazineBodyView({super.key});
+class TabletAudioMagazineBodyView extends StatefulWidget {
+  const TabletAudioMagazineBodyView({super.key});
 
   @override
-  State<AudioMagazineBodyView> createState() => _AudioMagazineBodyViewState();
+  State<TabletAudioMagazineBodyView> createState() =>
+      _TabletAudioMagazineBodyViewState();
 }
 
-class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
+class _TabletAudioMagazineBodyViewState
+    extends State<TabletAudioMagazineBodyView> {
   bool _isInitialized = false;
 
   @override
@@ -28,8 +28,8 @@ class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
     if (!_isInitialized) {
       final language = context.locale.languageCode;
       context.read<AudioCategoriesCubit>().fetchAudioCategories(
-        language: language,
-      );
+            language: language,
+          );
       _isInitialized = true;
     }
   }
@@ -37,7 +37,6 @@ class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
-    final isTablet = ResponsiveHelper.isTablet(context);
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -60,8 +59,8 @@ class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
                 message: state.message,
                 onPressed: () {
                   context.read<AudioCategoriesCubit>().fetchAudioCategories(
-                    language: language,
-                  );
+                        language: language,
+                      );
                 },
               ),
             );
@@ -82,8 +81,8 @@ class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
             return RefreshIndicator(
               onRefresh: () async {
                 context.read<AudioCategoriesCubit>().fetchAudioCategories(
-                  language: language,
-                );
+                      language: language,
+                    );
               },
               child: ListView.builder(
                 itemCount: categories.length,
@@ -91,22 +90,16 @@ class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
                   final category = categories[index];
 
                   return BlocProvider(
-                    create: (context) =>
-                        AudioByCategoryCubit(
-                          AudiosByCategoryRepoImpl(DioHelper()),
-                        )..fetchAudiosByCategory(
-                          categorySlug: category.slug ?? '',
-                          language: language,
-                        ),
-                    child: isTablet
-                        ? TabletAudioCategoryGridSection(
-                            category: category,
-                            language: language,
-                          )
-                        : AudioCategoryWithDataSection(
-                            category: category,
-                            language: language,
-                          ),
+                    create: (context) => AudioByCategoryCubit(
+                      AudiosByCategoryRepoImpl(DioHelper()),
+                    )..fetchAudiosByCategory(
+                        categorySlug: category.slug ?? '',
+                        language: language,
+                      ),
+                    child: TabletAudioCategoryGridSection(
+                      category: category,
+                      language: language,
+                    ),
                   );
                 },
               ),

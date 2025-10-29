@@ -6,15 +6,32 @@ import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/features/audio/ui/widgets/auido_details_info_section.dart';
 import 'package:sahifa/features/audio/ui/widgets/book_image_section.dart';
 import 'package:sahifa/features/audio/ui/widgets/description_section.dart';
 import 'package:sahifa/features/audio/ui/widgets/related_audio_books_section.dart';
+import 'package:sahifa/features/audio/ui/widgets/tablet_audio_book_details_body.dart';
 
 class AudioBookDetailsView extends StatelessWidget {
   final AudioItemModel audioItem;
 
   const AudioBookDetailsView({super.key, required this.audioItem});
+
+  @override
+  Widget build(BuildContext context) {
+    return AdaptiveLayout(
+      mobileLayout: (context) => _MobileAudioBookDetailsView(audioItem: audioItem),
+      tabletLayout: (context) => TabletAudioBookDetailsBody(audioItem: audioItem),
+      desktopLayout: (context) => TabletAudioBookDetailsBody(audioItem: audioItem),
+    );
+  }
+}
+
+class _MobileAudioBookDetailsView extends StatelessWidget {
+  final AudioItemModel audioItem;
+
+  const _MobileAudioBookDetailsView({required this.audioItem});
 
   @override
   Widget build(BuildContext context) {

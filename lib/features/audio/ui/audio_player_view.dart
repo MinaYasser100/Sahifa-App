@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 import 'package:sahifa/core/theme/app_style.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/features/audio/data/repo/audio_player_repo.dart';
 import 'package:sahifa/features/audio/manager/audio_player_cubit/audio_player_cubit.dart';
 import 'package:sahifa/features/audio/ui/widgets/audio_cover_image.dart';
@@ -12,6 +13,7 @@ import 'package:sahifa/features/audio/ui/widgets/audio_info_header.dart';
 import 'package:sahifa/features/audio/ui/widgets/audio_player_controls.dart';
 import 'package:sahifa/features/audio/ui/widgets/audio_progress_bar.dart';
 import 'package:sahifa/features/audio/ui/widgets/audio_speed_control.dart';
+import 'package:sahifa/features/audio/ui/widgets/tablet_audio_player_body.dart';
 
 class AudioPlayerView extends StatelessWidget {
   final AudioItemModel audioItem;
@@ -24,7 +26,11 @@ class AudioPlayerView extends StatelessWidget {
       create: (context) =>
           AudioPlayerCubit(AudioPlayerRepoImpl())
             ..initializeAudio(audioItem.audioUrl!),
-      child: _AudioPlayerBody(audioItem: audioItem),
+      child: AdaptiveLayout(
+        mobileLayout: (context) => _AudioPlayerBody(audioItem: audioItem),
+        tabletLayout: (context) => TabletAudioPlayerBody(audioItem: audioItem),
+        desktopLayout: (context) => TabletAudioPlayerBody(audioItem: audioItem),
+      ),
     );
   }
 }
