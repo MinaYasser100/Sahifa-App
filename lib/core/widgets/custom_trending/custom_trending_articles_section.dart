@@ -5,7 +5,7 @@ import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_trending/manager/trending_cubit/trending_cubit.dart';
 import 'package:sahifa/core/widgets/custom_trending/repo/trending_repo.dart';
 
-import 'custom_trending_articles_section_body.dart';
+import 'custom_mobile_trending_articles_section_body.dart';
 
 class CustomMobileTrendingArticlesSection extends StatelessWidget {
   const CustomMobileTrendingArticlesSection({super.key});

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_content.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 
@@ -21,11 +22,12 @@ class CustomBooksOpinionsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isTablet = ResponsiveHelper.isTablet(context);
 
     return FadeInLeft(
       child: Container(
-        width: cardWidth,
-        height: 330,
+        width: isTablet ? 320 : cardWidth,
+        height: isTablet ? 380 : 330,
         margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
         decoration: BoxDecoration(
           color: isDarkMode
@@ -40,7 +42,7 @@ class CustomBooksOpinionsItem extends StatelessWidget {
                 // Image Section
                 CustomBookOpinionImage(
                   imageUrl: articleItem.image ?? '',
-                  containerWidth: cardWidth,
+                  containerWidth: isTablet ? 320 : cardWidth,
                 ),
                 // Content Section
                 CustomArticleItemContent(articleItem: articleItem),

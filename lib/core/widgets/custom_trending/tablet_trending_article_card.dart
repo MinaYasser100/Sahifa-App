@@ -2,8 +2,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_trending/tablet_card_image_section.dart';
-import 'package:sahifa/core/widgets/custom_trending/tablet_card_content_section.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_content.dart';
+import 'package:sahifa/core/widgets/custom_trending/tablet_card_index_badge.dart';
 
 class TabletTrendingArticleCard extends StatelessWidget {
   const TabletTrendingArticleCard({
@@ -21,51 +22,34 @@ class TabletTrendingArticleCard extends StatelessWidget {
 
     return FadeInUp(
       delay: Duration(milliseconds: index * 50),
-      child: _CardContainer(
-        isDarkMode: isDarkMode,
-        articleItem: articleItem,
-        index: index,
-      ),
-    );
-  }
-}
-
-class _CardContainer extends StatelessWidget {
-  const _CardContainer({
-    required this.isDarkMode,
-    required this.articleItem,
-    required this.index,
-  });
-
-  final bool isDarkMode;
-  final ArticleModel articleItem;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? ColorsTheme().secondaryColor
-            : ColorsTheme().whiteColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDarkMode ? 0.3 : 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TabletCardImageSection(
-            imageUrl: articleItem.image ?? '',
-            index: index,
-          ),
-          TabletCardContentSection(articleItem: articleItem),
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? ColorsTheme().primaryDark
+              : ColorsTheme().whiteColor,
+        ),
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Image Section
+                CustomImageWidget(
+                  imageUrl: articleItem.image ?? '',
+                  height: 250,
+                ),
+                // Content Section
+                CustomArticleItemContent(articleItem: articleItem),
+              ],
+            ),
+            // Index Badge instead of Heart Icon
+            Positioned(
+              top: 8,
+              right: 8,
+              child: TabletCardIndexBadge(index: index),
+            ),
+          ],
+        ),
       ),
     );
   }

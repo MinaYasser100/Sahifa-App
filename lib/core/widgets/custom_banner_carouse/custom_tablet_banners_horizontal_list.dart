@@ -24,7 +24,7 @@ class CustomTabletBannersHorizontalList extends StatelessWidget {
             return FadeInRight(
               delay: Duration(milliseconds: index * 100),
               child: Padding(
-                padding: const EdgeInsets.only(right: 16),
+                padding: const EdgeInsets.only(left: 16),
                 child: GestureDetector(
                   onTap: () {
                     context.push(

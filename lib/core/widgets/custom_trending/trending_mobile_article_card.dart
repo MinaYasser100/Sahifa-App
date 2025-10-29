@@ -7,8 +7,8 @@ import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'custom_index_badge.dart';
 import 'trend_card_content.dart';
 
-class TrendingArticleCard extends StatelessWidget {
-  const TrendingArticleCard({
+class TrendingMobileArticleCard extends StatelessWidget {
+  const TrendingMobileArticleCard({
     super.key,
     required this.articleItem,
     required this.index,

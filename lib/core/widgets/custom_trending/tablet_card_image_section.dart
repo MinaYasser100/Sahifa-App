@@ -25,7 +25,11 @@ class TabletCardImageSection extends StatelessWidget {
             changeBorderRadius: true,
           ),
           const TabletCardGradientOverlay(),
-          TabletCardIndexBadge(index: index),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: TabletCardIndexBadge(index: index),
+          ),
         ],
       ),
     );

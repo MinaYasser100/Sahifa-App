@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 
 class CustomBookOpinionImage extends StatelessWidget {
   const CustomBookOpinionImage({
@@ -18,10 +19,11 @@ class CustomBookOpinionImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final imageSize = containerWidth / 2;
+    final isTablet = ResponsiveHelper.isTablet(context);
 
     return Container(
       width: containerWidth,
-      height: isListItem ? 220 : 180,
+      height: isTablet ? 240 : (isListItem ? 220 : 180),
       decoration: BoxDecoration(
         color: ColorsTheme().primaryColor,
         borderRadius: isListItem ? null : BorderRadius.circular(8),
@@ -41,8 +43,8 @@ class CustomBookOpinionImage extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imageUrl,
-              width: isListItem ? 120 : 90,
-              height: isListItem ? 120 : 100,
+              width: isTablet ? 120 : (isListItem ? 120 : 90),
+              height: isTablet ? 120 : (isListItem ? 120 : 100),
               fit: BoxFit.fill,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
@@ -82,7 +84,7 @@ class CustomBookOpinionImage extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -92,6 +94,7 @@ class CustomBookOpinionImage extends StatelessWidget {
               ).copyWith(color: ColorsTheme().whiteColor),
             ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
     );

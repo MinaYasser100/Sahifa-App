@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
-import 'trending_articles_list_with_bloc.dart';
+import 'trending_mobile_articles_list_with_bloc.dart';
 
 class CustomMobileTrendingArticlesSectionBody extends StatelessWidget {
   const CustomMobileTrendingArticlesSectionBody({super.key});
@@ -44,7 +44,7 @@ class CustomMobileTrendingArticlesSectionBody extends StatelessWidget {
         ),
 
         // Trending Articles List with BLoC
-        TrendingArticlesListWithBLoC(),
+        TrendingMobileArticlesListWithBLoC(),
         const SizedBox(height: 24),
       ],
     );

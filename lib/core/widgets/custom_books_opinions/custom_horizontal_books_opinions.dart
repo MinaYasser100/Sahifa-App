@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 
 class CustomHorizontalBooksOpinions extends StatelessWidget {
@@ -11,6 +12,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveHelper.isTablet(context);
     final ArticleModel articlesItems = ArticleModel(
       authorName: "Author Name",
       categoryName: "category_economy".tr(),
@@ -35,7 +37,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
       viewsCount: 50000,
     );
     return SizedBox(
-      height: 330,
+      height: isTablet ? 400 : 330,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 10),

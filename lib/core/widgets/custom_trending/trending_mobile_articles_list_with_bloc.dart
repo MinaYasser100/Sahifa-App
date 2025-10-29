@@ -5,12 +5,12 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/core/widgets/custom_trending/manager/trending_cubit/trending_cubit.dart';
-import 'package:sahifa/core/widgets/custom_trending/trending_article_card.dart';
+import 'package:sahifa/core/widgets/custom_trending/trending_mobile_article_card.dart';
 
 import 'trending_empty_state.dart';
 
-class TrendingArticlesListWithBLoC extends StatelessWidget {
-  const TrendingArticlesListWithBLoC({super.key});
+class TrendingMobileArticlesListWithBLoC extends StatelessWidget {
+  const TrendingMobileArticlesListWithBLoC({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class TrendingArticlesListWithBLoC extends StatelessWidget {
                     extra: state.articles[index],
                   );
                 },
-                child: TrendingArticleCard(
+                child: TrendingMobileArticleCard(
                   articleItem: state.articles[index],
                   index: index,
                 ),
