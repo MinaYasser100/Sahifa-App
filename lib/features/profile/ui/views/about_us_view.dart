@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/features/profile/data/model/feature_card_model.dart';
+import 'package:sahifa/features/profile/ui/views/tablet_about_us_view.dart';
 import 'package:sahifa/features/profile/ui/widgets/about_us_widgets/features_grid.dart';
 import 'package:sahifa/features/profile/ui/widgets/about_us_widgets/hero_section.dart';
 import 'package:sahifa/features/profile/ui/widgets/about_us_widgets/info_card.dart';
@@ -12,6 +14,14 @@ class AboutUsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return AdaptiveLayout(
+      mobileLayout: (context) => _buildMobileLayout(context),
+      tabletLayout: (context) => const TabletAboutUsView(),
+      desktopLayout: (context) => const TabletAboutUsView(),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     final colors = ColorsTheme();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 

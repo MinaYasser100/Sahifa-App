@@ -34,28 +34,31 @@ class TabletAudioPlayerBody extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 40),
           child: Row(
             children: [
-              // Left Side - Cover Image
+              // Left Side - Cover Image (Larger)
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AudioCoverImage(
-                      imageUrl: audioItem.thumbnailUrl,
-                      audioId: audioItem.id ?? '',
+                    Expanded(
+                      child: AudioCoverImage(
+                        imageUrl: audioItem.thumbnailUrl,
+                        audioId: audioItem.id ?? '',
+                      ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 40),
                     AudioInfoHeader(
                       title: audioItem.title,
                       authorName: audioItem.authorName,
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
-              const SizedBox(width: 60),
+              const SizedBox(width: 80),
               // Right Side - Controls
               Expanded(
                 flex: 2,

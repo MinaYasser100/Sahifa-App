@@ -8,6 +8,7 @@ import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/home/manger/articles_drawer_subcategory_cubit/articles_drawer_subcategory_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_content.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/empty_articles_state.dart';
+import 'package:sahifa/features/home/ui/widgets/drawer/tablet_drawer_skeleton.dart';
 
 class TabletDrawerSubcategoryGrid extends StatelessWidget {
   const TabletDrawerSubcategoryGrid({
@@ -29,7 +30,7 @@ class TabletDrawerSubcategoryGrid extends StatelessWidget {
     >(
       builder: (context, state) {
         if (state is ArticlesDrawerSubcategoryLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const TabletDrawerSkeleton();
         }
 
         if (state is ArticlesDrawerSubcategoryError) {

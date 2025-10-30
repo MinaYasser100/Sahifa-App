@@ -5,9 +5,9 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/tablet_grid_article_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/tablet_grid_book_opinion_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/core/widgets/vertical_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/empty_articles_view.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_grid_articles_skeleton.dart';
 
 class TabletOtherCategoriesGrid extends StatelessWidget {
   const TabletOtherCategoriesGrid({
@@ -29,7 +29,7 @@ class TabletOtherCategoriesGrid extends StatelessWidget {
     >(
       builder: (context, state) {
         if (state is ArticlesHorizontalBarCategoryLoading) {
-          return const VerticalArticlesLoadingSkeleton();
+          return const TabletGridArticlesSkeleton();
         } else if (state is ArticlesHorizontalBarCategoryError) {
           return CustomErrorLoadingWidget(
             message: state.message,

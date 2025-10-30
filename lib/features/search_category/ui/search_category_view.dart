@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/empty_articles_view.dart';
 import 'package:sahifa/features/search_category/data/repo/articles_search_category_repo.dart';
 import 'package:sahifa/features/search_category/manager/articles_search_category_cubit/articles_search_category_cubit.dart';
 import 'package:sahifa/features/search_category/ui/widgets/search_category_list_body.dart';
 import 'package:sahifa/features/search_category/ui/widgets/search_category_loading_widget.dart';
+import 'package:sahifa/features/search_category/ui/widgets/tablet_search_category_grid.dart';
+import 'package:sahifa/features/search_category/ui/widgets/tablet_search_category_skeleton.dart';
 
 class SearchCategoryView extends StatefulWidget {
   const SearchCategoryView({super.key, required this.category});
@@ -46,6 +49,7 @@ class _SearchCategoryViewState extends State<SearchCategoryView> {
   @override
   Widget build(BuildContext context) {
     final isBookOpinion = widget.category.id == 'books_opinions';
+    final isTablet = ResponsiveHelper.isTablet(context);
 
     return BlocProvider.value(
       value: _cubit,
@@ -58,7 +62,9 @@ class _SearchCategoryViewState extends State<SearchCategoryView> {
             >(
               builder: (context, state) {
                 if (state is ArticlesSearchCategoryLoading) {
-                  return const SearchCategoryLoadingWidget();
+                  return isTablet
+                      ? const TabletSearchCategorySkeleton()
+                      : const SearchCategoryLoadingWidget();
                 } else if (state is ArticlesSearchCategoryError) {
                   return CustomErrorLoadingWidget(
                     message: state.error.toString(),
@@ -75,18 +81,30 @@ class _SearchCategoryViewState extends State<SearchCategoryView> {
                           .read<ArticlesSearchCategoryCubit>()
                           .refresh();
                     },
-                    child: SearchCategoryListBody(
-                      articles: state.articles,
-                      hasMore: state.hasMore,
-                      isBookOpinion: isBookOpinion,
-                    ),
+                    child: isTablet
+                        ? TabletSearchCategoryGrid(
+                            articles: state.articles,
+                            hasMore: state.hasMore,
+                            isBookOpinion: isBookOpinion,
+                          )
+                        : SearchCategoryListBody(
+                            articles: state.articles,
+                            hasMore: state.hasMore,
+                            isBookOpinion: isBookOpinion,
+                          ),
                   );
                 } else if (state is ArticlesSearchCategoryLoadingMore) {
-                  return SearchCategoryListBody(
-                    articles: state.currentArticles,
-                    hasMore: true,
-                    isBookOpinion: isBookOpinion,
-                  );
+                  return isTablet
+                      ? TabletSearchCategoryGrid(
+                          articles: state.currentArticles,
+                          hasMore: true,
+                          isBookOpinion: isBookOpinion,
+                        )
+                      : SearchCategoryListBody(
+                          articles: state.currentArticles,
+                          hasMore: true,
+                          isBookOpinion: isBookOpinion,
+                        );
                 }
 
                 return const SizedBox();

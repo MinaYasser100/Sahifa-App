@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/features/altharwa_archive/manager/magazines_cubit/magazines_cubit.dart';
 
 import 'magazines_empty_widget.dart';
@@ -7,6 +8,8 @@ import 'magazines_error_widget.dart';
 import 'magazines_grid_view.dart';
 import 'magazines_loading_more_indicator.dart';
 import 'magazines_loading_widget.dart';
+import 'tablet_magazines_grid.dart';
+import 'tablet_magazines_skeleton.dart';
 
 class AlthawraArchiveBlocBuilderBody extends StatelessWidget {
   const AlthawraArchiveBlocBuilderBody({
@@ -18,10 +21,14 @@ class AlthawraArchiveBlocBuilderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveHelper.isTablet(context);
+    
     return BlocBuilder<MagazinesCubit, MagazinesState>(
       builder: (context, state) {
         if (state is MagazinesLoading) {
-          return const MagazinesLoadingWidget();
+          return isTablet
+              ? const TabletMagazinesSkeleton()
+              : const MagazinesLoadingWidget();
         }
 
         if (state is MagazinesError) {
@@ -40,10 +47,15 @@ class AlthawraArchiveBlocBuilderBody extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: MagazinesGridView(
-                  magazines: magazines,
-                  scrollController: _scrollController,
-                ),
+                child: isTablet
+                    ? TabletMagazinesGrid(
+                        magazines: magazines,
+                        scrollController: _scrollController,
+                      )
+                    : MagazinesGridView(
+                        magazines: magazines,
+                        scrollController: _scrollController,
+                      ),
               ),
               // Loading more indicator
               if (state is MagazinesLoadingMore)

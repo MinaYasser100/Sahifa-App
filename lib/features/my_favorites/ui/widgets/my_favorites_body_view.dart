@@ -2,11 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/my_favorites/manager/my_favorite_cubit/my_favorite_cubit.dart';
 
 import 'my_favorites_empty_list_widget.dart';
 import 'my_favorites_list_widget.dart';
+import 'tablet_favorites_grid.dart';
 
 class MyFavoritesBodyView extends StatelessWidget {
   const MyFavoritesBodyView({super.key});
@@ -50,11 +52,15 @@ class MyFavoritesBodyView extends StatelessWidget {
           }
 
           // List of Favorites
+          final isTablet = ResponsiveHelper.isTablet(context);
+          
           return RefreshIndicator(
             onRefresh: () async {
               await context.read<MyFavoriteCubit>().refreshFavorites();
             },
-            child: MyFavoritesListWidget(favorites: favorites),
+            child: isTablet
+                ? TabletFavoritesGrid(favorites: favorites)
+                : MyFavoritesListWidget(favorites: favorites),
           );
         }
 
