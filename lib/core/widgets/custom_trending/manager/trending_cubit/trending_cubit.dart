@@ -10,6 +10,17 @@ class TrendingCubit extends Cubit<TrendingState> {
 
   final TrendingRepo trendingRepo;
 
+  @override
+  void emit(TrendingState state) {
+    if (!isClosed) {
+      try {
+        super.emit(state);
+      } catch (_) {
+        // Ignore all emit errors when closed
+      }
+    }
+  }
+
   /// Fetch trending articles from repository
   Future<void> fetchTrendingArticles(String language) async {
     if (isClosed) return;

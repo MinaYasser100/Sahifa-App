@@ -10,18 +10,38 @@ class DetailsArticleCubit extends Cubit<DetailsArticleState> {
     : super(DetailsArticleInitial());
   final DetailsArticleRepo _detailsArticleRepo;
 
+  @override
+  void emit(DetailsArticleState state) {
+    if (!isClosed) {
+      try {
+        super.emit(state);
+      } catch (_) {
+        // Ignore all emit errors when closed
+      }
+    }
+  }
+
   Future<void> fetchArticleDetails({
     required String articleSlug,
     required String categorySlug,
   }) async {
+    if (isClosed) return;
+
     emit(DetailsArticleLoading());
     final result = await _detailsArticleRepo.getArticleDetails(
       articleSlug: articleSlug,
       categorySlug: categorySlug,
     );
+
+    if (isClosed) return;
+
     result.fold(
-      (error) => emit(DetailsArticleError(error)),
-      (article) => emit(DetailsArticleLoaded(article)),
+      (error) {
+        if (!isClosed) emit(DetailsArticleError(error));
+      },
+      (article) {
+        if (!isClosed) emit(DetailsArticleLoaded(article));
+      },
     );
   }
 }

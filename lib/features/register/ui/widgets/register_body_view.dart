@@ -1,8 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
+import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
+import 'package:sahifa/features/auth/data/models/register_request.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_cubit.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_state.dart';
 import 'package:sahifa/features/register/ui/widgets/register_footer_section.dart';
 import 'package:sahifa/features/register/ui/widgets/register_form_fields.dart';
 import 'package:sahifa/features/register/ui/widgets/register_header_section.dart';
@@ -33,8 +39,21 @@ class RegisterBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
-      builder: (context, state) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, authState) {
+        if (authState is Authenticated) {
+          // After successful registration, go directly to home
+          showSuccessToast(context, 'success'.tr(), 'registration_successful'.tr());
+          context.go(Routes.homeView);
+        } else if (authState is AuthError) {
+          showErrorToast(context, 'error'.tr(), authState.message);
+        }
+      },
+      builder: (context, authState) {
+        final isLoading = authState is AuthLoading;
+        
+        return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
+          builder: (context, state) {
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Form(
@@ -65,9 +84,16 @@ class RegisterBodyView extends StatelessWidget {
                 // Register Button
                 CustomButton(
                   text: 'create_account'.tr(),
-                  onPressed: () {
+                  isLoading: isLoading,
+                  onPressed: isLoading ? null : () {
                     if (formKey.currentState!.validate()) {
-                      // Handle registration logic here
+                      final request = RegisterRequest(
+                        name: fullNameController.text.trim(),
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                        passwordConfirmation: confirmPasswordController.text.trim(),
+                      );
+                      context.read<AuthCubit>().register(request);
                     } else {
                       context
                           .read<AutovalidateModeCubit>()
@@ -83,6 +109,8 @@ class RegisterBodyView extends StatelessWidget {
               ],
             ),
           ),
+        );
+          },
         );
       },
     );

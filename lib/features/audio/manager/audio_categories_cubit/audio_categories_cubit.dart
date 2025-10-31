@@ -10,14 +10,19 @@ class AudioCategoriesCubit extends Cubit<AudioCategoriesState> {
     : super(AudioCategoriesInitial());
   final AudioCategoriesRepo _audioCategoriesRepo;
   Future<void> fetchAudioCategories({required String language}) async {
+    if (isClosed) return;
+    
     emit(AudioCategoriesLoading());
     final result = await _audioCategoriesRepo.fetchAudioCategories(language);
+    
+    if (isClosed) return;
+    
     result.fold(
       (failure) {
-        emit(AudioCategoriesError(message: failure));
+        if (!isClosed) emit(AudioCategoriesError(message: failure));
       },
       (categories) {
-        emit(AudioCategoriesLoaded(categories: categories));
+        if (!isClosed) emit(AudioCategoriesLoaded(categories: categories));
       },
     );
   }

@@ -40,7 +40,12 @@ class RegisterFormFields extends StatelessWidget {
               controller: fullNameController,
               keyboardType: TextInputType.name,
               hintText: 'full_name'.tr(),
-              validator: Validation.validateFullName,
+              validator: (vlaue) {
+                if (vlaue == null || vlaue.isEmpty) {
+                  return 'full_name'.tr();
+                }
+                return null;
+              },
               focusNode: fullNameFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {

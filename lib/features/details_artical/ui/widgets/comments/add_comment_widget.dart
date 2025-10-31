@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
+import 'package:sahifa/core/utils/auth_checker.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_text_form_field.dart';
 
@@ -17,7 +18,25 @@ class _AddCommentWidgetState extends State<AddCommentWidget> {
   final FocusNode _focusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    // Listen to focus changes
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() async {
+    if (_focusNode.hasFocus) {
+      // Check authentication when user tries to comment
+      if (!await AuthChecker.checkAuthAndNavigate(context)) {
+        // User not logged in - unfocus the field
+        _focusNode.unfocus();
+      }
+    }
+  }
+
+  @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
     _commentController.dispose();
     _focusNode.dispose();
     super.dispose();

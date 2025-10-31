@@ -21,6 +21,8 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
     required String categorySlug,
     required String language,
   }) async {
+    if (isClosed) return;
+    
     // Reset state for new category
     _audios = [];
     _currentPage = 1;
@@ -35,21 +37,27 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
       page: _currentPage,
     );
 
+    if (isClosed) return;
+
     result.fold(
       (failure) {
-        emit(AudioByCategoryError(message: failure));
+        if (!isClosed) emit(AudioByCategoryError(message: failure));
       },
       (audiosModel) {
-        _audios = audiosModel.audios ?? [];
-        _hasMorePages = audiosModel.hasNextPage;
-        emit(
-          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
-        );
+        if (!isClosed) {
+          _audios = audiosModel.audios ?? [];
+          _hasMorePages = audiosModel.hasNextPage;
+          emit(
+            AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+          );
+        }
       },
     );
   }
 
   Future<void> loadMoreAudios() async {
+    if (isClosed) return;
+    
     if (!_hasMorePages ||
         _currentCategorySlug == null ||
         _currentLanguage == null) {
@@ -72,24 +80,32 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
       page: _currentPage,
     );
 
+    if (isClosed) return;
+
     result.fold(
       (failure) {
-        _currentPage--; // Rollback page increment
-        emit(
-          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
-        );
+        if (!isClosed) {
+          _currentPage--; // Rollback page increment
+          emit(
+            AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+          );
+        }
       },
       (audiosModel) {
-        _audios.addAll(audiosModel.audios ?? []);
-        _hasMorePages = audiosModel.hasNextPage;
-        emit(
-          AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
-        );
+        if (!isClosed) {
+          _audios.addAll(audiosModel.audios ?? []);
+          _hasMorePages = audiosModel.hasNextPage;
+          emit(
+            AudioByCategoryLoaded(audios: _audios, hasMorePages: _hasMorePages),
+          );
+        }
       },
     );
   }
 
   void resetState() {
+    if (isClosed) return;
+    
     _audios = [];
     _currentPage = 1;
     _hasMorePages = true;

@@ -8,6 +8,8 @@ class ReelsCubit extends Cubit<ReelsState> {
   ReelsCubit(this.reelsRepo) : super(ReelsInitial());
 
   Future<void> loadReels() async {
+    if (isClosed) return;
+    
     try {
       emit(ReelsLoading());
 
@@ -17,13 +19,16 @@ class ReelsCubit extends Cubit<ReelsState> {
       // For backend:
       // final reels = await reelsRepo.fetchReelsFromBackend();
 
+      if (isClosed) return;
       emit(ReelsLoaded(reels: reels));
     } catch (e) {
-      emit(ReelsError('Error loading reels: $e'));
+      if (!isClosed) emit(ReelsError('Error loading reels: $e'));
     }
   }
 
   void changePage(int index) {
+    if (isClosed) return;
+    
     if (state is ReelsLoaded) {
       final currentState = state as ReelsLoaded;
       emit(currentState.copyWith(currentIndex: index));
@@ -31,6 +36,8 @@ class ReelsCubit extends Cubit<ReelsState> {
   }
 
   void toggleLike(String reelId) {
+    if (isClosed) return;
+    
     if (state is ReelsLoaded) {
       final currentState = state as ReelsLoaded;
       final updatedReels = currentState.reels.map((reel) {

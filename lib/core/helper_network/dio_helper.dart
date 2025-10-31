@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sahifa/core/services/auth_interceptor.dart';
 import 'package:sahifa/env.dart';
 
 class DioHelper {
@@ -15,6 +16,9 @@ class DioHelper {
         receiveTimeout: const Duration(seconds: 10),
       ),
     );
+
+    // Add Auth Interceptor
+    _dio.interceptors.add(AuthInterceptor());
   }
 
   factory DioHelper() => _instance;
@@ -42,6 +46,42 @@ class DioHelper {
       return response;
     } catch (e) {
       throw Exception('Failed to post data: $e');
+    }
+  }
+
+  Future<Response> putData({
+    required String url,
+    required Map<String, dynamic>? data,
+  }) async {
+    try {
+      final response = await _dio.put(url, data: data);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to update data: $e');
+    }
+  }
+
+  Future<Response> deleteData({
+    required String url,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      final response = await _dio.delete(url, data: data);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to delete data: $e');
+    }
+  }
+
+  Future<Response> patchData({
+    required String url,
+    required Map<String, dynamic>? data,
+  }) async {
+    try {
+      final response = await _dio.patch(url, data: data);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to patch data: $e');
     }
   }
 }

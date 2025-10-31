@@ -10,14 +10,23 @@ class SearchArticlesCubit extends Cubit<SearchArticlesState> {
     : super(SearchArticlesInitial());
   final SearchArticlesRepo _searchArticlesRepo;
   Future<void> searchArticlesByQuery(String query, String language) async {
+    if (isClosed) return;
+    
     emit(SearchArticlesLoadingState());
     final result = await _searchArticlesRepo.searchArticles(
       query: query,
       language: language,
     );
+    
+    if (isClosed) return;
+    
     result.fold(
-      (error) => emit(SearchArticlesErrorState(error)),
-      (articles) => emit(SearchArticlesLoadedState(articles)),
+      (error) {
+        if (!isClosed) emit(SearchArticlesErrorState(error));
+      },
+      (articles) {
+        if (!isClosed) emit(SearchArticlesLoadedState(articles));
+      },
     );
   }
 }

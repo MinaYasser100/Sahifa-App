@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -20,7 +21,7 @@ class LoginFooterSection extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            context.pop();
+            context.push(Routes.registerView);
           },
           child: Text(
             'create_account'.tr(),

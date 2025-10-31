@@ -1,15 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/core/widgets/custom_image_widget.dart';
-import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
-import 'package:sahifa/core/widgets/custom_trending/custom_trending_articles_section.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
-
-import 'comments/comments_section.dart';
-import 'details_article_content.dart';
-import 'related_articles_section.dart';
+import 'package:sahifa/core/utils/auth_checker.dart';
+import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
+import 'package:sahifa/core/widgets/custom_trending/custom_mobile_trending_articles_section_body.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/comments/comments_section.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/details_article_content.dart';
+import 'package:sahifa/features/details_artical/ui/widgets/related_articles_section.dart';
 
 class DetailsArticleBodyView extends StatelessWidget {
   const DetailsArticleBodyView({super.key, required this.articalModel});
@@ -52,8 +52,12 @@ class DetailsArticleBodyView extends StatelessWidget {
                           FontAwesomeIcons.heart,
                           color: ColorsTheme().primaryColor,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          // Check authentication before like
+                          if (await AuthChecker.checkAuthAndNavigate(context)) {
+                            // User is logged in - handle favorite
+                            // TODO: Add your favorite logic here
+                          }
                         },
                       ),
                     ),
@@ -81,7 +85,7 @@ class DetailsArticleBodyView extends StatelessWidget {
         ),
 
         // Trending Articles Section
-        SliverToBoxAdapter(child: CustomMobileTrendingArticlesSection()),
+        SliverToBoxAdapter(child: CustomMobileTrendingArticlesSectionBody()),
       ],
     );
   }

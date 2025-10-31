@@ -10,6 +10,7 @@ import 'package:sahifa/core/internet_check/cubit/internet_check__cubit.dart';
 import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:sahifa/core/utils/constant.dart';
 import 'package:sahifa/core/utils/timeago_helper.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => ConnectivityCubit()),
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
       ],
       child: AlThawraApp(),
     );

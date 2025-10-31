@@ -19,21 +19,6 @@ class AudioMagazineBodyView extends StatefulWidget {
 }
 
 class _AudioMagazineBodyViewState extends State<AudioMagazineBodyView> {
-  bool _isInitialized = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (!_isInitialized) {
-      final language = context.locale.languageCode;
-      context.read<AudioCategoriesCubit>().fetchAudioCategories(
-        language: language,
-      );
-      _isInitialized = true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AdaptiveLayout(

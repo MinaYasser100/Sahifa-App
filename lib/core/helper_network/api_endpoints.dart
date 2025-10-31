@@ -19,7 +19,18 @@ enum ApiEndpoints {
 
   categoryInfoBySlug('/api/v1/categories/{slug}'),
 
-  audiosByCategory('/api/v1/posts/categories/audios');
+  audiosByCategory('/api/v1/posts/categories/audios'),
+
+  // Auth Endpoints
+  login('/api/v1/auth/login'),
+  register('/api/v1/auth/register'),
+  refreshToken('/api/v1/auth/refresh-token'),
+  logout('/api/v1/auth/logout'),
+  confirmEmail('/api/v1/auth/confirm-email'),
+  forgotPassword('/api/v1/auth/forgot-password'),
+  resetPassword('/api/v1/auth/reset-password'),
+  changePassword('/api/v1/auth/change-password'),
+  updateProfile('/api/v1/user/profile');
 
   final String path;
   const ApiEndpoints(this.path);

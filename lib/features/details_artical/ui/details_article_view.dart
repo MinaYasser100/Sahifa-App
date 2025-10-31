@@ -15,18 +15,46 @@ import 'widgets/details_article_loading_widget.dart';
 import 'widgets/tablet_details_article_body.dart';
 import 'widgets/tablet_details_article_skeleton.dart';
 
-class DetailsArticleView extends StatelessWidget {
+class DetailsArticleView extends StatefulWidget {
   const DetailsArticleView({super.key, required this.articalModel});
   final ArticleModel articalModel;
 
   @override
+  State<DetailsArticleView> createState() => _DetailsArticleViewState();
+}
+
+class _DetailsArticleViewState extends State<DetailsArticleView> {
+  late final DetailsArticleCubit _cubit;
+  bool _isDisposed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = DetailsArticleCubit(getIt<DetailsArticleRepoImpl>());
+    // Fetch immediately in initState
+    _fetchData();
+  }
+
+  void _fetchData() {
+    if (!_isDisposed && mounted && !_cubit.isClosed) {
+      _cubit.fetchArticleDetails(
+        articleSlug: widget.articalModel.slug!,
+        categorySlug: widget.articalModel.categorySlug!,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    _cubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DetailsArticleCubit(getIt<DetailsArticleRepoImpl>())
-        ..fetchArticleDetails(
-          articleSlug: articalModel.slug!,
-          categorySlug: articalModel.categorySlug!,
-        ),
+    return BlocProvider.value(
+      value: _cubit,
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorsTheme().whiteColor,
@@ -52,8 +80,8 @@ class DetailsArticleView extends StatelessWidget {
                 message: state.message,
                 onPressed: () {
                   context.read<DetailsArticleCubit>().fetchArticleDetails(
-                    articleSlug: articalModel.slug!,
-                    categorySlug: articalModel.categorySlug!,
+                    articleSlug: widget.articalModel.slug!,
+                    categorySlug: widget.articalModel.categorySlug!,
                   );
                 },
               );
@@ -73,13 +101,13 @@ class DetailsArticleView extends StatelessWidget {
   void _shareArticle() {
     final String shareText =
         '''
-📰 ${articalModel.title ?? ''}
+📰 ${widget.articalModel.title ?? ''}
 
-${articalModel.summary ?? ''}
+${widget.articalModel.summary ?? ''}
 
 🗞️ صحيفة الثورة
 ''';
 
-    Share.share(shareText, subject: articalModel.title ?? '');
+    Share.share(shareText, subject: widget.articalModel.title ?? '');
   }
 }

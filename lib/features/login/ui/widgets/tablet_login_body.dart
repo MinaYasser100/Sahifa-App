@@ -4,7 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
+import 'package:sahifa/features/auth/data/models/login_request.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_cubit.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_state.dart';
 import 'package:sahifa/features/login/ui/widgets/login_footer_section.dart';
 import 'package:sahifa/features/login/ui/widgets/login_form_fields.dart';
 import 'package:sahifa/features/login/ui/widgets/login_header_section.dart';
@@ -27,8 +31,20 @@ class TabletLoginBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
-      builder: (context, state) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, authState) {
+        if (authState is Authenticated) {
+          showSuccessToast(context, 'success'.tr(), 'login_successful'.tr());
+          context.go(Routes.homeView);
+        } else if (authState is AuthError) {
+          showErrorToast(context, 'error'.tr(), authState.message);
+        }
+      },
+      builder: (context, authState) {
+        final isLoading = authState is AuthLoading;
+        
+        return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
+          builder: (context, state) {
         return Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 32),
@@ -64,9 +80,14 @@ class TabletLoginBody extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomButton(
                       text: 'login'.tr(),
-                      onPressed: () {
+                      isLoading: isLoading,
+                      onPressed: isLoading ? null : () {
                         if (formKey.currentState!.validate()) {
-                          // Handle login logic here
+                          final request = LoginRequest(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+                          context.read<AuthCubit>().login(request);
                         } else {
                           context
                               .read<AutovalidateModeCubit>()
@@ -81,6 +102,8 @@ class TabletLoginBody extends StatelessWidget {
               ),
             ),
           ),
+        );
+          },
         );
       },
     );

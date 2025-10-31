@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/utils/auth_checker.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 import 'package:sahifa/core/widgets/custom_image_widget.dart';
@@ -57,8 +58,14 @@ class TabletDetailsArticleBody extends StatelessWidget {
                                   FontAwesomeIcons.heart,
                                   color: ColorsTheme().primaryColor,
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
+                                onPressed: () async {
+                                  // Check authentication before like
+                                  if (await AuthChecker.checkAuthAndNavigate(
+                                    context,
+                                  )) {
+                                    // User is logged in - handle favorite
+                                    // TODO: Add your favorite logic here
+                                  }
                                 },
                               ),
                             ),
