@@ -58,76 +58,78 @@ class _AudioPlayerBody extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              // Cover Image
-              AudioCoverImage(
-                imageUrl: audioItem.thumbnailUrl,
-                audioId: audioItem.id ?? '',
-              ),
-              const SizedBox(height: 40),
-              // Title and Author
-              AudioInfoHeader(
-                title: audioItem.title,
-                authorName: audioItem.authorName,
-              ),
-              const Spacer(),
-              // Progress Bar and Controls
-              BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-                builder: (context, state) {
-                  final cubit = context.read<AudioPlayerCubit>();
-                  Duration position = Duration.zero;
-                  Duration duration = Duration.zero;
-                  bool isPlaying = false;
-                  bool isBuffering = false;
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                // Cover Image
+                AudioCoverImage(
+                  imageUrl: audioItem.thumbnailUrl,
+                  audioId: audioItem.id ?? '',
+                ),
+                //const SizedBox(height: 20),
+                // Title and Author
+                AudioInfoHeader(
+                  title: audioItem.title,
+                  authorName: audioItem.authorName,
+                ),
+                //const SizedBox(height: 20),
+                // Progress Bar and Controls
+                BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
+                  builder: (context, state) {
+                    final cubit = context.read<AudioPlayerCubit>();
+                    Duration position = Duration.zero;
+                    Duration duration = Duration.zero;
+                    bool isPlaying = false;
+                    bool isBuffering = false;
 
-                  if (state is AudioPlayerPlaying) {
-                    position = state.position;
-                    duration = state.duration;
-                    isPlaying = true;
-                  } else if (state is AudioPlayerPaused) {
-                    position = state.position;
-                    duration = state.duration;
-                  } else if (state is AudioPlayerBuffering) {
-                    position = state.position;
-                    duration = state.duration;
-                    isBuffering = true;
-                  }
+                    if (state is AudioPlayerPlaying) {
+                      position = state.position;
+                      duration = state.duration;
+                      isPlaying = true;
+                    } else if (state is AudioPlayerPaused) {
+                      position = state.position;
+                      duration = state.duration;
+                    } else if (state is AudioPlayerBuffering) {
+                      position = state.position;
+                      duration = state.duration;
+                      isBuffering = true;
+                    }
 
-                  return FadeInUp(
-                    duration: const Duration(milliseconds: 400),
-                    child: Column(
-                      children: [
-                        // Progress Bar
-                        AudioProgressBar(
-                          position: position,
-                          duration: duration,
-                          onSeek: (newPosition) => cubit.seekTo(newPosition),
-                          formatDuration: cubit.formatDuration,
-                        ),
-                        const SizedBox(height: 30),
-                        // Control Buttons
-                        AudioPlayerControls(
-                          isPlaying: isPlaying,
-                          isBuffering: isBuffering,
-                          onPlayPause: () => cubit.togglePlayPause(),
-                          onSeekBackward: () => cubit.seekBackward(10),
-                          onSeekForward: () => cubit.seekForward(10),
-                        ),
-                        const SizedBox(height: 30),
-                        // Speed Control
-                        AudioSpeedControl(
-                          currentSpeed: cubit.currentSpeed,
-                          onSpeedChanged: (speed) => cubit.setSpeed(speed),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 40),
-            ],
+                    return FadeInUp(
+                      duration: const Duration(milliseconds: 400),
+                      child: Column(
+                        children: [
+                          // Progress Bar
+                          AudioProgressBar(
+                            position: position,
+                            duration: duration,
+                            onSeek: (newPosition) => cubit.seekTo(newPosition),
+                            formatDuration: cubit.formatDuration,
+                          ),
+                          const SizedBox(height: 20),
+                          // Control Buttons
+                          AudioPlayerControls(
+                            isPlaying: isPlaying,
+                            isBuffering: isBuffering,
+                            onPlayPause: () => cubit.togglePlayPause(),
+                            onSeekBackward: () => cubit.seekBackward(10),
+                            onSeekForward: () => cubit.seekForward(10),
+                          ),
+                          const SizedBox(height: 20),
+                          // Speed Control
+                          AudioSpeedControl(
+                            currentSpeed: cubit.currentSpeed,
+                            onSpeedChanged: (speed) => cubit.setSpeed(speed),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
           ),
         ),
       ),

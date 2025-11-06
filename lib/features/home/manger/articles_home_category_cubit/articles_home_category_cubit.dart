@@ -28,13 +28,15 @@ class ArticlesHomeCategoryCubit extends Cubit<ArticlesHomeCategoryState> {
           if (!isClosed) emit(ArticlesHomeCategoryError(failure));
         },
         (articlesData) {
-          if (!isClosed)
+          if (!isClosed) {
             emit(ArticlesHomeCategorySuccess(articlesData.articles ?? []));
+          }
         },
       );
     } catch (e) {
-      if (!isClosed)
+      if (!isClosed) {
         emit(ArticlesHomeCategoryError('Failed to fetch articles: $e'));
+      }
     }
   }
 }
