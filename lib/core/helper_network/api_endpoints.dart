@@ -30,7 +30,8 @@ enum ApiEndpoints {
   resetPassword('/api/v1/auth/reset-password'),
   changePassword('/api/v1/auth/change-password'),
   getUserProfile('/api/v1/users/profile'),
-  updateProfile('/api/v1/user/profile');
+  updateProfile('/api/v1/user/profile'),
+  posts('/api/v1/posts');
 
   final String path;
   const ApiEndpoints(this.path);
@@ -89,4 +90,20 @@ class ApiQueryParams {
   static const String withSub = "WithSub";
   static const String sortBy = "SortBy";
   static const String search = "SearchPhrase";
+  static const String type = "Type";
+}
+
+enum PostType { article, video, audio }
+
+extension PostTypeExtension on PostType {
+  String get value {
+    switch (this) {
+      case PostType.article:
+        return 'article';
+      case PostType.video:
+        return 'video';
+      case PostType.audio:
+        return 'audio';
+    }
+  }
 }

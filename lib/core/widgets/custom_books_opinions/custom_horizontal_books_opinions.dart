@@ -31,8 +31,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
       publishedAt: "2025-10-13T12:34:56",
       slug: "category_economy".tr(),
       status: "published",
-      summary: "trending_article_1_description".tr(),
-      updatedAt: "2025-10-13T12:34:56",
+      description: "trending_article_1_description".tr(),
       categoryId: 'category_economy',
       viewsCount: 50000,
     );

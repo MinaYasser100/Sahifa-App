@@ -14,7 +14,7 @@ class SubcategoryArticlesList extends StatelessWidget {
     return ArticleModel(
       id: item.id,
       title: item.title,
-      summary: item.description,
+      description: item.description,
       image: item.imageUrl,
       categoryName: item.category,
       categoryId: item.categoryId,

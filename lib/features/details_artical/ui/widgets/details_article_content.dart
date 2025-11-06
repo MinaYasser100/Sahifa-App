@@ -93,7 +93,7 @@ class DetailsArticleContent extends StatelessWidget {
           // Description
           FadeInUp(
             child: Text(
-              articalModel.summary ?? '',
+              articalModel.description ?? '',
               style: TextStyle(
                 fontSize: 18,
                 color: isDarkMode
