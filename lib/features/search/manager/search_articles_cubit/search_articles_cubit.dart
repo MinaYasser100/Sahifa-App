@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
-import 'package:sahifa/features/search/ui/data/repo/search_articles_repo.dart';
+import 'package:sahifa/features/search/data/repo/search_articles_repo.dart';
 
 part 'search_articles_state.dart';
 

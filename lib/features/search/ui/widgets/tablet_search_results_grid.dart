@@ -5,7 +5,7 @@ import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_article_item/tablet_grid_article_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/tablet_grid_book_opinion_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/features/search/ui/manager/search_articles_cubit/search_articles_cubit.dart';
+import 'package:sahifa/features/search/manager/search_articles_cubit/search_articles_cubit.dart';
 import 'package:sahifa/features/search/ui/widgets/tablet_search_skeleton.dart';
 
 class TabletSearchResultsGrid extends StatelessWidget {

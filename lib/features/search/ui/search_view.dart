@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
-import 'package:sahifa/features/search/ui/data/repo/search_articles_repo.dart';
-import 'package:sahifa/features/search/ui/manager/search_articles_cubit/search_articles_cubit.dart';
+import 'package:sahifa/features/search/data/repo/search_articles_repo.dart';
+import 'package:sahifa/features/search/manager/search_articles_cubit/search_articles_cubit.dart';
 
 import 'widgets/categories_grid.dart';
 import 'widgets/search_results_widget.dart';

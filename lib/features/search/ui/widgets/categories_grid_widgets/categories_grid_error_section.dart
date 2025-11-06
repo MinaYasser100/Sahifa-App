@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 import 'package:sahifa/core/widgets/custom_audio_magazine_section/custom_audio_magazine_section.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/features/search/ui/manager/search_cateories_cubit/search_categories_cubit.dart';
+import 'package:sahifa/features/search/manager/search_cateories_cubit/search_categories_cubit.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/archive_category_card.dart';
 
 class CategoriesGridErrorSection extends StatelessWidget {

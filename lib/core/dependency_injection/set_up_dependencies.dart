@@ -20,8 +20,8 @@ import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.da
 import 'package:sahifa/features/home/data/repo/drawer_categories_repo.dart';
 import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
 import 'package:sahifa/features/pdf/data/repo/pdf_repo.dart';
-import 'package:sahifa/features/search/ui/data/repo/search_articles_repo.dart';
-import 'package:sahifa/features/search/ui/data/repo/search_categories_repo.dart';
+import 'package:sahifa/features/search/data/repo/search_articles_repo.dart';
+import 'package:sahifa/features/search/data/repo/search_categories_repo.dart';
 import 'package:sahifa/features/search_category/data/repo/articles_search_category_repo.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
 

@@ -6,7 +6,7 @@ import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/article_skeleton_card.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/features/search/ui/manager/search_articles_cubit/search_articles_cubit.dart';
+import 'package:sahifa/features/search/manager/search_articles_cubit/search_articles_cubit.dart';
 import 'package:sahifa/features/search/ui/widgets/tablet_search_results_grid.dart';
 
 class SearchResultsWidget extends StatelessWidget {

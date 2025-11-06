@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
-import 'package:sahifa/features/search/ui/data/repo/search_categories_repo.dart';
+import 'package:sahifa/features/search/data/repo/search_categories_repo.dart';
 
 part 'search_categories_state.dart';
 

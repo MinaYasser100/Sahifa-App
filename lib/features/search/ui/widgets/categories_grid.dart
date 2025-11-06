@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
-import 'package:sahifa/features/search/ui/manager/search_cateories_cubit/search_categories_cubit.dart';
+import 'package:sahifa/features/search/manager/search_cateories_cubit/search_categories_cubit.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/categories_grid_content.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/categories_grid_error_section.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/categories_grid_loading_section.dart';
