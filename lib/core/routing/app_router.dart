@@ -14,7 +14,6 @@ import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 import 'package:sahifa/features/audio/ui/audio_book_details_view.dart';
 import 'package:sahifa/features/audio/ui/audio_magazine_view.dart';
 import 'package:sahifa/features/audio/ui/audio_player_view.dart';
-import 'package:sahifa/features/confirm_email/ui/confirm_email_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
@@ -50,14 +49,6 @@ abstract class AppRouter {
         path: Routes.loginView,
         pageBuilder: (context, state) {
           return fadeTransitionPage(LoginView());
-        },
-      ),
-
-      GoRoute(
-        path: Routes.confirmEmailView,
-        pageBuilder: (context, state) {
-          final email = state.uri.queryParameters['email'] ?? '';
-          return fadeTransitionPage(ConfirmEmailView(email: email));
         },
       ),
 

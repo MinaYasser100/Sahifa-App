@@ -51,7 +51,12 @@ class LoginFormFields extends StatelessWidget {
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
               hintText: 'password'.tr(),
-              validator: Validation.validatePassword,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'password_required'.tr();
+                }
+                return null;
+              },
               obscureText: true,
               focusNode: passwordFocusNode,
             ),

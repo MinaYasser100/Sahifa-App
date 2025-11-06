@@ -32,7 +32,7 @@ class LoginCubit extends Cubit<LoginState> {
         }
       }
     } catch (e) {
-      emit(LoginError(message: "unexpected_error".tr()));
+      emit(LoginError(message: "Invalid_emailand_password".tr()));
     }
   }
 

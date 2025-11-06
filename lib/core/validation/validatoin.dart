@@ -16,9 +16,51 @@ class Validation {
     if (value == null || value.isEmpty) {
       return 'password_is_required'.tr();
     }
-    if (value.length < 6) {
-      return 'password_must_be_at_least_6_characters'.tr();
+    if (value.length < 8) {
+      return 'password_must_be_at_least_8_characters'.tr();
     }
+
+    // Check for uppercase letter
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      return 'password_must_contain_uppercase'.tr();
+    }
+
+    // Check for lowercase letter
+    if (!RegExp(r'[a-z]').hasMatch(value)) {
+      return 'password_must_contain_lowercase'.tr();
+    }
+
+    // Check for digit
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
+      return 'password_must_contain_number'.tr();
+    }
+
+    // Check for special character
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+      return 'password_must_contain_special_character'.tr();
+    }
+
+    return null;
+  }
+
+  static String? validateUserName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'please_enter_username'.tr();
+    }
+
+    final trimmedValue = value.trim();
+
+    // Must be at least 3 characters
+    if (trimmedValue.length < 3) {
+      return 'username_must_be_at_least_3_characters'.tr();
+    }
+
+    // Can only contain letters, numbers, hyphens, and underscores
+    final userNameRegex = RegExp(r'^[a-zA-Z0-9_-]+$');
+    if (!userNameRegex.hasMatch(trimmedValue)) {
+      return 'username_invalid_characters'.tr();
+    }
+
     return null;
   }
 

@@ -11,32 +11,48 @@ class DrawerCategoriesCubit extends Cubit<DrawerCategoriesState> {
   final DrawerCategoriesRepo _drawerCategoriesRepo;
 
   Future<void> fetchDrawerCategories(String language) async {
-    emit(DrawerCategoriesLoading());
-    final result = await _drawerCategoriesRepo.fetchDrawerCategories(language);
-    result.fold((failure) => emit(DrawerCategoriesError(failure)), (
-      categories,
-    ) {
-      // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories = categories
-        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+    if (isClosed) return;
 
-      emit(DrawerCategoriesLoaded(filteredCategories));
-    });
+    if (!isClosed) emit(DrawerCategoriesLoading());
+    final result = await _drawerCategoriesRepo.fetchDrawerCategories(language);
+
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(DrawerCategoriesError(failure));
+      },
+      (categories) {
+        // فلترة الـ categories اللي isActive && showOnMenu
+        final filteredCategories = categories
+          ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+        if (!isClosed) emit(DrawerCategoriesLoaded(filteredCategories));
+      },
+    );
   }
 
   // Force refresh - clears cache and fetches new data
   Future<void> refreshDrawerCategories(String language) async {
-    emit(DrawerCategoriesLoading());
+    if (isClosed) return;
+
+    if (!isClosed) emit(DrawerCategoriesLoading());
     final result = await (_drawerCategoriesRepo as DrawerCategoriesRepoImpl)
         .forceRefresh(language);
-    result.fold((failure) => emit(DrawerCategoriesError(failure)), (
-      categories,
-    ) {
-      // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories = categories
-        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
-      emit(DrawerCategoriesLoaded(filteredCategories));
-    });
+    if (isClosed) return;
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(DrawerCategoriesError(failure));
+      },
+      (categories) {
+        // فلترة الـ categories اللي isActive && showOnMenu
+        final filteredCategories = categories
+          ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+        if (!isClosed) emit(DrawerCategoriesLoaded(filteredCategories));
+      },
+    );
   }
 }

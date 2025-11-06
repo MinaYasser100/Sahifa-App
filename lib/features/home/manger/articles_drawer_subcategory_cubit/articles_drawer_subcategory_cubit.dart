@@ -28,7 +28,7 @@ class ArticlesDrawerSubcategoryCubit
     final repoImpl =
         _articlesDrawerSubcategoryRepo as ArticlesDrawerSubcategoryRepoImpl;
     if (!repoImpl.hasValidCache) {
-      emit(ArticlesDrawerSubcategoryLoading());
+      if (!isClosed) emit(ArticlesDrawerSubcategoryLoading());
     }
 
     final result = await _articlesDrawerSubcategoryRepo
@@ -40,22 +40,27 @@ class ArticlesDrawerSubcategoryCubit
 
     if (isClosed) return;
 
-    result.fold((error) => emit(ArticlesDrawerSubcategoryError(error)), (
-      articlesCategoryModel,
-    ) {
-      _allArticles = articlesCategoryModel.articles ?? [];
-      _currentPage = articlesCategoryModel.pageNumber ?? 1;
-      _totalPages = articlesCategoryModel.totalPages ?? 1;
+    result.fold(
+      (error) {
+        if (!isClosed) emit(ArticlesDrawerSubcategoryError(error));
+      },
+      (articlesCategoryModel) {
+        _allArticles = articlesCategoryModel.articles ?? [];
+        _currentPage = articlesCategoryModel.pageNumber ?? 1;
+        _totalPages = articlesCategoryModel.totalPages ?? 1;
 
-      emit(
-        ArticlesDrawerSubcategoryLoaded(
-          articles: _allArticles,
-          currentPage: _currentPage,
-          totalPages: _totalPages,
-          hasMore: _currentPage < _totalPages,
-        ),
-      );
-    });
+        if (!isClosed) {
+          emit(
+            ArticlesDrawerSubcategoryLoaded(
+              articles: _allArticles,
+              currentPage: _currentPage,
+              totalPages: _totalPages,
+              hasMore: _currentPage < _totalPages,
+            ),
+          );
+        }
+      },
+    );
   }
 
   /// Load more articles (pagination)
@@ -68,12 +73,14 @@ class ArticlesDrawerSubcategoryCubit
     _isFetchingMore = true;
 
     // Emit loading more state with current articles
-    emit(
-      ArticlesDrawerSubcategoryLoadingMore(
-        articles: _allArticles,
-        currentPage: _currentPage,
-      ),
-    );
+    if (!isClosed) {
+      emit(
+        ArticlesDrawerSubcategoryLoadingMore(
+          articles: _allArticles,
+          currentPage: _currentPage,
+        ),
+      );
+    }
 
     final nextPage = _currentPage + 1;
 
@@ -93,14 +100,16 @@ class ArticlesDrawerSubcategoryCubit
       (error) {
         _isFetchingMore = false;
         // Keep current state, just show error in snackbar or something
-        emit(
-          ArticlesDrawerSubcategoryLoaded(
-            articles: _allArticles,
-            currentPage: _currentPage,
-            totalPages: _totalPages,
-            hasMore: _currentPage < _totalPages,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            ArticlesDrawerSubcategoryLoaded(
+              articles: _allArticles,
+              currentPage: _currentPage,
+              totalPages: _totalPages,
+              hasMore: _currentPage < _totalPages,
+            ),
+          );
+        }
       },
       (articlesCategoryModel) {
         _allArticles.addAll(articlesCategoryModel.articles ?? []);
@@ -108,14 +117,16 @@ class ArticlesDrawerSubcategoryCubit
         _totalPages = articlesCategoryModel.totalPages ?? _totalPages;
         _isFetchingMore = false;
 
-        emit(
-          ArticlesDrawerSubcategoryLoaded(
-            articles: _allArticles,
-            currentPage: _currentPage,
-            totalPages: _totalPages,
-            hasMore: _currentPage < _totalPages,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            ArticlesDrawerSubcategoryLoaded(
+              articles: _allArticles,
+              currentPage: _currentPage,
+              totalPages: _totalPages,
+              hasMore: _currentPage < _totalPages,
+            ),
+          );
+        }
       },
     );
   }
@@ -127,7 +138,7 @@ class ArticlesDrawerSubcategoryCubit
   }) async {
     if (isClosed) return;
 
-    emit(ArticlesDrawerSubcategoryLoading());
+    if (!isClosed) emit(ArticlesDrawerSubcategoryLoading());
 
     final repoImpl =
         _articlesDrawerSubcategoryRepo as ArticlesDrawerSubcategoryRepoImpl;
@@ -138,21 +149,26 @@ class ArticlesDrawerSubcategoryCubit
 
     if (isClosed) return;
 
-    result.fold((error) => emit(ArticlesDrawerSubcategoryError(error)), (
-      articlesCategoryModel,
-    ) {
-      _allArticles = articlesCategoryModel.articles ?? [];
-      _currentPage = articlesCategoryModel.pageNumber ?? 1;
-      _totalPages = articlesCategoryModel.totalPages ?? 1;
+    result.fold(
+      (error) {
+        if (!isClosed) emit(ArticlesDrawerSubcategoryError(error));
+      },
+      (articlesCategoryModel) {
+        _allArticles = articlesCategoryModel.articles ?? [];
+        _currentPage = articlesCategoryModel.pageNumber ?? 1;
+        _totalPages = articlesCategoryModel.totalPages ?? 1;
 
-      emit(
-        ArticlesDrawerSubcategoryLoaded(
-          articles: _allArticles,
-          currentPage: _currentPage,
-          totalPages: _totalPages,
-          hasMore: _currentPage < _totalPages,
-        ),
-      );
-    });
+        if (!isClosed) {
+          emit(
+            ArticlesDrawerSubcategoryLoaded(
+              articles: _allArticles,
+              currentPage: _currentPage,
+              totalPages: _totalPages,
+              hasMore: _currentPage < _totalPages,
+            ),
+          );
+        }
+      },
+    );
   }
 }

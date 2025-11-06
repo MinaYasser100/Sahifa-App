@@ -12,34 +12,50 @@ class CategoriesHorizontalBarCubit extends Cubit<CategoriesHorizontalBarState> {
   final CategoriesHorizontalBarRepo _horizontalBarRepo;
 
   Future<void> fetchCategoriesHorizontalBar(String language) async {
-    emit(CategoriesHorizontalBarLoading());
+    if (isClosed) return;
+
+    if (!isClosed) emit(CategoriesHorizontalBarLoading());
     final result = await _horizontalBarRepo.fetchCategoriesHorizontalBar(
       language,
     );
-    result.fold((error) => emit(CategoriesHorizontalBarError(error)), (
-      categories,
-    ) {
-      // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories = categories
-        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
-      emit(CategoriesHorizontalBarLoaded(filteredCategories));
-    });
+    if (isClosed) return;
+
+    result.fold(
+      (error) {
+        if (!isClosed) emit(CategoriesHorizontalBarError(error));
+      },
+      (categories) {
+        // فلترة الـ categories اللي isActive && showOnMenu
+        final filteredCategories = categories
+          ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+        if (!isClosed) emit(CategoriesHorizontalBarLoaded(filteredCategories));
+      },
+    );
   }
 
   // Force refresh - clears cache and fetches new data
   Future<void> refreshCategoriesHorizontalBar(String language) async {
-    emit(CategoriesHorizontalBarLoading());
+    if (isClosed) return;
+
+    if (!isClosed) emit(CategoriesHorizontalBarLoading());
     final result = await (_horizontalBarRepo as CategoriesHorizontalBarRepoImpl)
         .forceRefresh(language);
-    result.fold((error) => emit(CategoriesHorizontalBarError(error)), (
-      categories,
-    ) {
-      // فلترة الـ categories اللي isActive && showOnMenu
-      final filteredCategories = categories
-        ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
 
-      emit(CategoriesHorizontalBarLoaded(filteredCategories));
-    });
+    if (isClosed) return;
+
+    result.fold(
+      (error) {
+        if (!isClosed) emit(CategoriesHorizontalBarError(error));
+      },
+      (categories) {
+        // فلترة الـ categories اللي isActive && showOnMenu
+        final filteredCategories = categories
+          ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
+
+        if (!isClosed) emit(CategoriesHorizontalBarLoaded(filteredCategories));
+      },
+    );
   }
 }

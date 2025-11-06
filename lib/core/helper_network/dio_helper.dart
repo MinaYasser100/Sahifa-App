@@ -32,6 +32,9 @@ class DioHelper {
     try {
       final response = await _dio.get(url, queryParameters: query);
       return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
     } catch (e) {
       throw Exception('Failed to fetch data: $e');
     }
@@ -44,6 +47,9 @@ class DioHelper {
     try {
       final response = await _dio.post(url, data: data);
       return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
     } catch (e) {
       throw Exception('Failed to post data: $e');
     }
@@ -56,6 +62,9 @@ class DioHelper {
     try {
       final response = await _dio.put(url, data: data);
       return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
     } catch (e) {
       throw Exception('Failed to update data: $e');
     }
@@ -68,6 +77,9 @@ class DioHelper {
     try {
       final response = await _dio.delete(url, data: data);
       return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
     } catch (e) {
       throw Exception('Failed to delete data: $e');
     }
@@ -80,6 +92,9 @@ class DioHelper {
     try {
       final response = await _dio.patch(url, data: data);
       return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
     } catch (e) {
       throw Exception('Failed to patch data: $e');
     }

@@ -13,7 +13,6 @@ class Routes {
   // Static route constants
   static const String registerView = '/register';
   static const String loginView = '/login';
-  static const String confirmEmailView = '/confirm-email';
   static const String homeView = '/home';
   static const String layoutView = '/layout';
   static const String forgotPasswordView = '/forgot-password';

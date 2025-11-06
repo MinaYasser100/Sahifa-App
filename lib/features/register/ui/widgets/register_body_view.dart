@@ -43,7 +43,11 @@ class RegisterBodyView extends StatelessWidget {
       listener: (context, authState) {
         if (authState is Authenticated) {
           // After successful registration, go directly to home
-          showSuccessToast(context, 'success'.tr(), 'registration_successful'.tr());
+          showSuccessToast(
+            context,
+            'success'.tr(),
+            'registration_successful'.tr(),
+          );
           context.go(Routes.homeView);
         } else if (authState is AuthError) {
           showErrorToast(context, 'error'.tr(), authState.message);
@@ -51,65 +55,69 @@ class RegisterBodyView extends StatelessWidget {
       },
       builder: (context, authState) {
         final isLoading = authState is AuthLoading;
-        
+
         return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
           builder: (context, state) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Form(
-            key: formKey,
-            autovalidateMode: context
-                .watch<AutovalidateModeCubit>()
-                .autovalidateMode,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                const RegisterHeaderSection(),
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Form(
+                key: formKey,
+                autovalidateMode: context
+                    .watch<AutovalidateModeCubit>()
+                    .autovalidateMode,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header Section
+                    const RegisterHeaderSection(),
 
-                // Form Fields Section
-                RegisterFormFields(
-                  fullNameController: fullNameController,
-                  fullNameFocusNode: fullNameFocusNode,
-                  emailFocusNode: emailFocusNode,
-                  emailController: emailController,
-                  passwordFocusNode: passwordFocusNode,
-                  passwordController: passwordController,
-                  confirmPasswordFocusNode: confirmPasswordFocusNode,
-                  confirmPasswordController: confirmPasswordController,
+                    // Form Fields Section
+                    RegisterFormFields(
+                      fullNameController: fullNameController,
+                      fullNameFocusNode: fullNameFocusNode,
+                      emailFocusNode: emailFocusNode,
+                      emailController: emailController,
+                      passwordFocusNode: passwordFocusNode,
+                      passwordController: passwordController,
+                      confirmPasswordFocusNode: confirmPasswordFocusNode,
+                      confirmPasswordController: confirmPasswordController,
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Register Button
+                    CustomButton(
+                      text: 'create_account'.tr(),
+                      isLoading: isLoading,
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                final request = RegisterRequest(
+                                  userName: fullNameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                  confirmPassword: confirmPasswordController
+                                      .text
+                                      .trim(),
+                                );
+                                context.read<AuthCubit>().register(request);
+                              } else {
+                                context
+                                    .read<AutovalidateModeCubit>()
+                                    .changeAutovalidateMode();
+                              }
+                            },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Footer Section
+                    const RegisterFooterSection(),
+                  ],
                 ),
-
-                const SizedBox(height: 32),
-
-                // Register Button
-                CustomButton(
-                  text: 'create_account'.tr(),
-                  isLoading: isLoading,
-                  onPressed: isLoading ? null : () {
-                    if (formKey.currentState!.validate()) {
-                      final request = RegisterRequest(
-                        name: fullNameController.text.trim(),
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                        passwordConfirmation: confirmPasswordController.text.trim(),
-                      );
-                      context.read<AuthCubit>().register(request);
-                    } else {
-                      context
-                          .read<AutovalidateModeCubit>()
-                          .changeAutovalidateMode();
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 16),
-
-                // Footer Section
-                const RegisterFooterSection(),
-              ],
-            ),
-          ),
-        );
+              ),
+            );
           },
         );
       },

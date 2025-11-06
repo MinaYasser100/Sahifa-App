@@ -32,20 +32,15 @@ class RegisterFormFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Full Name Field
+        // Username Field
         CustomFieldWithTitle(
-          title: 'full_name'.tr(),
+          title: 'username'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: fullNameController,
               keyboardType: TextInputType.name,
-              hintText: 'full_name'.tr(),
-              validator: (vlaue) {
-                if (vlaue == null || vlaue.isEmpty) {
-                  return 'full_name'.tr();
-                }
-                return null;
-              },
+              hintText: 'username_hint'.tr(),
+              validator: Validation.validateUserName,
               focusNode: fullNameFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {

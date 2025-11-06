@@ -12,22 +12,29 @@ class ArticlesHomeCategoryCubit extends Cubit<ArticlesHomeCategoryState> {
   final ArticlesHomeCategoryRepoImpl _articlesHomeCategoryRepo;
 
   void fetchArticlesHomeByCategory(String categorySlug, String language) async {
-    emit(ArticlesHomeCategoryLoading());
+    if (isClosed) return;
+
+    if (!isClosed) emit(ArticlesHomeCategoryLoading());
     try {
       final result = await _articlesHomeCategoryRepo.getArticlesByCategory(
         categorySlug,
         language,
       );
+
+      if (isClosed) return;
+
       result.fold(
         (failure) {
-          emit(ArticlesHomeCategoryError(failure));
+          if (!isClosed) emit(ArticlesHomeCategoryError(failure));
         },
         (articlesData) {
-          emit(ArticlesHomeCategorySuccess(articlesData.articles ?? []));
+          if (!isClosed)
+            emit(ArticlesHomeCategorySuccess(articlesData.articles ?? []));
         },
       );
     } catch (e) {
-      emit(ArticlesHomeCategoryError('Failed to fetch articles: $e'));
+      if (!isClosed)
+        emit(ArticlesHomeCategoryError('Failed to fetch articles: $e'));
     }
   }
 }

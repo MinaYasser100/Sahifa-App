@@ -26,10 +26,10 @@ enum ApiEndpoints {
   register('/api/v1/auth/register'),
   refreshToken('/api/v1/auth/refresh-token'),
   logout('/api/v1/auth/logout'),
-  confirmEmail('/api/v1/auth/confirm-email'),
   forgotPassword('/api/v1/auth/forgot-password'),
   resetPassword('/api/v1/auth/reset-password'),
   changePassword('/api/v1/auth/change-password'),
+  getUserProfile('/api/v1/users/profile'),
   updateProfile('/api/v1/user/profile');
 
   final String path;

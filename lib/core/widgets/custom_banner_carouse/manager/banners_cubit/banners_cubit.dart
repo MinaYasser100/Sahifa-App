@@ -18,7 +18,7 @@ class BannersCubit extends Cubit<BannersState> {
     // This prevents showing loading spinner when data is already cached
     final repoImpl = bannerRepo as BannerRepoImpl;
     if (!repoImpl.hasValidCache) {
-      emit(BannersLoading());
+      if (!isClosed) emit(BannersLoading());
     }
 
     final result = await bannerRepo.fetchBanners(language);
@@ -26,8 +26,12 @@ class BannersCubit extends Cubit<BannersState> {
     if (isClosed) return;
 
     result.fold(
-      (error) => emit(BannersError(error)),
-      (banners) => emit(BannersLoaded(banners)),
+      (error) {
+        if (!isClosed) emit(BannersError(error));
+      },
+      (banners) {
+        if (!isClosed) emit(BannersLoaded(banners));
+      },
     );
   }
 
@@ -35,7 +39,7 @@ class BannersCubit extends Cubit<BannersState> {
   Future<void> refreshBanners(String language) async {
     if (isClosed) return;
 
-    emit(BannersLoading());
+    if (!isClosed) emit(BannersLoading());
 
     final repoImpl = bannerRepo as BannerRepoImpl;
     final result = await repoImpl.forceRefresh(language);
@@ -43,8 +47,12 @@ class BannersCubit extends Cubit<BannersState> {
     if (isClosed) return;
 
     result.fold(
-      (error) => emit(BannersError(error)),
-      (banners) => emit(BannersLoaded(banners)),
+      (error) {
+        if (!isClosed) emit(BannersError(error));
+      },
+      (banners) {
+        if (!isClosed) emit(BannersLoaded(banners));
+      },
     );
   }
 }

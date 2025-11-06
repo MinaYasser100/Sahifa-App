@@ -14,20 +14,27 @@ class ArticlesParentCategoryCubit extends Cubit<ArticlesParentCategoryState> {
     String parentCategorySlug,
     String language,
   ) async {
-    emit(ArticlesParentCategoryLoading());
+    if (isClosed) return;
+
+    if (!isClosed) emit(ArticlesParentCategoryLoading());
     try {
       final result = await _articlesParentCategoyRepo
           .getArticlesByParentCategory(parentCategorySlug, language);
+
+      if (isClosed) return;
+
       result.fold(
         (failure) {
-          emit(ArticlesParentCategoryError(failure));
+          if (!isClosed) emit(ArticlesParentCategoryError(failure));
         },
         (articlesData) {
-          emit(ArticlesParentCategorySuccess(articlesData.articles ?? []));
+          if (!isClosed)
+            emit(ArticlesParentCategorySuccess(articlesData.articles ?? []));
         },
       );
     } catch (e) {
-      emit(ArticlesParentCategoryError('An unexpected error occurred'));
+      if (!isClosed)
+        emit(ArticlesParentCategoryError('An unexpected error occurred'));
     }
   }
 }

@@ -1,5 +1,7 @@
 // lib/features/auth/data/repo/auth_repo_impl.dart
 
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,14 +33,18 @@ class AuthRepoImpl implements AuthRepo {
         final loginResponse = LoginResponse.fromJson(response.data);
         return Right(loginResponse);
       } else {
-        final errorMessage = response.data['message'] ?? 'failed_login'.tr();
-        return Left(errorMessage);
+        log('❌ Login failed with status: ${response.statusCode}');
+        log('📊 Response data: ${response.data}');
+        return Left(_extractErrorMessage(response.data));
       }
     } on DioException catch (e) {
-      final errorMessage =
-          e.response?.data['message'] ?? 'login_error'.tr();
-      return Left(errorMessage);
-    } catch (e) {
+      log('❌ DioException during login: ${e.message}');
+      log('📊 Response status: ${e.response?.statusCode}');
+      log('📊 Response data: ${e.response?.data}');
+      return Left(_extractErrorMessage(e.response?.data));
+    } catch (e, stackTrace) {
+      log('❌ Unexpected error during login: $e');
+      log('📍 Stack trace: $stackTrace');
       return Left('unexpected_error'.tr());
     }
   }
@@ -57,15 +63,12 @@ class AuthRepoImpl implements AuthRepo {
         final registerResponse = RegisterResponse.fromJson(response.data);
         return Right(registerResponse);
       } else {
-        final errorMessage = response.data['message'] ?? 'registration_failed'.tr();
-        return Left(errorMessage);
+        return Left(_extractErrorMessage(response.data));
       }
     } on DioException catch (e) {
-      final errorMessage =
-          e.response?.data['message'] ?? 'registration_error'.tr();
-      return Left(errorMessage);
+      return Left(_extractErrorMessage(e.response?.data));
     } catch (e) {
-      return Left('unexpected_error'.tr());
+      return Left('');
     }
   }
 
@@ -83,7 +86,8 @@ class AuthRepoImpl implements AuthRepo {
         final refreshResponse = RefreshTokenResponse.fromJson(response.data);
         return Right(refreshResponse);
       } else {
-        final errorMessage = response.data['message'] ?? 'token_refresh_failed'.tr();
+        final errorMessage =
+            response.data['message'] ?? 'token_refresh_failed'.tr();
         return Left(errorMessage);
       }
     } on DioException catch (e) {
@@ -110,8 +114,7 @@ class AuthRepoImpl implements AuthRepo {
         return Left(errorMessage);
       }
     } on DioException catch (e) {
-      final errorMessage =
-          e.response?.data['message'] ?? 'logout_error'.tr();
+      final errorMessage = e.response?.data['message'] ?? 'logout_error'.tr();
       return Left(errorMessage);
     } catch (e) {
       return Left('unexpected_error'.tr());
@@ -162,14 +165,12 @@ class AuthRepoImpl implements AuthRepo {
         return const Right(null);
       } else {
         final errorMessage =
-            response.data['message'] ??
-            'forgot_password_failed'.tr();
+            response.data['message'] ?? 'forgot_password_failed'.tr();
         return Left(errorMessage);
       }
     } on DioException catch (e) {
       final errorMessage =
-          e.response?.data['message'] ??
-          'forgot_password_error'.tr();
+          e.response?.data['message'] ?? 'forgot_password_error'.tr();
       return Left(errorMessage);
     } catch (e) {
       return Left('unexpected_error'.tr());
@@ -203,11 +204,34 @@ class AuthRepoImpl implements AuthRepo {
       }
     } on DioException catch (e) {
       final errorMessage =
-          e.response?.data['message'] ??
-          'reset_password_error'.tr();
+          e.response?.data['message'] ?? 'reset_password_error'.tr();
       return Left(errorMessage);
     } catch (e) {
       return Left('unexpected_error'.tr());
+    }
+  }
+
+  @override
+  Future<Either<String, UserModel>> getUserProfile() async {
+    try {
+      final response = await _dioHelper.getData(
+        url: ApiEndpoints.getUserProfile.path,
+      );
+
+      if (response.statusCode == 200) {
+        // Log the response data for debugging
+        log('📊 User Profile Response: ${response.data}');
+        final user = UserModel.fromJson(response.data);
+        return Right(user);
+      } else {
+        return Left(_extractErrorMessage(response.data));
+      }
+    } on DioException catch (e) {
+      return Left(_extractErrorMessage(e.response?.data));
+    } catch (e, stackTrace) {
+      log('❌ Error parsing user profile: $e');
+      log('📍 Stack trace: $stackTrace');
+      return Left('${'failed_to_fetch_user_profile'.tr()}: ${e.toString()}');
     }
   }
 
@@ -228,47 +252,75 @@ class AuthRepoImpl implements AuthRepo {
       );
 
       if (response.statusCode == 200) {
-        final updatedUser = UserModel.fromJson(response.data['user']);
+        final updatedUser = UserModel.fromJson(response.data);
         return Right(updatedUser);
       } else {
-        final errorMessage =
-            response.data['message'] ?? 'profile_update_failed'.tr();
-        return Left(errorMessage);
+        return Left(_extractErrorMessage(response.data));
       }
     } on DioException catch (e) {
-      final errorMessage =
-          e.response?.data['message'] ?? 'profile_update_error'.tr();
-      return Left(errorMessage);
+      return Left(_extractErrorMessage(e.response?.data));
     } catch (e) {
       return Left('unexpected_error'.tr());
     }
   }
 
-  @override
-  Future<Either<String, void>> confirmEmail({
-    required String token,
-  }) async {
-    try {
-      final response = await _dioHelper.postData(
-        url: ApiEndpoints.confirmEmail.path,
-        data: {
-          'token': token,
-        },
-      );
+  // Helper method to extract error messages from backend response
+  String _extractErrorMessage(dynamic responseData) {
+    log('🔍 Extracting error from response data: $responseData');
 
-      if (response.statusCode == 200) {
-        return const Right(null);
-      } else {
-        final errorMessage =
-            response.data['message'] ?? 'email_confirmation_failed'.tr();
-        return Left(errorMessage);
-      }
-    } on DioException catch (e) {
-      final errorMessage =
-          e.response?.data['message'] ?? 'email_confirmation_error'.tr();
-      return Left(errorMessage);
-    } catch (e) {
-      return Left('unexpected_error'.tr());
+    if (responseData == null) {
+      log('⚠️ Response data is null');
+      return 'server_error'.tr();
     }
+
+    // Check for 'detail' field (400, 401, etc.)
+    if (responseData is Map<String, dynamic> &&
+        responseData.containsKey('detail')) {
+      final detail = responseData['detail'] as String;
+      log('✅ Found detail field: $detail');
+      return detail;
+    }
+
+    // Check for 'errors' field (422 Validation Errors)
+    if (responseData is Map<String, dynamic> &&
+        responseData.containsKey('errors')) {
+      final errors = responseData['errors'] as Map<String, dynamic>;
+
+      // Collect all error messages
+      final List<String> errorMessages = [];
+      errors.forEach((field, messages) {
+        if (messages is List) {
+          for (var message in messages) {
+            errorMessages.add(message.toString());
+          }
+        }
+      });
+
+      // Return first error or all errors joined
+      if (errorMessages.isNotEmpty) {
+        log('✅ Found validation errors: ${errorMessages.first}');
+        return errorMessages.first; // Return first error for simplicity
+      }
+    }
+
+    // Check for 'message' field (custom API messages)
+    if (responseData is Map<String, dynamic> &&
+        responseData.containsKey('message')) {
+      final message = responseData['message'] as String;
+      log('✅ Found message field: $message');
+      return message;
+    }
+
+    // Check for 'title' field (Problem Details)
+    if (responseData is Map<String, dynamic> &&
+        responseData.containsKey('title')) {
+      final title = responseData['title'] as String;
+      log('✅ Found title field: $title');
+      return title;
+    }
+
+    // Default error
+    log('⚠️ No known error field found, returning default');
+    return 'unexpected_error'.tr();
   }
 }
