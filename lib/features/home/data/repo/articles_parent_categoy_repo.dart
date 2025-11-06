@@ -28,11 +28,13 @@ class ArticlesParentCategoyRepoImpl extends ArticlesParentCategoyRepo {
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.categorySlug: parentCategorySlug,
           ApiQueryParams.pageSize: 30,
           ApiQueryParams.language: backendLanguage,
+          ApiQueryParams.type: PostType.article.value,
+          ApiQueryParams.includeLikedByUsers: true,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

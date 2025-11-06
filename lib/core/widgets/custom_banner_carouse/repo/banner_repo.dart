@@ -47,11 +47,12 @@ class BannerRepoImpl implements BannerRepo {
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.pageSize: 15,
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isSlider: true,
+          ApiQueryParams.type: PostType.article.value,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

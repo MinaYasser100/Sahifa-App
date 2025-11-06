@@ -91,6 +91,7 @@ class ApiQueryParams {
   static const String sortBy = "SortBy";
   static const String search = "SearchPhrase";
   static const String type = "Type";
+  static const String includeLikedByUsers = "IncludeLikedByUsers";
 }
 
 enum PostType { article, video, audio }

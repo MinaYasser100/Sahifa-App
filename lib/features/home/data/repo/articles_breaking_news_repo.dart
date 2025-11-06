@@ -65,12 +65,14 @@ class ArticlesBreakingNewsRepoImpl implements ArticlesBreakingNewsRepo {
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.pageSize: 30,
           ApiQueryParams.pageNumber: page,
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isBreaking: true,
+          ApiQueryParams.type: PostType.article.value,
+          ApiQueryParams.includeLikedByUsers: true,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

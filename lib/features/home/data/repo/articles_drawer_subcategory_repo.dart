@@ -74,12 +74,14 @@ class ArticlesDrawerSubcategoryRepoImpl
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.pageNumber: pageNumber,
           ApiQueryParams.pageSize: 30,
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.categorySlug: categorySlug,
+          ApiQueryParams.type: PostType.article.value,
+          ApiQueryParams.includeLikedByUsers: true,
         },
       );
 

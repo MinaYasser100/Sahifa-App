@@ -50,11 +50,12 @@ class TrendingRepoImpl implements TrendingRepo {
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.pageSize: 15,
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.isFeatured: true,
+          ApiQueryParams.type: PostType.article.value,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

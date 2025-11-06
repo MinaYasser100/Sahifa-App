@@ -62,11 +62,13 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
       );
 
       final response = await _dioHelper.getData(
-        url: ApiEndpoints.articles.path,
+        url: ApiEndpoints.posts.path,
         query: {
           ApiQueryParams.categorySlug: categorySlug,
           ApiQueryParams.pageSize: 15,
           ApiQueryParams.language: backendLanguage,
+          ApiQueryParams.type: PostType.article.value,
+          ApiQueryParams.includeLikedByUsers: true,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =
