@@ -1,7 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
+import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
+import 'package:sahifa/features/auth/data/models/register_request.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_cubit.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_state.dart';
 import 'package:sahifa/features/register/ui/widgets/register_footer_section.dart';
 import 'package:sahifa/features/register/ui/widgets/register_form_fields.dart';
 import 'package:sahifa/features/register/ui/widgets/register_header_section.dart';
@@ -32,56 +39,86 @@ class RegisterBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
-      builder: (context, state) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Form(
-            key: formKey,
-            autovalidateMode: context
-                .watch<AutovalidateModeCubit>()
-                .autovalidateMode,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                const RegisterHeaderSection(),
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, authState) {
+        if (authState is Authenticated) {
+          // After successful registration, go directly to home
+          showSuccessToast(
+            context,
+            'success'.tr(),
+            'registration_successful'.tr(),
+          );
+          context.go(Routes.homeView);
+        } else if (authState is AuthError) {
+          showErrorToast(context, 'error'.tr(), authState.message);
+        }
+      },
+      builder: (context, authState) {
+        final isLoading = authState is AuthLoading;
 
-                // Form Fields Section
-                RegisterFormFields(
-                  fullNameController: fullNameController,
-                  fullNameFocusNode: fullNameFocusNode,
-                  emailFocusNode: emailFocusNode,
-                  emailController: emailController,
-                  passwordFocusNode: passwordFocusNode,
-                  passwordController: passwordController,
-                  confirmPasswordFocusNode: confirmPasswordFocusNode,
-                  confirmPasswordController: confirmPasswordController,
+        return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
+          builder: (context, state) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Form(
+                key: formKey,
+                autovalidateMode: context
+                    .watch<AutovalidateModeCubit>()
+                    .autovalidateMode,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header Section
+                    const RegisterHeaderSection(),
+
+                    // Form Fields Section
+                    RegisterFormFields(
+                      fullNameController: fullNameController,
+                      fullNameFocusNode: fullNameFocusNode,
+                      emailFocusNode: emailFocusNode,
+                      emailController: emailController,
+                      passwordFocusNode: passwordFocusNode,
+                      passwordController: passwordController,
+                      confirmPasswordFocusNode: confirmPasswordFocusNode,
+                      confirmPasswordController: confirmPasswordController,
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Register Button
+                    CustomButton(
+                      text: 'create_account'.tr(),
+                      isLoading: isLoading,
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                final request = RegisterRequest(
+                                  userName: fullNameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                  confirmPassword: confirmPasswordController
+                                      .text
+                                      .trim(),
+                                );
+                                context.read<AuthCubit>().register(request);
+                              } else {
+                                context
+                                    .read<AutovalidateModeCubit>()
+                                    .changeAutovalidateMode();
+                              }
+                            },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Footer Section
+                    const RegisterFooterSection(),
+                  ],
                 ),
-
-                const SizedBox(height: 32),
-
-                // Register Button
-                CustomButton(
-                  text: 'Create Account',
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      // Handle registration logic here
-                    } else {
-                      context
-                          .read<AutovalidateModeCubit>()
-                          .changeAutovalidateMode();
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 16),
-
-                // Footer Section
-                const RegisterFooterSection(),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );

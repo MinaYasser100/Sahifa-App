@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -12,17 +14,17 @@ class LoginFooterSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Don\'t have an account? ',
+          'dont_have_an_account'.tr(),
           style: AppTextStyles.styleRegular16sp(
             context,
           ).copyWith(color: ColorsTheme().primaryLight.withValues(alpha: 0.7)),
         ),
         GestureDetector(
           onTap: () {
-            context.pop();
+            context.push(Routes.registerView);
           },
           child: Text(
-            'Register',
+            'create_account'.tr(),
             style: AppTextStyles.styleBold18sp(
               context,
             ).copyWith(color: ColorsTheme().primaryColor),

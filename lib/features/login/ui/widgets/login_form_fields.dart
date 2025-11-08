@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/validation/validatoin.dart';
@@ -25,13 +26,13 @@ class LoginFormFields extends StatelessWidget {
       children: [
         // Email Field
         CustomFieldWithTitle(
-          title: 'Email Address',
+          title: 'email_address'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              hintText: 'Email Address',
-              validator: Validatoin.emailValidation,
+              hintText: 'email_address'.tr(),
+              validator: Validation.emailValidation,
               focusNode: emailFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {
@@ -44,13 +45,18 @@ class LoginFormFields extends StatelessWidget {
 
         // Password Field
         CustomFieldWithTitle(
-          title: 'Password',
+          title: 'password'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
-              hintText: 'Password',
-              validator: Validatoin.validatePassword,
+              hintText: 'password'.tr(),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'password_required'.tr();
+                }
+                return null;
+              },
               obscureText: true,
               focusNode: passwordFocusNode,
             ),

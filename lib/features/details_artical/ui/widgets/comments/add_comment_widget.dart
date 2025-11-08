@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
+import 'package:sahifa/core/utils/auth_checker.dart';
+import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/core/widgets/custom_text_form_field.dart';
+
+class AddCommentWidget extends StatefulWidget {
+  const AddCommentWidget({super.key});
+
+  @override
+  State<AddCommentWidget> createState() => _AddCommentWidgetState();
+}
+
+class _AddCommentWidgetState extends State<AddCommentWidget> {
+  final TextEditingController _commentController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to focus changes
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() async {
+    if (_focusNode.hasFocus) {
+      // Check authentication when user tries to comment
+      if (!await AuthChecker.checkAuthAndNavigate(context)) {
+        // User not logged in - unfocus the field
+        _focusNode.unfocus();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _commentController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDarkMode ? ColorsTheme().cardColor : ColorsTheme().whiteColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: (isDarkMode
+              ? ColorsTheme().primaryLight.withValues(alpha: 0.1)
+              : ColorsTheme().grayColor.withValues(alpha: 0.2)),
+          width: 2,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                FontAwesomeIcons.comment,
+                color: isDarkMode
+                    ? ColorsTheme().whiteColor
+                    : ColorsTheme().primaryColor,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "Add your comment".tr(),
+                style: TextStyle(
+                  color: isDarkMode
+                      ? ColorsTheme().whiteColor
+                      : ColorsTheme().blackColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          // Text Field
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextFormField(
+                  textFieldModel: TextFieldModel(
+                    controller: _commentController,
+                    focusNode: _focusNode,
+                    keyboardType: TextInputType.text,
+                    ischangeColor: true,
+                    validator: (p0) => null,
+                    hintText: 'write_your_comment_here'.tr(),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              CircleAvatar(
+                backgroundColor: ColorsTheme().grayColor,
+                radius: 18,
+                child: Icon(
+                  Icons.send,
+                  color: ColorsTheme().primaryColor,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+
+          // Action Buttons (shown when expanded)
+        ],
+      ),
+    );
+  }
+}

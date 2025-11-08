@@ -4,9 +4,7 @@ import 'package:go_router/go_router.dart';
 CustomTransitionPage<void> fadeTransitionPage(Widget child) {
   return CustomTransitionPage(
     child: child,
-    transitionDuration: const Duration(
-      milliseconds: 700,
-    ),
+    transitionDuration: const Duration(milliseconds: 700),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = 0.0;
       const end = 1.0;
@@ -14,10 +12,7 @@ CustomTransitionPage<void> fadeTransitionPage(Widget child) {
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-      return FadeTransition(
-        opacity: animation.drive(tween),
-        child: child,
-      );
+      return FadeTransition(opacity: animation.drive(tween), child: child);
     },
   );
 }

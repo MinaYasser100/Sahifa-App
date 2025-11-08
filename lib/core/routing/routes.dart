@@ -19,4 +19,22 @@ class Routes {
   static const String reelsView = '/reels';
   static const String tvView = '/tv';
   static const String pdfView = '/pdf';
+  static const String articalsCategorySectionView = '/articals-section';
+  static const String detailsArticalView = '/details-artical';
+  static const String searchView = '/search';
+  static const String searchCategoryView = '/search-category';
+  static const String alThawraArchiveView = '/al-thawra-archive';
+  static const String archivePdfView = '/search-pdf';
+  static const String profileView = '/profile';
+  static const String favoritesView = '/favorites';
+  static const String editInfoView = '/edit-info';
+  static const String splashView = '/splash';
+  static const String drawerSubCategoryContent = '/drawerSubCategoryContent';
+  static const String aboutUsView = '/about-us';
+  static const String privacyPolicyView = '/privacy-policy';
+  static const String contactUsView = '/contact-us';
+  static const String videoDetailsView = '/video-details';
+  static const String audioMagazineView = '/audio-magazines';
+  static const String audioBookDetails = '/audio-book-details';
+  static const String audioPlayerView = '/audio-player';
 }

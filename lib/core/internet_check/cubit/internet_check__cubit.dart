@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 part 'internet_check__state.dart';
 
@@ -30,11 +32,16 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
     }
   }
 
+  /// Public method to manually check connectivity (for retry button)
+  Future<void> checkConnectivity() async {
+    await _checkInitialConnectivity();
+  }
+
   /// Monitor connectivity changes with debouncing
   void _monitorConnectivityChanges() {
-    _connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((List<ConnectivityResult> result) async {
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((
+      List<ConnectivityResult> result,
+    ) async {
       await _handleConnectivityChange(result);
     });
   }
@@ -42,17 +49,35 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
   /// Check actual internet availability
   Future<bool> _isInternetAvailable() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
-      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+      if (kIsWeb) {
+        // For Web: Use HTTP request to check connectivity
+        try {
+          final response = await http
+              .get(Uri.parse('https://www.google.com'))
+              .timeout(const Duration(seconds: 5));
+          return response.statusCode == 200;
+        } catch (e) {
+          log('Web: Error checking internet availability: $e');
+          // On web, if we can't reach google, assume we have internet
+          // because the web app itself loaded
+          return true;
+        }
+      } else {
+        // For Mobile/Desktop: Use InternetAddress lookup
+        final result = await InternetAddress.lookup('google.com');
+        return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+      }
     } catch (e) {
       log('Error checking internet availability: $e');
-      return false;
+      // On web, assume we have internet if the app is running
+      return kIsWeb;
     }
   }
 
   /// Handle connectivity changes
   Future<void> _handleConnectivityChange(
-      List<ConnectivityResult> connectivityResults) async {
+    List<ConnectivityResult> connectivityResults,
+  ) async {
     final connectivityResult = connectivityResults.isNotEmpty
         ? connectivityResults.first
         : ConnectivityResult.none;

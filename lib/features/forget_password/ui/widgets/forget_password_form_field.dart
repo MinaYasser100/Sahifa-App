@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/validation/validatoin.dart';
@@ -17,13 +18,13 @@ class ForgetPasswordFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFieldWithTitle(
-      title: 'Email Address',
+      title: 'email_address'.tr(),
       child: CustomTextFormField(
         textFieldModel: TextFieldModel(
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
-          hintText: 'Email Address',
-          validator: Validatoin.emailValidation,
+          hintText: 'email_address'.tr(),
+          validator: Validation.emailValidation,
           focusNode: emailFocusNode,
           autofocus: true,
         ),

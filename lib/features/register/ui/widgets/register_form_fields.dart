@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/validation/validatoin.dart';
@@ -31,15 +32,15 @@ class RegisterFormFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Full Name Field
+        // Username Field
         CustomFieldWithTitle(
-          title: 'Full Name',
+          title: 'username'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: fullNameController,
               keyboardType: TextInputType.name,
-              hintText: 'Full Name',
-              validator: Validatoin.validateFullName,
+              hintText: 'username_hint'.tr(),
+              validator: Validation.validateUserName,
               focusNode: fullNameFocusNode,
               autofocus: true,
               onFieldSubmitted: (_) {
@@ -52,13 +53,13 @@ class RegisterFormFields extends StatelessWidget {
 
         // Email Field
         CustomFieldWithTitle(
-          title: 'Email Address',
+          title: 'email_address'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              hintText: 'Email Address',
-              validator: Validatoin.emailValidation,
+              hintText: 'email_address'.tr(),
+              validator: Validation.emailValidation,
               focusNode: emailFocusNode,
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(passwordFocusNode);
@@ -70,13 +71,13 @@ class RegisterFormFields extends StatelessWidget {
 
         // Password Field
         CustomFieldWithTitle(
-          title: 'Password',
+          title: 'password'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: passwordController,
               keyboardType: TextInputType.visiblePassword,
-              hintText: 'Password',
-              validator: Validatoin.validatePassword,
+              hintText: 'password'.tr(),
+              validator: Validation.validatePassword,
               obscureText: true,
               focusNode: passwordFocusNode,
               onFieldSubmitted: (_) {
@@ -89,14 +90,14 @@ class RegisterFormFields extends StatelessWidget {
 
         // Confirm Password Field
         CustomFieldWithTitle(
-          title: 'Confirm Password',
+          title: 'confirm_password'.tr(),
           child: CustomTextFormField(
             textFieldModel: TextFieldModel(
               controller: confirmPasswordController,
               keyboardType: TextInputType.visiblePassword,
-              hintText: 'Confirm Password',
+              hintText: 'confirm_password'.tr(),
               validator: (value) =>
-                  Validatoin.validateConfirmPassword(value, passwordController),
+                  Validation.validateConfirmPassword(value, passwordController),
               obscureText: true,
               focusNode: confirmPasswordFocusNode,
             ),

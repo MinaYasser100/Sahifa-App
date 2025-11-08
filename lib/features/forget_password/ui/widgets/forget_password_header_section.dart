@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -12,7 +13,7 @@ class ForgetPasswordHeaderSection extends StatelessWidget {
         Icon(Icons.lock_reset, size: 80, color: ColorsTheme().primaryColor),
         const SizedBox(height: 24),
         Text(
-          'Forgot Password?',
+          'forgot_password'.tr(),
           style: AppTextStyles.styleBold18sp(
             context,
           ).copyWith(color: ColorsTheme().primaryColor),
@@ -20,7 +21,7 @@ class ForgetPasswordHeaderSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Enter your email address and we\'ll send you a link to reset your password',
+          'enter_your_email'.tr(),
           style: AppTextStyles.styleRegular14sp(
             context,
           ).copyWith(color: ColorsTheme().grayColor),
