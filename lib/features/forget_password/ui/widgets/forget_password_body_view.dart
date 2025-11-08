@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
@@ -44,13 +45,13 @@ class ForgetPasswordBodyView extends StatelessWidget {
 
                 // Send Reset Link Button
                 CustomButton(
-                  text: 'Send Reset Link',
+                  text: 'forgot_password'.tr(),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       // Handle forget password logic here
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Reset link sent to your email!'),
+                        SnackBar(
+                          content: Text('reset_link_sent_to_your_email'.tr()),
                         ),
                       );
                     } else {
@@ -70,7 +71,7 @@ class ForgetPasswordBodyView extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'Back to Login',
+                      'login'.tr(),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

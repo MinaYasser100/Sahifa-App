@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
@@ -13,7 +14,7 @@ class RegisterFooterSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Already have an account? ',
+          'already_have_an_account'.tr(),
           style: AppTextStyles.styleRegular14sp(
             context,
           ).copyWith(color: ColorsTheme().primaryLight),
@@ -28,7 +29,10 @@ class RegisterFooterSection extends StatelessWidget {
           onPressed: () {
             context.push(Routes.loginView);
           },
-          child: Text('Login', style: AppTextStyles.styleBold18sp(context)),
+          child: Text(
+            'login'.tr(),
+            style: AppTextStyles.styleBold18sp(context),
+          ),
         ),
       ],
     );

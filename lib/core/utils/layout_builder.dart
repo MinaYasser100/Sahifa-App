@@ -18,22 +18,25 @@ class AdaptiveLayout extends StatelessWidget {
       builder: (BuildContext context, constraints) {
         if (constraints.maxWidth < 600) {
           return ScreenUtilInit(
-              designSize: mobileDesignSize,
-              minTextAdapt: true,
-              splitScreenMode: true,
-              child: mobileLayout(context));
+            designSize: mobileDesignSize,
+            minTextAdapt: true,
+            splitScreenMode: true,
+            child: mobileLayout(context),
+          );
         } else if (constraints.maxWidth < 1024) {
           return ScreenUtilInit(
-              designSize: tabletDesignSize,
-              minTextAdapt: true,
-              splitScreenMode: true,
-              child: tabletLayout(context));
+            designSize: tabletDesignSize,
+            minTextAdapt: true,
+            splitScreenMode: true,
+            child: tabletLayout(context),
+          );
         } else {
           return ScreenUtilInit(
-              designSize: desktopDesignSize,
-              minTextAdapt: true,
-              splitScreenMode: true,
-              child: desktopLayout(context));
+            designSize: desktopDesignSize,
+            minTextAdapt: true,
+            splitScreenMode: true,
+            child: desktopLayout(context),
+          );
         }
       },
     );

@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/features/register/ui/widgets/register_body_view.dart';
+import 'package:sahifa/features/register/ui/widgets/tablet_register_body.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -51,22 +54,36 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveHelper.isTablet(context);
+    
     return BlocProvider(
       create: (context) => AutovalidateModeCubit(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Create New Account')),
+        appBar: AppBar(title: Text('create_new_account'.tr())),
         body: SafeArea(
-          child: RegisterBodyView(
-            formKey: formKey,
-            fullNameController: fullNameController,
-            fullNameFocusNode: fullNameFocusNode,
-            emailFocusNode: emailFocusNode,
-            emailController: emailController,
-            passwordFocusNode: passwordFocusNode,
-            passwordController: passwordController,
-            confirmPasswordFocusNode: confirmPasswordFocusNode,
-            confirmPasswordController: confirmPasswordController,
-          ),
+          child: isTablet
+              ? TabletRegisterBody(
+                  formKey: formKey,
+                  fullNameController: fullNameController,
+                  fullNameFocusNode: fullNameFocusNode,
+                  emailFocusNode: emailFocusNode,
+                  emailController: emailController,
+                  passwordFocusNode: passwordFocusNode,
+                  passwordController: passwordController,
+                  confirmPasswordFocusNode: confirmPasswordFocusNode,
+                  confirmPasswordController: confirmPasswordController,
+                )
+              : RegisterBodyView(
+                  formKey: formKey,
+                  fullNameController: fullNameController,
+                  fullNameFocusNode: fullNameFocusNode,
+                  emailFocusNode: emailFocusNode,
+                  emailController: emailController,
+                  passwordFocusNode: passwordFocusNode,
+                  passwordController: passwordController,
+                  confirmPasswordFocusNode: confirmPasswordFocusNode,
+                  confirmPasswordController: confirmPasswordController,
+                ),
         ),
       ),
     );

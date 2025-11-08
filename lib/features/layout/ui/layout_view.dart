@@ -1,11 +1,11 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/home/ui/home_view.dart';
-import 'package:sahifa/features/pdf/ui/pdf_view.dart';
-import 'package:sahifa/features/reels/ui/reels_view.dart';
-import 'package:sahifa/features/tv/ui/tv_view.dart';
+import 'package:sahifa/core/widgets/adaptive_layout.dart';
+import 'package:sahifa/features/layout/ui/widgets/layout_mobile_view.dart';
+import 'package:sahifa/features/layout/ui/widgets/layout_tablet_view.dart';
 
 class LayoutView extends StatefulWidget {
   const LayoutView({super.key});
@@ -15,12 +15,10 @@ class LayoutView extends StatefulWidget {
 }
 
 class _LayoutViewState extends State<LayoutView> {
-  final _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
   final NotchBottomBarController _controller = NotchBottomBarController(
     index: 0,
   );
-
-  int maxCount = 4;
 
   @override
   void dispose() {
@@ -28,24 +26,29 @@ class _LayoutViewState extends State<LayoutView> {
     super.dispose();
   }
 
+  void _onPageChanged(int index) {
+    if (mounted) {
+      _pageController.jumpToPage(index);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Widget> bottomBarPages = [
-      const HomeView(),
-      const ReelsView(),
-      const PdfView(),
-      const TvView(),
-    ];
+    return AdaptiveLayout(
+      // Mobile Layout - مع AnimatedNotchBottomBar
+      mobileLayout: (context) => _buildMobileLayout(context),
 
+      // Tablet Layout - مع NavigationRail
+      tabletLayout: (context) => const LayoutTabletView(),
+
+      // Desktop Layout - مع Extended NavigationRail
+      desktopLayout: (context) => const LayoutTabletView(),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(
-          bottomBarPages.length,
-          (index) => bottomBarPages[index],
-        ),
-      ),
+      body: LayoutMobileView(pageController: _pageController),
       extendBody: true,
       bottomNavigationBar: AnimatedNotchBottomBar(
         notchBottomBarController: _controller,
@@ -55,7 +58,7 @@ class _LayoutViewState extends State<LayoutView> {
         maxLine: 1,
         shadowElevation: 5,
         kBottomRadius: 28.0,
-        notchColor: Colors.transparent,
+        notchColor: ColorsTheme().grayColor.withValues(alpha: 0.5),
         removeMargins: false,
         bottomBarWidth: 500,
         showShadow: false,
@@ -69,50 +72,58 @@ class _LayoutViewState extends State<LayoutView> {
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.house,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.house,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'Home',
+            itemLabel: 'home'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.video,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.video,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'Reels',
+            itemLabel: 'reels'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.filePdf,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.filePdf,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'PDF',
+            itemLabel: 'pdf'.tr(),
           ),
           BottomBarItem(
             inActiveItem: Icon(
               FontAwesomeIcons.tv,
+              size: LayoutConst.iconSize,
               color: LayoutConst.inactiveIconColor,
             ),
             activeItem: Icon(
               FontAwesomeIcons.tv,
+              size: LayoutConst.iconSize,
               color: LayoutConst.activeIconColor,
             ),
-            itemLabel: 'TV',
+            itemLabel: 'tv'.tr(),
           ),
         ],
         onTap: (index) {
-          _pageController.jumpToPage(index);
+          _onPageChanged(index);
         },
         kIconSize: 24.0,
       ),
@@ -127,4 +138,5 @@ class LayoutConst {
   static final Color notchColor = ColorsTheme().grayColor.withValues(
     alpha: 0.4,
   );
+  static final double iconSize = 18;
 }

@@ -22,9 +22,36 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // Determine colors based on mode
+    final Color textColor = widget.textFieldModel.readOnly
+        ? ColorsTheme().grayColor
+        : (isDarkMode ? ColorsTheme().whiteColor : ColorsTheme().primaryColor);
+
+    final Color cursorColor = (isDarkMode
+        ? ColorsTheme().whiteColor
+        : ColorsTheme().primaryColor);
+
+    final Color hintColor = isDarkMode
+        ? ColorsTheme().grayColor.withValues(alpha: 0.6)
+        : ColorsTheme().grayColor;
+
+    final Color labelColor = widget.textFieldModel.ischangeColor
+        ? (isDarkMode ? ColorsTheme().primaryLight : ColorsTheme().primaryColor)
+        : ColorsTheme().primaryColor;
+
+    final Color iconColor = widget.textFieldModel.ischangeColor
+        ? (isDarkMode ? ColorsTheme().primaryLight : ColorsTheme().primaryColor)
+        : (isDarkMode ? ColorsTheme().whiteColor : ColorsTheme().grayColor);
+
+    final Color borderColor = (isDarkMode
+        ? ColorsTheme().primaryLight
+        : ColorsTheme().grayColor);
+
     return TextFormField(
       controller: widget.textFieldModel.controller,
-      cursorColor: ColorsTheme().primaryColor,
+      cursorColor: cursorColor,
       validator: widget.textFieldModel.validator,
       autovalidateMode: widget.textFieldModel.autovalidateMode,
       obscureText: isObscured,
@@ -33,13 +60,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: widget.textFieldModel.focusNode,
       onFieldSubmitted: widget.textFieldModel.onFieldSubmitted,
       onChanged: widget.textFieldModel.onChanged,
-      style: TextStyle(color: ColorsTheme().primaryColor),
+      style: TextStyle(color: textColor, fontSize: 18),
+      readOnly: widget.textFieldModel.readOnly,
+      maxLines: widget.textFieldModel.maxLines,
+      onTap: widget.textFieldModel.onTap,
       decoration: InputDecoration(
         labelText: widget.textFieldModel.labelText,
         hintText: widget.textFieldModel.hintText,
         errorText: widget.textFieldModel.errorText,
-        hintStyle: TextStyle(color: ColorsTheme().grayColor),
-        labelStyle: TextStyle(color: ColorsTheme().primaryColor),
+        hintStyle: TextStyle(color: hintColor),
+        labelStyle: TextStyle(color: labelColor),
+        prefixIcon: widget.textFieldModel.icon != null
+            ? Icon(widget.textFieldModel.icon, color: iconColor)
+            : null,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
@@ -54,22 +87,28 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 child: Icon(
                   isObscured ? Icons.visibility_off : Icons.visibility,
                   color: isObscured
-                      ? ColorsTheme().primaryColor
+                      ? (isDarkMode
+                            ? ColorsTheme().primaryLight
+                            : ColorsTheme().primaryColor)
                       : ColorsTheme().secondaryColor,
                 ),
               )
             : null,
-        border: _customOutlineInputBorder(),
-        focusedBorder: _customOutlineInputBorder(),
-        enabledBorder: _customOutlineInputBorder(),
+        border: _customOutlineInputBorder(borderColor),
+        focusedBorder: _customOutlineInputBorder(
+          isDarkMode ? ColorsTheme().whiteColor : ColorsTheme().primaryColor,
+        ),
+        enabledBorder: _customOutlineInputBorder(borderColor),
+        errorBorder: _customOutlineInputBorder(ColorsTheme().errorColor),
+        focusedErrorBorder: _customOutlineInputBorder(ColorsTheme().errorColor),
       ),
     );
   }
 
-  OutlineInputBorder _customOutlineInputBorder() {
+  OutlineInputBorder _customOutlineInputBorder(Color color) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(color: ColorsTheme().primaryColor),
+      borderSide: BorderSide(color: color),
     );
   }
 }

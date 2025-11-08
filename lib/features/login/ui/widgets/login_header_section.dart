@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -11,7 +12,7 @@ class LoginHeaderSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Welcome Back',
+          'welcome_back'.tr(),
           style: AppTextStyles.styleBold20sp(
             context,
           ).copyWith(color: ColorsTheme().primaryColor),
@@ -19,7 +20,7 @@ class LoginHeaderSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Login to continue',
+          'sign_in_to_continue'.tr(),
           style: AppTextStyles.styleRegular14sp(
             context,
           ).copyWith(color: ColorsTheme().primaryLight.withValues(alpha: 0.7)),

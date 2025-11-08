@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
@@ -23,14 +24,14 @@ void showNoInternetDialog(BuildContext context) {
             ),
             const SizedBox(height: 16),
             Text(
-              'No Internet',
+              'no_internet'.tr(),
               style: AppTextStyles.styleBold22sp(
                 context,
               ).copyWith(color: ColorsTheme().errorColor),
             ),
             const SizedBox(height: 12),
             Text(
-              'Please check your internet connection and try again.',
+              'please_check_your_internet_connection'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(color: ColorsTheme().primaryDark, fontSize: 16),
             ),
@@ -53,7 +54,7 @@ void showNoInternetDialog(BuildContext context) {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text('Cancel'),
+                  child: Text('cancel'.tr()),
                 ),
               ],
             ),
