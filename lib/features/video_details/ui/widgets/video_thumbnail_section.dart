@@ -18,6 +18,7 @@ class VideoThumbnailSection extends StatelessWidget {
           CustomImageWidget(
             imageUrl: video.videoThumbnailUrl ?? '',
             height: 250,
+            changeBorderRadius: true,
           ),
           DetailsVideoPlayButton(),
           DetailsVideoDurationBadge(video: video),

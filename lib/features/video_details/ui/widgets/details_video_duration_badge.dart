@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/func/format_duration.dart';
 import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
@@ -21,7 +22,7 @@ class DetailsVideoDurationBadge extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            video.duration ?? '',
+            formatDuration(video.duration),
             style: TextStyle(
               color: ColorsTheme().whiteColor,
               fontSize: 12,
