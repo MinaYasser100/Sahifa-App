@@ -264,9 +264,16 @@
   
   "_comment_errors": "===== Error Messages =====",
   "error": "خطأ",
-  "date_selection_cancelled": "تم إلغاء اختيار التاريخ",
-  "could_not_launch_the_video_url": "تعذر فتح رابط الفيديو",
+  "date_selection_cancelled": "تم إلغاء تحديد التاريخ",
+  "could_not_launch_the_video_url": "لا يمكن فتح رابط الفيديو",
   "an_error_occurred_while_opening_the_video": "حدث خطأ أثناء فتح الفيديو",
+  
+  "_comment_like_errors": "===== Like Post Error Messages =====",
+  "unauthorized_action": "إجراء غير مصرح به",
+  "post_not_found": "المنشور غير موجود",
+  "action_already_performed": "تم تنفيذ الإجراء بالفعل",
+  "validation_error": "خطأ في التحقق",
+  "failed_to_like_post": "فشل في الإعجاب بالمنشور",
   
   "_comment_auth_errors": "===== Authentication Error Messages =====",
   "auth_email_already_in_use": "البريد الإلكتروني مستخدم بالفعل",
@@ -514,7 +521,6 @@
   "failed_to_fetch_user_profile": "فشل في جلب معلومات المستخدم",
   "invalid_credentials": "بيانات الاعتماد غير صحيحة",
   "user_not_found_error": "المستخدم غير موجود",
-  "validation_error": "يرجى التحقق من البيانات المدخلة",
   "token_expired": "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى",
   "server_error": "خطأ في الخادم. يرجى المحاولة لاحقاً",
   "unauthorized_access": "غير مصرح لك بالوصول",

@@ -268,6 +268,13 @@
   "could_not_launch_the_video_url": "Could not launch the video URL",
   "an_error_occurred_while_opening_the_video": "An error occurred while opening the video",
   
+  "_comment_like_errors": "===== Like Post Error Messages =====",
+  "unauthorized_action": "Unauthorized Action",
+  "post_not_found": "Post Not Found",
+  "action_already_performed": "Action Already Performed",
+  "validation_error": "Validation Error",
+  "failed_to_like_post": "Failed to Like Post",
+  
   "_comment_auth_errors": "===== Authentication Error Messages =====",
   "auth_email_already_in_use": "Email already in use",
   "auth_email_already_in_use_description": "This email is already registered. Please login or use a different email",
@@ -502,7 +509,6 @@
   "failed_to_fetch_user_profile": "Failed to fetch user profile",
   "invalid_credentials": "Invalid credentials",
   "user_not_found_error": "User not found",
-  "validation_error": "Please check the entered data",
   "token_expired": "Session expired. Please login again",
   "server_error": "Server error. Please try again later",
   "unauthorized_access": "Unauthorized access",

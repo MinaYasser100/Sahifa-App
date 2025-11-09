@@ -2,12 +2,12 @@ class ArticleModel {
   String? id;
   String? title;
   String? slug;
-  String? description;        
+  String? description;
   String? image;
   String? imageDescription;
   String? status;
   String? language;
-  String? postType;            
+  String? postType;
   bool? isFeatured;
   bool? isBreaking;
   bool? isSlider;
@@ -16,14 +16,15 @@ class ArticleModel {
   int? likesCount;
   String? createdAt;
   String? publishedAt;
-  String? authorId;           
-  String? authorName;          
-  String? authorImage;         
+  String? authorId;
+  String? authorName;
+  String? authorImage;
   String? categoryId;
   String? categoryName;
   String? categorySlug;
   List<String>? tags;
-  List<dynamic>? likedByUsers; 
+  List<dynamic>? likedByUsers;
+  bool? isLikedByCurrentUser;
 
   ArticleModel({
     this.id,
@@ -51,61 +52,64 @@ class ArticleModel {
     this.categorySlug,
     this.tags,
     this.likedByUsers,
+    this.isLikedByCurrentUser,
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) => ArticleModel(
-        id: json['id'] as String?,
-        title: json['title'] as String?,
-        slug: json['slug'] as String?,
-        description: json['description'] as String?,
-        image: json['image'] as String?,
-        imageDescription: json['imageDescription'] as String?,
-        status: json['status'] as String?,
-        language: json['language'] as String?,
-        postType: json['postType'] as String?,
-        isFeatured: json['isFeatured'] as bool?,
-        isBreaking: json['isBreaking'] as bool?,
-        isSlider: json['isSlider'] as bool?,
-        isRecommended: json['isRecommended'] as bool?,
-        viewsCount: json['viewsCount'] as int?,
-        likesCount: json['likesCount'] as int?,
-        createdAt: json['createdAt'] as String?,
-        publishedAt: json['publishedAt'] as String?,
-        authorId: json['authorId'] as String?,
-        authorName: json['authorName'] as String?,
-        authorImage: json['authorImage'] as String?,
-        categoryId: json['categoryId'] as String?,
-        categoryName: json['categoryName'] as String?,
-        categorySlug: json['categorySlug'] as String?,
-        tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-        likedByUsers: json['likedByUsers'] as List<dynamic>?,
-      );
+    id: json['id'] as String?,
+    title: json['title'] as String?,
+    slug: json['slug'] as String?,
+    description: json['description'] as String?,
+    image: json['image'] as String?,
+    imageDescription: json['imageDescription'] as String?,
+    status: json['status'] as String?,
+    language: json['language'] as String?,
+    postType: json['postType'] as String?,
+    isFeatured: json['isFeatured'] as bool?,
+    isBreaking: json['isBreaking'] as bool?,
+    isSlider: json['isSlider'] as bool?,
+    isRecommended: json['isRecommended'] as bool?,
+    viewsCount: json['viewsCount'] as int?,
+    likesCount: json['likesCount'] as int?,
+    createdAt: json['createdAt'] as String?,
+    publishedAt: json['publishedAt'] as String?,
+    authorId: json['authorId'] as String?,
+    authorName: json['authorName'] as String?,
+    authorImage: json['authorImage'] as String?,
+    categoryId: json['categoryId'] as String?,
+    categoryName: json['categoryName'] as String?,
+    categorySlug: json['categorySlug'] as String?,
+    tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    likedByUsers: json['likedByUsers'] as List<dynamic>?,
+    isLikedByCurrentUser: json['isLikedByCurrentUser'] as bool?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'slug': slug,
-        'description': description,
-        'image': image,
-        'imageDescription': imageDescription,
-        'status': status,
-        'language': language,
-        'postType': postType,
-        'isFeatured': isFeatured,
-        'isBreaking': isBreaking,
-        'isSlider': isSlider,
-        'isRecommended': isRecommended,
-        'viewsCount': viewsCount,
-        'likesCount': likesCount,
-        'createdAt': createdAt,
-        'publishedAt': publishedAt,
-        'authorId': authorId,
-        'authorName': authorName,
-        'authorImage': authorImage,
-        'categoryId': categoryId,
-        'categoryName': categoryName,
-        'categorySlug': categorySlug,
-        'tags': tags,
-        'likedByUsers': likedByUsers,
-      };
+    'id': id,
+    'title': title,
+    'slug': slug,
+    'description': description,
+    'image': image,
+    'imageDescription': imageDescription,
+    'status': status,
+    'language': language,
+    'postType': postType,
+    'isFeatured': isFeatured,
+    'isBreaking': isBreaking,
+    'isSlider': isSlider,
+    'isRecommended': isRecommended,
+    'viewsCount': viewsCount,
+    'likesCount': likesCount,
+    'createdAt': createdAt,
+    'publishedAt': publishedAt,
+    'authorId': authorId,
+    'authorName': authorName,
+    'authorImage': authorImage,
+    'categoryId': categoryId,
+    'categoryName': categoryName,
+    'categorySlug': categorySlug,
+    'tags': tags,
+    'likedByUsers': likedByUsers,
+    'isLikedByCurrentUser': isLikedByCurrentUser,
+  };
 }

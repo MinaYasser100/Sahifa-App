@@ -31,8 +31,10 @@ enum ApiEndpoints {
   changePassword('/api/v1/auth/change-password'),
   getUserProfile('/api/v1/users/profile'),
   updateProfile('/api/v1/user/profile'),
+
   posts('/api/v1/posts'),
-  video('/api/v1/posts/categories/{categorySlug}/videos/{slug}');
+  video('/api/v1/posts/categories/{categorySlug}/videos/{slug}'),
+  likePost("/api/v1/posts/{postId}/like");
 
   final String path;
   const ApiEndpoints(this.path);
@@ -93,8 +95,9 @@ class ApiQueryParams {
   static const String search = "SearchPhrase";
   static const String type = "Type";
   static const String includeLikedByUsers = "IncludeLikedByUsers";
-  static const String hasAuthor = "HasAuthor"; 
+  static const String hasAuthor = "HasAuthor";
   static const String authorName = "AuthorName";
+  static const String postId = "postId";
 }
 
 enum PostType { article, video, audio }
