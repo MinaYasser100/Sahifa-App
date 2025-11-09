@@ -154,7 +154,7 @@ class AuthErrorHandler {
     final domain = parts[1];
 
     if (username.length <= 2) {
-      return '${username}***@$domain';
+      return '$username***@$domain';
     }
 
     return '${username.substring(0, 2)}***@$domain';

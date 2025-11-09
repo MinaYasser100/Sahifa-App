@@ -119,8 +119,9 @@ class AuthCubit extends Cubit<AuthState> {
           userResult.fold(
             (error) {
               log('❌ Failed to fetch user profile: $error', name: 'AuthCubit');
-              if (!isClosed)
+              if (!isClosed) {
                 emit(AuthError(message: 'failed_to_fetch_user_profile'.tr()));
+              }
             },
             (user) async {
               log('✅ User profile fetched: ${user.email}', name: 'AuthCubit');
@@ -327,8 +328,9 @@ class AuthCubit extends Cubit<AuthState> {
       );
     } catch (e) {
       log('❌ Unexpected error during password change: $e', name: 'AuthCubit');
-      if (!isClosed)
+      if (!isClosed) {
         emit(AuthError(message: 'password_change_unexpected_error'.tr()));
+      }
     }
   }
 
@@ -376,8 +378,9 @@ class AuthCubit extends Cubit<AuthState> {
       );
     } catch (e) {
       log('❌ Unexpected error during profile update: $e', name: 'AuthCubit');
-      if (!isClosed)
+      if (!isClosed) {
         emit(AuthError(message: 'profile_update_unexpected_error'.tr()));
+      }
     }
   }
 

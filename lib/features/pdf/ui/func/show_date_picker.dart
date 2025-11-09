@@ -31,10 +31,9 @@ Future<void> showDatePickerMethod(
                   onPrimary: ColorsTheme().whiteColor,
                   surface: ColorsTheme().whiteColor,
                   onSurface: ColorsTheme().blackColor,
-                ),
-          dialogBackgroundColor: isDarkMode
+                ), dialogTheme: DialogThemeData(backgroundColor: isDarkMode
               ? ColorsTheme().cardColor
-              : ColorsTheme().whiteColor,
+              : ColorsTheme().whiteColor),
         ),
         child: child!,
       );

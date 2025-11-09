@@ -28,13 +28,15 @@ class ArticlesParentCategoryCubit extends Cubit<ArticlesParentCategoryState> {
           if (!isClosed) emit(ArticlesParentCategoryError(failure));
         },
         (articlesData) {
-          if (!isClosed)
+          if (!isClosed) {
             emit(ArticlesParentCategorySuccess(articlesData.articles ?? []));
+          }
         },
       );
     } catch (e) {
-      if (!isClosed)
+      if (!isClosed) {
         emit(ArticlesParentCategoryError('An unexpected error occurred'));
+      }
     }
   }
 }

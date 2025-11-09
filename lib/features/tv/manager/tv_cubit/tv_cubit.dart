@@ -27,7 +27,7 @@ class TvCubit extends Cubit<TvState> {
 
     // Only emit loading if we don't have cached data
     final repoImpl = tvRepo as TVRepoImpl;
-    if (!repoImpl.hasValidCache(1)) {
+    if (!repoImpl.hasValidMemoryCache(1)) {
       emit(TvLoading());
     }
 

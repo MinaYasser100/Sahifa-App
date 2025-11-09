@@ -34,7 +34,7 @@ class ThemeSettingsCard extends StatelessWidget {
             isDark ? "switch_to_light_theme".tr() : "switch_to_dark_theme".tr(),
           ),
           trailing: Switch(
-            activeColor: ColorsTheme().whiteColor,
+            activeThumbColor: ColorsTheme().whiteColor,
             value: isDark,
             onChanged: (value) {
               themeCubit.toggleTheme();

@@ -20,7 +20,7 @@ class _CommentsSectionState extends State<CommentsSection> {
   static const int _initialCommentsToShow = 2;
   bool _showAllComments = false;
 
-  final String? _currentUserId = 'user_4';
+  final String _currentUserId = 'user_4';
 
   // Sample comments - في المستقبل من الـ backend
   final List<CommentModel> _comments = [

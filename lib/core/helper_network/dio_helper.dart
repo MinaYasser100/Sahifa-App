@@ -14,6 +14,11 @@ class DioHelper {
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
+        // Accept 304 Not Modified as valid response for ETag caching
+        validateStatus: (status) {
+          return status != null &&
+              ((status >= 200 && status < 300) || status == 304);
+        },
       ),
     );
 
@@ -28,9 +33,14 @@ class DioHelper {
   Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
+    Map<String, dynamic>? headers,
   }) async {
     try {
-      final response = await _dio.get(url, queryParameters: query);
+      final response = await _dio.get(
+        url,
+        queryParameters: query,
+        options: headers != null ? Options(headers: headers) : null,
+      );
       return response;
     } on DioException {
       // Re-throw DioException as-is so it can be caught properly
