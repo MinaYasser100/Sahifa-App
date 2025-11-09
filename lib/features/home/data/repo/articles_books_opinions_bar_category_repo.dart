@@ -7,31 +7,34 @@ import 'package:sahifa/core/cache/generic_cache_manager.dart';
 import 'package:sahifa/core/cache/generic_etag_handler.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
-import 'package:sahifa/core/model/tv_videos_model/tv_videos_model.dart';
-import 'package:sahifa/core/model/tv_videos_model/video_model.dart';
+import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 
-abstract class TVRepo {
-  Future<Either<String, TvVideosModel>> fetchVideos({
+abstract class ArticlesBooksOpinionsBarCategoryRepo {
+  Future<Either<String, ArticlesCategoryModel>>
+  fetchArticlesBooksOpinionsBarCategory({
     required String language,
     required int pageNumber,
   });
 }
 
-class TVRepoImpl implements TVRepo {
+class ArticlesBooksOpinionsBarCategoryRepoImpl
+    implements ArticlesBooksOpinionsBarCategoryRepo {
   // Singleton Pattern
-  static final TVRepoImpl _instance = TVRepoImpl._internal(DioHelper());
-  factory TVRepoImpl() => _instance;
+  static final ArticlesBooksOpinionsBarCategoryRepoImpl _instance =
+      ArticlesBooksOpinionsBarCategoryRepoImpl._internal(DioHelper());
+  factory ArticlesBooksOpinionsBarCategoryRepoImpl() => _instance;
 
-  TVRepoImpl._internal(this._dioHelper) {
-    _cacheManager = GenericCacheManager<VideoModel>(
-      cacheIdentifier: 'TV_Videos',
+  ArticlesBooksOpinionsBarCategoryRepoImpl._internal(this._dioHelper) {
+    _cacheManager = GenericCacheManager<ArticleModel>(
+      cacheIdentifier: 'BooksOpinions',
     );
-    _etagHandler = GenericETagHandler(handlerIdentifier: 'TV_Videos');
+    _etagHandler = GenericETagHandler(handlerIdentifier: 'BooksOpinions');
   }
 
   final DioHelper _dioHelper;
-  late final GenericCacheManager<VideoModel> _cacheManager;
+  late final GenericCacheManager<ArticleModel> _cacheManager;
   late final GenericETagHandler _etagHandler;
 
   // Public getters for Cubit
@@ -39,7 +42,8 @@ class TVRepoImpl implements TVRepo {
       _cacheManager.hasValidMemoryCache(pageNumber);
 
   @override
-  Future<Either<String, TvVideosModel>> fetchVideos({
+  Future<Either<String, ArticlesCategoryModel>>
+  fetchArticlesBooksOpinionsBarCategory({
     required String language,
     required int pageNumber,
   }) async {
@@ -52,16 +56,12 @@ class TVRepoImpl implements TVRepo {
 
       // STEP 2: Check Memory Cache (30 min) - Return immediately without network
       if (_cacheManager.hasValidMemoryCache(pageNumber)) {
-        log(
-          '💾 Using valid memory cache for page $pageNumber (no network request)',
-        );
+        log('💾 [BooksOpinions] Using valid memory cache for page $pageNumber');
         return _buildSuccessResponse(pageNumber);
       }
 
       // STEP 3: Memory cache expired - Need to revalidate
-      log(
-        '📡 Memory cache expired or missing for page $pageNumber - Making network request',
-      );
+      log('📡 [BooksOpinions] Making network request for page $pageNumber');
 
       // STEP 4: Make network request with ETag if available
       final response = await _makeRequest(language, pageNumber);
@@ -81,10 +81,10 @@ class TVRepoImpl implements TVRepo {
   }
 
   /// Build success response from cached data
-  Either<String, TvVideosModel> _buildSuccessResponse(int pageNumber) {
+  Either<String, ArticlesCategoryModel> _buildSuccessResponse(int pageNumber) {
     return Right(
-      TvVideosModel(
-        videos: _cacheManager.getCachedData(pageNumber),
+      ArticlesCategoryModel(
+        articles: _cacheManager.getCachedData(pageNumber),
         pageNumber: pageNumber,
         totalPages: _cacheManager.getTotalPages(pageNumber),
       ),
@@ -100,25 +100,28 @@ class TVRepoImpl implements TVRepo {
     final headers = _etagHandler.prepareHeaders(etag, pageNumber);
 
     return await _dioHelper.getData(
-      url: ApiEndpoints.videos.path,
+      url: ApiEndpoints.posts.path,
       query: {
         ApiQueryParams.pageSize: 30,
         ApiQueryParams.pageNumber: pageNumber,
         ApiQueryParams.language: backendLanguage,
+        ApiQueryParams.type: PostType.article.value,
+        ApiQueryParams.includeLikedByUsers: true,
+        ApiQueryParams.hasAuthor: true,
       },
       headers: headers,
     );
   }
 
   /// Handle 304 Not Modified response
-  Either<String, TvVideosModel> _handle304Response(int pageNumber) {
+  Either<String, ArticlesCategoryModel> _handle304Response(int pageNumber) {
     log(
-      '✅ 304 Not Modified - Data unchanged, using cached data for page $pageNumber',
+      '✅ [BooksOpinions] 304 Not Modified - Using cached data for page $pageNumber',
     );
 
     if (!_cacheManager.hasCachedData(pageNumber)) {
       log(
-        '⚠️ Warning: 304 received but no cached data found for page $pageNumber',
+        '⚠️ [BooksOpinions] 304 received but no cached data for page $pageNumber',
       );
       return Left("cached_data_missing".tr());
     }
@@ -130,51 +133,63 @@ class TVRepoImpl implements TVRepo {
   }
 
   /// Handle 200 OK response with new data
-  Either<String, TvVideosModel> _handle200Response(
+  Either<String, ArticlesCategoryModel> _handle200Response(
     Response response,
     int pageNumber,
   ) {
-    log('📦 200 OK - Received new data for page $pageNumber');
+    log('📦 [BooksOpinions] 200 OK - Received new data for page $pageNumber');
 
     // Extract and store ETag
     final etag = _etagHandler.extractETag(response, pageNumber);
 
     // Parse response
-    final tvVideosModel = TvVideosModel.fromJson(response.data);
-    final videos = tvVideosModel.videos ?? [];
+    final articlesCategoryModel = ArticlesCategoryModel.fromJson(response.data);
+    final articles = articlesCategoryModel.articles ?? [];
 
     // Cache data
     _cacheManager.cachePageData(
       pageNumber: pageNumber,
-      data: videos,
+      data: articles,
       etag: etag,
-      totalPages: tvVideosModel.totalPages,
+      totalPages: articlesCategoryModel.totalPages,
     );
 
-    return Right(tvVideosModel);
+    return Right(articlesCategoryModel);
   }
 
   /// Handle errors with fallback to stale cache
-  Either<String, TvVideosModel> _handleError(dynamic error, int pageNumber) {
+  Either<String, ArticlesCategoryModel> _handleError(
+    dynamic error,
+    int pageNumber,
+  ) {
+    log('❌ [BooksOpinions] Error fetching articles: $error');
+
     // Fallback: Use stale cached data if available
     if (_cacheManager.hasCachedData(pageNumber)) {
-      log('⚠️ Network error - Using stale cached data for page $pageNumber');
+      log(
+        '⚠️ [BooksOpinions] Network error - Using stale cached data for page $pageNumber',
+      );
       return _buildSuccessResponse(pageNumber);
     }
 
-    return Left("failed_to_load_videos".tr());
+    return Left(
+      'Error fetching articles of books and opinions for bar category'.tr(),
+    );
   }
 
   /// Force refresh - invalidates cache to trigger revalidation
-  Future<Either<String, TvVideosModel>> forceRefresh({
+  Future<Either<String, ArticlesCategoryModel>> forceRefresh({
     required String language,
   }) async {
-    log('🔄 Force refresh requested - Invalidating cache timestamps');
+    log('🔄 [BooksOpinions] Force refresh requested');
     _cacheManager.invalidateTimestamps();
-    return fetchVideos(language: language, pageNumber: 1);
+    return fetchArticlesBooksOpinionsBarCategory(
+      language: language,
+      pageNumber: 1,
+    );
   }
 
-  /// Clear all cache including ETags (for logout, language change, etc.)
+  /// Clear all cache including ETags
   void clearAllCache() {
     _cacheManager.clearAll();
   }

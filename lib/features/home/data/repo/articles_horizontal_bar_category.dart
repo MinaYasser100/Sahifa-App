@@ -91,6 +91,7 @@ class ArticlesHorizontalBarCategoryRepoImpl
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
+          ApiQueryParams.hasAuthor: false,
         },
       );
 

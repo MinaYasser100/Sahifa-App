@@ -73,6 +73,7 @@ class ArticlesBreakingNewsRepoImpl implements ArticlesBreakingNewsRepo {
           ApiQueryParams.isBreaking: true,
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
+          ApiQueryParams.hasAuthor: false,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

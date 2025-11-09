@@ -82,6 +82,7 @@ class ArticlesDrawerSubcategoryRepoImpl
           ApiQueryParams.categorySlug: categorySlug,
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
+          ApiQueryParams.hasAuthor: false,
         },
       );
 

@@ -35,6 +35,7 @@ class ArticlesParentCategoyRepoImpl extends ArticlesParentCategoyRepo {
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
+          ApiQueryParams.hasAuthor: false,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

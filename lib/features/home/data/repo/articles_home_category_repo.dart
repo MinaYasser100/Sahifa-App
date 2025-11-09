@@ -69,6 +69,7 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
           ApiQueryParams.language: backendLanguage,
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
+          ApiQueryParams.hasAuthor: false,
         },
       );
       final ArticlesCategoryModel articlesCategoryModel =

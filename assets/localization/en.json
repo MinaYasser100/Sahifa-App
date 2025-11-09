@@ -509,6 +509,7 @@
   "not_found_error": "Page or data not found",
   "invalid_data_error": "Invalid data entered",
   "profile_update_unexpected_error": "Unexpected error occurred while updating profile",
-  "password_change_unexpected_error": "Unexpected error occurred while changing password"
+  "password_change_unexpected_error": "Unexpected error occurred while changing password",
+  "Error fetching articles of books and opinions for bar category": "Error fetching articles of books and opinions for bar category"
 
 }

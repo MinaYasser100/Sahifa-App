@@ -27,7 +27,9 @@ class CustomBooksOpinionsItem extends StatelessWidget {
 
     return FadeInLeft(
       child: Container(
-        width: isTablet ? 320 : cardWidth,
+        width: isTablet
+            ? 320
+            : (cardWidth == double.infinity ? null : cardWidth),
         height: isTablet ? 380 : 330,
         margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
         decoration: BoxDecoration(

@@ -18,11 +18,13 @@ class CustomBookOpinionImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final imageSize = containerWidth / 2;
+    final imageSize = containerWidth == double.infinity
+        ? 90.0 // Default size when width is infinite
+        : containerWidth / 2;
     final isTablet = ResponsiveHelper.isTablet(context);
 
     return Container(
-      width: containerWidth,
+      width: containerWidth == double.infinity ? null : containerWidth,
       height: isTablet ? 240 : (isListItem ? 220 : 180),
       decoration: BoxDecoration(
         color: ColorsTheme().primaryColor,
@@ -40,7 +42,7 @@ class CustomBookOpinionImage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(4),
             child: Image.network(
               imageUrl,
               width: isTablet ? 120 : (isListItem ? 120 : 90),
