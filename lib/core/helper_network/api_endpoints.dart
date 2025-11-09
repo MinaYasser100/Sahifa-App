@@ -34,7 +34,8 @@ enum ApiEndpoints {
 
   posts('/api/v1/posts'),
   video('/api/v1/posts/categories/{categorySlug}/videos/{slug}'),
-  likePost("/api/v1/posts/{postId}/like");
+  likePost("/api/v1/posts/{postId}/like"),
+  getLikePosts("/api/v1/posts/liked");
 
   final String path;
   const ApiEndpoints(this.path);

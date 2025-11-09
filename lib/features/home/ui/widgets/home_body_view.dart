@@ -70,63 +70,70 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           // Use all categories (don't filter by subcategories)
           final categories = state.categories;
 
-          return CustomScrollView(
-            slivers: [
-              // Banner Carousel Section
-              const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
+          return RefreshIndicator(
+            onRefresh: () async {
+              await context
+                  .read<CategoriesHorizontalBarCubit>()
+                  .refreshCategoriesHorizontalBar(context.locale.languageCode);
+            },
+            child: CustomScrollView(
+              slivers: [
+                // Banner Carousel Section
+                const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
 
-              // Audio Magazine Section (always visible)
-              const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
+                // Audio Magazine Section (always visible)
+                const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
 
-              // If we have categories
-              if (categories.isNotEmpty) ...[
-                // First category
-                SliverToBoxAdapter(
-                  child: ArticalsGroupSection(parentCategory: categories[0]),
-                ),
-
-                // BooksOpinionsSection after first category
-                const SliverToBoxAdapter(child: BooksOpinionsSection()),
-
-                // Middle categories (from index 1 to length-2)
-                if (categories.length > 2)
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        // index 0 is for categories[1], index 1 is for categories[2], etc.
-                        final categoryIndex = index + 1;
-                        return ArticalsGroupSection(
-                          parentCategory: categories[categoryIndex],
-                        );
-                      },
-                      childCount:
-                          categories.length - 2, // Exclude first and last
-                    ),
-                  ),
-
-                // Last category (only if more than 1 category)
-                if (categories.length > 1)
+                // If we have categories
+                if (categories.isNotEmpty) ...[
+                  // First category
                   SliverToBoxAdapter(
-                    child: ArticalsGroupSection(
-                      parentCategory: categories[categories.length - 1],
-                    ),
+                    child: ArticalsGroupSection(parentCategory: categories[0]),
                   ),
 
-                // CustomTrendingArticlesSection after last category
-                const SliverToBoxAdapter(
-                  child: CustomMobileTrendingArticlesSection(),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 70)),
-              ]
-              // If no categories, still show BooksOpinions and Trending
-              else ...[
-                const SliverToBoxAdapter(child: BooksOpinionsSection()),
-                const SliverToBoxAdapter(
-                  child: CustomMobileTrendingArticlesSection(),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                  // BooksOpinionsSection after first category
+                  const SliverToBoxAdapter(child: BooksOpinionsSection()),
+
+                  // Middle categories (from index 1 to length-2)
+                  if (categories.length > 2)
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          // index 0 is for categories[1], index 1 is for categories[2], etc.
+                          final categoryIndex = index + 1;
+                          return ArticalsGroupSection(
+                            parentCategory: categories[categoryIndex],
+                          );
+                        },
+                        childCount:
+                            categories.length - 2, // Exclude first and last
+                      ),
+                    ),
+
+                  // Last category (only if more than 1 category)
+                  if (categories.length > 1)
+                    SliverToBoxAdapter(
+                      child: ArticalsGroupSection(
+                        parentCategory: categories[categories.length - 1],
+                      ),
+                    ),
+
+                  // CustomTrendingArticlesSection after last category
+                  const SliverToBoxAdapter(
+                    child: CustomMobileTrendingArticlesSection(),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                ]
+                // If no categories, still show BooksOpinions and Trending
+                else ...[
+                  const SliverToBoxAdapter(child: BooksOpinionsSection()),
+                  const SliverToBoxAdapter(
+                    child: CustomMobileTrendingArticlesSection(),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                ],
               ],
-            ],
+            ),
           );
         }
 

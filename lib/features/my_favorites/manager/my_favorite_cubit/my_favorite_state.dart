@@ -13,6 +13,12 @@ final class MyFavoriteLoaded extends MyFavoriteState {
   MyFavoriteLoaded(this.favorites);
 }
 
+final class MyFavoriteLoadingMore extends MyFavoriteState {
+  final List<ArticleModel> favorites;
+
+  MyFavoriteLoadingMore(this.favorites);
+}
+
 final class MyFavoriteError extends MyFavoriteState {
   final String message;
 

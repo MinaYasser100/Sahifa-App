@@ -16,12 +16,10 @@ class LikePostRepoImpl implements LikePostRepo {
     try {
       final response = await _dioHelper.postData(
         url: ApiEndpoints.likePost.withParams({'postId': postId}),
-        data: {
-          ApiQueryParams.postId: postId,
-        },
+        data: {ApiQueryParams.postId: postId},
       );
 
-      // Handle success response (204 No Content)
+      // Handle success response (204 No Content or 200 OK)
       if (response.statusCode == 204 || response.statusCode == 200) {
         return const Right(null);
       }
@@ -33,6 +31,12 @@ class LikePostRepoImpl implements LikePostRepo {
       final responseData = e.response?.data;
 
       switch (statusCode) {
+        case 409:
+          // Conflict - Already liked/unliked (treat as success for toggle)
+          // This happens when trying to like an already liked post
+          // We treat it as success because the UI already toggled optimistically
+          return const Right(null);
+
         case 400:
           // Bad Request - Validation error
           return Left(_extractErrorMessage(responseData, 'Bad Request'));
@@ -44,10 +48,6 @@ class LikePostRepoImpl implements LikePostRepo {
         case 404:
           // Not Found - Post doesn't exist
           return Left(_extractErrorMessage(responseData, 'Not Found'));
-
-        case 409:
-          // Conflict - Action already performed
-          return Left(_extractErrorMessage(responseData, 'Conflict'));
 
         case 422:
           // Unprocessable Entity - Validation error

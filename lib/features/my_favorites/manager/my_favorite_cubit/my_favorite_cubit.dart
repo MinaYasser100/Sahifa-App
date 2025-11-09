@@ -10,24 +10,66 @@ class MyFavoriteCubit extends Cubit<MyFavoriteState> {
 
   final MyFavoriteRepo myFavoriteRepo;
 
-  /// Fetch favorites from repository
+  // Pagination state
+  final List<ArticleModel> _allFavorites = [];
+  int _currentPage = 1;
+  int? _totalPages;
+  bool _isFetchingMore = false;
+
+  List<ArticleModel> get allFavorites => _allFavorites;
+  int get currentPage => _currentPage;
+  int? get totalPages => _totalPages;
+  bool get isFetchingMore => _isFetchingMore;
+
+  /// Fetch favorites from repository (page 1)
   Future<void> fetchFavorites() async {
     if (isClosed) return;
 
-    // Only emit loading if we don't have cached data
-    // This prevents showing loading spinner when data is already cached
-    final repoImpl = myFavoriteRepo as MyFavoriteRepoImpl;
-    if (!repoImpl.hasValidCache) {
-      emit(MyFavoriteLoading());
+    emit(MyFavoriteLoading());
+
+    final result = await myFavoriteRepo.fetchFavorites(pageNumber: 1);
+
+    if (isClosed) return;
+
+    result.fold((error) => emit(MyFavoriteError(error)), (favoritesModel) {
+      _allFavorites.clear();
+      _allFavorites.addAll(favoritesModel.articles ?? []);
+      _currentPage = 1;
+      _totalPages = favoritesModel.totalPages;
+      emit(MyFavoriteLoaded(_allFavorites));
+    });
+  }
+
+  /// Load more favorites (pagination)
+  Future<void> loadMoreFavorites() async {
+    if (isClosed || _isFetchingMore) return;
+
+    // Check if there are more pages to load
+    if (_totalPages != null && _currentPage >= _totalPages!) {
+      return; // No more pages
     }
 
-    final result = await myFavoriteRepo.fetchFavorites();
+    _isFetchingMore = true;
+    emit(MyFavoriteLoadingMore(_allFavorites)); // Emit loading more state
+
+    final nextPage = _currentPage + 1;
+    final result = await myFavoriteRepo.fetchFavorites(pageNumber: nextPage);
 
     if (isClosed) return;
 
     result.fold(
-      (error) => emit(MyFavoriteError(error)),
-      (favorites) => emit(MyFavoriteLoaded(favorites)),
+      (error) {
+        _isFetchingMore = false;
+        // Don't emit error, just keep current favorites
+        emit(MyFavoriteLoaded(_allFavorites));
+      },
+      (favoritesModel) {
+        _allFavorites.addAll(favoritesModel.articles ?? []);
+        _currentPage = nextPage;
+        _totalPages = favoritesModel.totalPages;
+        _isFetchingMore = false;
+        emit(MyFavoriteLoaded(_allFavorites));
+      },
     );
   }
 
@@ -42,30 +84,20 @@ class MyFavoriteCubit extends Cubit<MyFavoriteState> {
 
     if (isClosed) return;
 
-    result.fold(
-      (error) => emit(MyFavoriteError(error)),
-      (favorites) => emit(MyFavoriteLoaded(favorites)),
-    );
+    result.fold((error) => emit(MyFavoriteError(error)), (favoritesModel) {
+      _allFavorites.clear();
+      _allFavorites.addAll(favoritesModel.articles ?? []);
+      _currentPage = 1;
+      _totalPages = favoritesModel.totalPages;
+      emit(MyFavoriteLoaded(_allFavorites));
+    });
   }
 
-  /// Remove article from favorites
-  Future<void> removeFavorite(String articleId) async {
-    if (isClosed) return;
-
-    final repoImpl = myFavoriteRepo as MyFavoriteRepoImpl;
-    final result = await repoImpl.removeFavorite(articleId);
-
-    if (isClosed) return;
-
-    result.fold(
-      (error) {
-        // Show error but don't change state
-        // You can emit a specific error state or handle it differently
-      },
-      (success) {
-        // After removing, refresh the list
-        fetchFavorites();
-      },
-    );
+  /// Clear cubit state (on logout)
+  void clearCache() {
+    _allFavorites.clear();
+    _currentPage = 1;
+    _totalPages = null;
+    emit(MyFavoriteInitial());
   }
 }

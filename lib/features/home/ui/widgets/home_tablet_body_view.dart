@@ -69,58 +69,63 @@ class _HomeTabletBodyViewState extends State<HomeTabletBodyView> {
         } else if (state is CategoriesHorizontalBarLoaded) {
           final categories = state.categories;
 
-          return CustomScrollView(
-            slivers: [
-              // Tablet Banner Section (Horizontal List)
-              const SliverToBoxAdapter(child: CustomTabletBannerSection()),
+          return RefreshIndicator(
+            onRefresh: () async {
+              await context
+                  .read<CategoriesHorizontalBarCubit>()
+                  .refreshCategoriesHorizontalBar(context.locale.languageCode);
+            },
+            child: CustomScrollView(
+              slivers: [
+                // Tablet Banner Section (Horizontal List)
+                const SliverToBoxAdapter(child: CustomTabletBannerSection()),
 
-              // Audio Magazine Section (always visible)
-              const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
+                // Audio Magazine Section (always visible)
+                const SliverToBoxAdapter(child: CustomAudioMagazineSection()),
 
-              // If we have categories
-              if (categories.isNotEmpty) ...[
-                // First category
-                SliverToBoxAdapter(
-                  child: ArticalsGroupSection(
-                    parentCategory: categories[0],
-                  ),
-                ),
-
-                // BooksOpinionsSection after first category
-                const SliverToBoxAdapter(child: BooksOpinionsSection()),
-
-                // Middle categories (from index 1 to length-2)
-                if (categories.length > 2)
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final categoryIndex = index + 1;
-                      return ArticalsGroupSection(
-                        parentCategory: categories[categoryIndex],
-                      );
-                    }, childCount: categories.length - 2),
-                  ),
-
-                // Last category (only if more than 1 category)
-                if (categories.length > 1)
+                // If we have categories
+                if (categories.isNotEmpty) ...[
+                  // First category
                   SliverToBoxAdapter(
-                    child: ArticalsGroupSection(
-                      parentCategory: categories[categories.length - 1],
-                    ),
+                    child: ArticalsGroupSection(parentCategory: categories[0]),
                   ),
 
-                // Tablet Trending Articles Grid (2 columns)
-                const SliverToBoxAdapter(
-                  child: CustomTabletTrendingArticlesGrid(),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 70)),
-              ] else ...[
-                const SliverToBoxAdapter(child: BooksOpinionsSection()),
-                const SliverToBoxAdapter(
-                  child: CustomTabletTrendingArticlesGrid(),
-                ),
-                const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                  // BooksOpinionsSection after first category
+                  const SliverToBoxAdapter(child: BooksOpinionsSection()),
+
+                  // Middle categories (from index 1 to length-2)
+                  if (categories.length > 2)
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final categoryIndex = index + 1;
+                        return ArticalsGroupSection(
+                          parentCategory: categories[categoryIndex],
+                        );
+                      }, childCount: categories.length - 2),
+                    ),
+
+                  // Last category (only if more than 1 category)
+                  if (categories.length > 1)
+                    SliverToBoxAdapter(
+                      child: ArticalsGroupSection(
+                        parentCategory: categories[categories.length - 1],
+                      ),
+                    ),
+
+                  // Tablet Trending Articles Grid (2 columns)
+                  const SliverToBoxAdapter(
+                    child: CustomTabletTrendingArticlesGrid(),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                ] else ...[
+                  const SliverToBoxAdapter(child: BooksOpinionsSection()),
+                  const SliverToBoxAdapter(
+                    child: CustomTabletTrendingArticlesGrid(),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 70)),
+                ],
               ],
-            ],
+            ),
           );
         }
 

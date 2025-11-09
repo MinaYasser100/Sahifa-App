@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/cache/cache_clearing_service.dart';
 import 'package:sahifa/core/services/auth_service.dart';
 import 'package:sahifa/core/services/token_service.dart';
 import 'package:sahifa/core/utils/auth_error_handler.dart';
@@ -137,6 +138,14 @@ class AuthCubit extends Cubit<AuthState> {
               );
 
               log('✅ Session saved successfully', name: 'AuthCubit');
+
+              // Clear data caches (NOT auth tokens!) to ensure fresh data for logged in user
+              log(
+                '🧹 Clearing data caches for fresh content...',
+                name: 'AuthCubit',
+              );
+              CacheClearingService().clearAllCachesWithReason('User logged in');
+
               AuthErrorHandler.logAuthSuccess('Login', user.email);
 
               if (!isClosed) emit(Authenticated(user: user));
@@ -280,6 +289,10 @@ class AuthCubit extends Cubit<AuthState> {
       await _authService.clearUserSession();
       log('✅ Local session cleared', name: 'AuthCubit');
 
+      // Clear all caches on logout
+      log('🧹 Clearing all caches...', name: 'AuthCubit');
+      CacheClearingService().clearAllCachesWithReason('User logged out');
+
       if (!isClosed) emit(const Unauthenticated());
       log('✅ Logout completed successfully', name: 'AuthCubit');
     } catch (e) {
@@ -287,6 +300,13 @@ class AuthCubit extends Cubit<AuthState> {
       log('🧹 Clearing local session anyway...', name: 'AuthCubit');
       // Still clear local session even if API call fails
       await _authService.clearUserSession();
+
+      // Clear all caches on logout even if API fails
+      log('🧹 Clearing all caches...', name: 'AuthCubit');
+      CacheClearingService().clearAllCachesWithReason(
+        'User logged out (with error)',
+      );
+
       if (!isClosed) emit(const Unauthenticated());
       log('✅ Logout completed (with API error)', name: 'AuthCubit');
     }

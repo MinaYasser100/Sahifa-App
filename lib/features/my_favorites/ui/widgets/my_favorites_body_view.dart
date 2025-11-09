@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/features/my_favorites/manager/my_favorite_cubit/my_favorite_cubit.dart';
@@ -15,21 +13,11 @@ class MyFavoritesBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MyFavoriteCubit, MyFavoriteState>(
-      listener: (context, state) {
-        if (state is MyFavoriteLoading) {
-          EasyLoading.show(
-            status: 'loading'.tr(),
-            maskType: EasyLoadingMaskType.black,
-          );
-        } else {
-          EasyLoading.dismiss();
-        }
-      },
+    return BlocBuilder<MyFavoriteCubit, MyFavoriteState>(
       builder: (context, state) {
-        // Loading State - just show empty space since EasyLoading handles it
+        // Loading State
         if (state is MyFavoriteLoading) {
-          return const SizedBox.shrink();
+          return const Center(child: CircularProgressIndicator());
         }
 
         // Error State
@@ -42,9 +30,11 @@ class MyFavoritesBodyView extends StatelessWidget {
           );
         }
 
-        // Loaded State
-        if (state is MyFavoriteLoaded) {
-          final favorites = state.favorites;
+        // Loaded State (includes LoadingMore)
+        if (state is MyFavoriteLoaded || state is MyFavoriteLoadingMore) {
+          final favorites = state is MyFavoriteLoaded
+              ? state.favorites
+              : (state as MyFavoriteLoadingMore).favorites;
 
           // Empty State
           if (favorites.isEmpty) {
@@ -53,7 +43,7 @@ class MyFavoritesBodyView extends StatelessWidget {
 
           // List of Favorites
           final isTablet = ResponsiveHelper.isTablet(context);
-          
+
           return RefreshIndicator(
             onRefresh: () async {
               await context.read<MyFavoriteCubit>().refreshFavorites();
