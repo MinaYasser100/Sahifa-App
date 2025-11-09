@@ -27,6 +27,7 @@ class VideoModel {
   String? categoryName;
   String? categorySlug;
   List<String>? tags;
+  List<dynamic>? likedByUsers;
 
   VideoModel({
     this.id,
@@ -57,69 +58,74 @@ class VideoModel {
     this.categoryName,
     this.categorySlug,
     this.tags,
+    this.likedByUsers,
   });
 
   factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
-        id: json['id'] as String?,
-        title: json['title'] as String?,
-        slug: json['slug'] as String?,
-        summary: json['summary'] as String?,
-        videoUrl: json['videoUrl'] as String?,
-        videoEmbedCode: json['videoEmbedCode'] as String?,
-        videoThumbnailUrl: json['videoThumbnailUrl'] as String?,
-        duration: json['duration'] as String?,
-        viewCount: json['viewCount'] as int?, // موجود في الريسبونس
-        videoFiles: (json['videoFiles'] as List<dynamic>?)
-            ?.map((e) => e.toString())
-            .toList(),
-        status: json['status'] as String?,
-        language: json['language'] as String?,
-        isFeatured: json['isFeatured'] as bool?,
-        isBreaking: json['isBreaking'] as bool?,
-        isSlider: json['isSlider'] as bool?,
-        isRecommended: json['isRecommended'] as bool?,
-        viewsCount: json['viewsCount'] as int?, // موجود في الريسبونس
-        likesCount: json['likesCount'] as int?,
-        isLikedByCurrentUser: json['isLikedByCurrentUser'] as bool?,
-        createdAt: json['createdAt'] as String?,
-        publishedAt: json['publishedAt'] as String?,
-        authorId: json['authorId'] as String?,
-        authorName: json['authorName'] as String?,
-        authorImage: json['authorImage'] as String?,
-        categoryId: json['categoryId'] as String?,
-        categoryName: json['categoryName'] as String?,
-        categorySlug: json['categorySlug'] as String?,
-        tags: (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
-      );
+    id: json['id'] as String?,
+    title: json['title'] as String?,
+    slug: json['slug'] as String?,
+    summary: json['summary'] as String?,
+    videoUrl: json['videoUrl'] as String?,
+    videoEmbedCode: json['videoEmbedCode'] as String?,
+    videoThumbnailUrl: json['videoThumbnailUrl'] as String?,
+    duration: json['duration'] as String?,
+    viewCount: json['viewCount'] as int?, // موجود في الريسبونس
+    videoFiles: (json['videoFiles'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList(),
+    status: json['status'] as String?,
+    language: json['language'] as String?,
+    isFeatured: json['isFeatured'] as bool?,
+    isBreaking: json['isBreaking'] as bool?,
+    isSlider: json['isSlider'] as bool?,
+    isRecommended: json['isRecommended'] as bool?,
+    viewsCount: json['viewsCount'] as int?, // موجود في الريسبونس
+    likesCount: json['likesCount'] as int?,
+    isLikedByCurrentUser: json['isLikedByCurrentUser'] as bool?,
+    createdAt: json['createdAt'] as String?,
+    publishedAt: json['publishedAt'] as String?,
+    authorId: json['authorId'] as String?,
+    authorName: json['authorName'] as String?,
+    authorImage: json['authorImage'] as String?,
+    categoryId: json['categoryId'] as String?,
+    categoryName: json['categoryName'] as String?,
+    categorySlug: json['categorySlug'] as String?,
+    tags: (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
+    likedByUsers: (json['likedByUsers'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList(),
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'slug': slug,
-        'summary': summary,
-        'videoUrl': videoUrl,
-        'videoEmbedCode': videoEmbedCode,
-        'videoThumbnailUrl': videoThumbnailUrl,
-        'duration': duration,
-        'viewCount': viewCount,
-        'videoFiles': videoFiles,
-        'status': status,
-        'language': language,
-        'isFeatured': isFeatured,
-        'isBreaking': isBreaking,
-        'isSlider': isSlider,
-        'isRecommended': isRecommended,
-        'viewsCount': viewsCount,
-        'likesCount': likesCount,
-        'isLikedByCurrentUser': isLikedByCurrentUser,
-        'createdAt': createdAt,
-        'publishedAt': publishedAt,
-        'authorId': authorId,
-        'authorName': authorName,
-        'authorImage': authorImage,
-        'categoryId': categoryId,
-        'categoryName': categoryName,
-        'categorySlug': categorySlug,
-        'tags': tags,
-      };
+    'id': id,
+    'title': title,
+    'slug': slug,
+    'summary': summary,
+    'videoUrl': videoUrl,
+    'videoEmbedCode': videoEmbedCode,
+    'videoThumbnailUrl': videoThumbnailUrl,
+    'duration': duration,
+    'viewCount': viewCount,
+    'videoFiles': videoFiles,
+    'status': status,
+    'language': language,
+    'isFeatured': isFeatured,
+    'isBreaking': isBreaking,
+    'isSlider': isSlider,
+    'isRecommended': isRecommended,
+    'viewsCount': viewsCount,
+    'likesCount': likesCount,
+    'isLikedByCurrentUser': isLikedByCurrentUser,
+    'createdAt': createdAt,
+    'publishedAt': publishedAt,
+    'authorId': authorId,
+    'authorName': authorName,
+    'authorImage': authorImage,
+    'categoryId': categoryId,
+    'categoryName': categoryName,
+    'categorySlug': categorySlug,
+    'tags': tags,
+    'likedByUsers': likedByUsers,
+  };
 }

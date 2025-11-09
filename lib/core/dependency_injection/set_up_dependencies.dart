@@ -12,6 +12,7 @@ import 'package:sahifa/features/articals_category_section/data/repo/all_category
 import 'package:sahifa/features/articals_category_section/data/repo/horizontal_bar_subcategories.dart';
 import 'package:sahifa/features/articals_category_section/data/repo/subcategory_articles_repo.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
+import 'package:sahifa/features/video_details/data/repo/details_video_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_breaking_news_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
@@ -145,6 +146,10 @@ void setupDependencies() async {
     DetailsArticleRepoImpl(getIt<DioHelper>()),
   );
 
+  getIt.registerSingleton<DetailsVideoRepoImpl>(
+    DetailsVideoRepoImpl(getIt<DioHelper>()),
+  );
+
   getIt.registerSingleton<SearchArticlesRepoImpl>(
     SearchArticlesRepoImpl(getIt<DioHelper>()),
   );
@@ -155,9 +160,7 @@ void setupDependencies() async {
   getIt.registerSingleton<AuthRepo>(authRepo);
 
   // Register AuthCubit as singleton (Global state)
-  getIt.registerSingleton<AuthCubit>(
-    AuthCubit(getIt<AuthRepo>()),
-  );
+  getIt.registerSingleton<AuthCubit>(AuthCubit(getIt<AuthRepo>()));
 
   // Register TrendingCubit as singleton
   getIt.registerSingleton<TrendingCubit>(

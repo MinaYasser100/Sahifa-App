@@ -31,7 +31,8 @@ enum ApiEndpoints {
   changePassword('/api/v1/auth/change-password'),
   getUserProfile('/api/v1/users/profile'),
   updateProfile('/api/v1/user/profile'),
-  posts('/api/v1/posts');
+  posts('/api/v1/posts'),
+  video('/api/v1/posts/categories/{categorySlug}/videos/{slug}');
 
   final String path;
   const ApiEndpoints(this.path);
