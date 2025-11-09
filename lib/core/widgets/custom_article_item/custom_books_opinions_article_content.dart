@@ -1,14 +1,10 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sahifa/core/func/format_date.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/theme/app_style.dart';
-import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_metadata.dart';
+import 'package:sahifa/core/widgets/custom_article_item/widgets/article_text_content.dart';
+import 'package:sahifa/core/widgets/custom_article_item/widgets/author_info_row.dart';
+import 'package:sahifa/core/widgets/custom_article_item/widgets/share_button.dart';
 
 class CustomBooksOpinionsArticleContent extends StatelessWidget {
   const CustomBooksOpinionsArticleContent({
@@ -28,131 +24,40 @@ class CustomBooksOpinionsArticleContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Author Info & Share Button Row
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: FadeInRight(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              articleItem.authorImage ?? '',
-                            ),
-                            radius: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: Text(
-                              articleItem.authorName ?? '',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: isDarkMode
-                                    ? ColorsTheme().secondaryLight
-                                    : ColorsTheme().secondaryColor,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        context.push(
+                          Routes.authorProfileView,
+                          extra: articleItem,
+                        );
+                      },
+                      child: AuthorInfoRow(
+                        authorImage: articleItem.authorImage,
+                        authorName: articleItem.authorName,
+                        isDarkMode: isDarkMode,
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      // Handle share action
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Share functionality will be implemented'.tr(),
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    },
-                    child: FadeInDown(
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: CircleAvatar(
-                          backgroundColor: isDarkMode
-                              ? ColorsTheme().whiteColor.withValues(alpha: 0.3)
-                              : ColorsTheme().grayColor.withValues(alpha: 0.3),
-                          radius: 15,
-                          child: Icon(
-                            FontAwesomeIcons.share,
-                            size: 14,
-                            color: isDarkMode
-                                ? ColorsTheme().secondaryLight
-                                : ColorsTheme().primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ShareButton(isDarkMode: isDarkMode),
                 ],
               ),
             ),
+            // Article Content (Clickable)
             GestureDetector(
               onTap: () {
                 context.push(Routes.detailsArticalView, extra: articleItem);
               },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FadeInLeft(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            articleItem.categoryName ?? '',
-                            style: AppTextStyles.styleBold20sp(context)
-                                .copyWith(
-                                  color: isDarkMode
-                                      ? ColorsTheme().secondaryLight
-                                      : ColorsTheme().primaryDark,
-                                ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FadeInLeft(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            articleItem.title ?? '',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: isDarkMode
-                                  ? ColorsTheme().secondaryLight
-                                  : ColorsTheme().secondaryColor,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // التاريخ و عدد المشاهدين
-                  FadeInUp(
-                    child: MetadataItem(
-                      icon: FontAwesomeIcons.clock,
-                      text: formatDate(
-                        articleItem.publishedAt != null
-                            ? DateTime.parse(articleItem.publishedAt!)
-                            : DateTime.now(),
-                      ),
-                    ),
-                  ),
-                ],
+              child: ArticleTextContent(
+                categoryName: articleItem.categoryName,
+                title: articleItem.title,
+                publishedAt: articleItem.publishedAt,
+                isDarkMode: isDarkMode,
               ),
             ),
           ],

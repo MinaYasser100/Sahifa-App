@@ -94,6 +94,7 @@ class ApiQueryParams {
   static const String type = "Type";
   static const String includeLikedByUsers = "IncludeLikedByUsers";
   static const String hasAuthor = "HasAuthor"; 
+  static const String authorName = "AuthorName";
 }
 
 enum PostType { article, video, audio }

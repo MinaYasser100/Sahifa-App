@@ -8,7 +8,8 @@ import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_books_opinions_article_content.dart';
-import 'package:sahifa/core/widgets/custom_image_widget.dart';
+
+import 'custom_book_opinion_image.dart';
 
 class CustomBooksOpinionsItem extends StatelessWidget {
   const CustomBooksOpinionsItem({
@@ -46,17 +47,16 @@ class CustomBooksOpinionsItem extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    context.push(
-                      Routes.detailsArticalView,
-                      extra: articleItem,
-                    );
+                    context.push(Routes.detailsArticalView, extra: articleItem);
                   },
-                  child: CustomImageWidget(
-                    imageUrl: articleItem.image ?? '',
-                    height: 170,
+                  child: CustomBookOpinionImage(
+                    imageUrl: articleItem.authorImage ?? '',
+                    containerWidth: cardWidth == double.infinity
+                        ? double.infinity
+                        : cardWidth,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 15),
                 // Content Section
                 CustomBooksOpinionsArticleContent(articleItem: articleItem),
               ],

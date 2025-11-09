@@ -37,4 +37,5 @@ class Routes {
   static const String audioMagazineView = '/audio-magazines';
   static const String audioBookDetails = '/audio-book-details';
   static const String audioPlayerView = '/audio-player';
+  static const String authorProfileView = '/author-profile';
 }
