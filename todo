@@ -1,6 +1,7 @@
 1- edit get videos in tv view @done
 2- edit get audio in the audio magazine @todo
 3- get articles of books and opinions for bar category with handling pagination (repo and cubit) @done
-4- get articles of books and opinions for horizontal home list with handling pagination (repo and cubit)
+4- get articles of books and opinions for horizontal home list with handling pagination (repo and cubit) @done
 5- change endpoints for articles of search category @done
-
+6- get articles of books and opinions for bar category with handling pagination (repo and cubit) in tablet 
+7- do the author profile view @todo 

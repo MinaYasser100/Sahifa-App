@@ -1,12 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/auth_checker.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/utils/responsive_helper.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_content.dart';
-import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
+import 'package:sahifa/core/widgets/custom_article_item/custom_books_opinions_article_content.dart';
+import 'package:sahifa/core/widgets/custom_image_widget.dart';
 
 class CustomBooksOpinionsItem extends StatelessWidget {
   const CustomBooksOpinionsItem({
@@ -42,13 +44,21 @@ class CustomBooksOpinionsItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Image Section
-                CustomBookOpinionImage(
-                  imageUrl: articleItem.image ?? '',
-                  containerWidth: isTablet ? 320 : cardWidth,
+                GestureDetector(
+                  onTap: () {
+                    context.push(
+                      Routes.detailsArticalView,
+                      extra: articleItem,
+                    );
+                  },
+                  child: CustomImageWidget(
+                    imageUrl: articleItem.image ?? '',
+                    height: 170,
+                  ),
                 ),
+                const SizedBox(height: 8),
                 // Content Section
-                CustomArticleItemContent(articleItem: articleItem),
+                CustomBooksOpinionsArticleContent(articleItem: articleItem),
               ],
             ),
             Positioned(

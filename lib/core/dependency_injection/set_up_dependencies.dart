@@ -12,6 +12,7 @@ import 'package:sahifa/features/articals_category_section/data/repo/all_category
 import 'package:sahifa/features/articals_category_section/data/repo/horizontal_bar_subcategories.dart';
 import 'package:sahifa/features/articals_category_section/data/repo/subcategory_articles_repo.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
+import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_category_repo.dart';
 import 'package:sahifa/features/video_details/data/repo/details_video_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_breaking_news_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
@@ -165,5 +166,9 @@ void setupDependencies() async {
   // Register TrendingCubit as singleton
   getIt.registerSingleton<TrendingCubit>(
     TrendingCubit(getIt<TrendingRepoImpl>()),
+  );
+
+  getIt.registerSingleton<ArticlesBooksOpinionsBarCategoryRepoImpl>(
+    ArticlesBooksOpinionsBarCategoryRepoImpl(),
   );
 }

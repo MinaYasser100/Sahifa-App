@@ -85,7 +85,7 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> {
       // Re-initialize Books & Opinions Cubit if needed
       else if (widget.categorySlug == 'books_opinions') {
         _booksOpinionsCubit = ArticlesBooksOpinionsBarCategoryCubit(
-          ArticlesBooksOpinionsBarCategoryRepoImpl(),
+          getIt<ArticlesBooksOpinionsBarCategoryRepoImpl>(),
         );
         _booksOpinionsCubit!.fetchArticles(
           language: context.locale.languageCode,

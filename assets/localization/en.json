@@ -510,6 +510,7 @@
   "invalid_data_error": "Invalid data entered",
   "profile_update_unexpected_error": "Unexpected error occurred while updating profile",
   "password_change_unexpected_error": "Unexpected error occurred while changing password",
-  "Error fetching articles of books and opinions for bar category": "Error fetching articles of books and opinions for bar category"
-
+  "Error fetching articles of books and opinions for bar category": "Error fetching articles of books and opinions for bar category",
+  "Error fetching books & opinions articles": "Error fetching books & opinions articles",
+  "No articles available": "No articles available"
 }

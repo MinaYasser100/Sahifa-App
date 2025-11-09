@@ -522,5 +522,7 @@
   "invalid_data_error": "البيانات المدخلة غير صحيحة",
   "profile_update_unexpected_error": "حدث خطأ غير متوقع أثناء تحديث الملف الشخصي",
   "password_change_unexpected_error": "حدث خطأ غير متوقع أثناء تغيير كلمة المرور",
-  "Error fetching articles of books and opinions for bar category": "خطأ في جلب مقالات الكتب والآراء لفئة الشريط"
+  "Error fetching articles of books and opinions for bar category": "خطأ في جلب مقالات الكتب والآراء لفئة الشريط",
+  "Error fetching books & opinions articles": "خطأ في جلب مقالات الكتب والآراء",
+  "No Articles Found": "لم يتم العثور على مقالات"
 }
