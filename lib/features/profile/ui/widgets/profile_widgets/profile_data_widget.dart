@@ -71,6 +71,110 @@ class ProfileDataWidget extends StatelessWidget {
                 ),
               ),
             ],
+
+            // Social Accounts (if available)
+            if (profile.socialAccounts.accounts.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              _buildSocialAccountsSection(),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialAccountsSection() {
+    final accounts = profile.socialAccounts.accounts;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.grey[850] : Colors.grey[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'social_accounts'.tr(),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (accounts['facebook'] != null &&
+                  accounts['facebook']!.isNotEmpty)
+                _buildSocialButton(
+                  icon: Icons.facebook,
+                  label: 'Facebook',
+                  url: accounts['facebook']!,
+                  color: const Color(0xFF1877F2),
+                ),
+              if (accounts['twitter'] != null &&
+                  accounts['twitter']!.isNotEmpty)
+                _buildSocialButton(
+                  icon: Icons.close, // X icon
+                  label: 'X (Twitter)',
+                  url: accounts['twitter']!,
+                  color: Colors.black,
+                ),
+              if (accounts['instagram'] != null &&
+                  accounts['instagram']!.isNotEmpty)
+                _buildSocialButton(
+                  icon: Icons.photo_camera,
+                  label: 'Instagram',
+                  url: accounts['instagram']!,
+                  color: const Color(0xFFE4405F),
+                ),
+              if (accounts['linkedin'] != null &&
+                  accounts['linkedin']!.isNotEmpty)
+                _buildSocialButton(
+                  icon: Icons.business_center,
+                  label: 'LinkedIn',
+                  url: accounts['linkedin']!,
+                  color: const Color(0xFF0A66C2),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialButton({
+    required IconData icon,
+    required String label,
+    required String url,
+    required Color color,
+  }) {
+    return InkWell(
+      onTap: () {
+        // TODO: Open URL using url_launcher
+        // You can implement this later
+      },
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: color),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),

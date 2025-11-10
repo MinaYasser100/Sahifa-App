@@ -41,6 +41,24 @@ class AuthCubit extends Cubit<AuthState> {
       log('📊 Login status: $isLoggedIn', name: 'AuthCubit');
 
       if (isLoggedIn) {
+        // Check if token is expired
+        final isTokenExpired = await _tokenService.isTokenExpired();
+        log('🔑 Token expired: $isTokenExpired', name: 'AuthCubit');
+
+        if (isTokenExpired) {
+          log('⚠️ Token expired, attempting refresh...', name: 'AuthCubit');
+          final refreshSuccess = await _refreshToken();
+
+          if (!refreshSuccess) {
+            log('❌ Token refresh failed, logging out user', name: 'AuthCubit');
+            await _authService.clearUserSession();
+            if (!isClosed) emit(const Unauthenticated());
+            return;
+          }
+
+          log('✅ Token refreshed successfully', name: 'AuthCubit');
+        }
+
         final userInfo = await _authService.getUserInfo();
         log('👤 Retrieved user info: ${userInfo['email']}', name: 'AuthCubit');
 
@@ -111,6 +129,7 @@ class AuthCubit extends Cubit<AuthState> {
           await _tokenService.saveTokens(
             accessToken: response.accessToken,
             refreshToken: response.refreshToken,
+            expiresIn: response.expiresIn,
           );
 
           log('👤 Fetching user profile...', name: 'AuthCubit');
@@ -254,6 +273,7 @@ class AuthCubit extends Cubit<AuthState> {
           await _tokenService.saveTokens(
             accessToken: response.accessToken,
             refreshToken: response.refreshToken,
+            expiresIn: response.expiresIn,
           );
 
           log('✅ New tokens saved', name: 'AuthCubit');

@@ -109,4 +109,23 @@ class DioHelper {
       throw Exception('Failed to patch data: $e');
     }
   }
+
+  Future<Response> putMultipartData({
+    required String url,
+    required FormData formData,
+  }) async {
+    try {
+      final response = await _dio.put(
+        url,
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+      return response;
+    } on DioException {
+      // Re-throw DioException as-is so it can be caught properly
+      rethrow;
+    } catch (e) {
+      throw Exception('Failed to update multipart data: $e');
+    }
+  }
 }

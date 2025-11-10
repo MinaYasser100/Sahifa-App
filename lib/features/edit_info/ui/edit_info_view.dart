@@ -1,16 +1,18 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
-import 'package:sahifa/core/model/text_field_model/text_field_model.dart';
 import 'package:sahifa/core/services/auth_service.dart';
-import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
-import 'package:sahifa/core/widgets/custom_text_form_field.dart';
 import 'package:sahifa/features/edit_info/data/model/user_update_model.dart';
 import 'package:sahifa/features/edit_info/data/repo/edit_user_info_repo.dart';
 import 'package:sahifa/features/edit_info/manager/cubit/edit_user_info_cubit.dart';
+import 'package:sahifa/features/edit_info/ui/widgets/profile_image_picker.dart';
+import 'package:sahifa/features/edit_info/ui/widgets/social_accounts_section.dart';
+import 'package:sahifa/features/edit_info/ui/widgets/user_info_section.dart';
 import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 import 'package:sahifa/features/profile/manager/profile_user_cubit/profile_user_cubit.dart';
 
@@ -65,7 +67,9 @@ class _EditInfoBodyState extends State<_EditInfoBody> {
   final _formKey = GlobalKey<FormState>();
 
   String? _userId;
-  String? _currentUserName;
+  String? _currentAvatarUrl;
+  File? _selectedImage;
+  String? _imageFilePath;
 
   @override
   void initState() {
@@ -83,24 +87,32 @@ class _EditInfoBodyState extends State<_EditInfoBody> {
     final authService = AuthService();
     final userInfo = await authService.getUserInfo();
     _userId = userInfo['userId'];
-    _currentUserName = userInfo['name'];
+  }
 
-    // Get profile data from ProfileUserCubit if available
-    final profileState = context.read<ProfileUserCubit>().state;
-    if (profileState is ProfileUserSuccess) {
-      final profile = profileState.profile;
-      _userNameController.text = profile.userName;
-      _aboutMeController.text = profile.aboutMe ?? '';
+  void _updateFieldsFromProfile(ProfileUserSuccess state) {
+    final profile = state.profile;
 
-      // Load social accounts
-      final socialAccounts = profile.socialAccounts.accounts;
-      _facebookController.text = socialAccounts['facebook'] ?? '';
-      _twitterController.text = socialAccounts['twitter'] ?? '';
-      _instagramController.text = socialAccounts['instagram'] ?? '';
-      _linkedInController.text = socialAccounts['linkedin'] ?? '';
-    } else if (_currentUserName != null) {
-      _userNameController.text = _currentUserName!;
+    if (mounted) {
+      setState(() {
+        _userNameController.text = profile.userName;
+        _aboutMeController.text = profile.aboutMe ?? '';
+        _currentAvatarUrl = profile.profileImageUrl;
+
+        // Load social accounts
+        final socialAccounts = profile.socialAccounts.accounts;
+        _facebookController.text = socialAccounts['facebook'] ?? '';
+        _twitterController.text = socialAccounts['twitter'] ?? '';
+        _instagramController.text = socialAccounts['instagram'] ?? '';
+        _linkedInController.text = socialAccounts['linkedin'] ?? '';
+      });
     }
+  }
+
+  void _onImageSelected(File imageFile, String filePath) {
+    setState(() {
+      _selectedImage = imageFile;
+      _imageFilePath = filePath;
+    });
   }
 
   @override
@@ -141,9 +153,12 @@ class _EditInfoBodyState extends State<_EditInfoBody> {
     }
 
     final updateModel = UserUpdateModel(
+      userId: _userId!, // Always send userId
       userName: userName,
       slug: userName.toLowerCase().replaceAll(' ', '_'),
       aboutMe: aboutMe.isNotEmpty ? aboutMe : null,
+      avatarImage:
+          _imageFilePath, // Send image path if selected, null otherwise
       socialAccounts: socialAccounts.isNotEmpty ? socialAccounts : null,
     );
 
@@ -155,184 +170,99 @@ class _EditInfoBodyState extends State<_EditInfoBody> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return BlocConsumer<EditUserInfoCubit, EditUserInfoState>(
-      listener: (context, state) {
-        if (state is EditUserInfoSuccess) {
-          showSuccessToast(
-            context,
-            'success'.tr(),
-            'profile_updated_successfully'.tr(),
-          );
-
-          // Refresh profile data
-          context.read<ProfileUserCubit>().fetchUserProfile(
-            state.profile.userName,
-          );
-
-          Navigator.pop(context);
-        } else if (state is EditUserInfoError) {
-          showErrorToast(context, 'error'.tr(), state.message);
-        }
-      },
-      builder: (context, state) {
-        final isLoading = state is EditUserInfoLoading;
-
-        return Scaffold(
-          appBar: AppBar(title: Text('edit_information'.tr())),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Profile Image
-                  Center(
-                    child: CircleAvatar(
-                      backgroundColor: isDark
-                          ? ColorsTheme().primaryLight
-                          : ColorsTheme().primaryColor,
-                      radius: 50,
-                      child: Icon(
-                        Icons.person,
-                        color: ColorsTheme().whiteColor,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // User Name
-                  Text(
-                    '${'username'.tr()}:',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  CustomTextFormField(
-                    textFieldModel: TextFieldModel(
-                      controller: _userNameController,
-                      hintText: 'enter_username'.tr(),
-                      keyboardType: TextInputType.name,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'username_cannot_be_empty'.tr();
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // About Me
-                  Text(
-                    '${'about_me'.tr()}:',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  CustomTextFormField(
-                    textFieldModel: TextFieldModel(
-                      controller: _aboutMeController,
-                      hintText: 'enter_about_me'.tr(),
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 3,
-                      validator: (value) => null,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Social Accounts Section
-                  Text(
-                    'social_accounts'.tr(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Facebook
-                  _buildSocialField(
-                    label: 'Facebook',
-                    controller: _facebookController,
-                    icon: Icons.facebook,
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Twitter
-                  _buildSocialField(
-                    label: 'Twitter',
-                    controller: _twitterController,
-                    icon: Icons.sports_basketball, // Twitter icon alternative
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Instagram
-                  _buildSocialField(
-                    label: 'Instagram',
-                    controller: _instagramController,
-                    icon: Icons.camera_alt,
-                  ),
-                  const SizedBox(height: 12),
-
-                  // LinkedIn
-                  _buildSocialField(
-                    label: 'LinkedIn',
-                    controller: _linkedInController,
-                    icon: Icons.work,
-                  ),
-                  const SizedBox(height: 32),
-
-                  // Save Button
-                  CustomButton(
-                    text: 'save'.tr(),
-                    isLoading: isLoading,
-                    onPressed: isLoading ? null : _handleSave,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildSocialField({
-    required String label,
-    required TextEditingController controller,
-    required IconData icon,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(icon, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              '$label:',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
+    return MultiBlocListener(
+      listeners: [
+        // Listen to ProfileUserCubit to load data when available
+        BlocListener<ProfileUserCubit, ProfileUserState>(
+          listener: (context, state) {
+            if (state is ProfileUserSuccess) {
+              _updateFieldsFromProfile(state);
+            }
+          },
         ),
-        const SizedBox(height: 8),
-        CustomTextFormField(
-          textFieldModel: TextFieldModel(
-            controller: controller,
-            hintText: '$label URL',
-            keyboardType: TextInputType.url,
-            validator: (value) => null, // Optional field
-          ),
+        // Listen to EditUserInfoCubit for save operations
+        BlocListener<EditUserInfoCubit, EditUserInfoState>(
+          listener: (context, state) {
+            if (state is EditUserInfoSuccess) {
+              showSuccessToast(
+                context,
+                'success'.tr(),
+                'profile_updated_successfully'.tr(),
+              );
+
+              // Pop and return true to indicate success
+              // This will trigger a refresh in the ProfileView
+              Navigator.pop(context, true);
+            } else if (state is EditUserInfoError) {
+              showErrorToast(context, 'error'.tr(), state.message);
+            }
+          },
         ),
       ],
+      child: BlocBuilder<ProfileUserCubit, ProfileUserState>(
+        builder: (context, profileState) {
+          // Show loading indicator while profile data is being fetched
+          if (profileState is ProfileUserLoading) {
+            return Scaffold(
+              appBar: AppBar(title: Text('edit_information'.tr())),
+              body: const Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          return BlocBuilder<EditUserInfoCubit, EditUserInfoState>(
+            builder: (context, editState) {
+              final isLoading = editState is EditUserInfoLoading;
+
+              return Scaffold(
+                appBar: AppBar(title: Text('edit_information'.tr())),
+                body: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Profile Image Picker
+                        Center(
+                          child: ProfileImagePicker(
+                            selectedImage: _selectedImage,
+                            currentAvatarUrl: _currentAvatarUrl,
+                            onImageSelected: _onImageSelected,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // User Info Section
+                        UserInfoSection(
+                          userNameController: _userNameController,
+                          aboutMeController: _aboutMeController,
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Social Accounts Section
+                        SocialAccountsSection(
+                          facebookController: _facebookController,
+                          twitterController: _twitterController,
+                          instagramController: _instagramController,
+                          linkedInController: _linkedInController,
+                        ),
+                        const SizedBox(height: 32),
+
+                        // Save Button
+                        CustomButton(
+                          text: 'save'.tr(),
+                          isLoading: isLoading,
+                          onPressed: isLoading ? null : _handleSave,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

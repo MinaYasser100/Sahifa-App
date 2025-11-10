@@ -32,13 +32,44 @@ class EditUserInfoRepoImpl implements EditUserInfoRepo {
     required UserUpdateModel updateModel,
   }) async {
     try {
-      log('🔄 Updating user info for ID: $userId', name: 'EditUserInfoRepo');
+      log('🔄 Updating user profile', name: 'EditUserInfoRepo');
 
       final url = ApiEndpoints.updateUserInfo.withParams({'id': userId});
+      log('📍 URL: $url', name: 'EditUserInfoRepo');
 
-      final response = await _dioHelper.putData(
+      // Always use multipart/form-data as the API expects it
+      final Map<String, dynamic> formDataMap = {
+        'userId': updateModel.userId, // Always send userId
+        'userName': updateModel.userName,
+        'slug': updateModel.slug,
+      };
+
+      // Add optional fields only if they have values
+      if (updateModel.aboutMe != null && updateModel.aboutMe!.isNotEmpty) {
+        formDataMap['aboutMe'] = updateModel.aboutMe;
+      }
+
+      // Add avatar image if a new one was selected
+      if (updateModel.avatarImage != null &&
+          updateModel.avatarImage!.isNotEmpty) {
+        log('📸 Adding new avatar image', name: 'EditUserInfoRepo');
+        formDataMap['avatarImage'] = await MultipartFile.fromFile(
+          updateModel.avatarImage!,
+          filename: 'avatar.jpg',
+        );
+      }
+
+      // Add social accounts if provided
+      if (updateModel.socialAccounts != null &&
+          updateModel.socialAccounts!.isNotEmpty) {
+        formDataMap['socialAccounts'] = updateModel.socialAccounts;
+      }
+
+      final formData = FormData.fromMap(formDataMap);
+
+      final response = await _dioHelper.putMultipartData(
         url: url,
-        data: updateModel.toJson(),
+        formData: formData,
       );
 
       if (response.statusCode == 200) {

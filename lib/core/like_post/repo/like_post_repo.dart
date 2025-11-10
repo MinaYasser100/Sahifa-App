@@ -5,6 +5,7 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 
 abstract class LikePostRepo {
   Future<Either<String, void>> likePost(String postId);
+  Future<Either<String, void>> unlikePost(String postId);
 }
 
 class LikePostRepoImpl implements LikePostRepo {
@@ -32,9 +33,8 @@ class LikePostRepoImpl implements LikePostRepo {
 
       switch (statusCode) {
         case 409:
-          // Conflict - Already liked/unliked (treat as success for toggle)
-          // This happens when trying to like an already liked post
-          // We treat it as success because the UI already toggled optimistically
+          // Conflict - Already liked (can happen after token refresh retry)
+          // Treat as success since the end result is what we wanted
           return const Right(null);
 
         case 400:
@@ -67,6 +67,57 @@ class LikePostRepoImpl implements LikePostRepo {
     } catch (e) {
       // Handle any other unexpected errors
       return Left('Failed to like post: $e');
+    }
+  }
+
+  @override
+  Future<Either<String, void>> unlikePost(String postId) async {
+    try {
+      final response = await _dioHelper.deleteData(
+        url: ApiEndpoints.likePost.withParams({'postId': postId}),
+        data: {ApiQueryParams.postId: postId},
+      );
+
+      // Handle success response (204 No Content or 200 OK)
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return const Right(null);
+      }
+
+      return Left('Unexpected response: ${response.statusCode}');
+    } on DioException catch (e) {
+      // Handle specific HTTP error codes
+      final statusCode = e.response?.statusCode;
+      final responseData = e.response?.data;
+
+      switch (statusCode) {
+        case 409:
+          // Conflict - Already unliked (treat as success)
+          return const Right(null);
+
+        case 400:
+          return Left(_extractErrorMessage(responseData, 'Bad Request'));
+
+        case 401:
+          return Left(_extractErrorMessage(responseData, 'Unauthorized'));
+
+        case 404:
+          return Left(_extractErrorMessage(responseData, 'Not Found'));
+
+        case 422:
+          return Left(
+            _extractErrorMessage(responseData, 'Unprocessable Entity'),
+          );
+
+        default:
+          return Left(
+            _extractErrorMessage(
+              responseData,
+              'Failed to unlike post: ${e.message}',
+            ),
+          );
+      }
+    } catch (e) {
+      return Left('Failed to unlike post: $e');
     }
   }
 

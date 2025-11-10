@@ -10,6 +10,7 @@
 10- do refresh in the home view @done
 11- fixed the search articles view, it depends on whether item is article or book opinion 
 12- show user info in the profile view @done
-13- edit the user info in the profile view 
-14- fixed refresh token for user 
-15-
+13- edit the user info in the profile view @done
+14- fixed refresh token for user @done
+15- do logout in the profile view @done
+16- 11- fixed the my favorites view, it depends on whether item is article or book opinion 

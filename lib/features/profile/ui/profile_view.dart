@@ -90,8 +90,24 @@ class _MobileProfileView extends StatelessWidget {
                           icon: Icons.edit,
                           title: 'edit_information'.tr(),
                           isDark: isDark,
-                          onTap: () {
-                            context.push(Routes.editInfoView);
+                          onTap: () async {
+                            // Navigate to EditInfoView and wait for result
+                            final result = await context.push(
+                              Routes.editInfoView,
+                            );
+
+                            // If update was successful, refresh profile
+                            if (result == true && context.mounted) {
+                              final authService = AuthService();
+                              final userInfo = await authService.getUserInfo();
+                              final userName = userInfo['name'];
+
+                              if (userName != null && userName.isNotEmpty) {
+                                context
+                                    .read<ProfileUserCubit>()
+                                    .fetchUserProfile(userName);
+                              }
+                            }
                           },
                         ),
                       ),

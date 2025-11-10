@@ -14,8 +14,10 @@ class LikePostCubit extends Cubit<LikePostState> {
     // Emit loading state
     emit(LikePostLoading(postId));
 
-    // Call repository
-    final result = await _repo.likePost(postId);
+    // Call appropriate repository method based on current status
+    final result = currentLikeStatus
+        ? await _repo.unlikePost(postId) // If currently liked, unlike it
+        : await _repo.likePost(postId); // If currently unliked, like it
 
     // Handle result
     result.fold(
@@ -26,7 +28,7 @@ class LikePostCubit extends Cubit<LikePostState> {
       },
       (_) {
         if (!isClosed) {
-          // Toggle the like status (if was liked → now unliked, if was unliked → now liked)
+          // Toggle the like status
           emit(LikePostSuccess(postId, !currentLikeStatus));
         }
       },

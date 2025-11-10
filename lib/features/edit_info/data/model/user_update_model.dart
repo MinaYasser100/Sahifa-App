@@ -2,6 +2,7 @@
 
 /// Model for updating user information
 class UserUpdateModel {
+  final String userId;
   final String userName;
   final String slug;
   final String? aboutMe;
@@ -9,6 +10,7 @@ class UserUpdateModel {
   final Map<String, String>? socialAccounts;
 
   const UserUpdateModel({
+    required this.userId,
     required this.userName,
     required this.slug,
     this.aboutMe,
@@ -17,7 +19,11 @@ class UserUpdateModel {
   });
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {'userName': userName, 'slug': slug};
+    final Map<String, dynamic> data = {
+      'userId': userId, // Add userId to request body
+      'userName': userName,
+      'slug': slug,
+    };
 
     if (aboutMe != null && aboutMe!.isNotEmpty) {
       data['aboutMe'] = aboutMe;

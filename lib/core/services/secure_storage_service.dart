@@ -24,6 +24,7 @@ class SecureStorageService {
   // Keys للـ Secure Storage (sensitive data)
   static const String _accessTokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
+  static const String _tokenExpiresAtKey = 'token_expires_at';
   static const String _userIdKey = 'user_id';
   static const String _userEmailKey = 'user_email';
   static const String _userNameKey = 'user_name';
@@ -37,10 +38,21 @@ class SecureStorageService {
   }
 
   // Access Token (Secure Storage)
-  Future<void> saveAccessToken(String token) async {
+  Future<void> saveAccessToken(String token, {int? expiresIn}) async {
     log('🔐 [SecureStorage] Saving access token: ${token.substring(0, 20)}...');
     await _secureStorage.write(key: _accessTokenKey, value: token);
     log('✅ [SecureStorage] Access token saved');
+
+    // Save expiration time if provided
+    if (expiresIn != null) {
+      final expiresAt = DateTime.now().add(Duration(seconds: expiresIn));
+      await _secureStorage.write(
+        key: _tokenExpiresAtKey,
+        value: expiresAt.toIso8601String(),
+      );
+      log('⏰ [SecureStorage] Token expires at: $expiresAt');
+    }
+
     // Mark as logged in
     await _setLoggedInState(true);
     log('✅ [SecureStorage] Login state set to true');
@@ -57,6 +69,35 @@ class SecureStorageService {
 
   Future<String?> getRefreshToken() async {
     return await _secureStorage.read(key: _refreshTokenKey);
+  }
+
+  // Token Expiration
+  Future<DateTime?> getTokenExpiresAt() async {
+    final expiresAtStr = await _secureStorage.read(key: _tokenExpiresAtKey);
+    if (expiresAtStr != null) {
+      try {
+        return DateTime.parse(expiresAtStr);
+      } catch (e) {
+        log('❌ [SecureStorage] Failed to parse token expiry: $e');
+        return null;
+      }
+    }
+    return null;
+  }
+
+  Future<bool> isTokenExpired() async {
+    final expiresAt = await getTokenExpiresAt();
+    if (expiresAt == null) {
+      log('⚠️ [SecureStorage] No token expiry found, assuming expired');
+      return true; // Assume expired if no expiry time
+    }
+
+    final now = DateTime.now();
+    final isExpired = now.isAfter(expiresAt);
+    log(
+      '🕐 [SecureStorage] Token expired: $isExpired (expires at: $expiresAt, now: $now)',
+    );
+    return isExpired;
   }
 
   // User Info (Secure Storage)

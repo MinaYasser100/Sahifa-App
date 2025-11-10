@@ -1,6 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/colors.dart';
+import 'package:sahifa/features/auth/manager/auth_cubit/auth_cubit.dart';
 
 class LogoutDialogWidget extends StatelessWidget {
   const LogoutDialogWidget({
@@ -70,10 +74,16 @@ class LogoutDialogWidget extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.of(context).pop();
-                  // Example: context.read<AuthCubit>().logout();
-                  // Then navigate to login screen
+
+                  // Call logout from AuthCubit
+                  await context.read<AuthCubit>().logout();
+
+                  // Navigate to login screen and remove all previous routes
+                  if (context.mounted) {
+                    context.go(Routes.loginView);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.errorColor,

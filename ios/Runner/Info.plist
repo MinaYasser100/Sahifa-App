@@ -48,7 +48,9 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>نحتاج إلى إذن للوصول إلى مكتبة الصور لحفظ ملفات PDF</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>نحتاج إلى إذن للوصول إلى مكتبة الصور لحفظ ملفات PDF</string>
+	<string>نحتاج إلى إذن للوصول إلى مكتبة الصور لاختيار صورة الملف الشخصي</string>
+	<key>NSCameraUsageDescription</key>
+	<string>نحتاج إلى إذن للوصول إلى الكاميرا لالتقاط صورة الملف الشخصي</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
   		<string>https</string>
