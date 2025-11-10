@@ -23,6 +23,10 @@
   "email": "Email",
   "save": "Save",
   "name_cannot_be_empty": "Name cannot be empty",
+  "about_me": "About Me",
+  "enter_about_me": "Enter about yourself",
+  "social_accounts": "Social Accounts",
+  "user_id_not_found": "User ID not found",
   
   "_comment_app_branding": "===== App Branding =====",
   "sahifa": "Sahifa",

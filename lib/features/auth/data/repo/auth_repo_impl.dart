@@ -30,7 +30,15 @@ class AuthRepoImpl implements AuthRepo {
       );
 
       if (response.statusCode == 200) {
+        log('✅ Login API returned 200');
+        log('📊 Response data: ${response.data}');
         final loginResponse = LoginResponse.fromJson(response.data);
+        log(
+          '🔑 Access token: ${loginResponse.accessToken.substring(0, 20)}...',
+        );
+        log(
+          '🔑 Refresh token: ${loginResponse.refreshToken.substring(0, 20)}...',
+        );
         return Right(loginResponse);
       } else {
         log('❌ Login failed with status: ${response.statusCode}');

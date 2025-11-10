@@ -1,22 +1,21 @@
 // lib/core/services/secure_storage_service.dart
 
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SecureStorageService {
-  static final SecureStorageService _instance = SecureStorageService._internal();
+  static final SecureStorageService _instance =
+      SecureStorageService._internal();
   factory SecureStorageService() => _instance;
-  
+
   SecureStorageService._internal();
 
   // Secure Storage للـ sensitive data (tokens, user info)
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ),
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
   // Shared Preferences للـ login state بس
@@ -39,9 +38,12 @@ class SecureStorageService {
 
   // Access Token (Secure Storage)
   Future<void> saveAccessToken(String token) async {
+    log('🔐 [SecureStorage] Saving access token: ${token.substring(0, 20)}...');
     await _secureStorage.write(key: _accessTokenKey, value: token);
+    log('✅ [SecureStorage] Access token saved');
     // Mark as logged in
     await _setLoggedInState(true);
+    log('✅ [SecureStorage] Login state set to true');
   }
 
   Future<String?> getAccessToken() async {
@@ -74,30 +76,31 @@ class SecureStorageService {
     final userId = await _secureStorage.read(key: _userIdKey);
     final email = await _secureStorage.read(key: _userEmailKey);
     final name = await _secureStorage.read(key: _userNameKey);
-    
-    return {
-      'userId': userId,
-      'email': email,
-      'name': name,
-    };
+
+    return {'userId': userId, 'email': email, 'name': name};
   }
 
   // Login State Management (Shared Preferences)
   Future<void> _setLoggedInState(bool isLoggedIn) async {
     await _initPrefs();
+    print('📝 [SecureStorage] Setting login state to: $isLoggedIn');
     await _prefs!.setBool(_isLoggedInKey, isLoggedIn);
+    final saved = _prefs!.getBool(_isLoggedInKey);
+    print('✅ [SecureStorage] Login state saved and verified: $saved');
   }
 
   Future<bool> isLoggedIn() async {
     await _initPrefs();
-    return _prefs!.getBool(_isLoggedInKey) ?? false;
+    final loggedIn = _prefs!.getBool(_isLoggedInKey) ?? false;
+    print('🔍 [SecureStorage] Checking login state: $loggedIn');
+    return loggedIn;
   }
 
   // Clear all data (both secure storage and preferences)
   Future<void> clearAll() async {
     // Clear secure storage (sensitive data)
     await _secureStorage.deleteAll();
-    
+
     // Clear login state
     await _initPrefs();
     await _prefs!.setBool(_isLoggedInKey, false);

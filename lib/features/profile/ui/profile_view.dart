@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/model/additional_setting_model/additional_setting_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/services/auth_service.dart';
 import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
@@ -24,13 +26,28 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileUserCubit(ProfileUserRepoImpl()),
+      create: (context) {
+        final cubit = ProfileUserCubit(getIt<ProfileUserRepoImpl>());
+        // Fetch profile immediately when cubit is created
+        _loadUserProfile(cubit);
+        return cubit;
+      },
       child: AdaptiveLayout(
         mobileLayout: (context) => _MobileProfileView(),
         tabletLayout: (context) => const TabletProfileBody(),
         desktopLayout: (context) => const TabletProfileBody(),
       ),
     );
+  }
+
+  Future<void> _loadUserProfile(ProfileUserCubit cubit) async {
+    final authService = AuthService();
+    final userInfo = await authService.getUserInfo();
+    final userName = userInfo['name'];
+
+    if (userName != null && userName.isNotEmpty) {
+      cubit.fetchUserProfile(userName);
+    }
   }
 }
 

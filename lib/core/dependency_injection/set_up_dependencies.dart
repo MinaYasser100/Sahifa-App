@@ -14,6 +14,7 @@ import 'package:sahifa/features/articals_category_section/data/repo/subcategory_
 import 'package:sahifa/features/author_profile/data/repo/author_profile_repo.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_category_repo.dart';
+import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 import 'package:sahifa/features/video_details/data/repo/details_video_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_breaking_news_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
@@ -174,4 +175,6 @@ void setupDependencies() async {
   );
 
   getIt.registerSingleton<AuthorProfileRepoImpl>(AuthorProfileRepoImpl());
+
+  getIt.registerSingleton<ProfileUserRepoImpl>(ProfileUserRepoImpl());
 }

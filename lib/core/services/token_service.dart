@@ -1,6 +1,7 @@
 // lib/core/services/token_service.dart
 
 import 'dart:async';
+import 'dart:developer';
 import 'package:sahifa/core/services/secure_storage_service.dart';
 
 class TokenService {
@@ -19,9 +20,18 @@ class TokenService {
     required String accessToken,
     required String refreshToken,
   }) async {
+    log('💾 [TokenService] Saving tokens...');
+    log('🔑 [TokenService] Access token length: ${accessToken.length}');
+    log('🔑 [TokenService] Refresh token length: ${refreshToken.length}');
+
     await _storage.saveAccessToken(accessToken);
+    log('✅ [TokenService] Access token saved via SecureStorage');
+
     await _storage.saveRefreshToken(refreshToken);
+    log('✅ [TokenService] Refresh token saved via SecureStorage');
+
     _scheduleTokenRefresh();
+    log('⏰ [TokenService] Token refresh scheduled');
   }
 
   // Get access token

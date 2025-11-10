@@ -8,7 +8,7 @@ import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 part 'profile_user_state.dart';
 
 class ProfileUserCubit extends Cubit<ProfileUserState> {
-  ProfileUserCubit(this.profileUserRepo) : super(ProfileUserInitial());
+  ProfileUserCubit(this.profileUserRepo) : super(ProfileUserLoading());
 
   final ProfileUserRepo profileUserRepo;
 
@@ -17,7 +17,10 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
     if (isClosed) return;
 
     log('👤 Fetching profile for: $username', name: 'ProfileUserCubit');
-    emit(ProfileUserLoading());
+    // Don't emit loading again if we're already in loading state
+    if (state is! ProfileUserLoading) {
+      emit(ProfileUserLoading());
+    }
 
     final result = await profileUserRepo.getPublicUserProfile(
       username: username,
