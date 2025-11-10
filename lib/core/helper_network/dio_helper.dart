@@ -112,9 +112,12 @@ class DioHelper {
 
   Future<Response> putMultipartData({
     required String url,
-    required FormData formData,
+    required Map<String, dynamic> data,
   }) async {
     try {
+      // Create fresh FormData for each request (important for retry logic)
+      final formData = FormData.fromMap(data);
+
       final response = await _dio.put(
         url,
         data: formData,

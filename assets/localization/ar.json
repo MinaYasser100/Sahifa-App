@@ -562,6 +562,7 @@
   "failed_to_parse_profile": "فشل في تحليل بيانات الملف الشخصي",
   "cached_data_missing": "البيانات المخزنة مؤقتاً مفقودة",
   "last_seen": "آخر ظهور",
+  "member_since": "عضو منذ",
   "days_ago": "أيام مضت",
   "hours_ago": "ساعات مضت",
   "minutes_ago": "دقائق مضت",

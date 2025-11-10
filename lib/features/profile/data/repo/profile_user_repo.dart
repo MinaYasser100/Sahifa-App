@@ -82,9 +82,11 @@ class ProfileUserRepoImpl implements ProfileUserRepo {
 
     final url = ApiEndpoints.getProfileUser.withParams({'username': username});
 
-    return await _dioHelper.getData(url: url, query: {
-      ApiQueryParams.userName: username,
-    }, headers: headers);
+    return await _dioHelper.getData(
+      url: url,
+      query: {ApiQueryParams.userName: username},
+      headers: headers,
+    );
   }
 
   /// Handle 304 Not Modified response
@@ -109,6 +111,19 @@ class ProfileUserRepoImpl implements ProfileUserRepo {
     log('📦 200 OK - Received new profile data for $username');
 
     try {
+      // Log raw response for debugging
+      log('📄 Raw response data: ${response.data}', name: 'ProfileUserRepo');
+
+      // Check if socialAccounts exists in response
+      if (response.data['socialAccounts'] != null) {
+        log(
+          '🔗 Social accounts in response: ${response.data['socialAccounts']}',
+          name: 'ProfileUserRepo',
+        );
+      } else {
+        log('⚠️ No socialAccounts in API response!', name: 'ProfileUserRepo');
+      }
+
       // Extract and store ETag
       final etag = _etagHandler.extractETag(response, 0);
       if (etag != null) {
@@ -117,6 +132,12 @@ class ProfileUserRepoImpl implements ProfileUserRepo {
 
       // Parse response
       final profileModel = PublicUserProfileModel.fromJson(response.data);
+
+      // Log parsed socialAccounts
+      log(
+        '📱 Parsed social accounts: ${profileModel.socialAccounts.accounts}',
+        name: 'ProfileUserRepo',
+      );
 
       // Store last response for 304 handling
       _lastResponseByUsername[username] = profileModel;

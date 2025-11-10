@@ -53,27 +53,72 @@ class EditUserInfoRepoImpl implements EditUserInfoRepo {
       if (updateModel.avatarImage != null &&
           updateModel.avatarImage!.isNotEmpty) {
         log('📸 Adding new avatar image', name: 'EditUserInfoRepo');
-        formDataMap['avatarImage'] = await MultipartFile.fromFile(
+
+        final imageFile = await MultipartFile.fromFile(
           updateModel.avatarImage!,
           filename: 'avatar.jpg',
         );
+
+        // Log file size
+        log(
+          '📏 Image size: ${imageFile.length} bytes (${(imageFile.length / 1024).toStringAsFixed(2)} KB)',
+          name: 'EditUserInfoRepo',
+        );
+
+        formDataMap['avatarImage'] = imageFile;
       }
 
-      // Add social accounts if provided
+      // Add social accounts as separate fields (backend expects PascalCase field names)
       if (updateModel.socialAccounts != null &&
           updateModel.socialAccounts!.isNotEmpty) {
-        formDataMap['socialAccounts'] = updateModel.socialAccounts;
+        log(
+          '🔗 Adding social accounts: ${updateModel.socialAccounts}',
+          name: 'EditUserInfoRepo',
+        );
+
+        final socialAccounts = updateModel.socialAccounts!;
+
+        // Send each social account as a separate field with PascalCase
+        if (socialAccounts['facebook'] != null &&
+            socialAccounts['facebook']!.isNotEmpty) {
+          formDataMap['Facebook'] = socialAccounts['facebook'];
+        }
+        if (socialAccounts['twitter'] != null &&
+            socialAccounts['twitter']!.isNotEmpty) {
+          formDataMap['Twitter'] = socialAccounts['twitter'];
+        }
+        if (socialAccounts['instagram'] != null &&
+            socialAccounts['instagram']!.isNotEmpty) {
+          formDataMap['Instagram'] = socialAccounts['instagram'];
+        }
+        if (socialAccounts['linkedin'] != null &&
+            socialAccounts['linkedin']!.isNotEmpty) {
+          formDataMap['LinkedIn'] = socialAccounts['linkedin'];
+        }
       }
 
-      final formData = FormData.fromMap(formDataMap);
+      log('📋 FormData Map: $formDataMap', name: 'EditUserInfoRepo');
 
+      // Send the map directly, DioHelper will create FormData for each request
       final response = await _dioHelper.putMultipartData(
         url: url,
-        formData: formData,
+        data: formDataMap,
       );
 
       if (response.statusCode == 200) {
         log('✅ User info updated successfully', name: 'EditUserInfoRepo');
+        log('📦 Response data: ${response.data}', name: 'EditUserInfoRepo');
+
+        // Check if socialAccounts exists in response
+        if (response.data['socialAccounts'] != null) {
+          log(
+            '🔗 Social accounts in response: ${response.data['socialAccounts']}',
+            name: 'EditUserInfoRepo',
+          );
+        } else {
+          log('⚠️ No socialAccounts in response!', name: 'EditUserInfoRepo');
+        }
+
         final updatedProfile = PublicUserProfileModel.fromJson(response.data);
         return Right(updatedProfile);
       } else {
@@ -105,6 +150,13 @@ class EditUserInfoRepoImpl implements EditUserInfoRepo {
       if (e.response?.statusCode == 422) {
         final errorMsg = _extractErrorMessage(e.response?.data);
         return Left(errorMsg ?? "validation_error".tr());
+      }
+
+      if (e.response?.statusCode == 503) {
+        log('⚠️ Server unavailable (503)', name: 'EditUserInfoRepo');
+        return Left(
+          "Server is temporarily unavailable. Please try again later.",
+        );
       }
 
       return Left("failed_to_update_profile".tr());

@@ -550,6 +550,7 @@
   "failed_to_parse_profile": "Failed to parse profile data",
   "cached_data_missing": "Cached data missing",
   "last_seen": "Last seen",
+  "member_since": "Member since",
   "days_ago": "days ago",
   "hours_ago": "hours ago",
   "minutes_ago": "minutes ago",

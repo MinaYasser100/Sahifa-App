@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/features/profile/data/model/public_user_profile_model.dart';
 import 'package:sahifa/features/profile/ui/widgets/profile_widgets/profile_image_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileDataWidget extends StatelessWidget {
   const ProfileDataWidget({
@@ -55,6 +56,16 @@ class ProfileDataWidget extends StatelessWidget {
               ),
             ],
 
+            // Member Since
+            const SizedBox(height: 4),
+            Text(
+              '${'member_since'.tr()}: ${_formatMemberSince(profile.memberSince)}',
+              style: TextStyle(
+                fontSize: 12,
+                color: isDark ? Colors.grey[500] : Colors.grey[500],
+              ),
+            ),
+
             // About Me (if available)
             if (profile.aboutMe != null && profile.aboutMe!.isNotEmpty) ...[
               const SizedBox(height: 16),
@@ -87,13 +98,14 @@ class ProfileDataWidget extends StatelessWidget {
     final accounts = profile.socialAccounts.accounts;
 
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDark ? Colors.grey[850] : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'social_accounts'.tr(),
@@ -103,74 +115,53 @@ class ProfileDataWidget extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: [
-              if (accounts['facebook'] != null &&
-                  accounts['facebook']!.isNotEmpty)
-                _buildSocialButton(
-                  icon: Icons.facebook,
-                  label: 'Facebook',
-                  url: accounts['facebook']!,
-                  color: const Color(0xFF1877F2),
-                ),
-              if (accounts['twitter'] != null &&
-                  accounts['twitter']!.isNotEmpty)
-                _buildSocialButton(
-                  icon: Icons.close, // X icon
-                  label: 'X (Twitter)',
-                  url: accounts['twitter']!,
-                  color: Colors.black,
-                ),
-              if (accounts['instagram'] != null &&
-                  accounts['instagram']!.isNotEmpty)
-                _buildSocialButton(
-                  icon: Icons.photo_camera,
-                  label: 'Instagram',
-                  url: accounts['instagram']!,
-                  color: const Color(0xFFE4405F),
-                ),
-              if (accounts['linkedin'] != null &&
-                  accounts['linkedin']!.isNotEmpty)
-                _buildSocialButton(
-                  icon: Icons.business_center,
-                  label: 'LinkedIn',
-                  url: accounts['linkedin']!,
-                  color: const Color(0xFF0A66C2),
-                ),
-            ],
+            children: accounts.entries.map((entry) {
+              return _buildDynamicSocialButton(
+                platform: entry.key,
+                url: entry.value,
+              );
+            }).toList(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSocialButton({
-    required IconData icon,
-    required String label,
+  Widget _buildDynamicSocialButton({
+    required String platform,
     required String url,
-    required Color color,
   }) {
+    // Get platform-specific icon and color
+    final platformData = _getPlatformData(platform.toLowerCase());
+
     return InkWell(
-      onTap: () {
-        // TODO: Open URL using url_launcher
-        // You can implement this later
+      onTap: () async {
+        try {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        } catch (e) {
+          // Handle invalid URL
+        }
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: platformData['color'].withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: platformData['color'].withOpacity(0.3)),
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 18, color: color),
+            Icon(platformData['icon'], size: 18, color: platformData['color']),
             const SizedBox(width: 6),
             Text(
-              label,
+              platformData['label'],
               style: TextStyle(
-                color: color,
+                color: platformData['color'],
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
@@ -179,6 +170,57 @@ class ProfileDataWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Map<String, dynamic> _getPlatformData(String platform) {
+    switch (platform) {
+      case 'facebook':
+        return {
+          'icon': Icons.facebook,
+          'label': 'Facebook',
+          'color': const Color(0xFF1877F2),
+        };
+      case 'twitter':
+      case 'x':
+        return {
+          'icon': Icons.close, // X icon
+          'label': 'X (Twitter)',
+          'color': Colors.black,
+        };
+      case 'instagram':
+        return {
+          'icon': Icons.camera_alt,
+          'label': 'Instagram',
+          'color': const Color(0xFFE4405F),
+        };
+      case 'linkedin':
+        return {
+          'icon': Icons.work,
+          'label': 'LinkedIn',
+          'color': const Color(0xFF0A66C2),
+        };
+      case 'youtube':
+        return {
+          'icon': Icons.play_circle_filled,
+          'label': 'YouTube',
+          'color': const Color(0xFFFF0000),
+        };
+      case 'github':
+        return {'icon': Icons.code, 'label': 'GitHub', 'color': Colors.black};
+      case 'website':
+      case 'portfolio':
+        return {
+          'icon': Icons.language,
+          'label': 'Website',
+          'color': const Color(0xFF2196F3),
+        };
+      default:
+        return {
+          'icon': Icons.link,
+          'label': platform[0].toUpperCase() + platform.substring(1),
+          'color': isDark ? Colors.grey[400]! : Colors.grey[700]!,
+        };
+    }
   }
 
   String _formatDate(String dateString) {
@@ -196,6 +238,16 @@ class ProfileDataWidget extends StatelessWidget {
       } else {
         return 'just_now'.tr();
       }
+    } catch (e) {
+      return dateString;
+    }
+  }
+
+  String _formatMemberSince(String dateString) {
+    try {
+      final date = DateTime.parse(dateString);
+      final formatter = DateFormat('MMM yyyy');
+      return formatter.format(date);
     } catch (e) {
       return dateString;
     }
