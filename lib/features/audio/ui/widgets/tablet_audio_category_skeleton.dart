@@ -35,78 +35,90 @@ class TabletAudioCategorySkeleton extends StatelessWidget {
             mainAxisSpacing: 16,
           ),
           itemCount: 4,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? ColorsTheme().primaryColor.withValues(alpha: 0.1)
-                      : ColorsTheme().primaryLight.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Image skeleton
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? ColorsTheme().primaryColor.withValues(alpha: 0.1)
+                    : ColorsTheme().primaryLight.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image skeleton
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isDarkMode
+                            ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
+                            : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.headphones,
+                          size: 48,
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.headphones,
-                            size: 48,
-                            color: isDarkMode
-                                ? ColorsTheme().primaryColor.withValues(alpha: 0.3)
-                                : ColorsTheme().primaryLight.withValues(alpha: 0.3),
-                          ),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.3,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.3,
+                                ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                  ),
+                  const SizedBox(height: 8),
 
-                    // Title skeleton
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 14,
-                            decoration: BoxDecoration(
-                              color: isDarkMode
-                                  ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                  : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                  // Title skeleton
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.2,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.2,
+                                  ),
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          const SizedBox(height: 6),
-                          Container(
-                            width: 80,
-                            height: 12,
-                            decoration: BoxDecoration(
-                              color: isDarkMode
-                                  ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                  : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                        ),
+                        const SizedBox(height: 6),
+                        Container(
+                          width: 80,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.2,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.2,
+                                  ),
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          const SizedBox(height: 8),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
         const SizedBox(height: 32),
       ],
     );

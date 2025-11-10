@@ -65,13 +65,12 @@ class TabletDrawerSubcategoryGrid extends StatelessWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: SliverGrid(
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.8,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.8,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
                   delegate: SliverChildBuilderDelegate((context, index) {
                     return GestureDetector(
                       onTap: () {
@@ -84,9 +83,7 @@ class TabletDrawerSubcategoryGrid extends StatelessWidget {
                           ? TabletGridBookOpinionCard(
                               articleItem: articles[index],
                             )
-                          : TabletGridArticleCard(
-                              articleItem: articles[index],
-                            ),
+                          : TabletGridArticleCard(articleItem: articles[index]),
                     );
                   }, childCount: articles.length),
                 ),

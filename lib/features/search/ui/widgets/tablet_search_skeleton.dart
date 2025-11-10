@@ -66,8 +66,12 @@ class TabletSearchSkeleton extends StatelessWidget {
                           height: 16,
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.2,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.2,
+                                  ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -77,8 +81,12 @@ class TabletSearchSkeleton extends StatelessWidget {
                           height: 14,
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.2,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.2,
+                                  ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -88,8 +96,12 @@ class TabletSearchSkeleton extends StatelessWidget {
                           height: 12,
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.2,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.2,
+                                  ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),

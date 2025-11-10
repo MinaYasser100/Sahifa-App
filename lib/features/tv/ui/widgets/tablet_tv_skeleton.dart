@@ -62,82 +62,95 @@ class TabletTvSkeleton extends StatelessWidget {
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
             ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: isDarkMode
-                        ? ColorsTheme().primaryColor.withValues(alpha: 0.1)
-                        : ColorsTheme().primaryLight.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Video thumbnail skeleton
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          decoration: BoxDecoration(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? ColorsTheme().primaryColor.withValues(alpha: 0.1)
+                      : ColorsTheme().primaryLight.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Video thumbnail skeleton
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isDarkMode
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.2,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.2,
+                                ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.play_circle_outline,
+                            size: 48,
                             color: isDarkMode
-                                ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.play_circle_outline,
-                              size: 48,
-                              color: isDarkMode
-                                  ? ColorsTheme().primaryColor.withValues(alpha: 0.3)
-                                  : ColorsTheme().primaryLight.withValues(alpha: 0.3),
-                            ),
+                                ? ColorsTheme().primaryColor.withValues(
+                                    alpha: 0.3,
+                                  )
+                                : ColorsTheme().primaryLight.withValues(
+                                    alpha: 0.3,
+                                  ),
                           ),
                         ),
                       ),
+                    ),
 
-                      // Title skeleton
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 14,
-                                decoration: BoxDecoration(
-                                  color: isDarkMode
-                                      ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                      : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
+                    // Title skeleton
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? ColorsTheme().primaryColor.withValues(
+                                        alpha: 0.2,
+                                      )
+                                    : ColorsTheme().primaryLight.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                              const SizedBox(height: 6),
-                              Container(
-                                width: 100,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: isDarkMode
-                                      ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                                      : ColorsTheme().primaryLight.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
+                            ),
+                            const SizedBox(height: 6),
+                            Container(
+                              width: 100,
+                              height: 12,
+                              decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? ColorsTheme().primaryColor.withValues(
+                                        alpha: 0.2,
+                                      )
+                                    : ColorsTheme().primaryLight.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                );
-              },
-              childCount: 6,
-            ),
+                    ),
+                  ],
+                ),
+              );
+            }, childCount: 6),
           ),
         ),
       ],

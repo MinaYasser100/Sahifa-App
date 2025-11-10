@@ -49,7 +49,9 @@ class TabletProfileBody extends StatelessWidget {
                             children: [
                               // Theme Settings Card
                               ThemeSettingsCard(
-                                  isDark: isDark, themeCubit: themeCubit),
+                                isDark: isDark,
+                                themeCubit: themeCubit,
+                              ),
                               const SizedBox(height: 20),
                               // App Info Section
                               FadeInLeft(

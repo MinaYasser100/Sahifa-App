@@ -36,9 +36,14 @@ enum ApiEndpoints {
 
   likePost("/api/v1/posts/{postId}/like"),
   getLikePosts("/api/v1/posts/liked"),
-  
+
   getProfileUser("/api/v1/users/profile/{username}"),
-  updateUserInfo("/api/v1/users/{id}");
+  updateUserInfo("/api/v1/users/{id}"),
+
+  // reels
+  getReels("/api/v1/reels"),
+  likeReel("/api/v1/reels/{reelId}/like"),
+  unlikeReel("/api/v1/reels/{reelId}/like");
 
   final String path;
   const ApiEndpoints(this.path);
@@ -103,6 +108,11 @@ class ApiQueryParams {
   static const String authorName = "AuthorName";
   static const String postId = "postId";
   static const String userName = "UserName";
+
+  // Reels pagination
+  static const String cursor = "Cursor";
+  static const String limit = "Limit";
+  static const String reelId = "reelId";
 }
 
 enum PostType { article, video, audio }

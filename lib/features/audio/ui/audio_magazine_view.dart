@@ -12,7 +12,7 @@ class AudioMagazineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final language = context.locale.languageCode;
-    
+
     return Scaffold(
       appBar: AppBar(title: Text("audio_magazine".tr())),
       body: BlocProvider(

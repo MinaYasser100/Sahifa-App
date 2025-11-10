@@ -15,11 +15,11 @@ class SearchResultsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveHelper.isTablet(context);
-    
+
     if (isTablet) {
       return const TabletSearchResultsGrid();
     }
-    
+
     return BlocBuilder<SearchArticlesCubit, SearchArticlesState>(
       builder: (context, state) {
         if (state is SearchArticlesLoadingState) {

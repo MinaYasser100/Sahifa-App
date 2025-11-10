@@ -36,7 +36,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveHelper.isTablet(context);
-    
+
     return BlocProvider(
       create: (context) => AutovalidateModeCubit(),
       child: Scaffold(

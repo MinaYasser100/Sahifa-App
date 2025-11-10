@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahifa/core/model/reels_model/reel.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:sahifa/core/model/reel_model/reel_model.dart';
 import 'package:sahifa/features/reels/manager/video_player_cubit/video_player_cubit.dart';
 import 'package:sahifa/features/reels/ui/widgets/reel_video_player.dart';
 
@@ -12,7 +12,7 @@ import 'reel_caption_section.dart';
 import 'reel_gradient_overlay.dart';
 
 class ReelItem extends StatelessWidget {
-  final ReelModel reel;
+  final Reel reel;
   final bool isCurrentPage;
 
   const ReelItem({super.key, required this.reel, required this.isCurrentPage});
@@ -104,7 +104,7 @@ class ReelItem extends StatelessWidget {
           ),
 
           // Gradient overlay
-          ReelGradientOverlay(),
+          const ReelGradientOverlay(),
 
           // User info and caption
           ReelCaptionSection(reel: reel),

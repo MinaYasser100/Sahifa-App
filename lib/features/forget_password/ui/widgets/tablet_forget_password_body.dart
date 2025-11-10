@@ -48,7 +48,9 @@ class TabletForgetPasswordBody extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('reset_link_sent_to_your_email'.tr()),
+                              content: Text(
+                                'reset_link_sent_to_your_email'.tr(),
+                              ),
                             ),
                           );
                         } else {
@@ -66,9 +68,8 @@ class TabletForgetPasswordBody extends StatelessWidget {
                         },
                         child: Text(
                           'login'.tr(),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

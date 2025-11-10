@@ -42,69 +42,71 @@ class LoginBodyView extends StatelessWidget {
       },
       builder: (context, authState) {
         final isLoading = authState is AuthLoading;
-        
+
         return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
           builder: (context, state) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Form(
-            key: formKey,
-            autovalidateMode: context
-                .watch<AutovalidateModeCubit>()
-                .autovalidateMode,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                const LoginHeaderSection(),
-
-                // Form Fields Section
-                LoginFormFields(
-                  emailController: emailController,
-                  emailFocusNode: emailFocusNode,
-                  passwordController: passwordController,
-                  passwordFocusNode: passwordFocusNode,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Form(
+                key: formKey,
+                autovalidateMode: context
+                    .watch<AutovalidateModeCubit>()
+                    .autovalidateMode,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        context.push(Routes.forgotPasswordView);
-                      },
-                      child: Text('forgot_password'.tr()),
+                    // Header Section
+                    const LoginHeaderSection(),
+
+                    // Form Fields Section
+                    LoginFormFields(
+                      emailController: emailController,
+                      emailFocusNode: emailFocusNode,
+                      passwordController: passwordController,
+                      passwordFocusNode: passwordFocusNode,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            context.push(Routes.forgotPasswordView);
+                          },
+                          child: Text('forgot_password'.tr()),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Login Button
+                    CustomButton(
+                      text: 'login'.tr(),
+                      isLoading: isLoading,
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                final request = LoginRequest(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                );
+                                context.read<AuthCubit>().login(request);
+                              } else {
+                                context
+                                    .read<AutovalidateModeCubit>()
+                                    .changeAutovalidateMode();
+                              }
+                            },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Footer Section
+                    const LoginFooterSection(),
                   ],
                 ),
-                const SizedBox(height: 20),
-
-                // Login Button
-                CustomButton(
-                  text: 'login'.tr(),
-                  isLoading: isLoading,
-                  onPressed: isLoading ? null : () {
-                    if (formKey.currentState!.validate()) {
-                      final request = LoginRequest(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                      );
-                      context.read<AuthCubit>().login(request);
-                    } else {
-                      context
-                          .read<AutovalidateModeCubit>()
-                          .changeAutovalidateMode();
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 16),
-
-                // Footer Section
-                const LoginFooterSection(),
-              ],
-            ),
-          ),
-        );
+              ),
+            );
           },
         );
       },

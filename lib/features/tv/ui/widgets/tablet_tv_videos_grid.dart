@@ -91,12 +91,9 @@ class _TabletTvVideosGridState extends State<TabletTvVideosGrid> {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return VideoItemCard(video: widget.videos[index]);
-                },
-                childCount: widget.videos.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return VideoItemCard(video: widget.videos[index]);
+              }, childCount: widget.videos.length),
             ),
           ),
           SliverToBoxAdapter(

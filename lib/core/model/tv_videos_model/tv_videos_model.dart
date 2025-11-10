@@ -20,24 +20,24 @@ class TvVideosModel {
   });
 
   factory TvVideosModel.fromJson(Map<String, dynamic> json) => TvVideosModel(
-        pageSize: json['pageSize'] as int?,
-        pageNumber: json['pageNumber'] as int?,
-        totalCount: json['totalCount'] as int?,
-        totalPages: json['totalPages'] as int?,
-        itemsFrom: json['itemsFrom'] as int?,
-        itemsTo: json['itemsTo'] as int?,
-        videos: (json['items'] as List<dynamic>?)
-            ?.map((e) => VideoModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    pageSize: json['pageSize'] as int?,
+    pageNumber: json['pageNumber'] as int?,
+    totalCount: json['totalCount'] as int?,
+    totalPages: json['totalPages'] as int?,
+    itemsFrom: json['itemsFrom'] as int?,
+    itemsTo: json['itemsTo'] as int?,
+    videos: (json['items'] as List<dynamic>?)
+        ?.map((e) => VideoModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   Map<String, dynamic> toJson() => {
-        'pageSize': pageSize,
-        'pageNumber': pageNumber,
-        'totalCount': totalCount,
-        'totalPages': totalPages,
-        'itemsFrom': itemsFrom,
-        'itemsTo': itemsTo,
-        'items': videos?.map((e) => e.toJson()).toList(),
-      };
+    'pageSize': pageSize,
+    'pageNumber': pageNumber,
+    'totalCount': totalCount,
+    'totalPages': totalPages,
+    'itemsFrom': itemsFrom,
+    'itemsTo': itemsTo,
+    'items': videos?.map((e) => e.toJson()).toList(),
+  };
 }

@@ -16,11 +16,11 @@ class CategoriesGridContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveHelper.isTablet(context);
-    
+
     if (isTablet) {
       return TabletCategoriesGrid(categories: categories);
     }
-    
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

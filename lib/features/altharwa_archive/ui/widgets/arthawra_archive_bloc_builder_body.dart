@@ -22,7 +22,7 @@ class AlthawraArchiveBlocBuilderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveHelper.isTablet(context);
-    
+
     return BlocBuilder<MagazinesCubit, MagazinesState>(
       builder: (context, state) {
         if (state is MagazinesLoading) {

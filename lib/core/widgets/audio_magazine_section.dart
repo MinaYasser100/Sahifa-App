@@ -21,7 +21,10 @@ class AudioMagazineSection extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 80,
-        margin: EdgeInsets.symmetric(horizontal: notMargin ? 0 : 16, vertical: 12),
+        margin: EdgeInsets.symmetric(
+          horizontal: notMargin ? 0 : 16,
+          vertical: 12,
+        ),
         decoration: BoxDecoration(
           color: isDarkMode
               ? ColorsTheme().primaryLight

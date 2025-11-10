@@ -20,8 +20,9 @@ class CustomMobileTrendingArticlesSectionBody extends StatelessWidget {
     final language = LanguageHelper.getCurrentLanguageCode(context);
 
     return BlocProvider(
-      create: (context) => TrendingCubit(getIt<TrendingRepoImpl>())
-        ..fetchTrendingArticles(language),
+      create: (context) =>
+          TrendingCubit(getIt<TrendingRepoImpl>())
+            ..fetchTrendingArticles(language),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

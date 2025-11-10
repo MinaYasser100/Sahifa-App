@@ -22,7 +22,7 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
     required String language,
   }) async {
     if (isClosed) return;
-    
+
     // Reset state for new category
     _audios = [];
     _currentPage = 1;
@@ -57,7 +57,7 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
 
   Future<void> loadMoreAudios() async {
     if (isClosed) return;
-    
+
     if (!_hasMorePages ||
         _currentCategorySlug == null ||
         _currentLanguage == null) {
@@ -105,7 +105,7 @@ class AudioByCategoryCubit extends Cubit<AudioByCategoryState> {
 
   void resetState() {
     if (isClosed) return;
-    
+
     _audios = [];
     _currentPage = 1;
     _hasMorePages = true;

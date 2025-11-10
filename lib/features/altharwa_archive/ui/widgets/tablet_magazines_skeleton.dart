@@ -52,7 +52,7 @@ class TabletMagazinesSkeleton extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 // Info skeleton
                 Padding(
                   padding: const EdgeInsets.all(12),
@@ -64,8 +64,12 @@ class TabletMagazinesSkeleton extends StatelessWidget {
                         height: 16,
                         decoration: BoxDecoration(
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.2,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.2,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -75,8 +79,12 @@ class TabletMagazinesSkeleton extends StatelessWidget {
                         height: 14,
                         decoration: BoxDecoration(
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.2,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.2,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

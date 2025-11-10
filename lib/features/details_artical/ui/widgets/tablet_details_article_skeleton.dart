@@ -76,8 +76,12 @@ class TabletDetailsArticleSkeleton extends StatelessWidget {
                         height: 16,
                         decoration: BoxDecoration(
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.2,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.2,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -87,8 +91,12 @@ class TabletDetailsArticleSkeleton extends StatelessWidget {
                         height: 16,
                         decoration: BoxDecoration(
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.2)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.2),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.2,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.2,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -105,8 +113,12 @@ class TabletDetailsArticleSkeleton extends StatelessWidget {
                         height: 14,
                         decoration: BoxDecoration(
                           color: isDarkMode
-                              ? ColorsTheme().primaryColor.withValues(alpha: 0.15)
-                              : ColorsTheme().primaryLight.withValues(alpha: 0.15),
+                              ? ColorsTheme().primaryColor.withValues(
+                                  alpha: 0.15,
+                                )
+                              : ColorsTheme().primaryLight.withValues(
+                                  alpha: 0.15,
+                                ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

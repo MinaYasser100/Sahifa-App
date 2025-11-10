@@ -5,10 +5,7 @@ import 'package:sahifa/core/widgets/custom_trending/tablet_card_title.dart';
 import 'package:sahifa/core/widgets/custom_trending/tablet_card_metadata.dart';
 
 class TabletCardContentSection extends StatelessWidget {
-  const TabletCardContentSection({
-    super.key,
-    required this.articleItem,
-  });
+  const TabletCardContentSection({super.key, required this.articleItem});
 
   final ArticleModel articleItem;
 

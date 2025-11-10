@@ -65,7 +65,8 @@ class TabletAudioBookDetailsBody extends StatelessWidget {
                     DescriptionSection(audioItem: audioItem, isDark: isDark),
                     const SizedBox(height: 20),
                     Divider(
-                        color: isDark ? ColorsTheme().grayColor : Colors.black12),
+                      color: isDark ? ColorsTheme().grayColor : Colors.black12,
+                    ),
                     const SizedBox(height: 20),
                     // Related Audio Books Section
                     if (audioItem.categorySlug != null &&

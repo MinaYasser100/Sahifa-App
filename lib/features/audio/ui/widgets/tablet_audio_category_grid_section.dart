@@ -34,9 +34,9 @@ class TabletAudioCategoryGridSection extends StatelessWidget {
               message: state.message,
               onPressed: () {
                 context.read<AudioByCategoryCubit>().fetchAudiosByCategory(
-                      categorySlug: category.slug ?? '',
-                      language: language,
-                    );
+                  categorySlug: category.slug ?? '',
+                  language: language,
+                );
               },
             ),
           );

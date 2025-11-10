@@ -22,7 +22,8 @@ class ServerFailure extends Failure {
 
 // Authentication Failures
 class AuthenticationFailure extends Failure {
-  const AuthenticationFailure({required super.message}) : super(statusCode: 401);
+  const AuthenticationFailure({required super.message})
+    : super(statusCode: 401);
 }
 
 // Authorization Failures
@@ -34,10 +35,8 @@ class AuthorizationFailure extends Failure {
 class ValidationFailure extends Failure {
   final Map<String, List<String>>? errors;
 
-  const ValidationFailure({
-    required super.message,
-    this.errors,
-  }) : super(statusCode: 422);
+  const ValidationFailure({required super.message, this.errors})
+    : super(statusCode: 422);
 }
 
 // Cache Failures

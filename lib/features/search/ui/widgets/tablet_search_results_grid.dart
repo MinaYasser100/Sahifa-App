@@ -42,25 +42,19 @@ class TabletSearchResultsGrid extends StatelessWidget {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final article = articles[index];
-                  final isBookOpinion = article.categorySlug == 'books_opinions';
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final article = articles[index];
+                final isBookOpinion = article.categorySlug == 'books_opinions';
 
-                  return GestureDetector(
-                    onTap: () {
-                      context.push(
-                        Routes.detailsArticalView,
-                        extra: article,
-                      );
-                    },
-                    child: isBookOpinion
-                        ? TabletGridBookOpinionCard(articleItem: article)
-                        : TabletGridArticleCard(articleItem: article),
-                  );
-                },
-                childCount: articles.length,
-              ),
+                return GestureDetector(
+                  onTap: () {
+                    context.push(Routes.detailsArticalView, extra: article);
+                  },
+                  child: isBookOpinion
+                      ? TabletGridBookOpinionCard(articleItem: article)
+                      : TabletGridArticleCard(articleItem: article),
+                );
+              }, childCount: articles.length),
             ),
           );
         }

@@ -21,9 +21,12 @@ class AudioBookDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveLayout(
-      mobileLayout: (context) => _MobileAudioBookDetailsView(audioItem: audioItem),
-      tabletLayout: (context) => TabletAudioBookDetailsBody(audioItem: audioItem),
-      desktopLayout: (context) => TabletAudioBookDetailsBody(audioItem: audioItem),
+      mobileLayout: (context) =>
+          _MobileAudioBookDetailsView(audioItem: audioItem),
+      tabletLayout: (context) =>
+          TabletAudioBookDetailsBody(audioItem: audioItem),
+      desktopLayout: (context) =>
+          TabletAudioBookDetailsBody(audioItem: audioItem),
     );
   }
 }

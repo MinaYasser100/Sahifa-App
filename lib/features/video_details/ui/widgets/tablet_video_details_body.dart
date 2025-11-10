@@ -29,13 +29,10 @@ class TabletVideoDetailsBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Left Side - Video Thumbnail
-            Expanded(
-              flex: 3,
-              child: VideoThumbnailSection(video: video),
-            ),
-            
+            Expanded(flex: 3, child: VideoThumbnailSection(video: video)),
+
             const SizedBox(width: 32),
-            
+
             // Right Side - Video Information
             Expanded(
               flex: 2,
@@ -53,7 +50,10 @@ class TabletVideoDetailsBody extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   // Category and Views
-                  VideoCategoryAndViewsRow(video: video, isDarkMode: isDarkMode),
+                  VideoCategoryAndViewsRow(
+                    video: video,
+                    isDarkMode: isDarkMode,
+                  ),
 
                   const SizedBox(height: 12),
 
@@ -64,7 +64,10 @@ class TabletVideoDetailsBody extends StatelessWidget {
 
                   // Summary (Description)
                   if (video.summary != null && video.summary!.isNotEmpty)
-                    VideoDescriptionSection(video: video, isDarkMode: isDarkMode),
+                    VideoDescriptionSection(
+                      video: video,
+                      isDarkMode: isDarkMode,
+                    ),
 
                   const SizedBox(height: 32),
 

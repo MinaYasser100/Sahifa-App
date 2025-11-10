@@ -3,24 +3,16 @@ import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 
 class TabletCardCategoryBadge extends StatelessWidget {
-  const TabletCardCategoryBadge({
-    super.key,
-    required this.categoryName,
-  });
+  const TabletCardCategoryBadge({super.key, required this.categoryName});
 
   final String categoryName;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: ColorsTheme().primaryColor.withValues(
-          alpha: 0.1,
-        ),
+        color: ColorsTheme().primaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(

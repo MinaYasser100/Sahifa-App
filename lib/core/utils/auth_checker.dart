@@ -10,7 +10,7 @@ class AuthChecker {
   /// Returns true if logged in, false if not
   static Future<bool> checkAuthAndNavigate(BuildContext context) async {
     final isLoggedIn = await AuthService().isLoggedIn();
-    
+
     if (!isLoggedIn) {
       if (context.mounted) {
         // Navigate to login
@@ -18,7 +18,7 @@ class AuthChecker {
       }
       return false;
     }
-    
+
     return true;
   }
 

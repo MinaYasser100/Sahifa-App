@@ -11,15 +11,15 @@ class SearchArticlesCubit extends Cubit<SearchArticlesState> {
   final SearchArticlesRepo _searchArticlesRepo;
   Future<void> searchArticlesByQuery(String query, String language) async {
     if (isClosed) return;
-    
+
     emit(SearchArticlesLoadingState());
     final result = await _searchArticlesRepo.searchArticles(
       query: query,
       language: language,
     );
-    
+
     if (isClosed) return;
-    
+
     result.fold(
       (error) {
         if (!isClosed) emit(SearchArticlesErrorState(error));

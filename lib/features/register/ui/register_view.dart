@@ -55,7 +55,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveHelper.isTablet(context);
-    
+
     return BlocProvider(
       create: (context) => AutovalidateModeCubit(),
       child: Scaffold(
