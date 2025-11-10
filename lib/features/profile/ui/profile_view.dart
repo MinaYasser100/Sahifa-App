@@ -7,6 +7,8 @@ import 'package:sahifa/core/model/additional_setting_model/additional_setting_mo
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
 import 'package:sahifa/core/widgets/adaptive_layout.dart';
+import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
+import 'package:sahifa/features/profile/manager/profile_user_cubit/profile_user_cubit.dart';
 
 import 'widgets/additonal_settings_item.dart';
 import 'widgets/app_info_section.dart';
@@ -21,10 +23,13 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveLayout(
-      mobileLayout: (context) => _MobileProfileView(),
-      tabletLayout: (context) => const TabletProfileBody(),
-      desktopLayout: (context) => const TabletProfileBody(),
+    return BlocProvider(
+      create: (context) => ProfileUserCubit(ProfileUserRepoImpl()),
+      child: AdaptiveLayout(
+        mobileLayout: (context) => _MobileProfileView(),
+        tabletLayout: (context) => const TabletProfileBody(),
+        desktopLayout: (context) => const TabletProfileBody(),
+      ),
     );
   }
 }

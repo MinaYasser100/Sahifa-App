@@ -518,5 +518,18 @@
   "password_change_unexpected_error": "Unexpected error occurred while changing password",
   "Error fetching articles of books and opinions for bar category": "Error fetching articles of books and opinions for bar category",
   "Error fetching books & opinions articles": "Error fetching books & opinions articles",
-  "No articles available": "No articles available"
+  "No articles available": "No articles available",
+  
+  "_comment_profile_user": "===== Profile User =====",
+  "loading": "Loading...",
+  "user_not_found": "User not found",
+  "invalid_username": "Invalid username",
+  "failed_to_load_profile": "Failed to load profile",
+  "failed_to_parse_profile": "Failed to parse profile data",
+  "cached_data_missing": "Cached data missing",
+  "last_seen": "Last seen",
+  "days_ago": "days ago",
+  "hours_ago": "hours ago",
+  "minutes_ago": "minutes ago",
+  "just_now": "Just now"
 }

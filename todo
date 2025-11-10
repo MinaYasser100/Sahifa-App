@@ -1,7 +1,13 @@
 1- edit get videos in tv view @done
-2- edit get audio in the audio magazine @todo
+2- edit get audio in the audio magazine  @done
 3- get articles of books and opinions for bar category with handling pagination (repo and cubit) @done
 4- get articles of books and opinions for horizontal home list with handling pagination (repo and cubit) @done
 5- change endpoints for articles of search category @done
 6- get articles of books and opinions for bar category with handling pagination (repo and cubit) in tablet 
-7- do the author profile view @todo 
+7- do the author profile view @done
+8- do the like in the all files (7 files) by repo and cubit and widget button @done
+9- get the favorites posts with handling pagination (repo and cubit) @done
+10- do refresh in the home view @done
+11- fixed the search articles view, it depends on whether item is article or book opinion 
+12- show user info in the profile view 
+13- edit the user info in the profile view 

@@ -530,5 +530,18 @@
   "password_change_unexpected_error": "حدث خطأ غير متوقع أثناء تغيير كلمة المرور",
   "Error fetching articles of books and opinions for bar category": "خطأ في جلب مقالات الكتب والآراء لفئة الشريط",
   "Error fetching books & opinions articles": "خطأ في جلب مقالات الكتب والآراء",
-  "No Articles Found": "لم يتم العثور على مقالات"
+  "No Articles Found": "لم يتم العثور على مقالات",
+  
+  "_comment_profile_user": "===== ملف المستخدم =====",
+  "loading": "جاري التحميل...",
+  "user_not_found": "المستخدم غير موجود",
+  "invalid_username": "اسم المستخدم غير صالح",
+  "failed_to_load_profile": "فشل في تحميل الملف الشخصي",
+  "failed_to_parse_profile": "فشل في تحليل بيانات الملف الشخصي",
+  "cached_data_missing": "البيانات المخزنة مؤقتاً مفقودة",
+  "last_seen": "آخر ظهور",
+  "days_ago": "أيام مضت",
+  "hours_ago": "ساعات مضت",
+  "minutes_ago": "دقائق مضت",
+  "just_now": "الآن"
 }

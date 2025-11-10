@@ -6,6 +6,7 @@ import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_categ
 import 'package:sahifa/features/home/data/repo/articles_horizontal_books_opinions_repo.dart';
 import 'package:sahifa/features/home/data/repo/categories_horizontal_bar_repo.dart';
 import 'package:sahifa/features/my_favorites/data/repo/my_favorite_repo.dart';
+import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
 
 /// Service to clear all caches across the application
@@ -107,6 +108,17 @@ class CacheClearingService {
     } catch (e) {
       log(
         '⚠️ Error clearing Audios By Category cache: $e',
+        name: 'CacheClearingService',
+      );
+    }
+
+    try {
+      // Clear Profile User cache (ETags only, no memory cache)
+      ProfileUserRepoImpl().clearAllCache();
+      log('✅ Cleared Profile User cache', name: 'CacheClearingService');
+    } catch (e) {
+      log(
+        '⚠️ Error clearing Profile User cache: $e',
         name: 'CacheClearingService',
       );
     }

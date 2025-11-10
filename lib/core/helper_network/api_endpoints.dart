@@ -2,7 +2,6 @@
 enum ApiEndpoints {
   // Magazines
   magazines('/api/v1/magazines'),
-
   // Magazines by Date
   magazinesByDate('/api/v1/magazines/by-date'),
 
@@ -35,7 +34,8 @@ enum ApiEndpoints {
   posts('/api/v1/posts'),
   video('/api/v1/posts/categories/{categorySlug}/videos/{slug}'),
   likePost("/api/v1/posts/{postId}/like"),
-  getLikePosts("/api/v1/posts/liked");
+  getLikePosts("/api/v1/posts/liked"),
+  getProfileUser("/api/v1/users/profile/{username}");
 
   final String path;
   const ApiEndpoints(this.path);
@@ -99,6 +99,7 @@ class ApiQueryParams {
   static const String hasAuthor = "HasAuthor";
   static const String authorName = "AuthorName";
   static const String postId = "postId";
+  static const String userName = "UserName";
 }
 
 enum PostType { article, video, audio }
