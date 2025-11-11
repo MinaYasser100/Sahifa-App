@@ -16,6 +16,7 @@ import 'package:sahifa/features/audio/ui/audio_magazine_view.dart';
 import 'package:sahifa/features/audio/ui/audio_player_view.dart';
 import 'package:sahifa/features/author_profile/ui/author_profile_view.dart';
 import 'package:sahifa/features/details_artical/ui/details_article_view.dart';
+import 'package:sahifa/features/details_gallery/details_gallery_view.dart';
 import 'package:sahifa/features/edit_info/ui/edit_info_view.dart';
 import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
@@ -110,6 +111,17 @@ abstract class AppRouter {
           return fadeTransitionPage(
             DetailsArticleView(articalModel: articalModel),
           );
+        },
+      ),
+
+      GoRoute(
+        path: Routes.detailsGalleryView,
+        pageBuilder: (context, state) {
+          final post = state.extra as ArticleModel?;
+          if (post == null) {
+            throw Exception('Gallery model is not found');
+          }
+          return fadeTransitionPage(DetailsGalleryView(post: post));
         },
       ),
 

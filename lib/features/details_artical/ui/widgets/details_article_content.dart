@@ -41,10 +41,7 @@ class DetailsArticleContent extends StatelessWidget {
           if (articalModel.ownerIsAuthor == true)
             GestureDetector(
               onTap: () {
-                context.push(
-                  Routes.authorProfileView,
-                  extra: articalModel,
-                );
+                context.push(Routes.authorProfileView, extra: articalModel);
               },
               child: AuthorInfoRow(
                 authorImage: articalModel.authorImage,

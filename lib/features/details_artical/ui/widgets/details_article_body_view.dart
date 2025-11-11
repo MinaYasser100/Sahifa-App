@@ -28,20 +28,18 @@ class DetailsArticleBodyView extends StatelessWidget {
             child: Stack(
               children: [
                 FadeIn(
-                  child:
-                      articalModel.ownerIsAuthor == true
-                          ?
-                      CustomBookOpinionImage(
-                        imageUrl: articalModel.image ?? '',
-                        authorName: articalModel.authorName ?? '',
-                        containerWidth: double.infinity,
-                        isListItem: true,
-                      )
-                  : CustomImageWidget(
-                      imageUrl: articalModel.image ?? '',
-                      height: 300,
-                      changeBorderRadius: true,
-                    ),
+                  child: articalModel.ownerIsAuthor == true
+                      ? CustomBookOpinionImage(
+                          imageUrl: articalModel.image ?? '',
+                          authorName: articalModel.authorName ?? '',
+                          containerWidth: double.infinity,
+                          isListItem: true,
+                        )
+                      : CustomImageWidget(
+                          imageUrl: articalModel.image ?? '',
+                          height: 300,
+                          changeBorderRadius: true,
+                        ),
                 ),
                 Positioned(
                   top: 10,

@@ -13,6 +13,7 @@ import 'package:sahifa/features/articals_category_section/data/repo/horizontal_b
 import 'package:sahifa/features/articals_category_section/data/repo/subcategory_articles_repo.dart';
 import 'package:sahifa/features/author_profile/data/repo/author_profile_repo.dart';
 import 'package:sahifa/features/details_artical/ui/data/repo/details_article_repo.dart';
+import 'package:sahifa/features/details_gallery/data/repo/details_gallery_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_category_repo.dart';
 import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 import 'package:sahifa/features/video_details/data/repo/details_video_repo.dart';
@@ -150,6 +151,11 @@ void setupDependencies() async {
   final galeriesPostsRepo = GaleriesPostsRepoImpl(getIt<DioHelper>());
   getIt.registerSingleton<GaleriesPostsRepoImpl>(galeriesPostsRepo);
   getIt.registerSingleton<GaleriesPostsRepo>(galeriesPostsRepo);
+
+  // Register DetailsGalleryRepo as singleton
+  final detailsGalleryRepo = DetailsGalleryRepoImpl(getIt<DioHelper>());
+  getIt.registerSingleton<DetailsGalleryRepoImpl>(detailsGalleryRepo);
+  getIt.registerSingleton<DetailsGalleryRepo>(detailsGalleryRepo);
 
   getIt.registerSingleton<DetailsArticleRepoImpl>(
     DetailsArticleRepoImpl(getIt<DioHelper>()),

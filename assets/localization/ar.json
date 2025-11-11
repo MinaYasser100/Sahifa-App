@@ -573,5 +573,9 @@
   "hours_ago": "ساعات مضت",
   "minutes_ago": "دقائق مضت",
   "just_now": "الآن",
-  "Error fetching galaries posts": "خطأ في جلب مشاركات المعرض"
+  "Error fetching galaries posts": "خطأ في جلب مشاركات المعرض",
+  "Error fetching gallery details" : "خطأ في جلب تفاصيل المعرض",
+  "error_fetching_gallery_details": "خطأ في جلب تفاصيل المعرض",
+  "gallery_details": "تفاصيل المعرض",
+  "no_images_in_gallery": "لا توجد صور في هذا المعرض"
 }

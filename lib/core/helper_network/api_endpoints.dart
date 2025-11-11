@@ -43,7 +43,10 @@ enum ApiEndpoints {
   // reels
   getReels("/api/v1/reels"),
   likeReel("/api/v1/reels/{reelId}/like"),
-  unlikeReel("/api/v1/reels/{reelId}/like");
+  unlikeReel("/api/v1/reels/{reelId}/like"),
+
+  // galleries
+  getGallery("/api/v1/posts/categories/{categorySlug}/galleries/{slug}");
 
   final String path;
   const ApiEndpoints(this.path);

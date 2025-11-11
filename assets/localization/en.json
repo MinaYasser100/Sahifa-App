@@ -561,5 +561,9 @@
   "hours_ago": "hours ago",
   "minutes_ago": "minutes ago",
   "just_now": "Just now",
-  "Error fetching galaries posts": "Error fetching galleries posts"
+  "Error fetching galaries posts": "Error fetching galleries posts",
+  "Error fetching gallery details" : "Error fetching gallery details",
+  "error_fetching_gallery_details": "Error fetching gallery details",
+  "gallery_details": "Gallery Details",
+  "no_images_in_gallery": "No images in this gallery"
 }

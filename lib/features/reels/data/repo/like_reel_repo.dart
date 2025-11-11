@@ -31,9 +31,7 @@ class LikeReelRepoImpl implements LikeReelRepo {
 
       final response = await _dioHelper.postData(
         url: endpoint,
-        data: {
-          ApiQueryParams.reelId: reelId,
-        }, // Empty body for like endpoint
+        data: {ApiQueryParams.reelId: reelId}, // Empty body for like endpoint
       );
 
       // 204 No Content - Success

@@ -338,16 +338,16 @@ class _CancellableSearchExampleState extends State<CancellableSearchExample> {
 // ============================================================================
 // Usage Tips:
 // ============================================================================
-// 
+//
 // 1. Always dispose the debouncer in your widget's dispose method
 // 2. Choose appropriate delay duration based on use case:
 //    - Search: 300-500ms
 //    - Auto-save: 1-3 seconds
 //    - Window resize: 200-300ms
 //    - Scroll detection: 100-200ms
-// 
+//
 // 3. Combine with Request ID for better race condition handling
 // 4. Use cancel() when user clears input or cancels action
 // 5. Test with different delay durations to find optimal UX
-// 
+//
 // ============================================================================

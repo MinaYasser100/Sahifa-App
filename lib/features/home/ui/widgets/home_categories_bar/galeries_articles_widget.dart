@@ -53,7 +53,7 @@ class GaleriesArticlesWidget extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             context.push(
-                              Routes.detailsArticalView,
+                              Routes.detailsGalleryView,
                               extra: articles[index],
                             );
                           },

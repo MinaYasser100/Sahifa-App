@@ -21,6 +21,7 @@ class Routes {
   static const String pdfView = '/pdf';
   static const String articalsCategorySectionView = '/articals-section';
   static const String detailsArticalView = '/details-artical';
+  static const String detailsGalleryView = '/details-gallery';
   static const String searchView = '/search';
   static const String searchCategoryView = '/search-category';
   static const String alThawraArchiveView = '/al-thawra-archive';
