@@ -565,5 +565,6 @@
   "Error fetching gallery details" : "Error fetching gallery details",
   "error_fetching_gallery_details": "Error fetching gallery details",
   "gallery_details": "Gallery Details",
-  "no_images_in_gallery": "No images in this gallery"
+  "no_images_in_gallery": "No images in this gallery",
+  "images": "Images"
 }

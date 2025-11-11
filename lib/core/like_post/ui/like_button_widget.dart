@@ -6,6 +6,7 @@ import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/like_post/manager/like_post_cubit/like_post_cubit.dart';
 import 'package:sahifa/core/like_post/repo/like_post_repo.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/model/galleries_model/galleries_model.dart';
 import 'package:sahifa/core/utils/auth_checker.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/utils/show_top_toast.dart';
@@ -14,12 +15,17 @@ import 'package:easy_localization/easy_localization.dart';
 class LikeButtonWidget extends StatefulWidget {
   const LikeButtonWidget({
     super.key,
-    required this.article,
+    this.article,
+    this.gallery,
     this.size = 20,
     this.radius = 16,
-  });
+  }) : assert(
+          article != null || gallery != null,
+          'Either article or gallery must be provided',
+        );
 
-  final ArticleModel article;
+  final ArticleModel? article;
+  final GalleriesModel? gallery;
   final double size;
   final double radius;
 
@@ -30,12 +36,22 @@ class LikeButtonWidget extends StatefulWidget {
 class _LikeButtonWidgetState extends State<LikeButtonWidget> {
   late bool _isLiked;
   late int _likesCount;
+  late String _postId;
 
   @override
   void initState() {
     super.initState();
-    _isLiked = widget.article.isLikedByCurrentUser ?? false;
-    _likesCount = widget.article.likesCount ?? 0;
+    
+    // Get data from either article or gallery
+    if (widget.article != null) {
+      _isLiked = widget.article!.isLikedByCurrentUser ?? false;
+      _likesCount = widget.article!.likesCount ?? 0;
+      _postId = widget.article!.id!;
+    } else if (widget.gallery != null) {
+      _isLiked = widget.gallery!.isLikedByCurrentUser ?? false;
+      _likesCount = widget.gallery!.likesCount ?? 0;
+      _postId = widget.gallery!.id!;
+    }
   }
 
   Future<void> _handleLikeTap(BuildContext context) async {
@@ -47,7 +63,7 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
     // User is authenticated, proceed with like
     if (!mounted) return;
 
-    context.read<LikePostCubit>().toggleLike(widget.article.id!, _isLiked);
+    context.read<LikePostCubit>().toggleLike(_postId, _isLiked);
   }
 
   @override
@@ -56,21 +72,19 @@ class _LikeButtonWidgetState extends State<LikeButtonWidget> {
       create: (context) => LikePostCubit(LikePostRepoImpl(DioHelper())),
       child: BlocConsumer<LikePostCubit, LikePostState>(
         listener: (context, state) {
-          if (state is LikePostSuccess && state.postId == widget.article.id) {
+          if (state is LikePostSuccess && state.postId == _postId) {
             // Update UI optimistically
             setState(() {
               _isLiked = state.isLiked;
               _likesCount = state.isLiked ? _likesCount + 1 : _likesCount - 1;
             });
-          } else if (state is LikePostError &&
-              state.postId == widget.article.id) {
+          } else if (state is LikePostError && state.postId == _postId) {
             // Show error toast
             _handleError(context, state);
           }
         },
         builder: (context, state) {
-          final isLoading =
-              state is LikePostLoading && state.postId == widget.article.id;
+          final isLoading = state is LikePostLoading && state.postId == _postId;
 
           return GestureDetector(
             onTap: isLoading ? null : () => _handleLikeTap(context),

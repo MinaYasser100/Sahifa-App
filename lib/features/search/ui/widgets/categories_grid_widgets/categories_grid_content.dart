@@ -4,6 +4,7 @@ import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_audio_magazine_section/custom_audio_magazine_section.dart';
+import 'package:sahifa/core/widgets/galleries_section/galleries_section.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/archive_category_card.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card.dart';
 import 'package:sahifa/features/search/ui/widgets/tablet_categories_grid.dart';
@@ -47,6 +48,17 @@ class CategoriesGridContent extends StatelessWidget {
 
         // Audio Magazine Section بعد أول صفين
         const CustomAudioMagazineSection(notMargin: true, isDecorated: true),
+
+        const SizedBox(height: 12),
+
+        // Galleries Section تحت الـ Audio Magazine
+        GalleriesSection(
+          notMargin: true,
+          isDecorated: true,
+          onTap: () {
+            context.push(Routes.galleriesArticlesWidget);
+          },
+        ),
 
         // باقي الـ Grid items
         if (categories.length > 2) _buildRemainingGrid(context),

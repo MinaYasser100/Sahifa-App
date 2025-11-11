@@ -1,9 +1,12 @@
+import 'dart:developer';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/features/my_favorites/manager/my_favorite_cubit/my_favorite_cubit.dart';
@@ -61,9 +64,17 @@ class _MyFavoritesListWidgetState extends State<MyFavoritesListWidget> {
                   height: 325,
                   child: GestureDetector(
                     onTap: () {
-                      context.push(Routes.detailsArticalView, extra: article);
+                      log(PostType.gallery.value);
+                      log(article.postType!);
+                      if (article.postType == 'Gallery') {
+                        context.push(Routes.detailsGalleryView, extra: article);
+                      } else {
+                        context.push(Routes.detailsArticalView, extra: article);
+                      }
                     },
-                    child: article.ownerIsAuthor == true
+                    child:
+                        (article.ownerIsAuthor == true &&
+                            article.postType != 'Gallery')
                         ? CustomBooksOpinionsItem(
                             articleItem: article,
                             cardWidth: double.infinity,
@@ -89,8 +100,9 @@ class _MyFavoritesListWidgetState extends State<MyFavoritesListWidget> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Center(
-                    child: CircularProgressIndicator(
-                      color: ColorsTheme().primaryColor,
+                    child: Text(
+                      'loading_more'.tr(),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
                 );

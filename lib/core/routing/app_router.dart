@@ -32,6 +32,7 @@ import 'package:sahifa/features/profile/ui/views/privacy_policy_view.dart';
 import 'package:sahifa/features/reels/ui/reels_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
+import 'package:sahifa/features/search/ui/views/galleries_list_view.dart';
 import 'package:sahifa/features/search_category/ui/search_category_view.dart';
 import 'package:sahifa/features/splash/ui/splash_view.dart';
 import 'package:sahifa/features/tv/ui/tv_view.dart';
@@ -233,6 +234,17 @@ abstract class AppRouter {
           }
           return fadeTransitionPage(AuthorProfileView(oldArticle: oldArticle));
         },
+      ),
+      GoRoute(
+        path: Routes.audioMagazineView,
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(AudioMagazineView()),
+      ),
+      GoRoute(
+        path: Routes.galleriesArticlesWidget,
+        pageBuilder: (context, state) => fadeTransitionPage(
+          const GalleriesListView(),
+        ),
       ),
     ],
   );

@@ -15,6 +15,7 @@ class GalleriesModel {
   bool? ownerIsAuthor;
   int? pageViews;
   int? likesCount;
+  bool? isLikedByCurrentUser;
   String? status;
   String? imageUrl;
   String? imageDescription;
@@ -40,6 +41,7 @@ class GalleriesModel {
     this.ownerIsAuthor,
     this.pageViews,
     this.likesCount,
+    this.isLikedByCurrentUser,
     this.status,
     this.imageUrl,
     this.imageDescription,
@@ -67,6 +69,7 @@ class GalleriesModel {
       ownerIsAuthor: json['ownerIsAuthor'] as bool?,
       pageViews: json['pageViews'] as int?,
       likesCount: json['likesCount'] as int?,
+      isLikedByCurrentUser: json['isLikedByCurrentUser'] as bool?,
       status: json['status'] as String?,
       imageUrl: json['imageUrl'] as String?,
       imageDescription: json['imageDescription'] as String?,
@@ -99,6 +102,7 @@ class GalleriesModel {
     'ownerIsAuthor': ownerIsAuthor,
     'pageViews': pageViews,
     'likesCount': likesCount,
+    'isLikedByCurrentUser': isLikedByCurrentUser,
     'status': status,
     'imageUrl': imageUrl,
     'imageDescription': imageDescription,

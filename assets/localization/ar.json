@@ -577,5 +577,6 @@
   "Error fetching gallery details" : "خطأ في جلب تفاصيل المعرض",
   "error_fetching_gallery_details": "خطأ في جلب تفاصيل المعرض",
   "gallery_details": "تفاصيل المعرض",
-  "no_images_in_gallery": "لا توجد صور في هذا المعرض"
+  "no_images_in_gallery": "لا توجد صور في هذا المعرض",
+  "images": "صورة"
 }

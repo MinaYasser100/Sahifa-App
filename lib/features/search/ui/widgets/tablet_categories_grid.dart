@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/widgets/custom_audio_magazine_section/custom_audio_magazine_section.dart';
+import 'package:sahifa/core/widgets/galleries_section/galleries_section.dart';
 import 'package:sahifa/features/search/ui/widgets/categories_grid_widgets/archive_category_card.dart';
 import 'package:sahifa/features/search/ui/widgets/category_card.dart';
 
@@ -37,6 +38,14 @@ class TabletCategoriesGrid extends StatelessWidget {
         if (categories.isNotEmpty) _buildFirstRow(context),
         const SizedBox(height: 20),
         const CustomAudioMagazineSection(notMargin: true, isDecorated: true),
+        const SizedBox(height: 16),
+        GalleriesSection(
+          notMargin: true,
+          isDecorated: true,
+          onTap: () {
+            context.push(Routes.galleriesArticlesWidget);
+          },
+        ),
         const SizedBox(height: 20),
         if (categories.length > 3) _buildRemainingGrid(context),
       ],
