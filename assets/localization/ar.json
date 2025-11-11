@@ -204,6 +204,7 @@
   "crime_news": "أخبار الجريمة",
   "obituaries": "نعي",
   "photo_gallery": "معرض الصور",
+  "galleries": "معارض الصور",
   "books_opinions": "كتب وآراء",
   "audio_magazine": "المجلة الصوتية",
   "audio_player": "مشغل الصوت",
@@ -571,5 +572,6 @@
   "days_ago": "أيام مضت",
   "hours_ago": "ساعات مضت",
   "minutes_ago": "دقائق مضت",
-  "just_now": "الآن"
+  "just_now": "الآن",
+  "Error fetching galaries posts": "خطأ في جلب مشاركات المعرض"
 }

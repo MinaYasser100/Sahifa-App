@@ -29,6 +29,11 @@ class CategoriesHorizontalBarContent extends StatelessWidget {
         slug: 'breaking-news',
       ),
       CategoryFilterModel(
+        id: 'galleries',
+        name: 'galleries'.tr(),
+        slug: 'galleries',
+      ),
+      CategoryFilterModel(
         id: 'books_opinions',
         name: 'books_opinions'.tr(),
         slug: 'books_opinions',

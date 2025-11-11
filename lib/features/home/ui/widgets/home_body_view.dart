@@ -77,6 +77,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
                   .refreshCategoriesHorizontalBar(context.locale.languageCode);
             },
             child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 // Banner Carousel Section
                 const SliverToBoxAdapter(child: CustomBannerCarouselSection()),
@@ -88,11 +89,15 @@ class _HomeBodyViewState extends State<HomeBodyView> {
                 if (categories.isNotEmpty) ...[
                   // First category
                   SliverToBoxAdapter(
+                    key: ValueKey('category_${categories[0].id}'),
                     child: ArticalsGroupSection(parentCategory: categories[0]),
                   ),
 
                   // BooksOpinionsSection after first category
-                  const SliverToBoxAdapter(child: BooksOpinionsSection()),
+                  const SliverToBoxAdapter(
+                    key: ValueKey('books_opinions_section'),
+                    child: BooksOpinionsSection(),
+                  ),
 
                   // Middle categories (from index 1 to length-2)
                   if (categories.length > 2)
@@ -102,17 +107,25 @@ class _HomeBodyViewState extends State<HomeBodyView> {
                           // index 0 is for categories[1], index 1 is for categories[2], etc.
                           final categoryIndex = index + 1;
                           return ArticalsGroupSection(
+                            key: ValueKey(
+                              'category_${categories[categoryIndex].id}',
+                            ),
                             parentCategory: categories[categoryIndex],
                           );
                         },
                         childCount:
                             categories.length - 2, // Exclude first and last
+                        addAutomaticKeepAlives: true,
+                        addRepaintBoundaries: true,
                       ),
                     ),
 
                   // Last category (only if more than 1 category)
                   if (categories.length > 1)
                     SliverToBoxAdapter(
+                      key: ValueKey(
+                        'category_${categories[categories.length - 1].id}',
+                      ),
                       child: ArticalsGroupSection(
                         parentCategory: categories[categories.length - 1],
                       ),
@@ -120,6 +133,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
 
                   // CustomTrendingArticlesSection after last category
                   const SliverToBoxAdapter(
+                    key: ValueKey('trending_section'),
                     child: CustomMobileTrendingArticlesSection(),
                   ),
                   const SliverToBoxAdapter(child: SizedBox(height: 70)),

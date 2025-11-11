@@ -13,20 +13,33 @@ import 'package:sahifa/features/home/manger/articles_home_category_cubit/article
 
 import '../../../../core/widgets/custom_horizontal_articles_list_section.dart';
 
-class ArticalsGroupSection extends StatelessWidget {
+class ArticalsGroupSection extends StatefulWidget {
   const ArticalsGroupSection({super.key, required this.parentCategory});
 
   final ParentCategory parentCategory;
 
   @override
+  State<ArticalsGroupSection> createState() => _ArticalsGroupSectionState();
+}
+
+class _ArticalsGroupSectionState extends State<ArticalsGroupSection>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Important for AutomaticKeepAliveClientMixin
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final language = LanguageHelper.getCurrentLanguageCode(context);
 
     return BlocProvider(
       create: (context) =>
           ArticlesHomeCategoryCubit(getIt<ArticlesHomeCategoryRepoImpl>())
-            ..fetchArticlesHomeByCategory(parentCategory.slug ?? '', language),
+            ..fetchArticlesHomeByCategory(
+              widget.parentCategory.slug ?? '',
+              language,
+            ),
       child: BlocBuilder<ArticlesHomeCategoryCubit, ArticlesHomeCategoryState>(
         builder: (context, state) {
           // Check if we should show the section
@@ -46,7 +59,7 @@ class ArticalsGroupSection extends StatelessWidget {
                 onTap: () {
                   context.push(
                     Routes.articalsCategorySectionView,
-                    extra: parentCategory,
+                    extra: widget.parentCategory,
                   );
                 },
                 child: Padding(
@@ -54,7 +67,7 @@ class ArticalsGroupSection extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        parentCategory.name ?? 'Category'.tr(),
+                        widget.parentCategory.name ?? 'Category'.tr(),
                         style: AppTextStyles.styleBold24sp(context).copyWith(
                           color: isDarkMode
                               ? ColorsTheme().whiteColor
@@ -74,7 +87,7 @@ class ArticalsGroupSection extends StatelessWidget {
                 ),
               ),
               CustomHorizontalArticlesListSection(
-                categorySlug: parentCategory.slug ?? '',
+                categorySlug: widget.parentCategory.slug ?? '',
               ),
             ],
           );

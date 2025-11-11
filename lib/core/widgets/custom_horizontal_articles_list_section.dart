@@ -72,6 +72,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
+                primary: false,
                 itemCount: filteredArticles.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(

@@ -115,7 +115,7 @@ class ApiQueryParams {
   static const String reelId = "reelId";
 }
 
-enum PostType { article, video, audio }
+enum PostType { article, video, audio, gallery }
 
 extension PostTypeExtension on PostType {
   String get value {
@@ -126,6 +126,8 @@ extension PostTypeExtension on PostType {
         return 'video';
       case PostType.audio:
         return 'audio';
+      case PostType.gallery:
+        return 'gallery';
     }
   }
 }

@@ -204,6 +204,7 @@
   "crime_news": "Crime News",
   "obituaries": "Obituaries",
   "photo_gallery": "Photo Gallery",
+  "galleries": "Galleries",
   "books_opinions": "Books & Opinions",
   "audio_magazine": "Audio Magazine",
   "audio_player": "Audio Player",
@@ -559,5 +560,6 @@
   "days_ago": "days ago",
   "hours_ago": "hours ago",
   "minutes_ago": "minutes ago",
-  "just_now": "Just now"
+  "just_now": "Just now",
+  "Error fetching galaries posts": "Error fetching galleries posts"
 }

@@ -17,6 +17,7 @@ import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_categ
 import 'package:sahifa/features/profile/data/repo/profile_user_repo.dart';
 import 'package:sahifa/features/video_details/data/repo/details_video_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_breaking_news_repo.dart';
+import 'package:sahifa/features/home/data/repo/galeries_posts_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_drawer_subcategory_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_home_category_repo.dart';
 import 'package:sahifa/features/home/data/repo/articles_horizontal_bar_category.dart';
@@ -144,6 +145,11 @@ void setupDependencies() async {
     articlesBreakingNewsRepo,
   );
   getIt.registerSingleton<ArticlesBreakingNewsRepo>(articlesBreakingNewsRepo);
+
+  // Register GaleriesPostsRepo as singleton
+  final galeriesPostsRepo = GaleriesPostsRepoImpl(getIt<DioHelper>());
+  getIt.registerSingleton<GaleriesPostsRepoImpl>(galeriesPostsRepo);
+  getIt.registerSingleton<GaleriesPostsRepo>(galeriesPostsRepo);
 
   getIt.registerSingleton<DetailsArticleRepoImpl>(
     DetailsArticleRepoImpl(getIt<DioHelper>()),
