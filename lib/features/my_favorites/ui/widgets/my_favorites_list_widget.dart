@@ -5,6 +5,7 @@ import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/features/my_favorites/manager/my_favorite_cubit/my_favorite_cubit.dart';
 
 class MyFavoritesListWidget extends StatefulWidget {
@@ -53,22 +54,26 @@ class _MyFavoritesListWidgetState extends State<MyFavoritesListWidget> {
           padding: const EdgeInsets.all(16),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
+              final article = widget.favorites[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: SizedBox(
                   height: 325,
                   child: GestureDetector(
                     onTap: () {
-                      context.push(
-                        Routes.detailsArticalView,
-                        extra: widget.favorites[index],
-                      );
+                      context.push(Routes.detailsArticalView, extra: article);
                     },
-                    child: CustomArticleItemCard(
-                      articleItem: widget.favorites[index],
-                      cardWidth: double.infinity,
-                      isItemList: true,
-                    ),
+                    child: article.ownerIsAuthor == true
+                        ? CustomBooksOpinionsItem(
+                            articleItem: article,
+                            cardWidth: double.infinity,
+                            isItemList: true,
+                          )
+                        : CustomArticleItemCard(
+                            articleItem: article,
+                            cardWidth: double.infinity,
+                            isItemList: true,
+                          ),
                   ),
                 ),
               );

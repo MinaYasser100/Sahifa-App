@@ -44,13 +44,12 @@ class TabletSearchResultsGrid extends StatelessWidget {
               ),
               delegate: SliverChildBuilderDelegate((context, index) {
                 final article = articles[index];
-                final isBookOpinion = article.categorySlug == 'books_opinions';
 
                 return GestureDetector(
                   onTap: () {
                     context.push(Routes.detailsArticalView, extra: article);
                   },
-                  child: isBookOpinion
+                  child: article.ownerIsAuthor == true
                       ? TabletGridBookOpinionCard(articleItem: article)
                       : TabletGridArticleCard(articleItem: article),
                 );

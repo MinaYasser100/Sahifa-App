@@ -45,6 +45,9 @@
   "uploading_image": "جاري رفع الصورة...",
   "camera_permission_denied": "تم رفض إذن الكاميرا",
   "photos_permission_denied": "تم رفض إذن الصور",
+  "login_required": "تسجيل الدخول مطلوب",
+  "login_to_see_favorites": "يرجى تسجيل الدخول لعرض المقالات والمحتوى المفضل لديك",
+  "go_to_login": "الذهاب لتسجيل الدخول",
   
   "_comment_app_branding": "===== App Branding =====",
   "sahifa": "صحيفة",

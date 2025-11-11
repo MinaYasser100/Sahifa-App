@@ -19,6 +19,7 @@ class ArticleModel {
   String? authorId;
   String? authorName;
   String? authorImage;
+  bool? ownerIsAuthor;
   String? categoryId;
   String? categoryName;
   String? categorySlug;
@@ -47,6 +48,7 @@ class ArticleModel {
     this.authorId,
     this.authorName,
     this.authorImage,
+    this.ownerIsAuthor,
     this.categoryId,
     this.categoryName,
     this.categorySlug,
@@ -76,6 +78,7 @@ class ArticleModel {
     authorId: json['authorId'] as String?,
     authorName: json['authorName'] as String?,
     authorImage: json['authorImage'] as String?,
+    ownerIsAuthor: json['ownerIsAuthor'] as bool?,
     categoryId: json['categoryId'] as String?,
     categoryName: json['categoryName'] as String?,
     categorySlug: json['categorySlug'] as String?,
@@ -105,6 +108,7 @@ class ArticleModel {
     'authorId': authorId,
     'authorName': authorName,
     'authorImage': authorImage,
+    'ownerIsAuthor': ownerIsAuthor,
     'categoryId': categoryId,
     'categoryName': categoryName,
     'categorySlug': categorySlug,

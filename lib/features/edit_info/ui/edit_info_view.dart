@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/services/auth_service.dart';
 import 'package:sahifa/core/utils/show_top_toast.dart';
@@ -203,10 +204,17 @@ class _EditInfoBodyState extends State<_EditInfoBody> {
         builder: (context, profileState) {
           // Show loading indicator while profile data is being fetched
           if (profileState is ProfileUserLoading) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              EasyLoading.show(status: 'loading'.tr());
+            });
             return Scaffold(
               appBar: AppBar(title: Text('edit_information'.tr())),
-              body: const Center(child: CircularProgressIndicator()),
+              body: const SizedBox.shrink(),
             );
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              EasyLoading.dismiss();
+            });
           }
 
           return BlocBuilder<EditUserInfoCubit, EditUserInfoState>(

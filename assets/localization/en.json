@@ -45,6 +45,9 @@
   "uploading_image": "Uploading image...",
   "camera_permission_denied": "Camera permission denied",
   "photos_permission_denied": "Photos permission denied",
+  "login_required": "Login Required",
+  "login_to_see_favorites": "Please log in to view your favorite articles and content",
+  "go_to_login": "Go to Login",
   
   "_comment_app_branding": "===== App Branding =====",
   "sahifa": "Sahifa",

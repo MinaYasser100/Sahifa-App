@@ -8,12 +8,14 @@
 8- do the like in the all files (7 files) by repo and cubit and widget button @done
 9- get the favorites posts with handling pagination (repo and cubit) @done
 10- do refresh in the home view @done
-11- fixed the search articles view, it depends on whether item is article or book opinion 
+11- fixed the search articles view, it depends on whether item is article or book opinion (mobile & tablet) @done
 12- show user info in the profile view @done
 13- edit the user info in the profile view @done
 14- fixed refresh token for user @done
 15- do logout in the profile view @done
-16- 11- fixed the my favorites view, it depends on whether item is article or book opinion 
+16- 11- fixed the my favorites view, it depends on whether item is article or book opinion (mobile & tablet) @done
 17- show social account in profile view @done
 18- get reels form Api in reels view @done
 19- do like and unlike on reel video @done
+20- active logout in profile view @done
+21- check if user login or no in my favorites view @done
