@@ -7,12 +7,14 @@ class CustomBookOpinionImage extends StatelessWidget {
   const CustomBookOpinionImage({
     super.key,
     required this.imageUrl,
+    required this.authorName,
     required this.containerWidth,
     this.isListItem = false,
   });
 
   final String imageUrl;
   final double containerWidth;
+  final String authorName;
   final bool isListItem;
 
   @override
@@ -90,7 +92,7 @@ class CustomBookOpinionImage extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'محمد محمود',
+              authorName,
               style: AppTextStyles.styleBold16sp(
                 context,
               ).copyWith(color: ColorsTheme().whiteColor),

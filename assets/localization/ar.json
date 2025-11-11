@@ -110,6 +110,7 @@
   "categories": "الفئات",
   "filter_by_date": "تصفية حسب التاريخ",
   "no_categories_available": "لا توجد فئات متاحة",
+  "search_cancelled": "تم إلغاء البحث",
   
   "_comment_connectivity": "===== Internet Connection =====",
   "no_internet_connection": "لا يوجد اتصال بالإنترنت",

@@ -2,7 +2,7 @@ class ArticleModel {
   String? id;
   String? title;
   String? slug;
-  String? description;
+  String? summary;
   String? image;
   String? imageDescription;
   String? status;
@@ -31,7 +31,7 @@ class ArticleModel {
     this.id,
     this.title,
     this.slug,
-    this.description,
+    this.summary,
     this.image,
     this.imageDescription,
     this.status,
@@ -61,7 +61,7 @@ class ArticleModel {
     id: json['id'] as String?,
     title: json['title'] as String?,
     slug: json['slug'] as String?,
-    description: json['description'] as String?,
+    summary: json['description'] as String?,
     image: json['image'] as String?,
     imageDescription: json['imageDescription'] as String?,
     status: json['status'] as String?,
@@ -91,7 +91,7 @@ class ArticleModel {
     'id': id,
     'title': title,
     'slug': slug,
-    'description': description,
+    'description': summary,
     'image': image,
     'imageDescription': imageDescription,
     'status': status,

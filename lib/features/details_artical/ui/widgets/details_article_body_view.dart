@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sahifa/core/like_post/ui/like_button_widget.dart';
@@ -16,6 +18,7 @@ class DetailsArticleBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(articalModel.ownerIsAuthor.toString());
     return CustomScrollView(
       slivers: [
         // Article Image
@@ -25,17 +28,20 @@ class DetailsArticleBodyView extends StatelessWidget {
             child: Stack(
               children: [
                 FadeIn(
-                  child: (articalModel.categoryId == "books_opinions")
-                      ? CustomBookOpinionImage(
-                          imageUrl: articalModel.image ?? '',
-                          containerWidth: double.infinity,
-                          isListItem: true,
-                        )
-                      : CustomImageWidget(
-                          imageUrl: articalModel.image ?? '',
-                          height: 300,
-                          changeBorderRadius: true,
-                        ),
+                  child:
+                      articalModel.ownerIsAuthor == true
+                          ?
+                      CustomBookOpinionImage(
+                        imageUrl: articalModel.image ?? '',
+                        authorName: articalModel.authorName ?? '',
+                        containerWidth: double.infinity,
+                        isListItem: true,
+                      )
+                  : CustomImageWidget(
+                      imageUrl: articalModel.image ?? '',
+                      height: 300,
+                      changeBorderRadius: true,
+                    ),
                 ),
                 Positioned(
                   top: 10,

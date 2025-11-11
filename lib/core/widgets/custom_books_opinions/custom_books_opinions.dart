@@ -50,6 +50,7 @@ class CustomBooksOpinionsItem extends StatelessWidget {
                   },
                   child: CustomBookOpinionImage(
                     imageUrl: articleItem.authorImage ?? '',
+                    authorName: articleItem.authorName ?? '',
                     containerWidth: cardWidth == double.infinity
                         ? double.infinity
                         : cardWidth,

@@ -34,12 +34,14 @@ class DioHelper {
     required String url,
     Map<String, dynamic>? query,
     Map<String, dynamic>? headers,
+    CancelToken? cancelToken,
   }) async {
     try {
       final response = await _dio.get(
         url,
         queryParameters: query,
         options: headers != null ? Options(headers: headers) : null,
+        cancelToken: cancelToken,
       );
       return response;
     } on DioException {

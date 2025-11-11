@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
@@ -12,16 +13,19 @@ abstract class SearchArticlesRepo {
   Future<Either<String, List<ArticleModel>>> searchArticles({
     required String query,
     required String language,
+    CancelToken? cancelToken,
   });
 }
 
 class SearchArticlesRepoImpl implements SearchArticlesRepo {
   final DioHelper _dioHelper;
   SearchArticlesRepoImpl(this._dioHelper);
+
   @override
   Future<Either<String, List<ArticleModel>>> searchArticles({
     required String query,
     required String language,
+    CancelToken? cancelToken,
   }) async {
     try {
       final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
@@ -37,10 +41,20 @@ class SearchArticlesRepoImpl implements SearchArticlesRepo {
           ApiQueryParams.type: PostType.article.value,
           ApiQueryParams.includeLikedByUsers: true,
         },
+        cancelToken: cancelToken,
       );
+
       final ArticlesCategoryModel articlesCategoryModel =
           ArticlesCategoryModel.fromJson(response.data);
       return Right(articlesCategoryModel.articles ?? []);
+    } on DioException catch (e) {
+      // Check if request was cancelled
+      if (e.type == DioExceptionType.cancel) {
+        log('Search request cancelled: $query');
+        return Left("search_cancelled".tr());
+      }
+      log('Error searching articles: $e');
+      return Left("Error searching articles".tr());
     } catch (e) {
       log('Error searching articles: $e');
       return Left("Error searching articles".tr());

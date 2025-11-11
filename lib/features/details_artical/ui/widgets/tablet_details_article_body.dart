@@ -32,9 +32,10 @@ class TabletDetailsArticleBody extends StatelessWidget {
                     child: Stack(
                       children: [
                         FadeIn(
-                          child: (articalModel.categoryId == "books_opinions")
+                          child: articalModel.ownerIsAuthor == true
                               ? CustomBookOpinionImage(
                                   imageUrl: articalModel.image ?? '',
+                                  authorName: articalModel.authorName ?? '',
                                   containerWidth: double.infinity,
                                   isListItem: true,
                                 )

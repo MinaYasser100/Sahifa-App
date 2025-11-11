@@ -19,3 +19,7 @@
 19- do like and unlike on reel video @done
 20- active logout in profile view @done
 21- check if user login or no in my favorites view @done
+22- do Debouncer for search articles with request id to cancel if user do new request @done
+23- updates in details article view @done
+
+

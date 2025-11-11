@@ -103,7 +103,7 @@ class _DetailsArticleViewState extends State<DetailsArticleView> {
         '''
 📰 ${widget.articalModel.title ?? ''}
 
-${widget.articalModel.description ?? ''}
+${widget.articalModel.summary ?? ''}
 
 🗞️ صحيفة الثورة
 ''';

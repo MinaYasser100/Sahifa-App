@@ -48,9 +48,15 @@ void showErrorToast(BuildContext context, String title, String message) {
         ),
       ),
     ),
-    description: FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(message, style: TextStyle(color: ColorsTheme().whiteColor)),
+    description: Text(
+      message,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: 12,
+        color: ColorsTheme().whiteColor,
+        height: 1.4,
+      ),
     ),
     animationType: AnimationType.slideInFromTop,
     toastDuration: const Duration(seconds: 3),

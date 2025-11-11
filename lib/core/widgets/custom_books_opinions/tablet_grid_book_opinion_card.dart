@@ -35,6 +35,7 @@ class TabletGridBookOpinionCard extends StatelessWidget {
                       flex: 2,
                       child: CustomBookOpinionImage(
                         imageUrl: articleItem.image ?? '',
+                        authorName: articleItem.authorName ?? '',
                         containerWidth: constraints.maxWidth,
                       ),
                     ),

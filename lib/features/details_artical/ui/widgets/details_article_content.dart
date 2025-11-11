@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/func/format_date.dart';
+import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/theme/app_style.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
+import 'package:sahifa/core/widgets/custom_article_item/widgets/author_info_row.dart';
 
 import 'meta_chip_widget.dart';
 
@@ -36,18 +38,21 @@ class DetailsArticleContent extends StatelessWidget {
           ),
 
           const SizedBox(height: 10),
-          if (articalModel.categoryId == "books_opinions")
-            Text(
-              articalModel.authorName ?? '',
-              style: TextStyle(
-                fontSize: 20,
-                color: isDarkMode
-                    ? ColorsTheme().whiteColor.withValues(alpha: 0.9)
-                    : Colors.grey[900],
-                height: 1.4,
-                letterSpacing: 0.25,
+          if (articalModel.ownerIsAuthor == true)
+            GestureDetector(
+              onTap: () {
+                context.push(
+                  Routes.authorProfileView,
+                  extra: articalModel,
+                );
+              },
+              child: AuthorInfoRow(
+                authorImage: articalModel.authorImage,
+                authorName: articalModel.authorName,
+                isDarkMode: isDarkMode,
               ),
             ),
+          if (articalModel.ownerIsAuthor == true) const SizedBox(height: 16),
           // Metadata Row
           FadeInLeft(
             child: Row(
@@ -93,7 +98,7 @@ class DetailsArticleContent extends StatelessWidget {
           // Description
           FadeInUp(
             child: Text(
-              articalModel.description ?? '',
+              articalModel.summary ?? '',
               style: TextStyle(
                 fontSize: 18,
                 color: isDarkMode
@@ -104,23 +109,22 @@ class DetailsArticleContent extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
-
-          // Full Article Content (dummy text for now)
-          FadeInUp(
-            child: Text(
-              "article_long_content".tr(),
-              style: TextStyle(
-                fontSize: 18,
-                color: isDarkMode
-                    ? ColorsTheme().whiteColor.withValues(alpha: 0.85)
-                    : Colors.grey[700],
-                height: 1.8,
-                letterSpacing: 0.2,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
+          //const SizedBox(height: 24),
+          // // Full Article Content (dummy text for now)
+          // FadeInUp(
+          //   child: Text(
+          //     "article_long_content".tr(),
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       color: isDarkMode
+          //           ? ColorsTheme().whiteColor.withValues(alpha: 0.85)
+          //           : Colors.grey[700],
+          //       height: 1.8,
+          //       letterSpacing: 0.2,
+          //     ),
+          //   ),
+          // ),
+          //const SizedBox(height: 10),
         ],
       ),
     );

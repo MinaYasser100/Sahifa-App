@@ -59,6 +59,8 @@ class RegisterBodyView extends StatelessWidget {
         return BlocBuilder<AutovalidateModeCubit, AutovalidateModeState>(
           builder: (context, state) {
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
               child: Form(
                 key: formKey,

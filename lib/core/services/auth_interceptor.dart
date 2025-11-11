@@ -32,30 +32,56 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    log(
-      '❌ HTTP Error: ${err.response?.statusCode} ${err.message}',
-      name: 'AuthInterceptor',
-    );
-    log('🔍 Error Response: ${err.response?.data}', name: 'AuthInterceptor');
-
     // Handle 401 Unauthorized (token expired)
     if (err.response?.statusCode == 401) {
-      log('🔒 401 Unauthorized - Token expired', name: 'AuthInterceptor');
-      log('🔄 Attempting to refresh token...', name: 'AuthInterceptor');
-
       final refreshed = await _tokenService.refreshAccessToken();
 
       if (refreshed) {
-        log('✅ Token refreshed, retrying request...', name: 'AuthInterceptor');
         try {
+          // Get the new access token
           final newToken = await _tokenService.getAccessToken();
-          err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
-          final response = await Dio().fetch(err.requestOptions);
-          log('✅ Retry successful', name: 'AuthInterceptor');
+          if (newToken == null || newToken.isEmpty) {
+            log('❌ No token available after refresh', name: 'AuthInterceptor');
+            return handler.next(err);
+          }
+          // Update the request options with new token
+          final options = err.requestOptions;
+          options.headers['Authorization'] = 'Bearer $newToken';
+
+          // Create a new Dio instance with base configuration for retry
+          final retryDio = Dio(
+            BaseOptions(
+              baseUrl: options.baseUrl,
+              headers: {'Content-Type': 'application/json'},
+              receiveDataWhenStatusError: true,
+              connectTimeout: const Duration(seconds: 10),
+              receiveTimeout: const Duration(seconds: 10),
+              validateStatus: (status) {
+                return status != null &&
+                    ((status >= 200 && status < 300) || status == 304);
+              },
+            ),
+          );
+
+          // Make the retry request
+          final response = await retryDio.fetch(options);
+          log(
+            '✅ Retry successful with status: ${response.statusCode}',
+            name: 'AuthInterceptor',
+          );
           return handler.resolve(response);
         } catch (e) {
           log('❌ Retry failed: $e', name: 'AuthInterceptor');
+
+          // Check if it's a DioException with status code
+          if (e is DioException && e.response != null) {
+            log(
+              '❌ Retry error data: ${e.response!.data}',
+              name: 'AuthInterceptor',
+            );
+          }
+
           return handler.next(err);
         }
       } else {

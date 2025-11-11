@@ -48,12 +48,14 @@ class _SearchViewBodyState extends State<_SearchViewBody> {
     final language = context.locale.languageCode;
 
     if (query.trim().isEmpty) {
-      // If query is empty, show grid
+      // If query is empty, reset search and show grid
       setState(() {
         _isSearching = false;
       });
+      context.read<SearchArticlesCubit>().resetSearch();
     } else {
       // If query has text, search and show results
+      // The debouncing is handled inside the cubit
       setState(() {
         _isSearching = true;
       });
