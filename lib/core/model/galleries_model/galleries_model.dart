@@ -75,9 +75,7 @@ class GalleriesModel {
       items: (json['items'] as List<dynamic>?)
           ?.map((e) => GalleryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tags: (json['tags'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
