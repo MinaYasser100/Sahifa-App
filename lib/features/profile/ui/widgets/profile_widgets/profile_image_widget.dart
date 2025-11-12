@@ -7,29 +7,31 @@ class ProfileImageWidget extends StatelessWidget {
     super.key,
     required this.isDark,
     required this.imageUrl,
+    this.size = 50,
   });
 
   final bool isDark;
   final String? imageUrl;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     if (imageUrl != null && imageUrl!.isNotEmpty) {
       return CircleAvatar(
-        radius: 50,
+        radius: size,
         backgroundColor: isDark
             ? ColorsTheme().primaryLight
             : ColorsTheme().primaryColor,
         child: ClipOval(
           child: CachedNetworkImage(
             imageUrl: imageUrl!,
-            width: 100,
-            height: 100,
+            width: size * 2,
+            height: size * 2,
             fit: BoxFit.cover,
             placeholder: (context, url) =>
                 CircularProgressIndicator(color: ColorsTheme().whiteColor),
             errorWidget: (context, url, error) =>
-                Icon(Icons.person, color: ColorsTheme().whiteColor, size: 50),
+                Icon(Icons.person, color: ColorsTheme().whiteColor, size: size),
           ),
         ),
       );
@@ -40,8 +42,8 @@ class ProfileImageWidget extends StatelessWidget {
       backgroundColor: isDark
           ? ColorsTheme().primaryLight
           : ColorsTheme().primaryColor,
-      radius: 50,
-      child: Icon(Icons.person, color: ColorsTheme().whiteColor, size: 50),
+      radius: size,
+      child: Icon(Icons.person, color: ColorsTheme().whiteColor, size: size),
     );
   }
 }

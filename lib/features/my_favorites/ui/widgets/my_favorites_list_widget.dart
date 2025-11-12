@@ -61,7 +61,7 @@ class _MyFavoritesListWidgetState extends State<MyFavoritesListWidget> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: SizedBox(
-                  height: 325,
+                  height: 330,
                   child: GestureDetector(
                     onTap: () {
                       log(PostType.gallery.value);

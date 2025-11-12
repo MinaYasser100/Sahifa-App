@@ -55,7 +55,7 @@ class _TabletFavoritesGridState extends State<TabletFavoritesGrid> {
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.8,
+              childAspectRatio: 1,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
             ),
@@ -64,9 +64,15 @@ class _TabletFavoritesGridState extends State<TabletFavoritesGrid> {
 
               return GestureDetector(
                 onTap: () {
-                  context.push(Routes.detailsArticalView, extra: article);
+                  if (article.postType == 'Gallery') {
+                    context.push(Routes.detailsGalleryView, extra: article);
+                  } else {
+                    context.push(Routes.detailsArticalView, extra: article);
+                  }
                 },
-                child: article.ownerIsAuthor == true
+                child:
+                    (article.ownerIsAuthor == true &&
+                        article.postType != 'Gallery')
                     ? TabletGridBookOpinionCard(articleItem: article)
                     : TabletGridArticleCard(articleItem: article),
               );

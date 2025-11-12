@@ -5,13 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/model/additional_setting_model/additional_setting_model.dart';
 import 'package:sahifa/core/routing/routes.dart';
+import 'package:sahifa/core/services/auth_service.dart';
 import 'package:sahifa/core/theme/theme_cubit/theme_cubit.dart';
+import 'package:sahifa/features/profile/manager/profile_user_cubit/profile_user_cubit.dart';
 import 'package:sahifa/features/profile/ui/widgets/additonal_settings_item.dart';
 import 'package:sahifa/features/profile/ui/widgets/app_info_section.dart';
 import 'package:sahifa/features/profile/ui/widgets/language_bottom_sheet.dart';
 import 'package:sahifa/features/profile/ui/widgets/logout_button.dart';
+import 'package:sahifa/features/profile/ui/widgets/tablet_user_profile_section.dart';
 import 'package:sahifa/features/profile/ui/widgets/theme_settings_card.dart';
-import 'package:sahifa/features/profile/ui/widgets/user_profile_sectrion.dart';
 
 class TabletProfileBody extends StatelessWidget {
   const TabletProfileBody({super.key});
@@ -29,14 +31,14 @@ class TabletProfileBody extends StatelessWidget {
           final isDark = themeCubit.isDarkMode;
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(32),
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 800),
+                constraints: const BoxConstraints(maxWidth: 1000),
                 child: Column(
                   children: [
-                    // User Profile Section
-                    UserProfileSection(isDark: isDark),
+                    // User Profile Section (Tablet Version)
+                    TabletUserProfileSection(isDark: isDark),
                     const SizedBox(height: 40),
 
                     // Two Column Layout for Settings
@@ -78,8 +80,27 @@ class TabletProfileBody extends StatelessWidget {
                                           icon: Icons.edit,
                                           title: 'edit_information'.tr(),
                                           isDark: isDark,
-                                          onTap: () {
-                                            context.push(Routes.editInfoView);
+                                          onTap: () async {
+                                            // Navigate to EditInfoView and wait for result
+                                            final result = await context.push(
+                                              Routes.editInfoView,
+                                            );
+
+                                            // If update was successful, refresh profile
+                                            if (result == true &&
+                                                context.mounted) {
+                                              final authService = AuthService();
+                                              final userInfo = await authService
+                                                  .getUserInfo();
+                                              final userName = userInfo['name'];
+
+                                              if (userName != null &&
+                                                  userName.isNotEmpty) {
+                                                context
+                                                    .read<ProfileUserCubit>()
+                                                    .fetchUserProfile(userName);
+                                              }
+                                            }
                                           },
                                         ),
                                       ),
