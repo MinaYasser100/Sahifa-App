@@ -57,7 +57,7 @@ class CustomHorizontalBooksOpinions extends StatelessWidget {
               itemCount: articles.length,
               itemBuilder: (context, index) {
                 return FadeInLeft(
-                  child: CustomBooksOpinionsItem(articleItem: articles[index]),
+                  child: CustomBooksOpinionsItem(articleItem: articles[index], cardWidth: double.infinity,),
                 );
               },
             ),

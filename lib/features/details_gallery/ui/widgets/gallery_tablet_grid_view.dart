@@ -33,9 +33,9 @@ class GalleryTabletGridView extends StatelessWidget {
       sliver: SliverGrid(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
+          childAspectRatio: 1,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 10,
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
           return GalleryImageCard(

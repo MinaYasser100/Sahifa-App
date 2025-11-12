@@ -30,7 +30,7 @@ class DetailsArticleBodyView extends StatelessWidget {
                 FadeIn(
                   child: articalModel.ownerIsAuthor == true
                       ? CustomBookOpinionImage(
-                          imageUrl: articalModel.image ?? '',
+                          imageUrl: articalModel.authorImage ?? '',
                           authorName: articalModel.authorName ?? '',
                           containerWidth: double.infinity,
                           isListItem: true,

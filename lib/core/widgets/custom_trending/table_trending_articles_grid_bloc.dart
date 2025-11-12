@@ -53,8 +53,8 @@ class TabletTrendingArticlesGridBloc extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.8,
-                crossAxisSpacing: 10,
+                childAspectRatio: 1,
+                crossAxisSpacing: 20,
                 mainAxisSpacing: 10,
               ),
               itemCount: articles.length,

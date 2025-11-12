@@ -4,9 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
+import 'package:sahifa/features/home/data/repo/articles_books_opinions_bar_category_repo.dart';
+import 'package:sahifa/features/home/manger/articles_books_opinioins_bar_category_cubit/articles_books_opinions_bar_category_cubit.dart';
 import 'package:sahifa/features/home/manger/articles_breaking_news_cubit/articles_breaking_news_cubit.dart';
 import 'package:sahifa/features/home/manger/articles_horizontal_bar_category_cubit/articles_horizontal_bar_category_cubit.dart';
 import 'package:sahifa/features/home/manger/galeries_posts_cubit/galeries_posts_cubit.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_books_opinions_grid.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_breaking_news_grid.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_galeries_grid.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_other_categories_grid.dart';
@@ -25,6 +28,7 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
   final ScrollController _scrollController = ScrollController();
   late ArticlesBreakingNewsCubit? _breakingNewsCubit;
   late GaleriesPostsCubit? _galeriesCubit;
+  late ArticlesBooksOpinionsBarCategoryCubit? _booksOpinionsCubit;
 
   @override
   void initState() {
@@ -44,15 +48,27 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
         context.locale.languageCode,
       );
       _galeriesCubit = null;
+      _booksOpinionsCubit = null;
     }
     // Initialize Galleries Cubit if needed
     else if (widget.categorySlug == 'galleries') {
       _galeriesCubit = GaleriesPostsCubit(getIt());
       _galeriesCubit!.fetchGaleriesPosts(context.locale.languageCode);
       _breakingNewsCubit = null;
+      _booksOpinionsCubit = null;
+    }
+    // Initialize Books & Opinions Cubit if needed
+    else if (widget.categorySlug == 'books_opinions') {
+      _booksOpinionsCubit = ArticlesBooksOpinionsBarCategoryCubit(
+        ArticlesBooksOpinionsBarCategoryRepoImpl(),
+      );
+      _booksOpinionsCubit!.fetchArticles(language: context.locale.languageCode);
+      _breakingNewsCubit = null;
+      _galeriesCubit = null;
     } else {
       _breakingNewsCubit = null;
       _galeriesCubit = null;
+      _booksOpinionsCubit = null;
     }
 
     // Fetch articles on first load
@@ -71,6 +87,7 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
       // Close old cubits before creating new ones
       _breakingNewsCubit?.close();
       _galeriesCubit?.close();
+      _booksOpinionsCubit?.close();
 
       // Re-initialize Breaking News Cubit if needed
       if (widget.categorySlug == 'breaking-news') {
@@ -79,15 +96,29 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
           context.locale.languageCode,
         );
         _galeriesCubit = null;
+        _booksOpinionsCubit = null;
       }
       // Re-initialize Galleries Cubit if needed
       else if (widget.categorySlug == 'galleries') {
         _galeriesCubit = GaleriesPostsCubit(getIt());
         _galeriesCubit!.fetchGaleriesPosts(context.locale.languageCode);
         _breakingNewsCubit = null;
+        _booksOpinionsCubit = null;
+      }
+      // Re-initialize Books & Opinions Cubit if needed
+      else if (widget.categorySlug == 'books_opinions') {
+        _booksOpinionsCubit = ArticlesBooksOpinionsBarCategoryCubit(
+          getIt<ArticlesBooksOpinionsBarCategoryRepoImpl>(),
+        );
+        _booksOpinionsCubit!.fetchArticles(
+          language: context.locale.languageCode,
+        );
+        _breakingNewsCubit = null;
+        _galeriesCubit = null;
       } else {
         _breakingNewsCubit = null;
         _galeriesCubit = null;
+        _booksOpinionsCubit = null;
       }
 
       _fetchArticles();
@@ -95,9 +126,10 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
   }
 
   void _fetchArticles() {
-    // Skip fetch for Breaking News and Galleries as they're handled by their own cubits
+    // Skip fetch for Breaking News, Galleries & Books/Opinions as they're handled by their own cubits
     if (widget.categorySlug == 'breaking-news' ||
-        widget.categorySlug == 'galleries') {
+        widget.categorySlug == 'galleries' ||
+        widget.categorySlug == 'books_opinions') {
       return;
     }
 
@@ -113,6 +145,7 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
     _scrollController.dispose();
     _breakingNewsCubit?.close();
     _galeriesCubit?.close();
+    _booksOpinionsCubit?.close();
     super.dispose();
   }
 
@@ -123,6 +156,10 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
         _breakingNewsCubit?.loadMore();
       } else if (widget.categorySlug == 'galleries') {
         _galeriesCubit?.loadMore();
+      } else if (widget.categorySlug == 'books_opinions') {
+        _booksOpinionsCubit?.loadMoreArticles(
+          language: context.locale.languageCode,
+        );
       } else {
         context.read<ArticlesHorizontalBarCategoryCubit>().loadMoreArticles();
       }
@@ -152,6 +189,22 @@ class _HomeCategoriesTabletViewState extends State<HomeCategoriesTabletView> {
           scrollController: _scrollController,
           onRefresh: () async {
             await _galeriesCubit!.refresh();
+          },
+        ),
+      );
+    }
+
+    // Handle Books & Opinions separately
+    if (widget.categorySlug == 'books_opinions' &&
+        _booksOpinionsCubit != null) {
+      return BlocProvider.value(
+        value: _booksOpinionsCubit!,
+        child: TabletBooksOpinionsGrid(
+          scrollController: _scrollController,
+          onRefresh: () async {
+            await _booksOpinionsCubit!.refresh(
+              language: context.locale.languageCode,
+            );
           },
         ),
       );

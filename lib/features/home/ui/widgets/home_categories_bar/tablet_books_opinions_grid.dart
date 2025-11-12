@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/routing/routes.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
+import 'package:sahifa/core/utils/language_helper.dart';
+import 'package:sahifa/core/widgets/custom_books_opinions/custom_books_opinions.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
-import 'package:sahifa/features/home/manger/galeries_posts_cubit/galeries_posts_cubit.dart';
+import 'package:sahifa/features/home/manger/articles_books_opinioins_bar_category_cubit/articles_books_opinions_bar_category_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/empty_articles_view.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_grid_articles_skeleton.dart';
 
-class TabletGaleriesGrid extends StatelessWidget {
-  const TabletGaleriesGrid({
+class TabletBooksOpinionsGrid extends StatelessWidget {
+  const TabletBooksOpinionsGrid({
     super.key,
     required this.scrollController,
     required this.onRefresh,
@@ -20,22 +21,26 @@ class TabletGaleriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GaleriesPostsCubit, GaleriesPostsState>(
+    final language = LanguageHelper.getCurrentLanguageCode(context);
+
+    return BlocBuilder<
+      ArticlesBooksOpinionsBarCategoryCubit,
+      ArticlesBooksOpinionsBarCategoryState
+    >(
       builder: (context, state) {
-        if (state is GaleriesPostsLoading) {
+        if (state is ArticlesBooksOpinionsBarCategoryLoading) {
           return const TabletGridArticlesSkeleton();
-        } else if (state is GaleriesPostsError) {
+        } else if (state is ArticlesBooksOpinionsBarCategoryError) {
           return CustomErrorLoadingWidget(
             message: state.message,
             onPressed: () {
-              context.read<GaleriesPostsCubit>().refresh();
+              context.read<ArticlesBooksOpinionsBarCategoryCubit>().refresh(
+                language: language,
+              );
             },
           );
-        } else if (state is GaleriesPostsLoaded ||
-            state is GaleriesPostsLoadingMore) {
-          final articles = state is GaleriesPostsLoaded
-              ? state.articles
-              : (state as GaleriesPostsLoadingMore).currentArticles;
+        } else if (state is ArticlesBooksOpinionsBarCategoryLoaded) {
+          final articles = state.articles;
 
           // Show empty state if no articles
           if (articles.isEmpty) {
@@ -53,7 +58,7 @@ class TabletGaleriesGrid extends StatelessWidget {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1,
+                          childAspectRatio: 1.0,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 10,
                         ),
@@ -65,7 +70,7 @@ class TabletGaleriesGrid extends StatelessWidget {
                             extra: articles[index],
                           );
                         },
-                        child: CustomArticleItemCard(
+                        child: CustomBooksOpinionsItem(
                           articleItem: articles[index],
                           cardWidth: double.infinity,
                           isItemList: false,
@@ -75,7 +80,7 @@ class TabletGaleriesGrid extends StatelessWidget {
                   ),
                 ),
                 // Loading indicator for pagination
-                if (state is GaleriesPostsLoadingMore)
+                if (state.hasMorePages)
                   const SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.all(16.0),

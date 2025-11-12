@@ -39,7 +39,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
           // Error State
           if (state is ArticlesHomeCategoryError) {
             return SizedBox(
-              height: ResponsiveHelper.isTablet(context) ? 380 : 325,
+              height: ResponsiveHelper.isTablet(context) ? 400 : 330,
               child: Center(
                 child: Text(
                   state.message,
@@ -68,7 +68,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
             }
             final isTablet = ResponsiveHelper.isTablet(context);
             return SizedBox(
-              height: isTablet ? 380 : 325,
+              height: isTablet ? 400 : 330,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10),

@@ -24,7 +24,7 @@ class CustomArticleItemCard extends StatelessWidget {
     final isTablet = ResponsiveHelper.isTablet(context);
 
     return SizedBox(
-      height: isTablet ? 380 : 325,
+      height: isTablet ? 400 : 330,
       child: FadeInLeft(
         child: Container(
           width: isTablet ? 320 : cardWidth,
@@ -42,7 +42,7 @@ class CustomArticleItemCard extends StatelessWidget {
                   // Image Section
                   CustomImageWidget(
                     imageUrl: articleItem.image ?? '',
-                    height: isTablet ? 250 : 180,
+                    height: isTablet ? 255 : 180,
                   ),
                   // Content Section
                   CustomArticleItemContent(articleItem: articleItem),

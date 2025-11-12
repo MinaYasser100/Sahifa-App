@@ -21,5 +21,7 @@
 21- check if user login or no in my favorites view @done
 22- do Debouncer for search articles with request id to cancel if user do new request @done
 23- updates in details article view @done
-
+24- do the galleries in home categories bar with perpare gallery details view @done
+25- do the galleries section in search view with perpare gallery details view @done
+26- show galleries details in my favorites posts @done
 

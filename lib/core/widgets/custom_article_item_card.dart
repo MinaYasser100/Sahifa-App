@@ -22,7 +22,7 @@ class CustomArticleItemCard extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return SizedBox(
-      height: 325,
+      height: 330,
       child: FadeInLeft(
         child: Container(
           width: cardWidth,
