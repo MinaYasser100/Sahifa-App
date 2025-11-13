@@ -27,6 +27,16 @@ class _ReelItemState extends State<ReelItem> {
   }
 
   @override
+  void didUpdateWidget(ReelItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    // لو الـ shouldPlay اتغير من true لـ false، تأكد من إيقاف الفيديو
+    if (oldWidget.isCurrentPage && !widget.isCurrentPage) {
+      debugPrint('🛑 REEL ITEM: shouldPlay changed to false for reel ${widget.reel.id}');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,

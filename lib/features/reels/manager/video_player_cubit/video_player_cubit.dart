@@ -36,6 +36,10 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
 
       if (_isYoutube) {
         _youtubeController = youtubeController;
+        if (_youtubeController != null) {
+          // Register YouTube controller for global management
+          _manager.registerYoutubeController(_youtubeController!);
+        }
         _youtubeController?.addListener(_youtubeListener);
         emit(
           const VideoPlayerReady(
@@ -46,6 +50,10 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
         );
       } else {
         _videoController = videoController;
+        if (_videoController != null) {
+          // Register video controller for global management
+          _manager.registerVideoController(_videoController!);
+        }
         _videoController?.addListener(_videoListener);
         _startPositionTimer();
         emit(
@@ -132,7 +140,11 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     if (currentState is! VideoPlayerReady) return;
 
     try {
-      if (_isYoutube && _youtubeController != null) {
+      // Block playback when not in Reels view
+      if (!_manager.isInReelsView) {
+        log('🚫 Blocked play: not in Reels view (Reel: $_reelId)');
+        return;
+      } else if (_isYoutube && _youtubeController != null) {
         final savedPosition = _manager.getSavedPosition(_reelId);
         log(
           '▶️ YouTube Play - ReelID: $_reelId, Saved position: ${savedPosition?.inSeconds ?? 0}s',
@@ -148,6 +160,10 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
           }
         }
 
+        // تأكد من إلغاء الكتم قبل التشغيل
+        try {
+          _youtubeController!.unMute();
+        } catch (_) {}
         _youtubeController!.play();
         emit(
           VideoPlayerReady(
@@ -188,6 +204,10 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
 
         // ابدأ تتبع الوقت وشغل الفيديو
         _lastPlayTime = DateTime.now();
+        // أعِد الصوت إلى 1.0 في حال تم كتمه سابقاً
+        try {
+          await _videoController!.setVolume(1.0);
+        } catch (_) {}
         await _videoController!.play();
 
         log('✅ Playing from: ${_lastKnownPosition.inSeconds}s');
@@ -308,11 +328,22 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     }
 
     // نضف الـ listeners والـ controllers
-    _videoController?.removeListener(_videoListener);
-    _videoController?.dispose();
-    _youtubeController?.removeListener(_youtubeListener);
-    _youtubeController?.dispose();
-    
+    try {
+      _videoController?.removeListener(_videoListener);
+      if (_videoController != null) {
+        _manager.unregisterVideoController(_videoController!);
+      }
+      _videoController?.dispose();
+    } catch (_) {}
+
+    try {
+      _youtubeController?.removeListener(_youtubeListener);
+      if (_youtubeController != null) {
+        _manager.unregisterYoutubeController(_youtubeController!);
+      }
+      _youtubeController?.dispose();
+    } catch (_) {}
+
     return super.close();
   }
 }

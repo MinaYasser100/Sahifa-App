@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
@@ -8,7 +9,6 @@ import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_state.dart';
 import 'package:sahifa/features/reels/manager/video_player_manager.dart';
 import 'package:sahifa/features/reels/ui/widgets/reel_item.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 /// Reels View - بسيط زي Instagram
 class ReelsView extends StatefulWidget {
@@ -18,53 +18,35 @@ class ReelsView extends StatefulWidget {
   State<ReelsView> createState() => _ReelsViewState();
 }
 
-class _ReelsViewState extends State<ReelsView> with WidgetsBindingObserver {
+class _ReelsViewState extends State<ReelsView> {
   late PageController _pageController;
   final _videoManager = VideoPlayerManager();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _pageController = PageController();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
-      _videoManager.stopAll();
-    }
+    debugPrint('🎬 REELS: View initialized');
   }
 
   @override
   void dispose() {
-    // أوقف كل الفيديوهات فوراً قبل الخروج
-    _videoManager.stopAll();
-    _videoManager.disposeAll();
+    debugPrint('🛑 REELS: Disposing - STOPPING ALL VIDEOS');
     
-    WidgetsBinding.instance.removeObserver(this);
+    // إيقاف فوري وكامل
+    _videoManager.killAllVideos();
+    
     _pageController.dispose();
     super.dispose();
+    
+    debugPrint('🛑 REELS: Dispose complete');
   }
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-      key: const Key('reels_view'),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction < 0.1) {
-          debugPrint('🛑 Reels hidden - Stopping all videos');
-          _videoManager.stopAll();
-        } else {
-          debugPrint('✅ Reels visible: ${info.visibleFraction}');
-        }
-      },
-      child: BlocProvider(
-        create: (context) => ReelsCubit(ReelsApiRepo(DioHelper()))..loadReels(),
-        child: _buildBody(),
-      ),
+    return BlocProvider(
+      create: (context) => ReelsCubit(ReelsApiRepo(DioHelper()))..loadReels(),
+      child: _buildBody(),
     );
   }
 

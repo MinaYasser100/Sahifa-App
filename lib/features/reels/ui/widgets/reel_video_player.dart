@@ -6,6 +6,7 @@ import 'package:sahifa/core/model/reels_model/reel.dart';
 import 'package:sahifa/features/reels/manager/video_player_cubit/video_player_cubit.dart';
 import 'package:sahifa/features/reels/manager/video_player_cubit/video_player_state.dart';
 import 'package:sahifa/features/reels/utils/video_url_helper.dart';
+import 'package:sahifa/features/reels/manager/video_player_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 /// Video player بسيط للريلز مع Cubit
@@ -50,7 +51,7 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
     // لو اتغير ال shouldPlay فقط
     if (widget.shouldPlay != oldWidget.shouldPlay) {
-      print(
+      debugPrint(
         '📱 didUpdateWidget - shouldPlay changed to: ${widget.shouldPlay} (Reel: ${widget.reel.id})',
       );
 
@@ -61,6 +62,11 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
             _cubit.play();
           } else {
             _cubit.pause();
+            // تأكد من إيقاف الصوت فوراً
+            if (_videoController != null) {
+              _videoController!.setVolume(0.0);
+            }
+            debugPrint('🛑 VIDEO PLAYER: shouldPlay=false, video muted');
           }
         }
       });
@@ -118,21 +124,45 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
   @override
   void dispose() {
-    // أوقف الفيديو فوراً قبل تدمير الـ cubit
+    debugPrint('🚮 VIDEO PLAYER: Disposing reel ${widget.reel.id}');
+    
+    // أوقف الـ cubit
     _cubit.pause();
-    
-    // تأكد من إيقاف الـ controllers
-    _videoController?.pause();
-    _youtubeController?.pause();
-    
-    // دمر الـ cubit
     _cubit.close();
+    
+    // تدمير الـ controllers محلياً
+    try {
+      _videoController?.pause();
+      _videoController?.setVolume(0.0);
+      _videoController?.dispose();
+    } catch (e) {
+      // تجاهل الأخطاء
+    }
+    
+    try {
+      _youtubeController?.pause();
+      _youtubeController?.reset();
+    } catch (e) {
+      // تجاهل الأخطاء
+    }
     
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // لو مش في الـ Reels view، لا تركّب أي player وأوقف فوراً
+    final isActive = VideoPlayerManager().isInReelsView;
+    if (!isActive || !widget.shouldPlay) {
+      // تأكد من الإيقاف
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _cubit.pause();
+        }
+      });
+      return Container(color: Colors.black);
+    }
+
     // Background سودا دايماً
     return Container(
       color: Colors.black,
@@ -156,6 +186,11 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
           if (state is VideoPlayerReady) {
             if (_isYoutube && _youtubeController != null) {
+              // عندما لا يجب أن يعمل الفيديو، لا نركّب الـ YoutubePlayer إطلاقاً لمنع أي صوت
+              if (!widget.shouldPlay) {
+                return Container(color: Colors.black);
+              }
+
               return Center(
                 child: AspectRatio(
                   aspectRatio: 9 / 16,
@@ -163,6 +198,11 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
                     controller: _youtubeController!,
                     showVideoProgressIndicator: false,
                     aspectRatio: 9 / 16,
+                    onReady: () {
+                      try {
+                        _youtubeController!.unMute();
+                      } catch (_) {}
+                    },
                   ),
                 ),
               );
