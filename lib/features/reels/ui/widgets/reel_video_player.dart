@@ -23,46 +23,44 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTogglePlay,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Video
-          if (widget.controller.value.isInitialized)
-            FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: widget.controller.value.size.width,
-                height: widget.controller.value.size.height,
-                child: VideoPlayer(widget.controller),
-              ),
-            )
-          else
-            Container(
-              color: ColorsTheme().blackColor,
-              child: Center(
+      child: Container(
+        color: Colors.black, // خلفية سودا
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Video - ياخد كل المساحة المتاحة
+            if (widget.controller.value.isInitialized)
+              Center(
+                child: AspectRatio(
+                  aspectRatio: widget.controller.value.aspectRatio,
+                  child: VideoPlayer(widget.controller),
+                ),
+              )
+            else
+              Center(
                 child: CircularProgressIndicator(
                   color: ColorsTheme().whiteColor,
                 ),
               ),
-            ),
 
-          // Play/Pause icon
-          if (!widget.isPlaying && widget.controller.value.isInitialized)
-            Center(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.play_arrow,
-                  color: ColorsTheme().whiteColor,
-                  size: 48,
+            // Play/Pause icon
+            if (!widget.isPlaying && widget.controller.value.isInitialized)
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: ColorsTheme().whiteColor,
+                    size: 48,
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

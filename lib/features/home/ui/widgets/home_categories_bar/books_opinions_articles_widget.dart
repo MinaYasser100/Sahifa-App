@@ -52,7 +52,7 @@ class BooksOpinionsArticlesWidget extends StatelessWidget {
               controller: scrollController,
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(10),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return Padding(

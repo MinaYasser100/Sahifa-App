@@ -24,7 +24,7 @@ class CustomArticleItemCard extends StatelessWidget {
     final isTablet = ResponsiveHelper.isTablet(context);
 
     return SizedBox(
-      height: isTablet ? 400 : 330,
+      height: isTablet ? 400 : 320,
       child: FadeInLeft(
         child: Container(
           width: isTablet ? 320 : cardWidth,

@@ -18,51 +18,43 @@ class CustomBooksOpinionsArticleContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Author Info & Share Button Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Author Info & Share Button Row
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.push(
-                          Routes.authorProfileView,
-                          extra: articleItem,
-                        );
-                      },
-                      child: AuthorInfoRow(
-                        authorImage: articleItem.authorImage,
-                        authorName: articleItem.authorName,
-                        isDarkMode: isDarkMode,
-                      ),
-                    ),
-                  ),
-                  ShareButton(isDarkMode: isDarkMode),
-                ],
+            Flexible(
+              child: GestureDetector(
+                onTap: () {
+                  context.push(Routes.authorProfileView, extra: articleItem);
+                },
+                child: AuthorInfoRow(
+                  authorImage: articleItem.authorImage,
+                  authorName: articleItem.authorName,
+                  isDarkMode: isDarkMode,
+                ),
               ),
             ),
-            // Article Content (Clickable)
-            GestureDetector(
-              onTap: () {
-                context.push(Routes.detailsArticalView, extra: articleItem);
-              },
-              child: ArticleTextContent(
-                categoryName: articleItem.categoryName,
-                title: articleItem.title,
-                publishedAt: articleItem.publishedAt,
-                isDarkMode: isDarkMode,
-              ),
-            ),
+            ShareButton(isDarkMode: isDarkMode),
           ],
         ),
-      ),
+        // const SizedBox(height: 8),
+        // Article Content (Clickable)
+        GestureDetector(
+          onTap: () {
+            context.push(Routes.detailsArticalView, extra: articleItem);
+          },
+          child: ArticleTextContent(
+            categoryName: articleItem.categoryName,
+            title: articleItem.title,
+            publishedAt: articleItem.publishedAt,
+            isDarkMode: isDarkMode,
+          ),
+        ),
+      ],
     );
   }
 }

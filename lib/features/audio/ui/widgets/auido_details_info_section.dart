@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class AudioDetailsInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('Building AudioDetailsInfoSection for audio: ${audioItem.duration}');
     return FadeInUp(
       duration: const Duration(milliseconds: 400),
       child: Column(
@@ -42,7 +45,7 @@ class AudioDetailsInfoSection extends StatelessWidget {
           Text(
             audioItem.duration ?? '00:00',
             textAlign: TextAlign.center,
-            style: AppTextStyles.styleBold16sp(
+            style: AppTextStyles.styleBold14sp(
               context,
             ).copyWith(color: ColorsTheme().grayColor),
           ),

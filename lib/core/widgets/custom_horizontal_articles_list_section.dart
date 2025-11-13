@@ -68,7 +68,7 @@ class CustomHorizontalArticlesListSection extends StatelessWidget {
             }
             final isTablet = ResponsiveHelper.isTablet(context);
             return SizedBox(
-              height: isTablet ? 400 : 330,
+              height: isTablet ? 400 : 320,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 10),

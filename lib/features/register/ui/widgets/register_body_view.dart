@@ -48,7 +48,7 @@ class RegisterBodyView extends StatelessWidget {
             'success'.tr(),
             'registration_successful'.tr(),
           );
-          context.go(Routes.homeView);
+          context.go(Routes.layoutView);
         } else if (authState is AuthError) {
           showErrorToast(context, 'error'.tr(), authState.message);
         }

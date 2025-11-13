@@ -5,13 +5,26 @@ import 'package:sahifa/features/reels/data/repo/reels_api_repo.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
 import 'package:sahifa/features/reels/ui/widgets/reels_body_view.dart';
 
-class ReelsView extends StatelessWidget {
+class ReelsView extends StatefulWidget {
   const ReelsView({super.key});
 
   @override
+  State<ReelsView> createState() => _ReelsViewState();
+}
+
+class _ReelsViewState extends State<ReelsView> {
+  // Singleton ReelsCubit - يبقى alive طول عمر التطبيق
+  static ReelsCubit? _reelsCubit;
+
+  ReelsCubit _getOrCreateCubit() {
+    _reelsCubit ??= ReelsCubit(ReelsApiRepo(DioHelper()));
+    return _reelsCubit!;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ReelsCubit(ReelsApiRepo(DioHelper())),
+    return BlocProvider.value(
+      value: _getOrCreateCubit(),
       child: const ReelsBodyView(),
     );
   }

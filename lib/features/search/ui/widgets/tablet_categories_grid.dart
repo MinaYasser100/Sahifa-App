@@ -22,13 +22,30 @@ class TabletCategoriesGrid extends StatelessWidget {
           const ArchiveCategoryCard(),
           const SizedBox(height: 20),
           categories.isEmpty
-              ? const CustomAudioMagazineSection(
-                  notMargin: true,
-                  isDecorated: true,
-                )
+              ? _buildAudioMagazineAndGalleriesRow(context)
               : _buildCategoriesWithAudioMagazine(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildAudioMagazineAndGalleriesRow(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomAudioMagazineSection(notMargin: true, isDecorated: true),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: GalleriesSection(
+            notMargin: true,
+            isDecorated: true,
+            onTap: () {
+              context.push(Routes.galleriesArticlesWidget);
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -37,14 +54,26 @@ class TabletCategoriesGrid extends StatelessWidget {
       children: [
         if (categories.isNotEmpty) _buildFirstRow(context),
         const SizedBox(height: 20),
-        const CustomAudioMagazineSection(notMargin: true, isDecorated: true),
-        const SizedBox(height: 16),
-        GalleriesSection(
-          notMargin: true,
-          isDecorated: true,
-          onTap: () {
-            context.push(Routes.galleriesArticlesWidget);
-          },
+        // Audio Magazine & Galleries في row جنب بعض
+        Row(
+          children: [
+            Expanded(
+              child: CustomAudioMagazineSection(
+                notMargin: true,
+                isDecorated: true,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: GalleriesSection(
+                notMargin: true,
+                isDecorated: true,
+                onTap: () {
+                  context.push(Routes.galleriesArticlesWidget);
+                },
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 20),
         if (categories.length > 3) _buildRemainingGrid(context),

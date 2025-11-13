@@ -27,12 +27,15 @@ class CustomBooksOpinionsItem extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final isTablet = ResponsiveHelper.isTablet(context);
 
+    // تحديد width فعلي - إذا كان infinity نستخدم 280
+    final effectiveWidth = isTablet
+        ? 320.0
+        : (cardWidth == double.infinity ? 280.0 : cardWidth);
+
     return FadeInLeft(
       child: Container(
-        width: isTablet
-            ? 320
-            : (cardWidth == double.infinity ? null : cardWidth),
-        height: isTablet ? 380 : 330,
+        width: effectiveWidth,
+        height: isTablet ? 380 : 340,
         margin: EdgeInsets.only(left: isItemList ? 0 : 12, bottom: 10),
         decoration: BoxDecoration(
           color: isDarkMode
@@ -42,7 +45,7 @@ class CustomBooksOpinionsItem extends StatelessWidget {
         child: Stack(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -51,12 +54,10 @@ class CustomBooksOpinionsItem extends StatelessWidget {
                   child: CustomBookOpinionImage(
                     imageUrl: articleItem.authorImage ?? '',
                     authorName: articleItem.authorName ?? '',
-                    containerWidth: cardWidth == double.infinity
-                        ? double.infinity
-                        : cardWidth,
+                    containerWidth: effectiveWidth,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 5),
                 // Content Section
                 CustomBooksOpinionsArticleContent(articleItem: articleItem),
               ],

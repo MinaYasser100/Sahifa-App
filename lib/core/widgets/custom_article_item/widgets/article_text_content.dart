@@ -26,41 +26,29 @@ class ArticleTextContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FadeInLeft(
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  categoryName ?? '',
-                  style: AppTextStyles.styleBold20sp(context).copyWith(
-                    color: isDarkMode
-                        ? ColorsTheme().secondaryLight
-                        : ColorsTheme().primaryDark,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          child: Text(
+            categoryName ?? '',
+            style: AppTextStyles.styleBold18sp(context).copyWith(
+              color: isDarkMode
+                  ? ColorsTheme().secondaryLight
+                  : ColorsTheme().primaryDark,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         FadeInLeft(
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title ?? '',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkMode
-                        ? ColorsTheme().secondaryLight
-                        : ColorsTheme().secondaryColor,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          child: Text(
+            title ?? '',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode
+                  ? ColorsTheme().secondaryLight
+                  : ColorsTheme().secondaryColor,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         FadeInUp(

@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/reels_model/reels_model.dart';
@@ -12,22 +12,44 @@ class ReelsApiRepo {
 
   ReelsApiRepo(this._dioHelper);
 
+  /// Initialize repository and clear any corrupted cache
+  Future<void> initialize() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedData = prefs.getString(_cachedReelsKey);
+
+      // Check if cache is valid JSON
+      if (cachedData != null && cachedData.isNotEmpty) {
+        try {
+          jsonDecode(cachedData);
+          log('✅ Cache is valid');
+        } catch (e) {
+          log('⚠️ Corrupted cache detected, clearing...');
+          await clearCache();
+          log('✅ Cache cleared successfully');
+        }
+      }
+    } catch (e) {
+      log('⚠️ Error during initialization: $e');
+    }
+  }
+
   /// Fetch reels from API with ETag caching support
   ///
   /// [cursor] - Cursor for pagination (null for first page)
   /// [limit] - Number of reels to fetch (default 20)
-  Future<ReelsModel> fetchReels({String? cursor, int limit = 20}) async {
+  Future<ReelsModel> fetchReels({String? cursor,}) async {
     try {
       log('📡 Fetching reels from API...');
       log('🔗 Cursor: ${cursor ?? "null (first page)"}');
-      log('📊 Limit: $limit');
+      //log('📊 Limit: $limit');
 
       // Get stored ETag
       final prefs = await SharedPreferences.getInstance();
       final storedETag = prefs.getString(_etagKey);
 
       // Build query parameters
-      final Map<String, dynamic> queryParams = {ApiQueryParams.limit: limit};
+      final Map<String, dynamic> queryParams = {};
 
       if (cursor != null && cursor.isNotEmpty) {
         queryParams[ApiQueryParams.cursor] = cursor;
@@ -41,42 +63,45 @@ class ReelsApiRepo {
         log('🏷️ Using cached ETag: $storedETag');
       }
 
-      try {
-        final response = await _dioHelper.getData(
-          url: ApiEndpoints.getReels.path,
-          query: queryParams,
-          headers: headers.isNotEmpty ? headers : null,
-        );
+      final response = await _dioHelper.getData(
+        url: ApiEndpoints.getReels.path,
+        query: queryParams,
+        headers: headers.isNotEmpty ? headers : null,
+      );
 
-        log('✅ API Response Status: ${response.statusCode}');
+      log('✅ API Response Status: ${response.statusCode}');
 
-        // Check if response has new ETag
-        final newETag = response.headers.value('etag');
-        if (newETag != null && cursor == null) {
-          await prefs.setString(_etagKey, newETag);
-          log('💾 Stored new ETag: $newETag');
-        }
-
-        // Parse response
-        final reelsModel = ReelsModel.fromJson(response.data);
-        log('📦 Fetched ${reelsModel.reels.length} reels');
-        log('➡️ Next Cursor: ${reelsModel.nextCursor ?? "null"}');
-        log('🔄 Has More: ${reelsModel.hasMore}');
-
-        // Cache first page data
-        if (cursor == null) {
-          await _cacheReelsData(response.data);
-        }
-
-        return reelsModel;
-      } on DioException catch (e) {
-        // Handle 304 Not Modified (cache hit)
-        if (e.response?.statusCode == 304) {
-          log('💾 Data not modified, using cached data');
-          return await _getCachedReels();
-        }
-        rethrow;
+      // Handle 304 Not Modified
+      if (response.statusCode == 304) {
+        log('💾 304 Not Modified - Using cached data');
+        return await _getCachedReels();
       }
+
+      // Check if response data is valid
+      if (response.data == null || response.data is! Map<String, dynamic>) {
+        log('⚠️ Invalid response data type: ${response.data.runtimeType}');
+        throw Exception('Invalid response format from server');
+      }
+
+      // Check if response has new ETag
+      final newETag = response.headers.value('etag');
+      if (newETag != null && cursor == null) {
+        await prefs.setString(_etagKey, newETag);
+        log('💾 Stored new ETag: $newETag');
+      }
+
+      // Parse response
+      final reelsModel = ReelsModel.fromJson(response.data);
+      log('📦 Fetched ${reelsModel.reels.length} reels');
+      log('➡️ Next Cursor: ${reelsModel.nextCursor ?? "null"}');
+      log('🔄 Has More: ${reelsModel.hasMore}');
+
+      // Cache first page data
+      if (cursor == null) {
+        await _cacheReelsData(response.data);
+      }
+
+      return reelsModel;
     } catch (e) {
       log('❌ Error fetching reels: $e');
 
@@ -98,9 +123,10 @@ class ReelsApiRepo {
   Future<void> _cacheReelsData(Map<String, dynamic> data) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final jsonString = data.toString();
+      // تحويل الـ Map إلى JSON string بشكل صحيح
+      final jsonString = jsonEncode(data);
       await prefs.setString(_cachedReelsKey, jsonString);
-      log('💾 Cached reels data');
+      log('💾 Cached reels data successfully');
     } catch (e) {
       log('⚠️ Failed to cache reels data: $e');
     }
@@ -112,14 +138,28 @@ class ReelsApiRepo {
       final prefs = await SharedPreferences.getInstance();
       final cachedData = prefs.getString(_cachedReelsKey);
 
-      if (cachedData == null) {
+      if (cachedData == null || cachedData.isEmpty) {
         throw Exception('No cached data available');
       }
 
-      // Note: This is a simplified cache retrieval
-      // In production, you'd want to properly serialize/deserialize JSON
-      log('⚠️ Cache retrieval needs proper JSON handling');
-      throw Exception('Cache retrieval not fully implemented');
+      log('📦 Found cached data, parsing...');
+
+      try {
+        // تحويل الـ JSON string إلى Map
+        final Map<String, dynamic> jsonData = jsonDecode(cachedData);
+        final reelsModel = ReelsModel.fromJson(jsonData);
+
+        log(
+          '✅ Successfully loaded ${reelsModel.reels.length} reels from cache',
+        );
+        return reelsModel;
+      } on FormatException catch (e) {
+        // Cache format قديم أو فاسد - نمسحه
+        log('⚠️ Invalid cache format detected, clearing cache: $e');
+        await prefs.remove(_cachedReelsKey);
+        await prefs.remove(_etagKey);
+        throw Exception('Cache corrupted, cleared for fresh fetch');
+      }
     } catch (e) {
       log('❌ Error getting cached reels: $e');
       rethrow;

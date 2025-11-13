@@ -2,15 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
-import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
-import 'package:sahifa/core/widgets/custom_article_item/custom_article_item_card.dart';
+import 'package:sahifa/core/utils/responsive_helper.dart';
 import 'package:sahifa/core/widgets/custom_error_loading_widget.dart';
 import 'package:sahifa/core/widgets/vertical_articles_loading_skeleton.dart';
 import 'package:sahifa/features/home/manger/galeries_posts_cubit/galeries_posts_cubit.dart';
 import 'package:sahifa/features/home/ui/widgets/home_categories_bar/empty_articles_view.dart';
+import 'package:sahifa/features/home/ui/widgets/home_categories_bar/tablet_grid_articles_skeleton.dart';
+import 'package:sahifa/features/search/ui/widgets/galleries_widgets/mobile_galleries_list.dart';
+import 'package:sahifa/features/search/ui/widgets/galleries_widgets/tablet_galleries_grid.dart';
 
 class GalleriesListView extends StatelessWidget {
   const GalleriesListView({super.key});
@@ -79,12 +80,16 @@ class _GalleriesListViewChildState extends State<GalleriesListViewChild> {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveHelper.isTablet(context);
+
     return Scaffold(
       appBar: AppBar(title: Text('galleries'.tr())),
       body: BlocBuilder<GaleriesPostsCubit, GaleriesPostsState>(
         builder: (context, state) {
           if (state is GaleriesPostsLoading) {
-            return const VerticalArticlesLoadingSkeleton();
+            return isTablet
+                ? const TabletGridArticlesSkeleton()
+                : const VerticalArticlesLoadingSkeleton();
           } else if (state is GaleriesPostsError) {
             return CustomErrorLoadingWidget(
               message: state.message,
@@ -105,29 +110,19 @@ class _GalleriesListViewChildState extends State<GalleriesListViewChild> {
               child: CustomScrollView(
                 controller: _scrollController,
                 slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: GestureDetector(
-                            onTap: () {
-                              context.push(
-                                Routes.detailsGalleryView,
-                                extra: articles[index],
-                              );
-                            },
-                            child: CustomArticleItemCard(
-                              articleItem: articles[index],
-                              cardWidth: double.infinity,
-                              isItemList: true,
-                            ),
-                          ),
-                        );
-                      }, childCount: articles.length),
+                  // Tablet Grid Layout
+                  if (isTablet)
+                    TabletGalleriesGrid(
+                      articles: articles,
+                      scrollController: _scrollController,
+                    )
+                  // Mobile List Layout
+                  else
+                    MobileGalleriesList(
+                      articles: articles,
+                      scrollController: _scrollController,
                     ),
-                  ),
+                  // Loading More Indicator
                   if (state is GaleriesPostsLoadingMore)
                     SliverToBoxAdapter(
                       child: Padding(

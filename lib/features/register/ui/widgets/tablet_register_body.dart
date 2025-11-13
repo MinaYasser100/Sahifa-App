@@ -48,7 +48,7 @@ class TabletRegisterBody extends StatelessWidget {
             'success'.tr(),
             'registration_successful'.tr(),
           );
-          context.go(Routes.homeView);
+          context.go(Routes.layoutView);
         } else if (state is AuthError) {
           showErrorToast(context, 'error'.tr(), state.message);
         }

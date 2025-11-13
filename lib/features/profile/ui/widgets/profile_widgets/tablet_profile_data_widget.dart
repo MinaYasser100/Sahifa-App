@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sahifa/core/theme/app_style.dart';
+import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/profile/data/model/public_user_profile_model.dart';
 import 'package:sahifa/features/profile/ui/widgets/profile_widgets/profile_image_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,7 +42,9 @@ class TabletProfileDataWidget extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: isDark ? Colors.grey[800] : Colors.grey[200],
+                    color: isDark
+                        ? ColorsTheme().primaryLight
+                        : Colors.grey[200],
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -49,14 +53,18 @@ class TabletProfileDataWidget extends StatelessWidget {
                       Icon(
                         Icons.calendar_today,
                         size: 14,
-                        color: isDark ? Colors.grey[400] : Colors.grey[600],
+                        color: isDark
+                            ? ColorsTheme().whiteColor
+                            : ColorsTheme().primaryColor,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         _formatMemberSince(profile.memberSince),
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDark ? Colors.grey[400] : Colors.grey[600],
+                          color: isDark
+                              ? ColorsTheme().whiteColor
+                              : ColorsTheme().primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -76,9 +84,10 @@ class TabletProfileDataWidget extends StatelessWidget {
                   // User Name
                   Text(
                     profile.userName,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                    style: AppTextStyles.styleBold28sp(context).copyWith(
+                      color: isDark
+                          ? ColorsTheme().whiteColor
+                          : ColorsTheme().blackColor,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -110,7 +119,9 @@ class TabletProfileDataWidget extends StatelessWidget {
                         Icon(
                           Icons.access_time,
                           size: 16,
-                          color: isDark ? Colors.grey[500] : Colors.grey[500],
+                          color: isDark
+                              ? ColorsTheme().grayColor
+                              : ColorsTheme().grayColor,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -130,9 +141,10 @@ class TabletProfileDataWidget extends StatelessWidget {
                     const SizedBox(height: 20),
                     Text(
                       'about_me'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      style: AppTextStyles.styleBold16sp(context).copyWith(
+                        color: isDark
+                            ? ColorsTheme().whiteColor
+                            : ColorsTheme().blackColor,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -140,15 +152,25 @@ class TabletProfileDataWidget extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: isDark ? Colors.grey[800] : Colors.grey[100],
+                        color: isDark
+                            ? ColorsTheme().primaryLight
+                            : ColorsTheme().grayColor.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: isDark ? Colors.grey[700]! : Colors.grey[300]!,
+                          color: isDark
+                              ? ColorsTheme().primaryColor
+                              : ColorsTheme().grayColor,
                         ),
                       ),
                       child: Text(
                         profile.aboutMe!,
-                        style: const TextStyle(fontSize: 14, height: 1.5),
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: isDark
+                              ? ColorsTheme().whiteColor
+                              : ColorsTheme().primaryColor,
+                        ),
                       ),
                     ),
                   ],
@@ -158,9 +180,10 @@ class TabletProfileDataWidget extends StatelessWidget {
                     const SizedBox(height: 20),
                     Text(
                       'social_accounts'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      style: AppTextStyles.styleBold16sp(context).copyWith(
+                        color: isDark
+                            ? ColorsTheme().whiteColor
+                            : ColorsTheme().blackColor,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -208,7 +231,7 @@ class TabletProfileDataWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: platformData['color'].withOpacity(0.1),
+          color: ColorsTheme().whiteColor,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: platformData['color'].withOpacity(0.3),

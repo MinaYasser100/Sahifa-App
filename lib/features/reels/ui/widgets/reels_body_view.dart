@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/core/utils/colors.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_cubit.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_state.dart';
-import 'package:sahifa/features/reels/ui/widgets/reel_item.dart';
+import 'package:sahifa/features/reels/ui/widgets/reel_item_new.dart';
+import 'package:sahifa/features/reels/manager/preload_video_cache.dart';
 
 class ReelsBodyView extends StatefulWidget {
   const ReelsBodyView({super.key});
@@ -13,19 +14,53 @@ class ReelsBodyView extends StatefulWidget {
   State<ReelsBodyView> createState() => _ReelsBodyViewState();
 }
 
-class _ReelsBodyViewState extends State<ReelsBodyView> {
+class _ReelsBodyViewState extends State<ReelsBodyView>
+    with WidgetsBindingObserver {
   late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    WidgetsBinding.instance.addObserver(this);
+
+    // سيتم إنشاء PageController بعد معرفة initialPage من الـ state
     // Load reels when page opens
-    context.read<ReelsCubit>().loadReels();
+    final cubit = context.read<ReelsCubit>();
+    final currentState = cubit.state;
+
+    // إذا كان في state موجود، استخدم آخر index
+    if (currentState is ReelsLoaded) {
+      _pageController = PageController(initialPage: currentState.currentIndex);
+    } else {
+      _pageController = PageController();
+      cubit.loadReels();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    // إيقاف الفيديوهات لما التطبيق يروح في الخلفية
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // تنظيف الـ cache لما نخرج من التطبيق
+      PreloadVideoCache.instance.clear();
+    }
+  }
+
+  @override
+  void deactivate() {
+    // يتم استدعاؤه لما نخرج من الصفحة (مش التطبيق كله)
+    PreloadVideoCache.instance.clear();
+    super.deactivate();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    // إيقاف كل الفيديوهات وتنظيف الـ preload cache
+    PreloadVideoCache.instance.clear();
     _pageController.dispose();
     super.dispose();
   }
@@ -34,6 +69,7 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: Colors.black, // خلفية سودا بدل البيضاء
 
       body: BlocBuilder<ReelsCubit, ReelsState>(
         builder: (context, state) {
@@ -86,6 +122,15 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
               );
             }
 
+            // استخدام WidgetsBinding لتحديث الصفحة بعد build
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted &&
+                  _pageController.hasClients &&
+                  _pageController.page?.round() != state.currentIndex) {
+                _pageController.jumpToPage(state.currentIndex);
+              }
+            });
+
             return Stack(
               children: [
                 RefreshIndicator(
@@ -94,8 +139,21 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
                     controller: _pageController,
                     scrollDirection: Axis.vertical,
                     itemCount: state.reels.length + (state.hasMore ? 1 : 0),
+                    // تحسينات الأداء للتقليب السريع
+                    physics: const BouncingScrollPhysics(), // تقليب أسهل وأسرع
+                    pageSnapping: true,
+                    padEnds: false, // إزالة المساحة الزيادة
+                    allowImplicitScrolling: true, // تحسين الأداء
                     onPageChanged: (index) {
                       context.read<ReelsCubit>().changePage(index);
+
+                      // Preload the next video's controller to reduce white frames
+                      final nextIndex = index + 1;
+                      if (nextIndex < state.reels.length) {
+                        final nextUrl = state.reels[nextIndex].videoUrl;
+                        // fire-and-forget preload
+                        PreloadVideoCache.instance.preload(nextUrl);
+                      }
                     },
                     itemBuilder: (context, index) {
                       // Show loading indicator at the end if there's more
@@ -107,9 +165,13 @@ class _ReelsBodyViewState extends State<ReelsBodyView> {
                         );
                       }
 
-                      return ReelItem(
-                        reel: state.reels[index],
-                        isCurrentPage: index == state.currentIndex,
+                      // استخدام RepaintBoundary لتحسين الأداء
+                      return RepaintBoundary(
+                        child: ReelItem(
+                          key: ValueKey(state.reels[index].id),
+                          reel: state.reels[index],
+                          isCurrentPage: index == state.currentIndex,
+                        ),
                       );
                     },
                   ),

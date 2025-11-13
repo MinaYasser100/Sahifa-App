@@ -57,7 +57,7 @@ class _LayoutViewState extends State<LayoutView> {
         textOverflow: TextOverflow.visible,
         maxLine: 1,
         shadowElevation: 5,
-        kBottomRadius: 28.0,
+        kBottomRadius: 20.0,
         notchColor: ColorsTheme().grayColor.withValues(alpha: 0.5),
         removeMargins: false,
         bottomBarWidth: 500,

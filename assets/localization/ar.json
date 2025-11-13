@@ -158,6 +158,8 @@
   "description": "الوصف",
   "no_date": "لا يوجد تاريخ",
   "error_loading_reels": "خطأ في تحميل الريلز",
+  "error_loading_video": "خطأ في تحميل الفيديو",
+  "invalid_youtube_url": "رابط يوتيوب غير صحيح",
   "no_reels_available": "لا توجد ريلز متاحة",
   "loading_more": "جاري تحميل المزيد...",
   

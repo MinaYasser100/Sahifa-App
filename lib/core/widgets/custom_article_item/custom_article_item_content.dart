@@ -29,7 +29,7 @@ class CustomArticleItemContent extends StatelessWidget {
                   Expanded(
                     child: Text(
                       articleItem.categoryName ?? '',
-                      style: AppTextStyles.styleBold22sp(context).copyWith(
+                      style: AppTextStyles.styleBold18sp(context).copyWith(
                         color: isDarkMode
                             ? ColorsTheme().secondaryLight
                             : ColorsTheme().primaryDark,
@@ -79,7 +79,7 @@ class CustomArticleItemContent extends StatelessWidget {
                     child: Text(
                       articleItem.title ?? '',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: isDarkMode
                             ? ColorsTheme().secondaryLight
