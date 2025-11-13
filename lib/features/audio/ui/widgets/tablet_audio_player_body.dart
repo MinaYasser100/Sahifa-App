@@ -45,7 +45,7 @@ class TabletAudioPlayerBody extends StatelessWidget {
                   children: [
                     Expanded(
                       child: AudioCoverImage(
-                        imageUrl: audioItem.thumbnailUrl,
+                        imageUrl: audioItem.imageUrl,
                         audioId: audioItem.id ?? '',
                       ),
                     ),

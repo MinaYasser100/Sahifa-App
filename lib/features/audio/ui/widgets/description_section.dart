@@ -34,7 +34,7 @@ class DescriptionSection extends StatelessWidget {
             ),
             const SizedBox(height: 7),
             Text(
-              audioItem.summary ?? 'No description available',
+              audioItem.content ?? 'No description available',
               style: AppTextStyles.styleMedium14sp(context).copyWith(
                 color: isDark
                     ? ColorsTheme().grayColor

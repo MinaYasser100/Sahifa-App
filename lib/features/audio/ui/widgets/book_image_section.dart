@@ -19,7 +19,7 @@ class BookImageSection extends StatelessWidget {
       duration: const Duration(milliseconds: 650),
       child: Center(
         child: CustomImageWidget(
-          imageUrl: audioItem.thumbnailUrl ?? '',
+          imageUrl: audioItem.imageUrl ?? '',
           height: 290,
           width: 210,
           changeBorderRadius: false,

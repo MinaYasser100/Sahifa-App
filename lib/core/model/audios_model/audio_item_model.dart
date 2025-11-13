@@ -4,7 +4,8 @@ class AudioItemModel {
   String? slug;
   String? summary;
   String? audioUrl;
-  String? thumbnailUrl;
+  String? imageUrl;
+  String? content;
   String? duration;
   String? fileSize;
   String? format;
@@ -31,7 +32,8 @@ class AudioItemModel {
     this.slug,
     this.summary,
     this.audioUrl,
-    this.thumbnailUrl,
+    this.imageUrl,
+    this.content,
     this.duration,
     this.fileSize,
     this.format,
@@ -59,7 +61,8 @@ class AudioItemModel {
     slug: json['slug'] as String?,
     summary: json['summary'] as String?,
     audioUrl: json['audioUrl'] as String?,
-    thumbnailUrl: json['thumbnailUrl'] as String?,
+    imageUrl: json['imageUrl'] as String?,
+    content: json['content'] as String?,
     duration: json['duration'] as String?,
     fileSize: json['fileSize'] as String?,
     format: json['format'] as String?,
@@ -93,7 +96,8 @@ class AudioItemModel {
     'slug': slug,
     'summary': summary,
     'audioUrl': audioUrl,
-    'thumbnailUrl': thumbnailUrl,
+    'imageUrl': imageUrl,
+    'content': content,
     'duration': duration,
     'fileSize': fileSize,
     'format': format,

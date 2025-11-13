@@ -24,7 +24,7 @@ class TabletAudioBookCard extends StatelessWidget {
           Expanded(
             child: CustomImageWidget(
               height: double.infinity,
-              imageUrl: '${audioItem.thumbnailUrl}',
+              imageUrl: '${audioItem.imageUrl}',
             ),
           ),
           const SizedBox(height: 8),

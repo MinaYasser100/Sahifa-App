@@ -26,7 +26,7 @@ class AudioBookCardWidget extends StatelessWidget {
           children: [
             CustomImageWidget(
               height: 200,
-              imageUrl: '${audioItem.thumbnailUrl}',
+              imageUrl: '${audioItem.imageUrl}',
             ),
             const SizedBox(height: 8),
             Text(

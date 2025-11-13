@@ -64,7 +64,7 @@ class _AudioPlayerBody extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Cover Image
                 AudioCoverImage(
-                  imageUrl: audioItem.thumbnailUrl,
+                  imageUrl: audioItem.imageUrl,
                   audioId: audioItem.id ?? '',
                 ),
                 //const SizedBox(height: 20),
