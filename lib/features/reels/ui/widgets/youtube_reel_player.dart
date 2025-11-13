@@ -139,7 +139,8 @@ class _YouTubeReelPlayerState extends State<YouTubeReelPlayer> {
             if (_isPlayerReady && !isPlaying)
               IgnorePointer(
                 child: Container(
-                  color: Colors.transparent, // overlay شفاف عشان نشوف الفيديو تحت
+                  color:
+                      Colors.transparent, // overlay شفاف عشان نشوف الفيديو تحت
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.all(16),
