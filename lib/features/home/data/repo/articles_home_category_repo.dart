@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:sahifa/core/cache/generic_etag_handler.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/articles_category_model/articles_category_model.dart';
@@ -9,6 +13,7 @@ abstract class ArticlesHomeCategoryRepo {
     String categorySlug,
     String language,
   );
+  void clearCache();
 }
 
 class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
@@ -19,28 +24,24 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
     _instance._dioHelper = dioHelper;
     return _instance;
   }
-  ArticlesHomeCategoryRepoImpl._internal();
+
+  ArticlesHomeCategoryRepoImpl._internal() {
+    _etagHandler = GenericETagHandler(
+      handlerIdentifier: 'ArticlesHomeCategory',
+    );
+  }
 
   late DioHelper _dioHelper;
+  late final GenericETagHandler _etagHandler;
 
-  // Memory Cache - Map by categorySlug and language
-  final Map<String, ArticlesCategoryModel> _cache = {};
-  final Map<String, DateTime> _cacheTimestamps = {};
-  final Duration _cacheDuration = const Duration(minutes: 30);
+  // Store ETags per category+language (for HTTP caching only)
+  final Map<String, String> _etagsByCategory = {};
+  // Store last response data for 304 handling
+  final Map<String, ArticlesCategoryModel> _lastResponseByCategory = {};
 
   // Generate cache key
   String _getCacheKey(String categorySlug, String language) {
     return '${categorySlug}_$language';
-  }
-
-  // Check if cache is valid
-  bool _isCacheValid(String cacheKey) {
-    if (!_cache.containsKey(cacheKey) ||
-        !_cacheTimestamps.containsKey(cacheKey)) {
-      return false;
-    }
-    final timestamp = _cacheTimestamps[cacheKey]!;
-    return DateTime.now().difference(timestamp) < _cacheDuration;
   }
 
   @override
@@ -51,43 +52,90 @@ class ArticlesHomeCategoryRepoImpl implements ArticlesHomeCategoryRepo {
     try {
       final cacheKey = _getCacheKey(categorySlug, language);
 
-      // Check cache first
-      if (_isCacheValid(cacheKey)) {
-        return Right(_cache[cacheKey]!);
+      // Make network request with ETag if available
+      final response = await _makeRequest(categorySlug, language, cacheKey);
+
+      _etagHandler.logResponseStatus(response, 1);
+
+      // Handle 304 Not Modified
+      if (_etagHandler.isNotModified(response)) {
+        return _handle304Response(cacheKey);
       }
 
-      // Convert language code to backend format
-      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
-        language,
-      );
-
-      final response = await _dioHelper.getData(
-        url: ApiEndpoints.posts.path,
-        query: {
-          ApiQueryParams.categorySlug: categorySlug,
-          ApiQueryParams.pageSize: 15,
-          ApiQueryParams.language: backendLanguage,
-          ApiQueryParams.type: PostType.article.value,
-          ApiQueryParams.includeLikedByUsers: true,
-          ApiQueryParams.hasAuthor: false,
-        },
-      );
-      final ArticlesCategoryModel articlesCategoryModel =
-          ArticlesCategoryModel.fromJson(response.data);
-
-      // Update cache
-      _cache[cacheKey] = articlesCategoryModel;
-      _cacheTimestamps[cacheKey] = DateTime.now();
-
-      return Right(articlesCategoryModel);
+      // Handle 200 OK with new data
+      return _handle200Response(response, cacheKey);
     } catch (e) {
       return Left('Error fetching articles');
     }
   }
 
+  /// Make HTTP request with ETag headers
+  Future<Response> _makeRequest(
+    String categorySlug,
+    String language,
+    String cacheKey,
+  ) async {
+    final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+      language,
+    );
+
+    final etag = _etagsByCategory[cacheKey];
+    final headers = _etagHandler.prepareHeaders(etag, 1);
+
+    return await _dioHelper.getData(
+      url: ApiEndpoints.posts.path,
+      query: {
+        ApiQueryParams.categorySlug: categorySlug,
+        ApiQueryParams.pageSize: 15,
+        ApiQueryParams.language: backendLanguage,
+        ApiQueryParams.type: PostType.article.value,
+        ApiQueryParams.includeLikedByUsers: true,
+        ApiQueryParams.hasAuthor: false,
+      },
+      headers: headers,
+    );
+  }
+
+  /// Handle 304 Not Modified response
+  Either<String, ArticlesCategoryModel> _handle304Response(String cacheKey) {
+    log('✅ 304 Not Modified - Home category data unchanged for $cacheKey');
+
+    // Return last known response for this category
+    if (_lastResponseByCategory.containsKey(cacheKey)) {
+      return Right(_lastResponseByCategory[cacheKey]!);
+    }
+
+    // If we don't have cached response, this shouldn't happen
+    log('⚠️ Warning: 304 received but no cached response for $cacheKey');
+    return Left('Error fetching articles');
+  }
+
+  /// Handle 200 OK response with new data
+  Either<String, ArticlesCategoryModel> _handle200Response(
+    Response response,
+    String cacheKey,
+  ) {
+    log('📦 200 OK - Received new home category data for $cacheKey');
+
+    // Extract and store ETag
+    final etag = _etagHandler.extractETag(response, 1);
+    if (etag != null) {
+      _etagsByCategory[cacheKey] = etag;
+    }
+
+    // Parse response
+    final articlesCategoryModel = ArticlesCategoryModel.fromJson(response.data);
+
+    // Store last response for 304 handling
+    _lastResponseByCategory[cacheKey] = articlesCategoryModel;
+
+    return Right(articlesCategoryModel);
+  }
+
   // Clear all cache
+  @override
   void clearCache() {
-    _cache.clear();
-    _cacheTimestamps.clear();
+    _etagsByCategory.clear();
+    _lastResponseByCategory.clear();
   }
 }

@@ -1,21 +1,53 @@
-part of 'video_player_cubit.dart';
+import 'package:equatable/equatable.dart';
 
-@immutable
-sealed class VideoPlayerState {}
+/// حالات الفيديو
+abstract class VideoPlayerState extends Equatable {
+  const VideoPlayerState();
 
-final class VideoPlayerInitial extends VideoPlayerState {}
-
-final class VideoPlayerLoading extends VideoPlayerState {}
-
-final class VideoPlayerReady extends VideoPlayerState {
-  final bool isPlaying;
-  final bool isManuallyPaused; // لو المستخدم عمل pause يدوي
-
-  VideoPlayerReady({required this.isPlaying, this.isManuallyPaused = false});
+  @override
+  List<Object?> get props => [];
 }
 
-final class VideoPlayerError extends VideoPlayerState {
+/// حالة البداية
+class VideoPlayerInitial extends VideoPlayerState {}
+
+/// حالة التحميل
+class VideoPlayerLoading extends VideoPlayerState {}
+
+/// حالة الجاهزية
+class VideoPlayerReady extends VideoPlayerState {
+  final bool isPlaying;
+  final Duration position;
+  final Duration duration;
+
+  const VideoPlayerReady({
+    required this.isPlaying,
+    required this.position,
+    required this.duration,
+  });
+
+  @override
+  List<Object?> get props => [isPlaying, position, duration];
+
+  VideoPlayerReady copyWith({
+    bool? isPlaying,
+    Duration? position,
+    Duration? duration,
+  }) {
+    return VideoPlayerReady(
+      isPlaying: isPlaying ?? this.isPlaying,
+      position: position ?? this.position,
+      duration: duration ?? this.duration,
+    );
+  }
+}
+
+/// حالة الخطأ
+class VideoPlayerError extends VideoPlayerState {
   final String message;
 
-  VideoPlayerError({required this.message});
+  const VideoPlayerError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }

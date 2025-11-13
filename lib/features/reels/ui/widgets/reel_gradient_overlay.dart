@@ -6,21 +6,16 @@ class ReelGradientOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        height: 300,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              ColorsTheme().blackColor.withValues(alpha: 0.8),
-              Colors.transparent,
-            ],
-          ),
+    return Container(
+      height: 300,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            ColorsTheme().blackColor.withValues(alpha: 0.8),
+            Colors.transparent,
+          ],
         ),
       ),
     );

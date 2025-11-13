@@ -157,9 +157,7 @@ void setupDependencies() async {
   getIt.registerSingleton<DetailsGalleryRepoImpl>(detailsGalleryRepo);
   getIt.registerSingleton<DetailsGalleryRepo>(detailsGalleryRepo);
 
-  getIt.registerSingleton<DetailsArticleRepoImpl>(
-    DetailsArticleRepoImpl(getIt<DioHelper>()),
-  );
+  getIt.registerSingleton<DetailsArticleRepoImpl>(DetailsArticleRepoImpl());
 
   getIt.registerSingleton<DetailsVideoRepoImpl>(
     DetailsVideoRepoImpl(getIt<DioHelper>()),

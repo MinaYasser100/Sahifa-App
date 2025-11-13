@@ -27,7 +27,7 @@ class ArticlesDrawerSubcategoryCubit
     // Only emit loading if no valid cache
     final repoImpl =
         _articlesDrawerSubcategoryRepo as ArticlesDrawerSubcategoryRepoImpl;
-    if (!repoImpl.hasValidCache) {
+    if (!repoImpl.hasValidCache(categorySlug, 1)) {
       if (!isClosed) emit(ArticlesDrawerSubcategoryLoading());
     }
 

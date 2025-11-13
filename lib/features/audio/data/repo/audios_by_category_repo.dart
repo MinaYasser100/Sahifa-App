@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sahifa/core/cache/generic_cache_manager.dart';
+import 'package:sahifa/core/cache/generic_etag_handler.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
+import 'package:sahifa/core/model/audios_model/audio_item_model.dart';
 import 'package:sahifa/core/model/audios_model/audios_model.dart';
 import 'package:sahifa/core/utils/language_helper.dart';
 
@@ -12,6 +18,9 @@ abstract class AudiosByCategoryRepo {
     int page = 1,
     int pageSize = 30,
   });
+  bool hasValidCache(String categorySlug, int page);
+  void clearCache(String categorySlug);
+  void clearAllCache();
 }
 
 class AudiosByCategoryRepoImpl implements AudiosByCategoryRepo {
@@ -22,24 +31,31 @@ class AudiosByCategoryRepoImpl implements AudiosByCategoryRepo {
     _instance._dioHelper = dioHelper;
     return _instance;
   }
-  AudiosByCategoryRepoImpl._internal();
 
-  late DioHelper _dioHelper;
-
-  // Memory Cache - Map of categorySlug+language to cached data
-  final Map<String, List<AudiosModel>> _cache = {};
-  final Map<String, DateTime> _cacheTime = {};
-  final Duration _cacheDuration = const Duration(minutes: 30);
-
-  String _getCacheKey(String categorySlug, String language) {
-    return '${categorySlug}_$language';
+  AudiosByCategoryRepoImpl._internal() {
+    _etagHandler = GenericETagHandler(handlerIdentifier: 'AudiosByCategory');
   }
 
-  bool _hasValidCache(String categorySlug, String language) {
-    final key = _getCacheKey(categorySlug, language);
-    return _cache.containsKey(key) &&
-        _cacheTime.containsKey(key) &&
-        DateTime.now().difference(_cacheTime[key]!) < _cacheDuration;
+  late DioHelper _dioHelper;
+  late final GenericETagHandler _etagHandler;
+
+  // Separate cache manager for each category
+  final Map<String, GenericCacheManager<AudioItemModel>> _cacheManagers = {};
+
+  // Get or create cache manager for a category
+  GenericCacheManager<AudioItemModel> _getCacheManager(String categorySlug) {
+    if (!_cacheManagers.containsKey(categorySlug)) {
+      _cacheManagers[categorySlug] = GenericCacheManager<AudioItemModel>(
+        cacheIdentifier: 'AudiosByCategory_$categorySlug',
+      );
+    }
+    return _cacheManagers[categorySlug]!;
+  }
+
+  @override
+  bool hasValidCache(String categorySlug, int page) {
+    final cacheManager = _getCacheManager(categorySlug);
+    return cacheManager.hasValidMemoryCache(page);
   }
 
   @override
@@ -50,48 +66,131 @@ class AudiosByCategoryRepoImpl implements AudiosByCategoryRepo {
     int pageSize = 30,
   }) async {
     try {
-      final key = _getCacheKey(categorySlug, language);
+      final cacheManager = _getCacheManager(categorySlug);
 
-      // Check cache for this page
-      if (_hasValidCache(categorySlug, language) &&
-          _cache[key]!.length >= page &&
-          page > 0) {
-        // Return cached page
-        return Right(_cache[key]![page - 1]);
+      // STEP 1: Handle language change
+      if (cacheManager.hasLanguageChanged(language)) {
+        cacheManager.clearAll();
+      }
+      cacheManager.setCachedLanguage(language);
+
+      // STEP 2: Check Memory Cache (30 min) - Return immediately without network
+      if (cacheManager.hasValidMemoryCache(page)) {
+        log('💾 Using valid memory cache for $categorySlug page $page');
+        return _buildSuccessResponse(cacheManager, page);
       }
 
-      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+      // STEP 3: Memory cache expired - Need to revalidate
+      log(
+        '📡 Memory cache expired for $categorySlug page $page - Making network request',
+      );
+
+      // STEP 4: Make network request with ETag if available
+      final response = await _makeRequest(
+        categorySlug,
         language,
-      );
-      final response = await _dioHelper.getData(
-        url: ApiEndpoints.audiosByCategory.path,
-        query: {
-          ApiQueryParams.categorySlug: categorySlug,
-          ApiQueryParams.language: backendLanguage,
-          ApiQueryParams.pageNumber: page,
-          ApiQueryParams.pageSize: pageSize,
-        },
+        page,
+        pageSize,
+        cacheManager,
       );
 
-      final AudiosModel audiosModel = AudiosModel.fromJson(response.data);
+      _etagHandler.logResponseStatus(response, page);
 
-      // Update cache
-      if (!_cache.containsKey(key)) {
-        _cache[key] = [];
+      // STEP 5: Handle 304 Not Modified
+      if (_etagHandler.isNotModified(response)) {
+        return _handle304Response(cacheManager, page);
       }
 
-      // Ensure cache list is long enough
-      while (_cache[key]!.length < page) {
-        _cache[key]!.add(AudiosModel(audios: []));
-      }
-
-      _cache[key]![page - 1] = audiosModel;
-      _cacheTime[key] = DateTime.now();
-
-      return Right(audiosModel);
+      // STEP 6: Handle 200 OK with new data
+      return _handle200Response(response, cacheManager, page);
     } catch (e) {
       return Left("Error fetching audios".tr());
     }
+  }
+
+  /// Build success response from cached data
+  Either<String, AudiosModel> _buildSuccessResponse(
+    GenericCacheManager<AudioItemModel> cacheManager,
+    int page,
+  ) {
+    return Right(
+      AudiosModel(
+        audios: cacheManager.getCachedData(page),
+        totalPages: cacheManager.getTotalPages(page),
+      ),
+    );
+  }
+
+  /// Make HTTP request with ETag headers
+  Future<Response> _makeRequest(
+    String categorySlug,
+    String language,
+    int page,
+    int pageSize,
+    GenericCacheManager<AudioItemModel> cacheManager,
+  ) async {
+    final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+      language,
+    );
+    final etag = cacheManager.getETag(page);
+    final headers = _etagHandler.prepareHeaders(etag, page);
+
+    return await _dioHelper.getData(
+      url: ApiEndpoints.audiosByCategory.path,
+      query: {
+        ApiQueryParams.categorySlug: categorySlug,
+        ApiQueryParams.language: backendLanguage,
+        ApiQueryParams.pageNumber: page,
+        ApiQueryParams.pageSize: pageSize,
+      },
+      headers: headers,
+    );
+  }
+
+  /// Handle 304 Not Modified response
+  Either<String, AudiosModel> _handle304Response(
+    GenericCacheManager<AudioItemModel> cacheManager,
+    int page,
+  ) {
+    log(
+      '✅ 304 Not Modified - Data unchanged, using cached data for page $page',
+    );
+
+    if (!cacheManager.hasCachedData(page)) {
+      log('⚠️ Warning: 304 received but no cached data found for page $page');
+      return Left("cached_data_missing".tr());
+    }
+
+    // Update timestamp to extend cache validity
+    cacheManager.updateTimestamp(page);
+
+    return _buildSuccessResponse(cacheManager, page);
+  }
+
+  /// Handle 200 OK response with new data
+  Either<String, AudiosModel> _handle200Response(
+    Response response,
+    GenericCacheManager<AudioItemModel> cacheManager,
+    int page,
+  ) {
+    log('📦 200 OK - Received new data for page $page');
+
+    // Extract and store ETag
+    final etag = _etagHandler.extractETag(response, page);
+
+    // Parse response
+    final audiosModel = AudiosModel.fromJson(response.data);
+    final audios = audiosModel.audios ?? [];
+
+    // Cache data
+    cacheManager.cachePageData(
+      pageNumber: page,
+      data: audios,
+      etag: etag,
+      totalPages: audiosModel.totalPages,
+    );
+
+    return Right(audiosModel);
   }
 
   // Force refresh - clears cache for specific category
@@ -101,7 +200,7 @@ class AudiosByCategoryRepoImpl implements AudiosByCategoryRepo {
     int page = 1,
     int pageSize = 30,
   }) async {
-    clearCache(categorySlug, language);
+    clearCache(categorySlug);
     return await fetchAudiosByCategory(
       categorySlug: categorySlug,
       language: language,
@@ -111,15 +210,18 @@ class AudiosByCategoryRepoImpl implements AudiosByCategoryRepo {
   }
 
   // Clear cache for specific category
-  void clearCache(String categorySlug, String language) {
-    final key = _getCacheKey(categorySlug, language);
-    _cache.remove(key);
-    _cacheTime.remove(key);
+  @override
+  void clearCache(String categorySlug) {
+    final cacheManager = _getCacheManager(categorySlug);
+    cacheManager.clearAll();
   }
 
   // Clear all cache
+  @override
   void clearAllCache() {
-    _cache.clear();
-    _cacheTime.clear();
+    for (final manager in _cacheManagers.values) {
+      manager.clearAll();
+    }
+    _cacheManagers.clear();
   }
 }

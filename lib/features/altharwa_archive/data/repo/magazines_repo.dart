@@ -1,9 +1,13 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:sahifa/core/cache/generic_cache_manager.dart';
+import 'package:sahifa/core/cache/generic_etag_handler.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/magazine_model.dart';
+import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
 
 abstract class MagazinesRepo {
   Future<Either<String, MagazineModel>> getMagazines({required int pageNumber});
@@ -12,47 +16,72 @@ abstract class MagazinesRepo {
     required String toDate,
     required int pageNumber,
   });
+  bool hasValidCache(int pageNumber);
+  bool hasValidFilteredCache(String fromDate, String toDate, int pageNumber);
   void clearCache();
-  bool get hasValidCache;
 }
 
 class MagazinesRepoImpl implements MagazinesRepo {
   // Singleton Pattern
   static final MagazinesRepoImpl _instance = MagazinesRepoImpl._internal();
   factory MagazinesRepoImpl() => _instance;
-  MagazinesRepoImpl._internal();
+
+  MagazinesRepoImpl._internal() {
+    _regularCacheManager = GenericCacheManager<PdfModel>(
+      cacheIdentifier: 'Magazines_Regular',
+    );
+    _regularEtagHandler = GenericETagHandler(
+      handlerIdentifier: 'Magazines_Regular',
+    );
+    _filteredEtagHandler = GenericETagHandler(
+      handlerIdentifier: 'Magazines_Filtered',
+    );
+  }
 
   // DioHelper instance
   final DioHelper _dioHelper = DioHelper();
 
-  // Memory Cache for regular magazines
-  Map<int, MagazineModel>? _cachedMagazines;
-  DateTime? _lastFetchTime;
-  final Duration _cacheDuration = const Duration(minutes: 30);
+  // Cache managers
+  late final GenericCacheManager<PdfModel> _regularCacheManager;
+  late final GenericETagHandler _regularEtagHandler;
+  late final GenericETagHandler _filteredEtagHandler;
 
-  // Memory Cache for filtered magazines (by date range)
-  Map<String, MagazineModel>? _cachedFilteredMagazines;
-  DateTime? _lastFilteredFetchTime;
+  // Separate cache manager for each date range filter
+  final Map<String, GenericCacheManager<PdfModel>> _filteredCacheManagers = {};
 
-  // Getter for cache status
+  // Get cache manager for specific filter
+  GenericCacheManager<PdfModel> _getFilteredCacheManager(
+    String fromDate,
+    String toDate,
+  ) {
+    final key = '${fromDate}_$toDate';
+    if (!_filteredCacheManagers.containsKey(key)) {
+      _filteredCacheManagers[key] = GenericCacheManager<PdfModel>(
+        cacheIdentifier: 'Magazines_Filtered_$key',
+      );
+    }
+    return _filteredCacheManagers[key]!;
+  }
+
   @override
-  bool get hasValidCache =>
-      _cachedMagazines != null &&
-      _lastFetchTime != null &&
-      DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
+  bool hasValidCache(int pageNumber) {
+    return _regularCacheManager.hasValidMemoryCache(pageNumber);
+  }
 
-  bool get hasValidFilteredCache =>
-      _cachedFilteredMagazines != null &&
-      _lastFilteredFetchTime != null &&
-      DateTime.now().difference(_lastFilteredFetchTime!) < _cacheDuration;
+  @override
+  bool hasValidFilteredCache(String fromDate, String toDate, int pageNumber) {
+    final cacheManager = _getFilteredCacheManager(fromDate, toDate);
+    return cacheManager.hasValidMemoryCache(pageNumber);
+  }
 
   // Clear all caches
   @override
   void clearCache() {
-    _cachedMagazines = null;
-    _lastFetchTime = null;
-    _cachedFilteredMagazines = null;
-    _lastFilteredFetchTime = null;
+    _regularCacheManager.clearAll();
+    for (final manager in _filteredCacheManagers.values) {
+      manager.clearAll();
+    }
+    _filteredCacheManagers.clear();
   }
 
   @override
@@ -60,41 +89,86 @@ class MagazinesRepoImpl implements MagazinesRepo {
     required int pageNumber,
   }) async {
     try {
-      // Check if cached data exists for this page
-      if (_cachedMagazines != null &&
-          _cachedMagazines!.containsKey(pageNumber) &&
-          _lastFetchTime != null &&
-          DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
-        log('Returning cached magazines for page $pageNumber');
-        return Right(_cachedMagazines![pageNumber]!);
+      // STEP 1: Check Memory Cache
+      if (_regularCacheManager.hasValidMemoryCache(pageNumber)) {
+        log('💾 Using valid memory cache for magazines page $pageNumber');
+        return _buildRegularSuccessResponse(pageNumber);
       }
 
-      log('Fetching magazines from API for page $pageNumber');
-      // Fetch from API
-      final response = await _dioHelper.getData(
-        url: ApiEndpoints.magazines.path,
-        query: {'pageNumber': pageNumber, 'pageSize': 30},
-      );
+      // STEP 2: Make network request
+      log('📡 Making network request for magazines page $pageNumber');
+      final response = await _makeRegularRequest(pageNumber);
 
-      // Ensure response.data is a Map
-      final jsonData = response.data is Map<String, dynamic>
-          ? response.data as Map<String, dynamic>
-          : throw Exception(
-              'Invalid response format: expected Map but got ${response.data.runtimeType}',
-            );
+      _regularEtagHandler.logResponseStatus(response, pageNumber);
 
-      final MagazineModel magazineModel = MagazineModel.fromJson(jsonData);
+      // STEP 3: Handle 304 Not Modified
+      if (_regularEtagHandler.isNotModified(response)) {
+        return _handleRegular304Response(pageNumber);
+      }
 
-      // Cache the result
-      _cachedMagazines ??= {};
-      _cachedMagazines![pageNumber] = magazineModel;
-      _lastFetchTime = DateTime.now();
-
-      return Right(magazineModel);
+      // STEP 4: Handle 200 OK with new data
+      return _handleRegular200Response(response, pageNumber);
     } catch (e) {
-      log('Error fetching magazines');
+      log('Error fetching magazines: $e');
       return Left('Failed to fetch magazines');
     }
+  }
+
+  Either<String, MagazineModel> _buildRegularSuccessResponse(int pageNumber) {
+    return Right(
+      MagazineModel(
+        items: _regularCacheManager.getCachedData(pageNumber),
+        pageNumber: pageNumber,
+        totalPages: _regularCacheManager.getTotalPages(pageNumber),
+      ),
+    );
+  }
+
+  Future<Response> _makeRegularRequest(int pageNumber) async {
+    final etag = _regularCacheManager.getETag(pageNumber);
+    final headers = _regularEtagHandler.prepareHeaders(etag, pageNumber);
+
+    return await _dioHelper.getData(
+      url: ApiEndpoints.magazines.path,
+      query: {'pageNumber': pageNumber, 'pageSize': 30},
+      headers: headers,
+    );
+  }
+
+  Either<String, MagazineModel> _handleRegular304Response(int pageNumber) {
+    log('✅ 304 Not Modified - Magazines data unchanged for page $pageNumber');
+    if (!_regularCacheManager.hasCachedData(pageNumber)) {
+      return Left('Failed to fetch magazines');
+    }
+    _regularCacheManager.updateTimestamp(pageNumber);
+    return _buildRegularSuccessResponse(pageNumber);
+  }
+
+  Either<String, MagazineModel> _handleRegular200Response(
+    Response response,
+    int pageNumber,
+  ) {
+    log('📦 200 OK - Received new magazines data for page $pageNumber');
+    final etag = _regularEtagHandler.extractETag(response, pageNumber);
+
+    // Ensure response.data is a Map
+    final jsonData = response.data is Map<String, dynamic>
+        ? response.data as Map<String, dynamic>
+        : throw Exception(
+            'Invalid response format: expected Map but got ${response.data.runtimeType}',
+          );
+
+    final MagazineModel magazineModel = MagazineModel.fromJson(jsonData);
+    final items = magazineModel.items ?? [];
+
+    _regularCacheManager.cachePageData(
+      pageNumber: pageNumber,
+      data: items,
+      etag: etag,
+      totalPages: magazineModel.totalPages,
+    );
+
+    return Right(magazineModel);
   }
 
   @override
@@ -104,50 +178,117 @@ class MagazinesRepoImpl implements MagazinesRepo {
     required int pageNumber,
   }) async {
     try {
-      // Create cache key from fromDate, toDate, and pageNumber
-      final cacheKey = '${fromDate}_${toDate}_$pageNumber';
+      final cacheManager = _getFilteredCacheManager(fromDate, toDate);
 
-      // Check if cached filtered data exists
-      if (_cachedFilteredMagazines != null &&
-          _cachedFilteredMagazines!.containsKey(cacheKey) &&
-          _lastFilteredFetchTime != null &&
-          DateTime.now().difference(_lastFilteredFetchTime!) < _cacheDuration) {
-        log('Returning cached filtered magazines for $cacheKey');
-        return Right(_cachedFilteredMagazines![cacheKey]!);
+      // STEP 1: Check Memory Cache
+      if (cacheManager.hasValidMemoryCache(pageNumber)) {
+        log(
+          '💾 Using valid cache for filtered magazines (${fromDate}_$toDate) page $pageNumber',
+        );
+        return _buildFilteredSuccessResponse(cacheManager, pageNumber);
       }
 
+      // STEP 2: Make network request
       log(
-        'Fetching filtered magazines from API: from=$fromDate, to=$toDate, page=$pageNumber',
+        '📡 Fetching filtered magazines: from=$fromDate, to=$toDate, page=$pageNumber',
       );
-      // Fetch from API
-      final response = await _dioHelper.getData(
-        url: ApiEndpoints.magazines.path,
-        query: {
-          'from': fromDate,
-          'to': toDate,
-          'pageNumber': pageNumber,
-          'pageSize': 30,
-        },
+      final response = await _makeFilteredRequest(
+        fromDate,
+        toDate,
+        pageNumber,
+        cacheManager,
       );
 
-      // Ensure response.data is a Map
-      final jsonData = response.data is Map<String, dynamic>
-          ? response.data as Map<String, dynamic>
-          : throw Exception(
-              'Invalid response format: expected Map but got ${response.data.runtimeType}',
-            );
+      _filteredEtagHandler.logResponseStatus(response, pageNumber);
 
-      final MagazineModel magazineModel = MagazineModel.fromJson(jsonData);
+      // STEP 3: Handle 304 Not Modified
+      if (_filteredEtagHandler.isNotModified(response)) {
+        return _handleFiltered304Response(cacheManager, pageNumber);
+      }
 
-      // Cache the filtered result
-      _cachedFilteredMagazines ??= {};
-      _cachedFilteredMagazines![cacheKey] = magazineModel;
-      _lastFilteredFetchTime = DateTime.now();
-
-      return Right(magazineModel);
+      // STEP 4: Handle 200 OK with new data
+      return _handleFiltered200Response(response, cacheManager, pageNumber);
     } catch (e) {
-      log('Error searching magazines');
+      log('Error searching magazines: $e');
       return Left('Failed to search magazines');
     }
+  }
+
+  Either<String, MagazineModel> _buildFilteredSuccessResponse(
+    GenericCacheManager<PdfModel> cacheManager,
+    int pageNumber,
+  ) {
+    return Right(
+      MagazineModel(
+        items: cacheManager.getCachedData(pageNumber),
+        pageNumber: pageNumber,
+        totalPages: cacheManager.getTotalPages(pageNumber),
+      ),
+    );
+  }
+
+  Future<Response> _makeFilteredRequest(
+    String fromDate,
+    String toDate,
+    int pageNumber,
+    GenericCacheManager<PdfModel> cacheManager,
+  ) async {
+    final etag = cacheManager.getETag(pageNumber);
+    final headers = _filteredEtagHandler.prepareHeaders(etag, pageNumber);
+
+    return await _dioHelper.getData(
+      url: ApiEndpoints.magazines.path,
+      query: {
+        'from': fromDate,
+        'to': toDate,
+        'pageNumber': pageNumber,
+        'pageSize': 30,
+      },
+      headers: headers,
+    );
+  }
+
+  Either<String, MagazineModel> _handleFiltered304Response(
+    GenericCacheManager<PdfModel> cacheManager,
+    int pageNumber,
+  ) {
+    log(
+      '✅ 304 Not Modified - Filtered magazines data unchanged for page $pageNumber',
+    );
+    if (!cacheManager.hasCachedData(pageNumber)) {
+      return Left('Failed to search magazines');
+    }
+    cacheManager.updateTimestamp(pageNumber);
+    return _buildFilteredSuccessResponse(cacheManager, pageNumber);
+  }
+
+  Either<String, MagazineModel> _handleFiltered200Response(
+    Response response,
+    GenericCacheManager<PdfModel> cacheManager,
+    int pageNumber,
+  ) {
+    log(
+      '📦 200 OK - Received new filtered magazines data for page $pageNumber',
+    );
+    final etag = _filteredEtagHandler.extractETag(response, pageNumber);
+
+    // Ensure response.data is a Map
+    final jsonData = response.data is Map<String, dynamic>
+        ? response.data as Map<String, dynamic>
+        : throw Exception(
+            'Invalid response format: expected Map but got ${response.data.runtimeType}',
+          );
+
+    final MagazineModel magazineModel = MagazineModel.fromJson(jsonData);
+    final items = magazineModel.items ?? [];
+
+    cacheManager.cachePageData(
+      pageNumber: pageNumber,
+      data: items,
+      etag: etag,
+      totalPages: magazineModel.totalPages,
+    );
+
+    return Right(magazineModel);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
@@ -23,10 +25,11 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
 
   late DioHelper _dioHelper;
 
-  // Memory Cache
+  // Memory Cache with ETag support
   List<ParentCategory>? _cachedCategories;
   DateTime? _lastFetchTime;
   String? _lastLanguage; // Track language changes
+  String? _etag; // ETag for conditional requests
   final Duration _cacheDuration = const Duration(minutes: 30);
 
   // Getters for cache status
@@ -40,12 +43,17 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
     String language,
   ) async {
     try {
-      // Check if cached data exists, is fresh, and language hasn't changed
+      // Check language change
+      if (_lastLanguage != null && _lastLanguage != language) {
+        clearCache();
+      }
+      _lastLanguage = language;
+
+      // Check if cached data exists and is fresh
       if (_cachedCategories != null &&
           _lastFetchTime != null &&
-          _lastLanguage == language &&
           DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
-        // Return cached data immediately
+        log('💾 Using valid cache for drawer categories');
         return Right(_cachedCategories!);
       }
 
@@ -54,7 +62,16 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
         language,
       );
 
-      // If no cache or cache expired or language changed, fetch from API
+      // Prepare ETag headers
+      final headers = <String, dynamic>{};
+      if (_etag != null) {
+        headers['If-None-Match'] = _etag;
+        log('🏷️ Sending ETag for drawer categories: $_etag');
+      } else {
+        log('🆕 No ETag for drawer categories - First request');
+      }
+
+      // Fetch from API with ETag
       final result = await _dioHelper.getData(
         url: ApiEndpoints.parentCategories.path,
         query: {
@@ -62,7 +79,23 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
           ApiQueryParams.isActive: true,
           ApiQueryParams.withSub: true,
         },
+        headers: headers.isNotEmpty ? headers : null,
       );
+
+      log('📥 Response status: ${result.statusCode} for drawer categories');
+
+      // Handle 304 Not Modified
+      if (result.statusCode == 304) {
+        log('✅ 304 Not Modified - Drawer categories unchanged');
+        if (_cachedCategories != null) {
+          _lastFetchTime = DateTime.now();
+          return Right(_cachedCategories!);
+        }
+        return Left("Error fetching drawer categories".tr());
+      }
+
+      // Handle 200 OK - new data
+      log('📦 200 OK - Received new drawer categories');
       final List<ParentCategory> parentCategories = (result.data as List)
           .map((e) => ParentCategory.fromJson(e))
           .toList();
@@ -70,7 +103,12 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
       // Update cache
       _cachedCategories = parentCategories;
       _lastFetchTime = DateTime.now();
-      _lastLanguage = language;
+
+      // Store ETag
+      if (result.headers.value('etag') != null) {
+        _etag = result.headers.value('etag')!;
+        log('📦 Stored ETag for drawer categories');
+      }
 
       return Right(parentCategories);
     } catch (e) {
@@ -91,5 +129,6 @@ class DrawerCategoriesRepoImpl implements DrawerCategoriesRepo {
     _cachedCategories = null;
     _lastFetchTime = null;
     _lastLanguage = null;
+    _etag = null;
   }
 }

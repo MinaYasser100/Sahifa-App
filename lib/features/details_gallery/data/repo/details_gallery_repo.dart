@@ -48,6 +48,9 @@ class DetailsGalleryRepoImpl implements DetailsGalleryRepo {
       final headers = <String, dynamic>{};
       if (_etags.containsKey(cacheKey)) {
         headers['If-None-Match'] = _etags[cacheKey];
+        log('🏷️ Sending ETag for $cacheKey: ${_etags[cacheKey]}');
+      } else {
+        log('🆕 No ETag for $cacheKey - First request');
       }
 
       final response = await _dioHelper.getData(
@@ -56,10 +59,15 @@ class DetailsGalleryRepoImpl implements DetailsGalleryRepo {
         query: {'categorySlug': categorySlug, 'slug': gallerySlug},
       );
 
+      log('📥 Response status: ${response.statusCode} for $cacheKey');
+
       // Handle 304 Not Modified - return cached data
-      if (response.statusCode == 304 && _cache.containsKey(cacheKey)) {
-        log('Gallery details cache hit (304) for: $cacheKey');
-        return Right(_cache[cacheKey]!);
+      if (response.statusCode == 304) {
+        log('✅ 304 Not Modified - Gallery details cache hit for: $cacheKey');
+        if (_cache.containsKey(cacheKey)) {
+          return Right(_cache[cacheKey]!);
+        }
+        return Left("error_fetching_gallery_details".tr());
       }
 
       // Check if response.data is directly the gallery object or wrapped in 'data'
@@ -79,7 +87,7 @@ class DetailsGalleryRepoImpl implements DetailsGalleryRepo {
       // Store ETag if present
       if (response.headers.value('etag') != null) {
         _etags[cacheKey] = response.headers.value('etag')!;
-        log('Stored ETag for $cacheKey: ${_etags[cacheKey]}');
+        log('📦 Stored ETag for $cacheKey: ${_etags[cacheKey]}');
       }
 
       return Right(galleriesModel);

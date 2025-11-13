@@ -66,22 +66,31 @@ class _YouTubeReelPlayerState extends State<YouTubeReelPlayer> {
     super.didUpdateWidget(oldWidget);
 
     // Handle page change
-    if (oldWidget.isCurrentPage != widget.isCurrentPage) {
-      if (widget.isCurrentPage) {
-        // لما نرجع للصفحة، نشغل من آخر مكان
-        if (_controller.value.isReady) {
-          _controller.play();
+    if (oldWidget.isCurrentPage != widget.isCurrentPage && mounted) {
+      try {
+        if (widget.isCurrentPage) {
+          // لما نرجع للصفحة، نشغل من آخر مكان
+          if (_controller.value.isReady) {
+            _controller.play();
+          }
+        } else {
+          // لما نخرج من الصفحة، نوقف بس (مش نرجع للأول)
+          _controller.pause();
         }
-      } else {
-        // لما نخرج من الصفحة، نوقف بس (مش نرجع للأول)
-        _controller.pause();
+      } catch (e) {
+        debugPrint('Error in YouTube didUpdateWidget: $e');
       }
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    try {
+      _controller.removeListener(_playerListener);
+      _controller.dispose();
+    } catch (e) {
+      debugPrint('Error disposing YouTube controller: $e');
+    }
     super.dispose();
   }
 

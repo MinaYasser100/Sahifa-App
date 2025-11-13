@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sahifa/core/cache/generic_etag_handler.dart';
 import 'package:sahifa/core/helper_network/api_endpoints.dart';
 import 'package:sahifa/core/helper_network/dio_helper.dart';
 import 'package:sahifa/core/model/parent_category/parent_category.dart';
@@ -9,6 +13,7 @@ abstract class CategoriesHorizontalBarRepo {
   Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
     String language,
   );
+  void clearCache();
 }
 
 class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
@@ -19,63 +24,97 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
     _instance._dioHelper = dioHelper;
     return _instance;
   }
-  CategoriesHorizontalBarRepoImpl._internal();
+
+  CategoriesHorizontalBarRepoImpl._internal() {
+    _etagHandler = GenericETagHandler(
+      handlerIdentifier: 'CategoriesHorizontalBar',
+    );
+  }
 
   late DioHelper _dioHelper;
+  late final GenericETagHandler _etagHandler;
 
-  // Memory Cache
-  List<ParentCategory>? _cachedCategories;
-  DateTime? _lastFetchTime;
-  String? _lastLanguage; // Track language changes
-  final Duration _cacheDuration = const Duration(minutes: 30);
-
-  // Getters for cache status
-  bool get hasValidCache =>
-      _cachedCategories != null &&
-      _lastFetchTime != null &&
-      DateTime.now().difference(_lastFetchTime!) < _cacheDuration;
+  // Store ETags per language (for HTTP caching only)
+  final Map<String, String> _etagsByLanguage = {};
+  // Store last response data for 304 handling
+  final Map<String, List<ParentCategory>> _lastResponseByLanguage = {};
 
   @override
   Future<Either<String, List<ParentCategory>>> fetchCategoriesHorizontalBar(
     String language,
   ) async {
     try {
-      // Check if cached data exists, is fresh, and language hasn't changed
-      if (_cachedCategories != null &&
-          _lastFetchTime != null &&
-          _lastLanguage == language &&
-          DateTime.now().difference(_lastFetchTime!) < _cacheDuration) {
-        // Return cached data immediately
-        return Right(_cachedCategories!);
+      // Make network request with ETag if available
+      final response = await _makeRequest(language);
+
+      _etagHandler.logResponseStatus(response, 1);
+
+      // Handle 304 Not Modified
+      if (_etagHandler.isNotModified(response)) {
+        return _handle304Response(language);
       }
 
-      // Convert language code to backend format
-      final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
-        language,
-      );
-
-      // If no cache or cache expired or language changed, fetch from API
-      final result = await _dioHelper.getData(
-        url: ApiEndpoints.parentCategories.path,
-        query: {
-          ApiQueryParams.language: backendLanguage,
-          ApiQueryParams.isActive: true,
-          ApiQueryParams.showOnHomepage: true,
-        },
-      );
-      final List<ParentCategory> parentCategories = (result.data as List)
-          .map((e) => ParentCategory.fromJson(e))
-          .toList();
-
-      // Update cache
-      _cachedCategories = parentCategories;
-      _lastFetchTime = DateTime.now();
-      _lastLanguage = language;
-
-      return Right(parentCategories);
+      // Handle 200 OK with new data
+      return _handle200Response(response, language);
     } catch (e) {
       return Left("Error fetching categories".tr());
     }
+  }
+
+  /// Make HTTP request with ETag headers
+  Future<Response> _makeRequest(String language) async {
+    final backendLanguage = LanguageHelper.convertLanguageCodeToBackend(
+      language,
+    );
+
+    final etag = _etagsByLanguage[language];
+    final headers = _etagHandler.prepareHeaders(etag, 1);
+
+    return await _dioHelper.getData(
+      url: ApiEndpoints.parentCategories.path,
+      query: {
+        ApiQueryParams.language: backendLanguage,
+        ApiQueryParams.isActive: true,
+        ApiQueryParams.showOnHomepage: true,
+      },
+      headers: headers,
+    );
+  }
+
+  /// Handle 304 Not Modified response
+  Either<String, List<ParentCategory>> _handle304Response(String language) {
+    log('✅ 304 Not Modified - Categories unchanged for $language');
+
+    if (_lastResponseByLanguage.containsKey(language)) {
+      return Right(_lastResponseByLanguage[language]!);
+    }
+
+    log('⚠️ Warning: 304 received but no cached response for $language');
+    return Left("Error fetching categories".tr());
+  }
+
+  /// Handle 200 OK response with new data
+  Either<String, List<ParentCategory>> _handle200Response(
+    Response response,
+    String language,
+  ) {
+    log('📦 200 OK - Received new categories for $language');
+
+    // Extract and store ETag
+    final etag = _etagHandler.extractETag(response, 1);
+    if (etag != null) {
+      _etagsByLanguage[language] = etag;
+    }
+
+    // Parse response
+    final List<ParentCategory> parentCategories = (response.data as List)
+        .map((e) => ParentCategory.fromJson(e))
+        .toList();
+
+    // Store last response for 304 handling
+    _lastResponseByLanguage[language] = parentCategories;
+
+    return Right(parentCategories);
   }
 
   // Force refresh - clears cache and fetches new data
@@ -87,9 +126,9 @@ class CategoriesHorizontalBarRepoImpl implements CategoriesHorizontalBarRepo {
   }
 
   // Clear cache manually
+  @override
   void clearCache() {
-    _cachedCategories = null;
-    _lastFetchTime = null;
-    _lastLanguage = null;
+    _etagsByLanguage.clear();
+    _lastResponseByLanguage.clear();
   }
 }

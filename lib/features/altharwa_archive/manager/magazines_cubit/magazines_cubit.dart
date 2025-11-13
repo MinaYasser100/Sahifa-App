@@ -20,7 +20,7 @@ class MagazinesCubit extends Cubit<MagazinesState> {
     if (isClosed) return;
 
     // Only emit loading if no valid cache
-    if (!magazinesRepo.hasValidCache) {
+    if (!magazinesRepo.hasValidCache(1)) {
       emit(MagazinesLoading());
     }
 

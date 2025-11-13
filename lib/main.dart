@@ -30,7 +30,7 @@ void main() async {
       startLocale: const Locale(
         ConstantVariable.arabicLangCode,
       ), // اللغة الافتراضية عربي
-      child: DevicePreview(enabled: true, builder: (context) => const MyApp()),
+      child: DevicePreview(enabled: false, builder: (context) => const MyApp()),
     ),
   );
 }

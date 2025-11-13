@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sahifa/features/reels/data/repo/reels_api_repo.dart';
 import 'package:sahifa/features/reels/manager/reels_cubit/reels_state.dart';
 
+/// Cubit بسيط لإدارة بيانات الـ Reels فقط (بدون video management)
 class ReelsCubit extends Cubit<ReelsState> {
   final ReelsApiRepo _reelsRepo;
 
@@ -11,12 +12,9 @@ class ReelsCubit extends Cubit<ReelsState> {
   String? _nextCursor;
   bool _hasMore = true;
   bool _isLoadingMore = false;
+  int _currentIndex = 0;
 
-  // حفظ آخر موضع للمستخدم
-  int _savedIndex = 0;
-  List<String> _lastReelIds = []; // للتحقق من تغيير البيانات
-
-  /// Load initial reels (first page)
+  /// تحميل أول صفحة من الريلز
   Future<void> loadReels({bool forceRefresh = false}) async {
     if (isClosed) return;
 
@@ -25,31 +23,20 @@ class ReelsCubit extends Cubit<ReelsState> {
 
       if (forceRefresh) {
         await _reelsRepo.clearCache();
-        _savedIndex = 0; // إعادة تعيين عند الـ refresh
+        _currentIndex = 0;
       }
 
-      // Fetch first page
       final reelsModel = await _reelsRepo.fetchReels(cursor: null);
 
-      // Update pagination state
       _nextCursor = reelsModel.nextCursor;
       _hasMore = reelsModel.hasMore;
-
-      // التحقق من تغيير البيانات
-      final newReelIds = reelsModel.reels.map((r) => r.id).toList();
-      final dataChanged = !_areListsEqual(_lastReelIds, newReelIds);
-
-      if (dataChanged) {
-        _savedIndex = 0; // البيانات اتغيرت، نبدأ من الأول
-      }
-      _lastReelIds = newReelIds;
 
       if (isClosed) return;
       emit(
         ReelsLoaded(
           reels: reelsModel.reels,
           hasMore: _hasMore,
-          currentIndex: _savedIndex, // استخدام آخر موضع محفوظ
+          currentIndex: _currentIndex,
         ),
       );
     } catch (e) {
@@ -59,16 +46,7 @@ class ReelsCubit extends Cubit<ReelsState> {
     }
   }
 
-  /// مقارنة قوائم الـ IDs للتحقق من تغيير البيانات
-  bool _areListsEqual(List<String> list1, List<String> list2) {
-    if (list1.length != list2.length) return false;
-    for (int i = 0; i < list1.length; i++) {
-      if (list1[i] != list2[i]) return false;
-    }
-    return true;
-  }
-
-  /// Load more reels (pagination)
+  /// تحميل المزيد من الريلز (pagination)
   Future<void> loadMoreReels() async {
     if (isClosed || _isLoadingMore || !_hasMore) return;
 
@@ -79,14 +57,11 @@ class ReelsCubit extends Cubit<ReelsState> {
       _isLoadingMore = true;
       emit(currentState.copyWith(isLoadingMore: true));
 
-      // Fetch next page
       final reelsModel = await _reelsRepo.fetchReels(cursor: _nextCursor);
 
-      // Update pagination state
       _nextCursor = reelsModel.nextCursor;
       _hasMore = reelsModel.hasMore;
 
-      // Merge new reels with existing ones
       final updatedReels = [...currentState.reels, ...reelsModel.reels];
 
       if (isClosed) return;
@@ -94,60 +69,57 @@ class ReelsCubit extends Cubit<ReelsState> {
         ReelsLoaded(
           reels: updatedReels,
           hasMore: _hasMore,
+          currentIndex: currentState.currentIndex,
           isLoadingMore: false,
         ),
       );
     } catch (e) {
       if (!isClosed) {
-        emit(
-          currentState.copyWith(
-            isLoadingMore: false,
-            error: 'Error loading more reels: $e',
-          ),
-        );
+        final loadedState = state;
+        if (loadedState is ReelsLoaded) {
+          emit(loadedState.copyWith(isLoadingMore: false));
+        }
       }
     } finally {
       _isLoadingMore = false;
     }
   }
 
-  /// Change current page (for PageView)
+  /// Refresh (Pull to refresh)
+  Future<void> refreshReels() async {
+    await loadReels(forceRefresh: true);
+  }
+
+  /// تغيير الصفحة الحالية
   void changePage(int index) {
-    if (isClosed) return;
+    _currentIndex = index;
 
     final currentState = state;
     if (currentState is ReelsLoaded) {
-      _savedIndex = index; // حفظ آخر موضع
       emit(currentState.copyWith(currentIndex: index));
 
-      // Load more when reaching near the end (e.g., 3 reels before end)
-      if (_hasMore && index >= currentState.reels.length - 3) {
+      // لو قربنا من الآخر، حمل المزيد
+      if (index >= currentState.reels.length - 3 &&
+          _hasMore &&
+          !_isLoadingMore) {
         loadMoreReels();
       }
     }
   }
 
-  /// إيقاف كل الفيديوهات عند مغادرة Reels
-  void pauseAllVideos() {
-    // سيتم استدعاؤها من ReelsBodyView.dispose
-  }
-
-  /// Toggle like on a reel (Old method - kept for backward compatibility)
-  void toggleLike(String reelId) {
-    if (isClosed) return;
-
+  /// Toggle Like
+  Future<void> toggleLike(String reelId) async {
     final currentState = state;
-    if (currentState is ReelsLoaded) {
+    if (currentState is! ReelsLoaded) return;
+
+    try {
+      // Update UI optimistically
       final updatedReels = currentState.reels.map((reel) {
         if (reel.id == reelId) {
           final isLiked = reel.isLikedByCurrentUser ?? false;
-          final newLikesCount = isLiked
-              ? reel.likesCount - 1
-              : reel.likesCount + 1;
-
           return reel.copyWith(
             isLikedByCurrentUser: !isLiked,
-            likesCount: newLikesCount,
+            likesCount: isLiked ? reel.likesCount - 1 : reel.likesCount + 1,
           );
         }
         return reel;
@@ -155,48 +127,11 @@ class ReelsCubit extends Cubit<ReelsState> {
 
       emit(currentState.copyWith(reels: updatedReels));
 
-      // Call API to toggle like
-      _reelsRepo.toggleReelLike(reelId).catchError((error) {
-        // Revert on error
-        if (!isClosed && state is ReelsLoaded) {
-          emit(currentState);
-        }
-      });
+      // Call API
+      await _reelsRepo.toggleReelLike(reelId);
+    } catch (e) {
+      // Revert on error
+      emit(currentState);
     }
-  }
-
-  /// Update reel like state (for use with LikeReelCubit)
-  void updateReelLikeState({required String reelId, required bool isLiked}) {
-    if (isClosed) return;
-
-    final currentState = state;
-    if (currentState is ReelsLoaded) {
-      final updatedReels = currentState.reels.map((reel) {
-        if (reel.id == reelId) {
-          final currentlyLiked = reel.isLikedByCurrentUser ?? false;
-          final newLikesCount = isLiked
-              ? (currentlyLiked ? reel.likesCount : reel.likesCount + 1)
-              : (currentlyLiked ? reel.likesCount - 1 : reel.likesCount);
-
-          return reel.copyWith(
-            isLikedByCurrentUser: isLiked,
-            likesCount: newLikesCount,
-          );
-        }
-        return reel;
-      }).toList();
-
-      emit(currentState.copyWith(reels: updatedReels));
-    }
-  }
-
-  /// Refresh reels (pull to refresh)
-  Future<void> refreshReels() async {
-    await loadReels(forceRefresh: true);
-  }
-
-  /// Clear cache
-  Future<void> clearCache() async {
-    await _reelsRepo.clearCache();
   }
 }

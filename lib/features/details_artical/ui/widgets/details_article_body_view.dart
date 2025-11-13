@@ -61,7 +61,7 @@ class DetailsArticleBodyView extends StatelessWidget {
         ),
 
         // Comments Section
-        SliverToBoxAdapter(child: CommentsSection()),
+        // SliverToBoxAdapter(child: CommentsSection()),
 
         // Related Articles Section
         SliverToBoxAdapter(
