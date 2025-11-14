@@ -58,7 +58,7 @@ class VideoDetailsBodyView extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Summary (Description)
-                if (video.summary != null && video.summary!.isNotEmpty)
+                if (video.content != null && video.content!.isNotEmpty)
                   VideoDescriptionSection(video: video, isDarkMode: isDarkMode),
 
                 const SizedBox(height: 24),

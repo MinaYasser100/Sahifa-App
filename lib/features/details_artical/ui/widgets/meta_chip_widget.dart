@@ -27,7 +27,7 @@ class MetaChipWidget extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            fontSize: 15,
+            fontSize: 12,
             color: color,
             fontWeight: FontWeight.w600,
           ),

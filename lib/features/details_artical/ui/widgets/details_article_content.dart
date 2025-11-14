@@ -29,7 +29,7 @@ class DetailsArticleContent extends StatelessWidget {
           FadeInLeft(
             child: Text(
               articalModel.title ?? '',
-              style: AppTextStyles.styleBold24sp(context).copyWith(
+              style: AppTextStyles.styleBold20sp(context).copyWith(
                 color: isDarkMode
                     ? ColorsTheme().secondaryLight
                     : ColorsTheme().primaryColor,
@@ -95,7 +95,7 @@ class DetailsArticleContent extends StatelessWidget {
           // Description
           FadeInUp(
             child: Text(
-              articalModel.summary ?? '',
+              articalModel.content ?? '',
               style: TextStyle(
                 fontSize: 18,
                 color: isDarkMode

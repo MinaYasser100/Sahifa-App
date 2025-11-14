@@ -32,13 +32,13 @@ class BannerInfoSection extends StatelessWidget {
 
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
 
                 fontWeight: FontWeight.bold,
                 color: ColorsTheme().whiteColor,
               ),
             ),
-            const SizedBox(height: 8),
+            //const SizedBox(height: 8),
             // التاريخ و أيقونة المشاركة
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

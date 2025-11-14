@@ -5,6 +5,7 @@ class ArticleModel {
   String? summary;
   String? image;
   String? imageDescription;
+  String? content;
   String? status;
   String? language;
   String? postType;
@@ -34,6 +35,7 @@ class ArticleModel {
     this.summary,
     this.image,
     this.imageDescription,
+    this.content,
     this.status,
     this.language,
     this.postType,
@@ -64,6 +66,7 @@ class ArticleModel {
     summary: json['description'] as String?,
     image: json['image'] as String?,
     imageDescription: json['imageDescription'] as String?,
+    content: json['content'] as String?,
     status: json['status'] as String?,
     language: json['language'] as String?,
     postType: json['postType'] as String?,
@@ -94,6 +97,7 @@ class ArticleModel {
     'description': summary,
     'image': image,
     'imageDescription': imageDescription,
+    'content': content,
     'status': status,
     'language': language,
     'postType': postType,

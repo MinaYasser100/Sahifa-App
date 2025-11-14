@@ -7,6 +7,7 @@ class VideoModel {
   String? videoEmbedCode;
   String? videoThumbnailUrl;
   String? duration;
+  String? content;
   int? viewCount;
   List<String>? videoFiles;
   String? status;
@@ -38,6 +39,7 @@ class VideoModel {
     this.videoEmbedCode,
     this.videoThumbnailUrl,
     this.duration,
+    this.content,
     this.viewCount,
     this.videoFiles,
     this.status,
@@ -70,6 +72,7 @@ class VideoModel {
     videoEmbedCode: json['videoEmbedCode'] as String?,
     videoThumbnailUrl: json['videoThumbnailUrl'] as String?,
     duration: json['duration'] as String?,
+    content: json['content'] as String?,
     viewCount: json['viewCount'] as int?, // موجود في الريسبونس
     videoFiles: (json['videoFiles'] as List<dynamic>?)
         ?.map((e) => e.toString())
@@ -106,6 +109,7 @@ class VideoModel {
     'videoEmbedCode': videoEmbedCode,
     'videoThumbnailUrl': videoThumbnailUrl,
     'duration': duration,
+    'content': content,
     'viewCount': viewCount,
     'videoFiles': videoFiles,
     'status': status,

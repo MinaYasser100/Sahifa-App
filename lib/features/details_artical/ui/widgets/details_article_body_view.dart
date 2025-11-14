@@ -7,7 +7,6 @@ import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/widgets/custom_books_opinions/custom_book_opinion_image.dart';
 import 'package:sahifa/core/widgets/custom_image_widget.dart';
 import 'package:sahifa/core/widgets/custom_trending/custom_mobile_trending_articles_section_body.dart';
-import 'package:sahifa/features/details_artical/ui/widgets/comments/comments_section.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/details_article_content.dart';
 import 'package:sahifa/features/details_artical/ui/widgets/related_articles_section.dart';
 

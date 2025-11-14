@@ -75,7 +75,7 @@ class CategoriesHorizontalBarContent extends StatelessWidget {
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 border: isSelected
                     ? Border(
@@ -92,7 +92,7 @@ class CategoriesHorizontalBarContent extends StatelessWidget {
                   category.name,
                   style: TextStyle(
                     color: ColorsTheme().whiteColor,
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),

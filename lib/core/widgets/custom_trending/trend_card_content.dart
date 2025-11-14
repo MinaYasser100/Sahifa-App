@@ -25,7 +25,7 @@ class TrendCardContent extends StatelessWidget {
               // Title
               Text(
                 articleItem.title ?? "No Name".tr(),
-                style: AppTextStyles.styleBold20sp(context).copyWith(
+                style: AppTextStyles.styleBold16sp(context).copyWith(
                   color: isDarkMode
                       ? ColorsTheme().secondaryColor
                       : ColorsTheme().primaryColor,
@@ -40,7 +40,7 @@ class TrendCardContent extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.access_time,
-                    size: 14,
+                    size: 12,
                     color: isDarkMode
                         ? ColorsTheme().grayColor.withValues(alpha: 0.6)
                         : ColorsTheme().grayColor.withValues(alpha: 0.8),
