@@ -5,22 +5,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+import 'package:sahifa/features/video_feed/domain/entities/video_entity.dart';
 import 'package:sahifa/features/video_feed/domain/usecases/fetch_more_videos_usecase.dart';
 import 'package:sahifa/features/video_feed/domain/usecases/fetch_videos_usecase.dart';
+import 'package:sahifa/features/video_feed/domain/usecases/toggle_like_video_usecase.dart';
 import 'package:sahifa/features/video_feed/presentation/bloc/video_feed_state.dart';
 
 class VideoFeedCubit extends Cubit<VideoFeedState> {
   VideoFeedCubit({
     required FetchVideosUseCase fetchVideosUseCase,
     required FetchMoreVideosUseCase fetchMoreVideosUseCase,
+    required ToggleLikeVideoUseCase toggleLikeVideoUseCase,
   }) : _fetchVideosUseCase = fetchVideosUseCase,
        _fetchMoreVideosUseCase = fetchMoreVideosUseCase,
+       _toggleLikeVideoUseCase = toggleLikeVideoUseCase,
        super(VideoFeedState.initial()) {
     loadVideos();
   }
 
   final FetchVideosUseCase _fetchVideosUseCase;
   final FetchMoreVideosUseCase _fetchMoreVideosUseCase;
+  final ToggleLikeVideoUseCase _toggleLikeVideoUseCase;
   final _preloadQueue = Queue<String>();
   final _preloadedFiles = <String, File>{};
   bool _isPreloadingMore = false;
@@ -160,5 +165,54 @@ class VideoFeedCubit extends Cubit<VideoFeedState> {
     _preloadQueue.clear();
     _preloadedFiles.clear();
     return super.close();
+  }
+
+  Future<void> toggleLikeForVideo({
+    required String videoId,
+    required bool currentlyLiked,
+  }) async {
+    final previousVideos = List<VideoEntity>.from(state.videos);
+
+    final updatedVideos = state.videos.map((video) {
+      if (video.id != videoId) return video;
+
+      final currentIsLiked = video.isLikedByCurrentUser ?? false;
+      final newIsLiked = !currentIsLiked;
+      final currentLikes = video.likesCount;
+      final newLikes = newIsLiked
+          ? currentLikes + 1
+          : (currentLikes > 0 ? currentLikes - 1 : 0);
+
+      return VideoEntity(
+        id: video.id,
+        videoUrl: video.videoUrl,
+        thumbnailUrl: video.thumbnailUrl,
+        caption: video.caption,
+        duration: video.duration,
+        viewsCount: video.viewsCount,
+        likesCount: newLikes,
+        commentsCount: video.commentsCount,
+        sharesCount: video.sharesCount,
+        isPublished: video.isPublished,
+        createdAt: video.createdAt,
+        userId: video.userId,
+        userName: video.userName,
+        userAvatarUrl: video.userAvatarUrl,
+        tags: video.tags,
+        isLikedByCurrentUser: newIsLiked,
+      );
+    }).toList();
+
+    emit(state.copyWith(videos: updatedVideos));
+
+    final result = await _toggleLikeVideoUseCase(
+      videoId: videoId,
+      currentlyLiked: currentlyLiked,
+    );
+
+    result.fold((error) {
+      // Revert optimistic update on error and store error message
+      emit(state.copyWith(videos: previousVideos, errorMessage: error));
+    }, (_) {});
   }
 }

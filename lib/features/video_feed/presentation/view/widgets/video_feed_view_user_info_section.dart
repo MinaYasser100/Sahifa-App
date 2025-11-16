@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sahifa/features/video_feed/presentation/view/widgets/video_feed_view_description_text.dart';
-import 'package:sahifa/features/video_feed/presentation/view/widgets/video_feed_view_user_header.dart';
 
 class VideoFeedViewUserInfoSection extends StatelessWidget {
   const VideoFeedViewUserInfoSection({
@@ -23,10 +22,10 @@ class VideoFeedViewUserInfoSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         spacing: 8,
         children: [
-          VideoFeedViewUserHeader(
-            userAvatarUrl: userAvatarUrl,
-            userName: userName,
-          ),
+          // VideoFeedViewUserHeader(
+          //   userAvatarUrl: userAvatarUrl,
+          //   userName: userName,
+          // ),
           VideoFeedViewDescriptionText(text: caption),
         ],
       ),

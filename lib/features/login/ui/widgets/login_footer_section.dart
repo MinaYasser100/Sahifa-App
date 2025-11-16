@@ -21,7 +21,7 @@ class LoginFooterSection extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            context.push(Routes.registerView);
+            context.replace(Routes.registerView);
           },
           child: Text(
             'create_account'.tr(),

@@ -35,7 +35,7 @@ class LoginBodyView extends StatelessWidget {
       listener: (context, authState) {
         if (authState is Authenticated) {
           showSuccessToast(context, 'success'.tr(), 'login_successful'.tr());
-          context.go(Routes.layoutView);
+          context.pop();
         } else if (authState is AuthError) {
           showErrorToast(context, 'error'.tr(), authState.message);
         }

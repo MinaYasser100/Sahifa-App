@@ -34,6 +34,7 @@ import 'package:sahifa/features/video_feed/data/repository_impl/video_feed_repos
 import 'package:sahifa/features/video_feed/domain/repositories/video_feed_repository.dart';
 import 'package:sahifa/features/video_feed/domain/usecases/fetch_videos_usecase.dart';
 import 'package:sahifa/features/video_feed/domain/usecases/fetch_more_videos_usecase.dart';
+import 'package:sahifa/features/video_feed/domain/usecases/toggle_like_video_usecase.dart';
 import 'package:sahifa/features/video_feed/presentation/bloc/video_feed_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -206,11 +207,16 @@ void setupDependencies() async {
     FetchMoreVideosUseCase(repository: getIt<VideoFeedRepository>()),
   );
 
+  getIt.registerSingleton<ToggleLikeVideoUseCase>(
+    ToggleLikeVideoUseCase(repository: getIt<VideoFeedRepository>()),
+  );
+
   // Register VideoFeedCubit
   getIt.registerSingleton<VideoFeedCubit>(
     VideoFeedCubit(
       fetchVideosUseCase: getIt<FetchVideosUseCase>(),
       fetchMoreVideosUseCase: getIt<FetchMoreVideosUseCase>(),
+      toggleLikeVideoUseCase: getIt<ToggleLikeVideoUseCase>(),
     ),
   );
 }

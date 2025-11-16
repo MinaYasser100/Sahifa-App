@@ -4,6 +4,7 @@ import 'package:sahifa/features/video_feed/presentation/view/widgets/video_feed_
 
 class VideoFeedViewOverlaySection extends StatelessWidget {
   const VideoFeedViewOverlaySection({
+    required this.videoId,
     required this.userAvatarUrl,
     required this.userName,
     required this.caption,
@@ -15,6 +16,7 @@ class VideoFeedViewOverlaySection extends StatelessWidget {
     super.key,
   });
 
+  final String videoId;
   final String userAvatarUrl;
   final String userName;
   final String caption;
@@ -37,6 +39,7 @@ class VideoFeedViewOverlaySection extends StatelessWidget {
             caption: caption,
           ),
           VideoFeedViewInteractionButtons(
+            videoId: videoId,
             isLiked: isLiked,
             isBookmarked: isBookmarked,
             likesCount: likesCount,

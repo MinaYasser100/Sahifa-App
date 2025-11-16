@@ -142,4 +142,53 @@ class VideoFeedRepositoryImpl implements VideoFeedRepository {
       return Left('Failed to fetch more videos: $e');
     }
   }
+
+  @override
+  Future<Either<String, void>> likeVideo(String videoId) async {
+    try {
+      log('❤️ Liking video: $videoId');
+
+      final endpoint = ApiEndpoints.likeReel.withParams({'reelId': videoId});
+
+      final response = await _dioHelper.postData(
+        url: endpoint,
+        data: {ApiQueryParams.reelId: videoId},
+      );
+
+      final statusCode = response.statusCode ?? 0;
+      if (statusCode == 204) {
+        log('✅ Video liked successfully');
+        return const Right(null);
+      }
+
+      log('⚠️ Unexpected status code when liking video: $statusCode');
+      return Left('Failed to like video: $statusCode');
+    } catch (e) {
+      log('❌ Error liking video: $e');
+      return Left('Failed to like video: $e');
+    }
+  }
+
+  @override
+  Future<Either<String, void>> unlikeVideo(String videoId) async {
+    try {
+      log('💔 Unliking video: $videoId');
+
+      final endpoint = ApiEndpoints.likeReel.withParams({'reelId': videoId});
+
+      final response = await _dioHelper.deleteData(url: endpoint);
+
+      final statusCode = response.statusCode ?? 0;
+      if (statusCode == 204) {
+        log('✅ Video unliked successfully');
+        return const Right(null);
+      }
+
+      log('⚠️ Unexpected status code when unliking video: $statusCode');
+      return Left('Failed to unlike video: $statusCode');
+    } catch (e) {
+      log('❌ Error unliking video: $e');
+      return Left('Failed to unlike video: $e');
+    }
+  }
 }

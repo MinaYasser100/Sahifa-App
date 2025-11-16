@@ -23,6 +23,7 @@ class VideoFeedViewItem extends StatelessWidget {
           videoId: videoItem.id,
         ),
         VideoFeedViewOverlaySection(
+          videoId: videoItem.id,
           userAvatarUrl: videoItem.userAvatarUrl ?? '',
           userName: videoItem.userName ?? 'Unknown',
           caption: videoItem.caption ?? 'No description',

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahifa/core/manager/autovalidate_mode/autovalidate_mode_cubit.dart';
-import 'package:sahifa/core/routing/routes.dart';
 import 'package:sahifa/core/utils/show_top_toast.dart';
 import 'package:sahifa/core/widgets/custom_button.dart';
 import 'package:sahifa/features/auth/data/models/register_request.dart';
@@ -48,7 +47,7 @@ class RegisterBodyView extends StatelessWidget {
             'success'.tr(),
             'registration_successful'.tr(),
           );
-          context.go(Routes.layoutView);
+          context.pop();
         } else if (authState is AuthError) {
           showErrorToast(context, 'error'.tr(), authState.message);
         }

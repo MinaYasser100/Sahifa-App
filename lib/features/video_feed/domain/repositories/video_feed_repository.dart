@@ -13,4 +13,16 @@ abstract interface class VideoFeedRepository {
   /// - Left: Error message
   /// - Right: List of videos
   Future<Either<String, List<VideoEntity>>> fetchMoreVideos();
+
+  /// Like a video by its ID.
+  /// Returns Either<String, void> where:
+  /// - Left: Error message
+  /// - Right: success (no data)
+  Future<Either<String, void>> likeVideo(String videoId);
+
+  /// Unlike a video by its ID.
+  /// Returns Either<String, void> where:
+  /// - Left: Error message
+  /// - Right: success (no data)
+  Future<Either<String, void>> unlikeVideo(String videoId);
 }
