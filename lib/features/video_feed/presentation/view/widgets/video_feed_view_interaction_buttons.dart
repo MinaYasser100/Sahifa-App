@@ -27,7 +27,7 @@ class VideoFeedViewInteractionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = ColorsTheme();
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20, left: 12, right: 12),
+      padding: const EdgeInsets.only(bottom: 100, left: 12, right: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         spacing: 20,
