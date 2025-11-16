@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahifa/core/utils/colors.dart';
-import 'package:sahifa/features/reels/manager/video_player_manager.dart';
 import 'package:sahifa/core/widgets/adaptive_layout.dart';
 import 'package:sahifa/features/layout/ui/widgets/layout_mobile_view.dart';
 import 'package:sahifa/features/layout/ui/widgets/layout_tablet_view.dart';
@@ -23,30 +22,12 @@ class _LayoutViewState extends State<LayoutView> {
 
   @override
   void dispose() {
-    // تأكد من إيقاف كل الفيديوهات عند إغلاق التطبيق
-    final videoManager = VideoPlayerManager();
-    if (videoManager.isInReelsView) {
-      debugPrint('🚪 LAYOUT DISPOSE: Exiting Reels View on dispose');
-      videoManager.exitReelsView();
-    }
-
     _pageController.dispose();
     super.dispose();
   }
 
   void _onPageChanged(int index) {
     if (mounted) {
-      final videoManager = VideoPlayerManager();
-
-      // إذا كنا في الـ reels (index 1) ادخل الـ reels view، غير كده اخرج بشكل مباشر
-      if (index == 1) {
-        debugPrint('🎬 LAYOUT: Entering Reels View (index: $index)');
-        videoManager.enterReelsView();
-      } else {
-        debugPrint('🚪 LAYOUT: Exiting Reels View (index: $index)');
-        videoManager.exitReelsView();
-      }
-
       _pageController.jumpToPage(index);
     }
   }

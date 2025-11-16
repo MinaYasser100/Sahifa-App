@@ -30,6 +30,11 @@ import 'package:sahifa/features/search/data/repo/search_articles_repo.dart';
 import 'package:sahifa/features/search/data/repo/search_categories_repo.dart';
 import 'package:sahifa/features/search_category/data/repo/articles_search_category_repo.dart';
 import 'package:sahifa/features/tv/data/repo/tv_repo.dart';
+import 'package:sahifa/features/video_feed/data/repository_impl/video_feed_repository_impl.dart';
+import 'package:sahifa/features/video_feed/domain/repositories/video_feed_repository.dart';
+import 'package:sahifa/features/video_feed/domain/usecases/fetch_videos_usecase.dart';
+import 'package:sahifa/features/video_feed/domain/usecases/fetch_more_videos_usecase.dart';
+import 'package:sahifa/features/video_feed/presentation/bloc/video_feed_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -187,4 +192,25 @@ void setupDependencies() async {
   getIt.registerSingleton<AuthorProfileRepoImpl>(AuthorProfileRepoImpl());
 
   getIt.registerSingleton<ProfileUserRepoImpl>(ProfileUserRepoImpl());
+
+  // Register VideoFeedRepository as abstract type with implementation
+  final videoFeedRepo = VideoFeedRepositoryImpl(dioHelper: getIt<DioHelper>());
+  getIt.registerSingleton<VideoFeedRepositoryImpl>(videoFeedRepo);
+  getIt.registerSingleton<VideoFeedRepository>(videoFeedRepo);
+
+  // Register VideoFeed UseCases
+  getIt.registerSingleton<FetchVideosUseCase>(
+    FetchVideosUseCase(repository: getIt<VideoFeedRepository>()),
+  );
+  getIt.registerSingleton<FetchMoreVideosUseCase>(
+    FetchMoreVideosUseCase(repository: getIt<VideoFeedRepository>()),
+  );
+
+  // Register VideoFeedCubit
+  getIt.registerSingleton<VideoFeedCubit>(
+    VideoFeedCubit(
+      fetchVideosUseCase: getIt<FetchVideosUseCase>(),
+      fetchMoreVideosUseCase: getIt<FetchMoreVideosUseCase>(),
+    ),
+  );
 }

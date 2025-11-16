@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sahifa/core/dependency_injection/set_up_dependencies.dart';
 import 'package:sahifa/core/model/articles_category_model/article_model.dart';
 import 'package:sahifa/core/model/category_model/category_model.dart';
 import 'package:sahifa/core/model/magazine_model/magazine_model/pdf_model.dart';
@@ -22,14 +25,15 @@ import 'package:sahifa/features/my_favorites/ui/my_favorites_view.dart';
 import 'package:sahifa/features/forget_password/ui/forget_password_view.dart';
 import 'package:sahifa/features/home/ui/home_view.dart';
 import 'package:sahifa/features/home/ui/widgets/drawer/drawer_subcategory_content.dart';
-import 'package:sahifa/features/layout/ui/layout_view.dart';
+import 'package:sahifa/features/layout/ui/widgets/bottom_navigation_widget.dart';
 import 'package:sahifa/features/login/ui/login_view.dart';
 import 'package:sahifa/features/pdf/ui/pdf_view.dart';
 import 'package:sahifa/features/profile/ui/profile_view.dart';
 import 'package:sahifa/features/profile/ui/views/about_us_view.dart';
 import 'package:sahifa/features/profile/ui/views/contact_us_view.dart';
 import 'package:sahifa/features/profile/ui/views/privacy_policy_view.dart';
-import 'package:sahifa/features/reels/ui/reels_view.dart';
+import 'package:sahifa/features/video_feed/presentation/bloc/video_feed_cubit.dart';
+import 'package:sahifa/features/video_feed/presentation/view/video_feed_view.dart';
 import 'package:sahifa/features/register/ui/register_view.dart';
 import 'package:sahifa/features/search/ui/search_view.dart';
 import 'package:sahifa/features/search/ui/views/galleries_list_view.dart';
@@ -61,32 +65,52 @@ abstract class AppRouter {
             fadeTransitionPage(ForgetPasswordView()),
       ),
 
-      GoRoute(
-        path: Routes.homeView,
-        pageBuilder: (context, state) => fadeTransitionPage(HomeView()),
-      ),
-
-      GoRoute(
-        path: Routes.layoutView,
-        pageBuilder: (context, state) => fadeTransitionPage(LayoutView()),
-      ),
-
-      GoRoute(
-        path: Routes.reelsView,
-        pageBuilder: (context, state) => fadeTransitionPage(ReelsView()),
-      ),
-
-      GoRoute(
-        path: Routes.tvView,
-        pageBuilder: (context, state) => fadeTransitionPage(TvView()),
-      ),
-
-      GoRoute(
-        path: Routes.pdfView,
-        pageBuilder: (context, state) {
-          final pdfPath = state.extra as String?;
-          return fadeTransitionPage(PdfView(pdfPath: pdfPath));
+      // Shell Route with Bottom Navigation
+      ShellRoute(
+        pageBuilder: (context, state, child) {
+          return fadeTransitionPage(
+            BottomNavigationWidget(
+              location: state.uri.toString(),
+              backgroundColor: state.uri.toString() == Routes.reelsView
+                  ? Colors.black
+                  : null,
+              child: child,
+            ),
+          );
         },
+        routes: [
+          GoRoute(
+            path: Routes.homeView,
+            pageBuilder: (context, state) => fadeTransitionPage(HomeView()),
+            redirect: (context, state) {
+              // Redirect root to home
+              if (state.uri.toString() == '/') {
+                return Routes.homeView;
+              }
+              return null;
+            },
+          ),
+          GoRoute(
+            path: Routes.reelsView,
+            pageBuilder: (context, state) => fadeTransitionPage(
+              BlocProvider(
+                create: (context) => getIt<VideoFeedCubit>(),
+                child: VideoFeedView(),
+              ),
+            ),
+          ),
+          GoRoute(
+            path: Routes.pdfView,
+            pageBuilder: (context, state) {
+              final pdfPath = state.extra as String?;
+              return fadeTransitionPage(PdfView(pdfPath: pdfPath));
+            },
+          ),
+          GoRoute(
+            path: Routes.tvView,
+            pageBuilder: (context, state) => fadeTransitionPage(TvView()),
+          ),
+        ],
       ),
 
       GoRoute(
@@ -242,9 +266,8 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: Routes.galleriesArticlesWidget,
-        pageBuilder: (context, state) => fadeTransitionPage(
-          const GalleriesListView(),
-        ),
+        pageBuilder: (context, state) =>
+            fadeTransitionPage(const GalleriesListView()),
       ),
     ],
   );

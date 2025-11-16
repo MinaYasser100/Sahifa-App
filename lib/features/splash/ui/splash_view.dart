@@ -44,8 +44,8 @@ class _SplashViewState extends State<SplashView> {
     if (_hasNavigated || !mounted) return;
     _hasNavigated = true;
 
-    // Always navigate to layout - auth state will be handled there
-    context.go(Routes.layoutView);
+    // Navigate to home - auth state will be handled there
+    context.go(Routes.homeView);
   }
 
   @override
